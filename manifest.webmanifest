@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Weft",
+  "name": "Weft — Solitaire Reimagined",
   "short_name": "Weft",
-  "description": "Solitaire Reimagined",
+  "description": "Solitaire Reimagined — four living worlds",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -11,13 +11,12 @@
   "theme_color": "#0b1923",
   "icons": [
     {
-      "src": "./icon-192.png",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/png"
     },
     {
-      "src": "./icon-512.png",
+      "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
