@@ -1,10 +1,10 @@
-const CACHE='weft-v6.7.1-run-bd29220b1df5',pending=new Map();
+const CACHE='weft-v6.9-run-9734e8a636eb',pending=new Map();
 self.addEventListener('install',event=>event.waitUntil((async()=>{
   try{const cache=await caches.open(CACHE);await cache.addAll(['./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png']);}catch{/* Offline storage is optional. */}
   await self.skipWaiting();
 })()));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{
-  try{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('weft-v6.7.1-run-')&&key!==CACHE).map(key=>caches.delete(key)));}catch{/* Storage failure must not prevent activation. */}
+  try{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('weft-v6.9-run-')&&key!==CACHE).map(key=>caches.delete(key)));}catch{/* Storage failure must not prevent activation. */}
   await self.clients.claim();
 })()));
 async function cachedAsset(request){
