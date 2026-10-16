@@ -1,12 +1,36 @@
-const CACHE='weft-v6.10-decks-preview-7990661cb289',pending=new Map();
+const CACHE='weft-v6.11-decks-preview-6670141f2cd5',pending=new Map();
+const BUILD_VERSION='6.11',BUILD_ID='33bdf12e3ac5ea138a06671153213273063d2c59cd299e0572c7f3b7a9ae639f';
+const buildInfo=(activated=false)=>({type:'weft-build-info',version:BUILD_VERSION,buildId:BUILD_ID,activated});
 self.addEventListener('install',event=>event.waitUntil((async()=>{
-  try{const cache=await caches.open(CACHE);await cache.addAll(['./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png']);}catch{/* Offline storage is optional. */}
+  try{const cache=await caches.open(CACHE);await cache.addAll(['./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png','./fonts/cinzel-roman-latin.woff2','./fonts/eb-garamond-roman-latin.woff2','./fonts/eb-garamond-italic-latin.woff2','./frame/gold-atlas-v1.webp','./frame/emblem-1-v1.svg','./frame/emblem-2-v1.svg','./frame/emblem-3-v1.svg','./frame/emblem-4-v1.svg','./frame/emblem-5-v1.svg','./frame/emblem-6-v1.svg']);}catch{/* Offline storage is optional. */}
   await self.skipWaiting();
 })()));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{
-  try{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('weft-v6.10-decks-preview-')&&key!==CACHE).map(key=>caches.delete(key)));}catch{/* Storage failure must not prevent activation. */}
+  try{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('weft-v6.11-decks-preview-')&&key!==CACHE).map(key=>caches.delete(key)));}catch{/* Storage failure must not prevent activation. */}
   await self.clients.claim();
+  try{for(const client of await self.clients.matchAll({type:'window',includeUncontrolled:true}))client.postMessage(buildInfo(true));}catch{/* Update notices are best effort. */}
 })()));
+async function cachedPage(key){
+  try{const cache=await caches.open(CACHE),direct=await cache.match(key);if(direct)return direct;
+    const url=new URL(key.url);url.search='';const clean=await cache.match(new Request(url.href));
+    return clean||await cache.match(new Request(new URL('index.html',self.registration.scope).href));
+  }catch{return undefined;}
+}
+async function networkFirstPage(request,event){
+  const url=new URL(request.url);if(url.pathname.endsWith('/'))url.pathname+='index.html';url.hash='';
+  const key=new Request(url.href);let timeout;
+  const network=fetch(key,{cache:'no-store'}).then(async response=>{
+    if(response.ok&&response.status===200)try{const cache=await caches.open(CACHE);await cache.put(key,response.clone());}catch{/* A full cache must not lose the online page. */}
+    return response;
+  });
+  // A late response may refresh the offline copy after the3s fallback has won.
+  event?.waitUntil(network.then(()=>undefined,()=>undefined));
+  try{
+    const response=await Promise.race([network,new Promise((_,reject)=>{timeout=setTimeout(()=>reject(new Error('Page network timeout')),3000);})]);
+    return response.ok?response:(await cachedPage(key))||response;
+  }catch(error){const cached=await cachedPage(key);if(cached)return cached;throw error;}
+  finally{clearTimeout(timeout);}
+}
 async function cachedAsset(request){
   const url=new URL(request.url);if(url.pathname.endsWith('/'))url.pathname+='index.html';const key=new Request(url.href);
   let cache,response;
@@ -19,5 +43,5 @@ async function cachedAsset(request){
   if(start>=bytes.byteLength||end<start)return new Response(null,{status:416,headers:{'Content-Range':`bytes */${bytes.byteLength}`}});
   return new Response(bytes.slice(start,end+1),{status:206,headers:{'Content-Type':response.headers.get('Content-Type')||'audio/mp4','Content-Range':`bytes ${start}-${end}/${bytes.byteLength}`,'Content-Length':String(end-start+1),'Accept-Ranges':'bytes'}});
 }
-self.addEventListener('fetch',event=>{const url=new URL(event.request.url);if(event.request.method!=='GET'||url.origin!==self.location.origin||!url.href.startsWith(self.registration.scope))return;event.respondWith(cachedAsset(event.request));});
-self.addEventListener('message',event=>{if(event.data?.type==='cache-visited'&&Array.isArray(event.data.urls))event.waitUntil(Promise.all(event.data.urls.filter(value=>typeof value==='string').map(value=>{const url=new URL(value,self.registration.scope);return url.href.startsWith(self.registration.scope)?cachedAsset(new Request(url.href)):undefined;})));});
+self.addEventListener('fetch',event=>{const url=new URL(event.request.url);if(event.request.method!=='GET'||url.origin!==self.location.origin||!url.href.startsWith(self.registration.scope))return;const page=event.request.mode==='navigate'||/\/index(?:-v[\d.]+)?\.html$/.test(url.pathname)||url.pathname.endsWith('/');event.respondWith(page?networkFirstPage(event.request,event):cachedAsset(event.request));});
+self.addEventListener('message',event=>{if(event.data?.type==='weft-build-query'){event.source?.postMessage(buildInfo());return;}if(event.data?.type==='cache-visited'&&Array.isArray(event.data.urls))event.waitUntil(Promise.all(event.data.urls.filter(value=>typeof value==='string').map(value=>{const url=new URL(value,self.registration.scope);return url.href.startsWith(self.registration.scope)?cachedAsset(new Request(url.href)):undefined;})));});
