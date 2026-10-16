@@ -1,0 +1,79 @@
+{
+  "generatedAt": "2026-10-16T21:56:13.605Z",
+  "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
+  "sha256": "ecc95cd5e2e9ecb63f0427dede6e92d1b4bc227da656c4ba627d1736d13378d0",
+  "inputs": [
+    {
+      "file": "src/score-codec.ts",
+      "sha256": "c0332ec839afda0cc327c1be2bd26b9252c2da3796eb1e43e7cc6bb4f8964718"
+    },
+    {
+      "file": "src/leaderboard-wire.ts",
+      "sha256": "92282dec9af53c6268e6d1daa5cd7dce87b814f3da7a4872b23e118ca31407cf"
+    },
+    {
+      "file": "../../B-002/engine/layout.ts",
+      "sha256": "df22ac84f7a7fbc6e0703ccd7dcab980f2c2edd5b43ad5eb7fd47e306f8178d2"
+    },
+    {
+      "file": "../../B-002/engine/scoring.ts",
+      "sha256": "07558c6eb071ed05bc8b54a5afd137e72ff75d923a7d42861c6af26e2c6e8dd9"
+    },
+    {
+      "file": "../../B-002/engine/hands.ts",
+      "sha256": "ca19f65afae92a32f3f6f5b85ce64e145860d4f9ad9fbe7806696c39f4ae94d0"
+    },
+    {
+      "file": "../../B-002/engine/rules.ts",
+      "sha256": "16168b9c3dafb772629f1b0301f6b1bcb2f392d32e3b7b6029d5857215b4c341"
+    },
+    {
+      "file": "../../B-002/engine/configs.ts",
+      "sha256": "8621b35d7f0fe80f5601ca8654704b9b34793096197e60dc41ddb4aa45bc7907"
+    },
+    {
+      "file": "../../B-002/engine/deck.ts",
+      "sha256": "0979809455663e60b7e2027866eb2f4cec095233efd43cd71b1660eda577026f"
+    },
+    {
+      "file": "../../B-004/engine/solver.ts",
+      "sha256": "4151ff98caff4ada906bff06368a2e50ac225d52aa1917cd5d825b6e689b3c51"
+    },
+    {
+      "file": "../../B-004/engine/generator.ts",
+      "sha256": "b00f0a8cd185088aa5d169857041783aa006432c8daa1487298ec0f7fb022c94"
+    },
+    {
+      "file": "src/records.ts",
+      "sha256": "15fd5371c406787294a68be3120f45ac6cd332af467444c5e64e66fc447661fa"
+    },
+    {
+      "file": "src/daily.ts",
+      "sha256": "871456d69b0d1f8e0e9767499266227ea6943ca231cc407437805554bf5ad304"
+    },
+    {
+      "file": "src/score-config.ts",
+      "sha256": "5d18e313e14e579a264395d50adce8ffcc92321e8f3e4138d7d9df17d7bd2f7f"
+    },
+    {
+      "file": "src/world-config.ts",
+      "sha256": "4ab81a5b2267c618802b10c27c8d98d734e026206543b7aab74fb270c806e06d"
+    },
+    {
+      "file": "src/run.ts",
+      "sha256": "b2fa615d7b5047d2449df8b6dc39478f501d5e8becd94ea36da261be7b6e3585"
+    },
+    {
+      "file": "src/leaderboard-validation.ts",
+      "sha256": "8e425e8fb3f1d8bab541371de8c51715a488027f1ea86feb46dafdfec72d8a22"
+    },
+    {
+      "file": "src/nickname.ts",
+      "sha256": "ff927dfd8363f4e3f51075adff878ba0ae935413146b1d2d95827251b608cf3b"
+    },
+    {
+      "file": "supabase/replay-entry.ts",
+      "sha256": "98781c022c01ce49be2032b8ba9491f3e44862111d3e2bc89a5b0201014033e8"
+    }
+  ]
+}

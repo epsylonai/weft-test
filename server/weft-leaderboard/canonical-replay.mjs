@@ -1020,8 +1020,14 @@ var WORLD_CONFIG = Object.freeze({
   3: world(3, "Green Grove", "grove", "#182b22", "#e6eed8", "#183329", "#b6f0a0", "#3e9b5a"),
   4: world(4, "Neon Sanctum", "neon", "#0d0916", "#16131f", "#fff7e8", "#ff7bea", "#7b5cff"),
   5: world(5, "Sunken Temple", "sunken", "#092832", "#eaf4ed", "#113844", "#92f6ef", "#279eb7"),
-  6: world(6, "Aurora Observatory", "aurora", "#111e30", "#eff3fa", "#172e48", "#f3f7ff", "#94afcf")
+  6: world(6, "Aurora Observatory", "aurora", "#111e30", "#eff3fa", "#172e48", "#f3f7ff", "#94afcf"),
+  7: world(7, "Frost Sanctum", "frost", "#f5f9ff", "#f5f9ff", "#173e58", "#6fd6ff", "#f5f9ff"),
+  8: world(8, "Umbra", "umbra", "#040507", "#07090d", "#ffffff", "#ffffff", "#aab6ca"),
+  9: world(9, "Prism", "prism", "#111027", "#edf3fa", "#202443", "#f3eeff", "#bfa5ff"),
+  10: world(10, "Eclipse", "eclipse", "#070912", "#101017", "#ffe9ad", "#f1cd7d", "#fff2d1")
 });
+var CLASSIC_RULES_VERSION = "6.14";
+var CLASSIC_LEVEL_COUNT = 10;
 var LEGACY_LEVEL_CONFIG = Object.freeze([
   Object.freeze({ level: 1, world: 1, spool: 28 }),
   Object.freeze({ level: 2, world: 2, spool: 26 }),
@@ -1029,16 +1035,36 @@ var LEGACY_LEVEL_CONFIG = Object.freeze([
   Object.freeze({ level: 4, world: 4, spool: 22 }),
   Object.freeze({ level: 5, world: 1, spool: 20 })
 ]);
-var LEVEL_CONFIG = Object.freeze([28, 27, 26, 25, 24, 23].map((spool, index) => Object.freeze({ level: index + 1, world: index + 1, spool })));
-function levelConfig(level, version = "6.9") {
+var SIX_WORLD_LEVEL_CONFIG = Object.freeze([28, 27, 26, 25, 24, 23].map((spool, index) => Object.freeze({ level: index + 1, world: index + 1, spool })));
+var LEVEL_CONFIG = Object.freeze([
+  [1, 28],
+  [2, 27],
+  [3, 26],
+  [5, 25],
+  [6, 24],
+  [4, 23],
+  [7, 22],
+  [8, 21],
+  [9, 20],
+  [10, 15]
+].map(([world2, spool], index) => Object.freeze({ level: index + 1, world: world2, spool })));
+function runLevelCount(version = CLASSIC_RULES_VERSION) {
+  return version === CLASSIC_RULES_VERSION ? CLASSIC_LEVEL_COUNT : null;
+}
+function levelConfig(level, version = CLASSIC_RULES_VERSION) {
   if (!Number.isSafeInteger(level) || level < 1) throw new RangeError("Level must be a positive safe integer");
-  const legacy = version === "6.7", table = legacy ? LEGACY_LEVEL_CONFIG : LEVEL_CONFIG;
+  if (version === CLASSIC_RULES_VERSION) {
+    const config = LEVEL_CONFIG[level - 1];
+    if (!config) throw new RangeError("Classic has exactly10 levels");
+    return config;
+  }
+  const legacy = version === "6.7", table = legacy ? LEGACY_LEVEL_CONFIG : SIX_WORLD_LEVEL_CONFIG;
   return table[level - 1] ?? Object.freeze({ level, world: (level - 1) % (legacy ? 4 : 6) + 1, spool: legacy ? 20 : 23 });
 }
 
 // src/run.ts
-var RUN_VERSION = "6.9";
-var isRunVersion = (value) => value === "6.7" || value === "6.9";
+var RUN_VERSION = CLASSIC_RULES_VERSION;
+var isRunVersion = (value) => value === "6.7" || value === "6.9" || value === CLASSIC_RULES_VERSION;
 var copy = (value) => JSON.parse(JSON.stringify(value));
 var count = (value) => typeof value === "number" && Number.isSafeInteger(value) && value >= 0;
 function seed(value) {
@@ -1105,8 +1131,11 @@ function runRecordId(record) {
 function normalizeRunRecord(value) {
   if (!value || typeof value !== "object") throw new TypeError("Invalid run record");
   const input = value;
-  if (!date(input.date) || !isRunVersion(input.version) || !count(input.levelsCleared) || !count(input.runScore) || !Array.isArray(input.perLevel) || !input.perLevel.length || input.perLevel.length > 1e4 || input.levelsCleared !== input.perLevel.length - 1)
+  if (!date(input.date) || !isRunVersion(input.version) || !count(input.levelsCleared) || !count(input.runScore) || !Array.isArray(input.perLevel) || !input.perLevel.length || input.perLevel.length > 1e4)
     throw new TypeError("Invalid completed run record");
+  const limit2 = runLevelCount(input.version), complete = limit2 !== null && input.levelsCleared === limit2 && input.perLevel.length === limit2;
+  if (input.levelsCleared !== input.perLevel.length - 1 && !complete || limit2 !== null && input.perLevel.length > limit2) throw new TypeError("Invalid completed run progression");
+  if (input.classicComplete !== void 0 && input.classicComplete !== complete || input.totalLevels !== void 0 && input.totalLevels !== limit2) throw new TypeError("Invalid Classic completion marker");
   const perLevel = input.perLevel.map((result, index) => {
     if (!result || !moves(result.moves) || !count(result.score)) throw new TypeError("Invalid run board record");
     const config = levelConfig(index + 1, input.version);
@@ -1135,7 +1164,9 @@ function normalizeRunRecord(value) {
     levelsCleared: input.levelsCleared,
     runScore: input.runScore,
     perLevel,
-    ...rootSeed === void 0 ? {} : { rootSeed }
+    ...rootSeed === void 0 ? {} : { rootSeed },
+    ...limit2 === null ? {} : { totalLevels: limit2 },
+    ...complete ? { classicComplete: true } : {}
   };
 }
 function validateRunRecord(value) {
@@ -1162,7 +1193,7 @@ function createLeaderboardVerifier(options = {}) {
   });
   function verifyBoard(input) {
     const record = input?.record;
-    if (!record || !["6.6", "6.7", "6.9"].includes(record.version)) throw new TypeError("Unsupported board version");
+    if (!record || !["6.6", "6.7", "6.9", "6.14"].includes(record.version)) throw new TypeError("Unsupported board version");
     checkDate(record.date);
     if (typeof record.seed !== "string" || !/^-?\d{1,30}$/.test(record.seed)) throw new TypeError("Invalid board seed");
     const moves2 = decompressMoves(compressMoves(record.moves)), level = input.level ?? 1;
