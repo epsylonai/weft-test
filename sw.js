@@ -1,12 +1,12 @@
-const CACHE='weft-v6.12-run-adf3f610c2b9',pending=new Map();
-const BUILD_VERSION='6.12',BUILD_ID='d197f8ea49af83420c26237c10a3b2d5b1339a4571c3a95f1f4da2e641a2f155';
+const CACHE='weft-v6.15-run-fecfa0094303',pending=new Map();
+const BUILD_VERSION='6.15',BUILD_ID='55b488de1dd74f2e6bf0d636eac21359088468d58564ff82c4f177fe786eaa70';
 const buildInfo=(activated=false)=>({type:'weft-build-info',version:BUILD_VERSION,buildId:BUILD_ID,activated});
 self.addEventListener('install',event=>event.waitUntil((async()=>{
-  try{const cache=await caches.open(CACHE);await cache.addAll(['./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png','./fonts/cinzel-roman-latin.woff2','./fonts/eb-garamond-roman-latin.woff2','./fonts/eb-garamond-italic-latin.woff2','./frame/gold-atlas-v1.webp','./frame/emblem-1-v1.svg','./frame/emblem-2-v1.svg','./frame/emblem-3-v1.svg','./frame/emblem-4-v1.svg','./frame/emblem-5-v1.svg','./frame/emblem-6-v1.svg']);}catch{/* Offline storage is optional. */}
+  try{const cache=await caches.open(CACHE);await cache.addAll(['./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png','./fonts/cinzel-roman-latin.woff2','./fonts/eb-garamond-roman-latin.woff2','./fonts/eb-garamond-italic-latin.woff2','./frame/gold-atlas-v1.webp','./frame/emblem-1-v1.svg','./frame/emblem-2-v1.svg','./frame/emblem-3-v1.svg','./frame/emblem-4-v1.svg','./frame/emblem-5-v1.svg','./frame/emblem-6-v1.svg','./frame/emblem-7-v1.svg','./frame/emblem-8-v1.svg','./frame/emblem-9-v1.svg','./frame/emblem-10-v1.svg']);}catch{/* Offline storage is optional. */}
   await self.skipWaiting();
 })()));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{
-  try{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('weft-v6.12-run-')&&key!==CACHE).map(key=>caches.delete(key)));}catch{/* Storage failure must not prevent activation. */}
+  try{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('weft-v6.15-run-')&&key!==CACHE).map(key=>caches.delete(key)));}catch{/* Storage failure must not prevent activation. */}
   await self.clients.claim();
   try{for(const client of await self.clients.matchAll({type:'window',includeUncontrolled:true}))client.postMessage(buildInfo(true));}catch{/* Update notices are best effort. */}
 })()));
