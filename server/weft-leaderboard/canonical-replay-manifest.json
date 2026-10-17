@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-17T08:48:41.270Z",
+  "generatedAt": "2026-10-17T16:53:58.680Z",
   "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
-  "sha256": "756acac049db13ce91dd965ff33da1fe939bcb6c56af8c1a013701032608b1ea",
+  "sha256": "97bb50f5e1c1e406322fbd0b8a31a443a8bf7072c884c2aec51e41f0f0d0deb4",
   "inputs": [
     {
       "file": "src/score-codec.ts",
@@ -52,6 +52,10 @@
       "sha256": "871456d69b0d1f8e0e9767499266227ea6943ca231cc407437805554bf5ad304"
     },
     {
+      "file": "src/run-plan.ts",
+      "sha256": "f6d9eade215c4644b14c6825c91f0be65a86a304af130da61fa96bce20bd7f58"
+    },
+    {
       "file": "src/score-config.ts",
       "sha256": "5d18e313e14e579a264395d50adce8ffcc92321e8f3e4138d7d9df17d7bd2f7f"
     },
@@ -61,11 +65,11 @@
     },
     {
       "file": "src/run.ts",
-      "sha256": "b2fa615d7b5047d2449df8b6dc39478f501d5e8becd94ea36da261be7b6e3585"
+      "sha256": "0ade4cf28f7c78ad24d82f2746a24fdf99e0c7453de9c281923b40c161bb7364"
     },
     {
       "file": "src/leaderboard-validation.ts",
-      "sha256": "8e425e8fb3f1d8bab541371de8c51715a488027f1ea86feb46dafdfec72d8a22"
+      "sha256": "b56adb503999a991f605e3c8a05b057dd1b92b7facaa5d17c092ad8a37b9108b"
     },
     {
       "file": "warp-core/config.ts",
@@ -105,7 +109,7 @@
     },
     {
       "file": "supabase/replay-entry.ts",
-      "sha256": "459c889ceb9e379e1eb40855306df970095f2e100581a5c0a7344c145bd8b0c1"
+      "sha256": "04c8e389e7b689596350907ba19b58d4ea4cc7d9c82eaf551b956d785c93c11e"
     }
   ]
 }
