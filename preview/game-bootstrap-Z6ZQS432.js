@@ -1,1 +1,0 @@
-var a=new URLSearchParams(location.hash.slice(1)).get("mode"),e="classic";(async()=>{await window.__WEFT_BOOT__?.stylesReady,e==="warp"?await import("./game-chunks/warp-app-O3Q47YGJ.js"):await import("./game-chunks/app-2BIL35FF.js")})().catch(()=>window.__WEFT_BOOT__?.fail("The room could not finish loading. Please retry."));
