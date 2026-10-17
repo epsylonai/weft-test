@@ -1,12 +1,12 @@
-const CACHE='weft-v6.17-run-7ac4808a14cd',pending=new Map();
-const BUILD_VERSION='6.17',BUILD_ID='a4c65fbb8a70260af25382e416e921b76964e44eff4b84e43cfb2fbbcf59e8c6';
+const CACHE='weft-v6.18-run-a41798892149',pending=new Map();
+const BUILD_VERSION='6.18',BUILD_ID='d95ee58b8e69e93ea9a5a47418c09d76d9c7776c605c171629d2f9fabe8bf5c5';
 const buildInfo=(activated=false)=>({type:'weft-build-info',version:BUILD_VERSION,buildId:BUILD_ID,activated});
 self.addEventListener('install',event=>event.waitUntil((async()=>{
-  try{const cache=await caches.open(CACHE);await cache.addAll(['./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png',"./game-67019ce22eddd11e.css","./game-bootstrap-YTTIMAUN.js","./game-chunks/test-mode-host-GW5KPICJ.js","./game-chunks/warp-app-C3Q4SAVE.js","./game-chunks/app-3EA6YTUD.js","./game-chunks/chunk-IBJIDPKT.js","./game-chunks/chunk-XJE3S2EH.js",'./fonts/cinzel-roman-latin.woff2','./fonts/eb-garamond-roman-latin.woff2','./fonts/eb-garamond-italic-latin.woff2','./frame/gold-atlas-v1.webp','./frame/emblem-1-v1.svg','./frame/emblem-2-v1.svg','./frame/emblem-3-v1.svg','./frame/emblem-4-v1.svg','./frame/emblem-5-v1.svg','./frame/emblem-6-v1.svg','./frame/emblem-7-v1.svg','./frame/emblem-8-v1.svg','./frame/emblem-9-v1.svg','./frame/emblem-10-v1.svg']);}catch{/* Offline storage is optional. */}
+  try{const cache=await caches.open(CACHE);await cache.addAll(['./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png',"./game-67019ce22eddd11e.css","./game-bootstrap-5WGCUCXW.js","./game-chunks/test-mode-host-2T5WWFD2.js","./game-chunks/warp-app-DANH67TH.js","./game-chunks/app-RWXZMOD3.js","./game-chunks/chunk-ZGMLKNXA.js","./game-chunks/chunk-XJE3S2EH.js",'./fonts/cinzel-roman-latin.woff2','./fonts/eb-garamond-roman-latin.woff2','./fonts/eb-garamond-italic-latin.woff2','./frame/gold-atlas-v1.webp','./frame/emblem-1-v1.svg','./frame/emblem-2-v1.svg','./frame/emblem-3-v1.svg','./frame/emblem-4-v1.svg','./frame/emblem-5-v1.svg','./frame/emblem-6-v1.svg','./frame/emblem-7-v1.svg','./frame/emblem-8-v1.svg','./frame/emblem-9-v1.svg','./frame/emblem-10-v1.svg']);}catch{/* Offline storage is optional. */}
   await self.skipWaiting();
 })()));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{
-  try{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('weft-v6.17-run-')&&key!==CACHE).map(key=>caches.delete(key)));}catch{/* Storage failure must not prevent activation. */}
+  try{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('weft-v6.18-run-')&&key!==CACHE).map(key=>caches.delete(key)));}catch{/* Storage failure must not prevent activation. */}
   await self.clients.claim();
   try{for(const client of await self.clients.matchAll({type:'window',includeUncontrolled:true}))client.postMessage(buildInfo(true));}catch{/* Update notices are best effort. */}
 })()));
