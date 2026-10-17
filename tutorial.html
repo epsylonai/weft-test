@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Weft">
   <meta name="color-scheme" content="dark">
-  <link rel="icon" href="data:,"><link rel="stylesheet" href="./game-1b550d406f0055a8.css"><link rel="stylesheet" href="./tutorial-4896c3e09ff9b405.css"><script>(()=>{const make=()=>{const m=new Map();return{get length(){return m.size},key:i=>[...m.keys()][i]??null,getItem:k=>m.get(String(k))??null,setItem:(k,v)=>m.set(String(k),String(v)),removeItem:k=>m.delete(String(k)),clear:()=>m.clear()}};for(const name of ['localStorage','sessionStorage'])Object.defineProperty(window,name,{value:make(),configurable:false});Object.defineProperty(window,'indexedDB',{value:undefined,configurable:false});window.__WEFT_TEST_ACTIVE__=true;try{const s=parent.getComputedStyle(parent.document.documentElement);for(const side of ['top','right','bottom','left'])document.documentElement.style.setProperty('--native-safe-area-inset-'+side,s.getPropertyValue('--native-safe-area-inset-'+side)||'0px')}catch{}})();</script>
+  <link rel="icon" href="data:,"><link rel="stylesheet" href="./game-85b29456e3ee3920.css"><link rel="stylesheet" href="./tutorial-4896c3e09ff9b405.css"><script>(()=>{const make=()=>{const m=new Map();return{get length(){return m.size},key:i=>[...m.keys()][i]??null,getItem:k=>m.get(String(k))??null,setItem:(k,v)=>m.set(String(k),String(v)),removeItem:k=>m.delete(String(k)),clear:()=>m.clear()}};for(const name of ['localStorage','sessionStorage'])Object.defineProperty(window,name,{value:make(),configurable:false});Object.defineProperty(window,'indexedDB',{value:undefined,configurable:false});window.__WEFT_TEST_ACTIVE__=true;try{const s=parent.getComputedStyle(parent.document.documentElement);for(const side of ['top','right','bottom','left'])document.documentElement.style.setProperty('--native-safe-area-inset-'+side,s.getPropertyValue('--native-safe-area-inset-'+side)||'0px')}catch{}})();</script>
   <link rel="preload" href="fonts/cinzel-roman-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/eb-garamond-roman-latin.woff2" as="font" type="font/woff2" crossorigin>
   <meta name="theme-color" content="#0b1923">
@@ -37,6 +37,7 @@ html,body{margin:0;min-height:100%;background:#000}body[data-weft-boot="loading"
       </div>
       <div class="status-line" aria-hidden="true"></div>
     </header>
+    <span id="activePlayMode" class="active-play-mode" hidden></span>
     <section id="weave" class="weave" aria-label="Three equal pyramids in a triangle">
       <div id="cardsLayer" class="cards-layer"></div>
     </section>
@@ -82,7 +83,7 @@ html,body{margin:0;min-height:100%;background:#000}body[data-weft-boot="loading"
       <div id="endClearBonus" class="end-clear-bonus"></div><div id="endPersonalBest" class="end-personal-best"></div><div id="endNewBest" class="end-new-best" hidden>New best</div>
       <button id="endNewDeal" class="bank">NEW DEAL</button>
       <button id="endReplay" class="secondary">REPLAY</button>
-      <button id="version" class="version" aria-label="Version 6.19; tap three times for diagnostics">v6.19</button>
+      <button id="version" class="version" aria-label="Version 6.20; tap three times for diagnostics">v6.20</button>
     </div>
   </section>
   <section id="debugPanel" class="overlay" role="dialog" aria-modal="true" aria-label="Diagnostics and local metrics" hidden>
@@ -99,6 +100,7 @@ html,body{margin:0;min-height:100%;background:#000}body[data-weft-boot="loading"
     <div class="settings-card">
       <button id="closeSettings" class="settings-close" aria-label="Close settings">×</button>
       <h2>SETTINGS</h2>
+      <div id="playModeSetting"></div>
       <div class="setting-label">GRAPHICS</div>
       <div class="animation-options graphics-options" role="group" aria-label="Graphics">
         <button data-graphics-mode="auto" aria-pressed="true">Auto</button>
@@ -128,6 +130,6 @@ html,body{margin:0;min-height:100%;background:#000}body[data-weft-boot="loading"
   <pre id="diagnostics" class="diagnostics" aria-label="Diagnostics" hidden></pre>
   <div id="graphicsToast" class="music-track-toast graphics-toast" role="status" aria-live="polite" hidden><span>Switched to Pure to keep play smooth</span><button id="keepHigh" type="button">Keep High</button></div>
   
-  <script src="./tutorial-6423bb33e4f3647a.js" defer></script>
+  <script src="./tutorial-51ea1609e375dd83.js" defer></script>
 </body>
 </html>
