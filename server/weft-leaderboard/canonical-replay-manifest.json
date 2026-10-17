@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-16T21:56:13.605Z",
+  "generatedAt": "2026-10-17T08:48:41.270Z",
   "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
-  "sha256": "ecc95cd5e2e9ecb63f0427dede6e92d1b4bc227da656c4ba627d1736d13378d0",
+  "sha256": "756acac049db13ce91dd965ff33da1fe939bcb6c56af8c1a013701032608b1ea",
   "inputs": [
     {
       "file": "src/score-codec.ts",
@@ -68,12 +68,44 @@
       "sha256": "8e425e8fb3f1d8bab541371de8c51715a488027f1ea86feb46dafdfec72d8a22"
     },
     {
+      "file": "warp-core/config.ts",
+      "sha256": "9287a54693c4de169f7c795d2791735692edb9422087730e218cc97809d98ea7"
+    },
+    {
+      "file": "warp-core/hands.ts",
+      "sha256": "6d0be2f5da992ef725eda55670091725b8a3b54cc3b701611342046b16520e24"
+    },
+    {
+      "file": "warp-core/rules.ts",
+      "sha256": "a83c41a3046de141bc691e8f068b4b98d4e18aec073cfc14cfb4055a74f67f91"
+    },
+    {
+      "file": "warp-core/solver.ts",
+      "sha256": "06c49515f899e00cd1e02556f191b6bd05b78b09628c111fa70aab662d1680a5"
+    },
+    {
+      "file": "warp-core/generator.ts",
+      "sha256": "39e566d3b8b7381d408c3178747958bff6334f25f94b1fd48b86fd9ecd70ae1c"
+    },
+    {
+      "file": "warp-core/rewards.ts",
+      "sha256": "2da5a01fdf85bcfefb28ebb665d43d5a2db12804db19fcdc96abfcdb6ea9fb59"
+    },
+    {
+      "file": "warp-core/run.ts",
+      "sha256": "0c37d67a22b3323b7d2051d3cf6c92a006e23080f41f03ea9bfbefea43ceb8de"
+    },
+    {
+      "file": "supabase/warp-replay.ts",
+      "sha256": "98f66937b8a4ceced6a7ecbec2d3a2fc074fbab351bea24b892f435bace4ec46"
+    },
+    {
       "file": "src/nickname.ts",
       "sha256": "ff927dfd8363f4e3f51075adff878ba0ae935413146b1d2d95827251b608cf3b"
     },
     {
       "file": "supabase/replay-entry.ts",
-      "sha256": "98781c022c01ce49be2032b8ba9491f3e44862111d3e2bc89a5b0201014033e8"
+      "sha256": "459c889ceb9e379e1eb40855306df970095f2e100581a5c0a7344c145bd8b0c1"
     }
   ]
 }

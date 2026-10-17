@@ -113,15 +113,15 @@ var MULT = [1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 8, 12];
 var ROYAL_SET = [0, 9, 10, 11, 12];
 function evalRanks(ranks, flush, loop) {
   const counts = /* @__PURE__ */ new Map();
-  for (const rank of ranks) counts.set(rank, (counts.get(rank) ?? 0) + 1);
+  for (const rank2 of ranks) counts.set(rank2, (counts.get(rank2) ?? 0) + 1);
   const repeated = [...counts.values()].sort((a, b) => b - a);
-  const royal = ranks.length === 5 && ranks.every((rank, i) => rank === ROYAL_SET[i]);
+  const royal = ranks.length === 5 && ranks.every((rank2, i) => rank2 === ROYAL_SET[i]);
   let straight = false;
   if (ranks.length === 5 && counts.size === 5) {
     if (ranks[4] - ranks[0] === 4 || royal) {
       straight = true;
     } else if (loop) {
-      const gaps = ranks.slice(1).map((rank, i) => rank - ranks[i]);
+      const gaps = ranks.slice(1).map((rank2, i) => rank2 - ranks[i]);
       gaps.push(ranks[0] + 13 - ranks[4]);
       straight = Math.max(...gaps) === 9;
     }
@@ -142,20 +142,20 @@ function evalCards(cards, loop, flush4) {
   if (flush4 && cards.length >= 4) {
     const suits = [0, 0, 0, 0];
     for (const card of cards) {
-      const suit2 = Math.floor(card / 13);
-      suits[suit2] = suits[suit2] + 1;
+      const suit3 = Math.floor(card / 13);
+      suits[suit3] = suits[suit3] + 1;
     }
     const mostSuited = Math.max(...suits);
     const type = evalRanks(ranks, mostSuited === 5, loop);
     return mostSuited >= 4 && type < FLUSH ? FLUSH : type;
   }
-  const suit = Math.floor(cards[0] / 13);
-  const flush = cards.length === 5 && cards.every((card) => Math.floor(card / 13) === suit);
+  const suit2 = Math.floor(cards[0] / 13);
+  const flush = cards.length === 5 && cards.every((card) => Math.floor(card / 13) === suit2);
   return evalRanks(ranks, flush, loop);
 }
 var runs = (loop) => loop ? Array.from({ length: 13 }, (_, start) => Array.from({ length: 5 }, (_2, i) => (start + i) % 13)) : [...Array.from({ length: 9 }, (_, start) => Array.from({ length: 5 }, (_2, i) => start + i)), ROYAL_SET];
 var STRAIGHTS = [runs(false), runs(true)];
-var maskOf = (ranks) => ranks.reduce((mask, rank) => mask | 1 << rank, 0);
+var maskOf = (ranks) => ranks.reduce((mask, rank2) => mask | 1 << rank2, 0);
 var STRAIGHT_MASKS = STRAIGHTS.map((patterns) => patterns.map(maskOf));
 var fastCards = (cards) => cards.length > 7 && cards.every((card) => Number.isInteger(card) && card >= 0 && card < 52) && new Set(cards).size === cards.length;
 function bestFromMany(cards, loop, flush4) {
@@ -165,12 +165,12 @@ function bestFromMany(cards, loop, flush4) {
   const suitMasks = [0, 0, 0, 0];
   let allRanks = 0;
   cards.forEach((card, index) => {
-    const rank = card % 13, suit = Math.floor(card / 13);
-    ranks[rank].push(index);
-    suits[suit].push(index);
-    suitRank[suit][rank] = index;
-    allRanks |= 1 << rank;
-    suitMasks[suit] = suitMasks[suit] | 1 << rank;
+    const rank2 = card % 13, suit2 = Math.floor(card / 13);
+    ranks[rank2].push(index);
+    suits[suit2].push(index);
+    suitRank[suit2][rank2] = index;
+    allRanks |= 1 << rank2;
+    suitMasks[suit2] = suitMasks[suit2] | 1 << rank2;
   });
   let best;
   const consider = (indices) => {
@@ -192,12 +192,12 @@ function bestFromMany(cards, loop, flush4) {
   };
   const result = () => best.map((index) => cards[index]);
   const royalMask = maskOf(ROYAL_SET);
-  for (let suit = 0; suit < 4; suit++) if ((suitMasks[suit] & royalMask) === royalMask)
-    consider(ROYAL_SET.map((rank) => suitRank[suit][rank]));
+  for (let suit2 = 0; suit2 < 4; suit2++) if ((suitMasks[suit2] & royalMask) === royalMask)
+    consider(ROYAL_SET.map((rank2) => suitRank[suit2][rank2]));
   if (best) return result();
   const patterns = STRAIGHTS[Number(loop)], masks = STRAIGHT_MASKS[Number(loop)];
-  for (let suit = 0; suit < 4; suit++) for (let i = 0; i < patterns.length; i++)
-    if ((suitMasks[suit] & masks[i]) === masks[i]) consider(patterns[i].map((rank) => suitRank[suit][rank]));
+  for (let suit2 = 0; suit2 < 4; suit2++) for (let i = 0; i < patterns.length; i++)
+    if ((suitMasks[suit2] & masks[i]) === masks[i]) consider(patterns[i].map((rank2) => suitRank[suit2][rank2]));
   if (best) return result();
   for (const group of ranks) if (group.length === 4) consider(fill(group));
   if (best) return result();
@@ -212,7 +212,7 @@ function bestFromMany(cards, loop, flush4) {
   }
   if (best) return result();
   for (let i = 0; i < patterns.length; i++) if ((allRanks & masks[i]) === masks[i])
-    consider(patterns[i].map((rank) => ranks[rank][0]));
+    consider(patterns[i].map((rank2) => ranks[rank2][0]));
   if (best) return result();
   for (const group of ranks) if (group.length === 3) consider(fill(group));
   if (best) return result();
@@ -223,6 +223,31 @@ function bestFromMany(cards, loop, flush4) {
   if (best) return result();
   for (const group of ranks) if (group.length === 2) consider(fill(group));
   return best ? result() : cards.slice(0, 5);
+}
+function bestFiveCards(chain, window, loop, flush4 = false) {
+  if (window === 5 || chain.length <= 5) return chain.slice(-5);
+  const cards = chain.slice(-window);
+  if (cards.length < 5) return [];
+  if (fastCards(cards)) return bestFromMany(cards, loop, flush4);
+  let best = -1, witness = [];
+  const combo = [];
+  function choose(start) {
+    if (combo.length === 5) {
+      const type = evalCards(combo, loop, flush4);
+      if (type > best) {
+        best = type;
+        witness = [...combo];
+      }
+      return;
+    }
+    for (let i = start; i <= cards.length - (5 - combo.length); i++) {
+      combo.push(cards[i]);
+      choose(i + 1);
+      combo.pop();
+    }
+  }
+  choose(0);
+  return witness;
 }
 function handType(chain, window, loop, flush4 = false) {
   if (chain.length === 0) return HIGH;
@@ -474,13 +499,13 @@ function getConfig(name) {
 
 // ../B-002/engine/deck.ts
 var PythonRandom = class {
-  constructor(seed2) {
+  constructor(seed3) {
     this.mt = new Uint32Array(624);
     this.index = 624;
-    if (typeof seed2 === "number" && !Number.isSafeInteger(seed2)) {
+    if (typeof seed3 === "number" && !Number.isSafeInteger(seed3)) {
       throw new RangeError("Seed must be a safe integer or bigint");
     }
-    let value = BigInt(seed2);
+    let value = BigInt(seed3);
     if (value < 0n) value = -value;
     const words = [];
     do {
@@ -494,7 +519,7 @@ var PythonRandom = class {
     }
     let i = 1;
     let j = 0;
-    for (let count2 = Math.max(624, words.length); count2 > 0; count2--) {
+    for (let count3 = Math.max(624, words.length); count3 > 0; count3--) {
       const previous = this.mt[i - 1];
       this.mt[i] = (this.mt[i] ^ Math.imul(previous ^ previous >>> 30, 1664525)) + words[j] + j >>> 0;
       if (++i >= 624) {
@@ -503,7 +528,7 @@ var PythonRandom = class {
       }
       if (++j >= words.length) j = 0;
     }
-    for (let count2 = 623; count2 > 0; count2--) {
+    for (let count3 = 623; count3 > 0; count3--) {
       const previous = this.mt[i - 1];
       this.mt[i] = (this.mt[i] ^ Math.imul(previous ^ previous >>> 30, 1566083941)) - i >>> 0;
       if (++i >= 624) {
@@ -561,8 +586,8 @@ var PythonRandom = class {
     }
   }
 };
-function deal(rules, seed2) {
-  const rng = new PythonRandom(seed2);
+function deal(rules, seed3) {
+  const rng = new PythonRandom(seed3);
   const deck = Array.from({ length: 52 }, (_, card) => card);
   rng.shuffle(deck);
   const size = layoutFor(rules.layout).size;
@@ -614,7 +639,7 @@ function solvePeaks(initial, started, deadline, maxNodes) {
     nextStock.set(nextStock.subarray((sp + 1) * 13, (sp + 2) * 13), sp * 13);
     nextStock[sp * 13 + stock[sp]] = sp + 1;
   }
-  const predecessors = Array.from({ length: 13 }, (_, rank) => Array.from({ length: 13 }, (_2, top) => top).filter((top) => isAdjacent(initial.rules, top, rank)));
+  const predecessors = Array.from({ length: 13 }, (_, rank2) => Array.from({ length: 13 }, (_2, top) => top).filter((top) => isAdjacent(initial.rules, top, rank2)));
   const startKey = initial.top % 13;
   earliest[startKey] = initial.spoolIndex;
   parents[startKey] = -1;
@@ -654,8 +679,8 @@ function solvePeaks(initial, started, deadline, maxNodes) {
       }
     }
     if (sourceKey < 0) continue;
-    if (code !== peaksStateCount - 1) for (let rank = 0; rank < 13; rank++) {
-      const sp = nextStock[minimum * 13 + rank], key = base + rank;
+    if (code !== peaksStateCount - 1) for (let rank2 = 0; rank2 < 13; rank2++) {
+      const sp = nextStock[minimum * 13 + rank2], key = base + rank2;
       if (sp && (!earliest[key] || sp < earliest[key])) record(key, sp, sourceKey, -1);
     }
     for (let top = 0; top < 13; top++) if (earliest[base + top]) {
@@ -679,10 +704,10 @@ function solvePeaks(initial, started, deadline, maxNodes) {
     }
     let free = peaksFree[code];
     while (free) {
-      const bit = free & -free, p = 31 - Math.clz32(bit), rank = ranks[p];
-      free ^= bit;
+      const bit2 = free & -free, p = 31 - Math.clz32(bit2), rank2 = ranks[p];
+      free ^= bit2;
       let bestIndex = Infinity, parent = -1;
-      for (const top of predecessors[rank]) {
+      for (const top of predecessors[rank2]) {
         const sp = earliest[base + top];
         if (sp && sp < bestIndex) {
           bestIndex = sp;
@@ -693,7 +718,7 @@ function solvePeaks(initial, started, deadline, maxNodes) {
       const group = Math.floor(p / 10), stride = strides[group];
       const local = Math.floor(code / stride) % idealCount;
       const nextCode = code + (nextIdeal[local * 10 + p % 10] - local) * stride;
-      const key = nextCode * 13 + rank;
+      const key = nextCode * 13 + rank2;
       if (!earliest[key] || bestIndex < earliest[key]) record(key, bestIndex, parent, p);
       else dominated++;
     }
@@ -707,7 +732,7 @@ function solve(input, deal2, options = {}) {
   limit(timeBudgetMs, "timeBudgetMs");
   limit(maxNodes, "maxNodes", true);
   if (deal2.weave.length > 30) throw new RangeError("Solver supports at most 30 Weave cards");
-  const initial = createState(input, deal2), count2 = initial.weave.length;
+  const initial = createState(input, deal2), count3 = initial.weave.length;
   const pruned = { memo: 0, rankCapacity: 0, rankPairCapacity: 0, rankHallCapacity: 0, rankReachability: 0, coverReachability: 0 };
   let nodes = 0;
   const failed = /* @__PURE__ */ new Map();
@@ -722,48 +747,48 @@ function solve(input, deal2, options = {}) {
   });
   const deadline = timeBudgetMs === Infinity ? Infinity : started + timeBudgetMs;
   if (performance.now() >= deadline) return result("unknown", "time-budget");
-  if (count2 === 0) return result(true, "exhaustive", { line: [], witnessScore: initial.score });
+  if (count3 === 0) return result(true, "exhaustive", { line: [], witnessScore: initial.score });
   if (maxNodes === 0) return result("unknown", "node-budget");
-  const allPlayed = 2 ** count2 - 1;
+  const allPlayed = 2 ** count3 - 1;
   if (!Number.isSafeInteger(allPlayed * 13 + 12)) throw new RangeError("Memo key exceeds safe integer range");
   const ranks = initial.weave.map((card) => card % 13);
   const stockRanks = initial.spool.map((card) => card % 13);
   const covers = initial.layout.coveredBy.map((positions) => positions.reduce((mask, p) => mask | 1 << p, 0));
-  if (count2 === 30 && initial.spool.length <= 255 && covers.every((mask, p) => mask === peaksCovers[p]))
+  if (count3 === 30 && initial.spool.length <= 255 && covers.every((mask, p) => mask === peaksCovers[p]))
     return solvePeaks(initial, started, deadline, maxNodes);
   const children = initial.layout.children;
   const byRank = new Int32Array(13), remainingCounts = new Uint8Array(13);
   let initialRanks = 0;
-  ranks.forEach((rank, p) => {
-    byRank[rank] |= 1 << p;
-    remainingCounts[rank]++;
-    initialRanks |= 1 << rank;
+  ranks.forEach((rank2, p) => {
+    byRank[rank2] |= 1 << p;
+    remainingCounts[rank2]++;
+    initialRanks |= 1 << rank2;
   });
   const adjacentRanks = new Uint16Array(13), adjacentPositions = new Int32Array(13);
   const adjacentLists = Array.from({ length: 13 }, () => []);
-  for (let top = 0; top < 13; top++) for (let rank = 0; rank < 13; rank++) {
-    if (isAdjacent(initial.rules, top, rank)) {
-      adjacentRanks[top] |= 1 << rank;
-      adjacentPositions[top] |= byRank[rank];
-      adjacentLists[top].push(rank);
+  for (let top = 0; top < 13; top++) for (let rank2 = 0; rank2 < 13; rank2++) {
+    if (isAdjacent(initial.rules, top, rank2)) {
+      adjacentRanks[top] |= 1 << rank2;
+      adjacentPositions[top] |= byRank[rank2];
+      adjacentLists[top].push(rank2);
     }
   }
   const adjacentUnion = new Uint16Array(1 << 13);
   const positionsUnion = new Int32Array(1 << 13);
   for (let mask = 1; mask < adjacentUnion.length; mask++) {
-    const bit = mask & -mask, rank = 31 - Math.clz32(bit);
-    adjacentUnion[mask] = adjacentUnion[mask ^ bit] | adjacentRanks[rank];
-    positionsUnion[mask] = positionsUnion[mask ^ bit] | byRank[rank];
+    const bit2 = mask & -mask, rank2 = 31 - Math.clz32(bit2);
+    adjacentUnion[mask] = adjacentUnion[mask ^ bit2] | adjacentRanks[rank2];
+    positionsUnion[mask] = positionsUnion[mask ^ bit2] | byRank[rank2];
   }
   const suffixRanks = new Uint16Array(stockRanks.length + 1);
   const suffixCapacity = Array.from({ length: stockRanks.length + 1 }, () => new Uint32Array(13));
   const suffixCounts = Array.from({ length: stockRanks.length + 1 }, () => new Uint32Array(13));
   for (let sp = stockRanks.length - 1; sp >= 0; sp--) {
-    const rank = stockRanks[sp];
-    suffixRanks[sp] = suffixRanks[sp + 1] | 1 << rank;
+    const rank2 = stockRanks[sp];
+    suffixRanks[sp] = suffixRanks[sp + 1] | 1 << rank2;
     suffixCounts[sp].set(suffixCounts[sp + 1]);
-    suffixCounts[sp][rank]++;
-    for (let target = 0; target < 13; target++) suffixCapacity[sp][target] = suffixCapacity[sp + 1][target] + (adjacentRanks[rank] & 1 << target ? 1 : 0);
+    suffixCounts[sp][rank2]++;
+    for (let target = 0; target < 13; target++) suffixCapacity[sp][target] = suffixCapacity[sp + 1][target] + (adjacentRanks[rank2] & 1 << target ? 1 : 0);
   }
   const hallFamilies = Array.from({ length: 13 }, (_, start) => {
     let predecessors = 0;
@@ -773,7 +798,7 @@ function solve(input, deal2, options = {}) {
       return {
         target,
         added,
-        ranks: Array.from({ length: 13 }, (_3, rank) => rank).filter((rank) => added & 1 << rank)
+        ranks: Array.from({ length: 13 }, (_3, rank2) => rank2).filter((rank2) => added & 1 << rank2)
       };
     });
   });
@@ -802,11 +827,11 @@ function solve(input, deal2, options = {}) {
     }
     let rankBits = remainingRanks;
     while (rankBits) {
-      const bit = rankBits & -rankBits, rank = 31 - Math.clz32(bit);
-      rankBits ^= bit;
-      let capacity = suffixCapacity[sp][rank] + (adjacentRanks[top] & bit ? 1 : 0);
-      for (const neighbour of adjacentLists[rank]) capacity += remainingCounts[neighbour];
-      if (remainingCounts[rank] > capacity) {
+      const bit2 = rankBits & -rankBits, rank2 = 31 - Math.clz32(bit2);
+      rankBits ^= bit2;
+      let capacity = suffixCapacity[sp][rank2] + (adjacentRanks[top] & bit2 ? 1 : 0);
+      for (const neighbour of adjacentLists[rank2]) capacity += remainingCounts[neighbour];
+      if (remainingCounts[rank2] > capacity) {
         pruned.rankCapacity++;
         remember(key, sp);
         return -1;
@@ -817,7 +842,7 @@ function solve(input, deal2, options = {}) {
       for (const part of family) {
         demand += remainingCounts[part.target];
         capacity += part.added & 1 << top ? 1 : 0;
-        for (const rank of part.ranks) capacity += remainingCounts[rank] + suffixCounts[sp][rank];
+        for (const rank2 of part.ranks) capacity += remainingCounts[rank2] + suffixCounts[sp][rank2];
         if (step > 0 && demand > capacity) {
           if (step === 1) pruned.rankPairCapacity++;
           else pruned.rankHallCapacity++;
@@ -852,8 +877,8 @@ function solve(input, deal2, options = {}) {
         virtualPlayed |= possible;
         virtualFree &= ~possible;
         while (possible) {
-          const bit = possible & -possible, p = 31 - Math.clz32(bit);
-          possible ^= bit;
+          const bit2 = possible & -possible, p = 31 - Math.clz32(bit2);
+          possible ^= bit2;
           roots |= 1 << ranks[p];
           for (const child of children[p]) if ((covers[child] & ~virtualPlayed) === 0) virtualFree |= 1 << child;
         }
@@ -863,10 +888,10 @@ function solve(input, deal2, options = {}) {
     while (candidates) {
       let scan = candidates, chosen = 0, chosenP = 0, chosenFree = 0, priority = -1;
       while (scan) {
-        const bit = scan & -scan, p = 31 - Math.clz32(bit);
-        scan ^= bit;
-        const nextPlayed = played | bit;
-        let nextFree = free2 & ~bit, reveals = 0;
+        const bit2 = scan & -scan, p = 31 - Math.clz32(bit2);
+        scan ^= bit2;
+        const nextPlayed = played | bit2;
+        let nextFree = free2 & ~bit2, reveals = 0;
         for (const child of children[p]) if ((covers[child] & ~nextPlayed) === 0) {
           nextFree |= 1 << child;
           reveals++;
@@ -874,18 +899,18 @@ function solve(input, deal2, options = {}) {
         const score = reveals * 64 + population(nextFree & adjacentPositions[ranks[p]]) * 4;
         if (score > priority) {
           priority = score;
-          chosen = bit;
+          chosen = bit2;
           chosenP = p;
           chosenFree = nextFree;
         }
       }
       candidates ^= chosen;
-      const rank = ranks[chosenP];
-      remainingCounts[rank]--;
-      const nextRanks = remainingCounts[rank] === 0 ? remainingRanks & ~(1 << rank) : remainingRanks;
+      const rank2 = ranks[chosenP];
+      remainingCounts[rank2]--;
+      const nextRanks = remainingCounts[rank2] === 0 ? remainingRanks & ~(1 << rank2) : remainingRanks;
       line.push({ type: "play", position: chosenP });
-      const found = search(played | chosen, chosenFree, rank, sp, nextRanks);
-      remainingCounts[rank]++;
+      const found = search(played | chosen, chosenFree, rank2, sp, nextRanks);
+      remainingCounts[rank2]++;
       if (found === 1) return 1;
       line.pop();
       if (found === 0) return 0;
@@ -915,9 +940,9 @@ function solve(input, deal2, options = {}) {
 // ../B-004/engine/generator.ts
 var GENERATOR_SALT = 0x9e3779b9n;
 var GenerationBudgetError = class extends Error {
-  constructor(seed2, subSeed, attempts, verification) {
+  constructor(seed3, subSeed, attempts, verification) {
     super(`Generation stopped at candidate ${attempts}: ${verification.reason}`);
-    this.seed = seed2;
+    this.seed = seed3;
     this.subSeed = subSeed;
     this.attempts = attempts;
     this.verification = verification;
@@ -926,18 +951,18 @@ var GenerationBudgetError = class extends Error {
   }
 };
 var GenerationAttemptsError = class extends Error {
-  constructor(seed2, attempts) {
+  constructor(seed3, attempts) {
     super(`No verified deal after ${attempts} exhaustive candidates`);
-    this.seed = seed2;
+    this.seed = seed3;
     this.attempts = attempts;
     this.code = "GENERATION_ATTEMPTS_EXHAUSTED";
     this.name = "GenerationAttemptsError";
   }
 };
-function generateDeal(input, seed2, options = {}) {
-  if (typeof seed2 === "number" && !Number.isSafeInteger(seed2))
+function generateDeal(input, seed3, options = {}) {
+  if (typeof seed3 === "number" && !Number.isSafeInteger(seed3))
     throw new RangeError("Seed must be a safe integer or bigint");
-  const original = BigInt(seed2), rules = resolveRules(input);
+  const original = BigInt(seed3), rules = resolveRules(input);
   const maxAttempts = options.maxAttempts ?? 1e3;
   if (maxAttempts !== Infinity && (!Number.isSafeInteger(maxAttempts) || maxAttempts < 1))
     throw new RangeError("maxAttempts must be a positive safe integer or Infinity");
@@ -1246,6 +1271,705 @@ function createLeaderboardVerifier(options = {}) {
   return { verifyBoard, verifyRun };
 }
 
+// warp-core/config.ts
+var WARP_VERSION = "warp-1";
+var HELPFUL_IDS = Object.freeze(["joker", "needle", "reel", "spare", "mirror", "leap", "unpick", "lantern"]);
+var CHARM_IDS = Object.freeze(["needle-thread", "joker-weave", "double-stitch", "deep-pocket", "mirror-light", "long-stride", "lantern-eye", "unpick-thread"]);
+var SNAG_TEXT = Object.freeze({ snuffed: "Play a neighbouring card to bring a dark card into the light.", knot: "Play a golden key card to untie its matching knot.", overgrowth: "Play beside the vine to uncover its two cards.", tide: "Every fifth draw carries the next Spool card to the bottom.", drift: "A drifting card moves one rank after every draw.", flicker: "A flickering card changes between two ranks after each draw.", frozen: "Play a neighbouring card to thaw the ice.", shade: "A shaded rank appears when its card is uncovered.", "split-gate": "Split cards offer two ranks; gates need a matching suit.", totality: "Aces and Kings do not join. Play the gold key to reveal the eclipsed pillar." });
+var worlds = [1, 2, 3, 5, 6, 4, 7, 8, 9, 10];
+var snags = ["snuffed", "knot", "overgrowth", "tide", "drift", "flicker", "frozen", "shade", "split-gate", "totality"];
+var WARP_LEVELS = Object.freeze(worlds.map((world2, index) => Object.freeze({ level: index + 1, world: world2, snag: snags[index], boss: index === 4 || index === 9, strength: [6, 1, 2, 3, 6, 5, 7, 9, 4, 10][index], helpful: Object.freeze([
+  ["joker", "needle", "joker", "needle"],
+  ["joker", "needle", "joker", "needle", "mirror", "spare"],
+  ["joker", "needle", "joker", "needle", "reel", "lantern"],
+  ["joker", "needle", "joker", "needle", "leap", "unpick"],
+  ["joker", "needle", "joker", "needle"],
+  ["joker", "needle", "joker", "needle", "mirror", "leap"],
+  ["joker", "needle", "joker", "needle", "reel", "spare"],
+  ["joker", "needle", "lantern", "unpick"],
+  ["joker", "needle", "needle", "joker"],
+  ["joker", "needle", "joker", "reel"]
+][index]), ...index === 1 ? { helpfulVariant: Object.freeze({ index: 4, kind: "joker", probability: 0.25 }) } : {}, burnAt: index >= 2 ? [null, null, null, 20, 18, 17, 21, 17, 22, 9][index] : null, fogAt: index >= 2 ? Math.max(3, 15 - index) : null, targetP3: [0.615, 0.574, 0.533, 0.488, 0.448, 0.405, 0.366, 0.31, 0.26, 0.088][index] })));
+function warpLevel(level) {
+  if (!Number.isSafeInteger(level) || level < 1 || level > 10) throw new RangeError("Warp has exactly ten levels");
+  return WARP_LEVELS[level - 1];
+}
+function warpSeed(root, level) {
+  warpLevel(level);
+  if (typeof root === "number" && !Number.isSafeInteger(root) || !/^-?\d{1,30}$/.test(String(root))) throw new TypeError("Invalid Warp seed");
+  let hash = 14695981039346656037n;
+  for (const c of `weft-warp:${WARP_VERSION}:${BigInt(root)}:${level}`) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
+  return hash;
+}
+var CONFIG_ID = "warp-1-v6.15";
+var WARP_PROOF_NODE_LIMIT = 1e5;
+var WARP_MAX_CANDIDATES = 1e3;
+
+// warp-core/hands.ts
+var ROYAL2 = [0, 9, 10, 11, 12];
+function warpPhysicalHand(cards, loop) {
+  if (cards.length <= 7 || new Set(cards).size === cards.length) {
+    const chosen = bestFiveCards(cards, 99, loop, false);
+    return { kind: handType(chosen, 99, loop, false), cards: chosen };
+  }
+  const ranks = Array.from({ length: 13 }, () => []), suits = Array.from({ length: 4 }, () => []), suitRanks = Array.from({ length: 4 }, () => Array.from({ length: 13 }, () => []));
+  cards.forEach((card, index) => {
+    const rank2 = card % 13, suit2 = Math.floor(card / 13);
+    ranks[rank2].push(index);
+    suits[suit2].push(index);
+    suitRanks[suit2][rank2].push(index);
+  });
+  let best;
+  const consider = (indices) => {
+    const candidate = [...indices].sort((a, b) => a - b);
+    if (!best) {
+      best = candidate;
+      return;
+    }
+    for (let i = 0; i < 5; i++) {
+      if (candidate[i] === best[i]) continue;
+      if (candidate[i] < best[i]) best = candidate;
+      return;
+    }
+  };
+  const result = () => {
+    const chosen = best.map((index) => cards[index]);
+    return { kind: handType(chosen, 99, loop, false), cards: chosen };
+  };
+  const pattern = (indices, values) => {
+    if (values.every((rank2) => indices[rank2].length)) consider(values.map((rank2) => indices[rank2][0]));
+  };
+  for (const indexed of suitRanks) pattern(indexed, ROYAL2);
+  if (best) return result();
+  const runs2 = loop ? Array.from({ length: 13 }, (_, start) => Array.from({ length: 5 }, (_2, offset) => (start + offset) % 13)) : [...Array.from({ length: 9 }, (_, start) => Array.from({ length: 5 }, (_2, offset) => start + offset)), ROYAL2];
+  for (const indexed of suitRanks) for (const values of runs2) pattern(indexed, values);
+  if (best) return result();
+  for (let rank2 = 0; rank2 < 13; rank2++) if (ranks[rank2].length >= 4) {
+    const outside = cards.findIndex((card) => card % 13 !== rank2);
+    if (outside >= 0) consider([...ranks[rank2].slice(0, 4), outside]);
+  }
+  if (best) return result();
+  for (let three = 0; three < 13; three++) if (ranks[three].length >= 3) {
+    for (let two = 0; two < 13; two++) if (three !== two && ranks[two].length >= 2) consider([...ranks[three].slice(0, 3), ...ranks[two].slice(0, 2)]);
+  }
+  if (best) return result();
+  for (const indices of suits) if (indices.length >= 5) consider(indices.slice(0, 5));
+  if (best) return result();
+  for (const values of runs2) pattern(ranks, values);
+  if (best) return result();
+  for (let rank2 = 0; rank2 < 13; rank2++) if (ranks[rank2].length >= 3) {
+    const outside = cards.flatMap((card, index) => card % 13 !== rank2 ? [index] : []);
+    if (outside.length >= 2) consider([...ranks[rank2].slice(0, 3), ...outside.slice(0, 2)]);
+  }
+  if (best) return result();
+  for (let first = 0; first < 13; first++) if (ranks[first].length >= 2) {
+    for (let second = first + 1; second < 13; second++) if (ranks[second].length >= 2) {
+      const outside = cards.findIndex((card) => card % 13 !== first && card % 13 !== second);
+      if (outside >= 0) consider([...ranks[first].slice(0, 2), ...ranks[second].slice(0, 2), outside]);
+    }
+  }
+  if (best) return result();
+  for (let rank2 = 0; rank2 < 13; rank2++) if (ranks[rank2].length >= 2) {
+    const outside = cards.flatMap((card, index) => card % 13 !== rank2 ? [index] : []);
+    if (outside.length >= 3) consider([...ranks[rank2].slice(0, 2), ...outside.slice(0, 3)]);
+  }
+  if (best) return result();
+  consider([0, 1, 2, 3, 4]);
+  return result();
+}
+
+// warp-core/rules.ts
+var WARP_LAYOUT = layoutPeaks();
+var BASE_RULES = getConfig("chainBest");
+var ALL_PLAYED = 2 ** 30 - 1;
+var copy2 = (value) => JSON.parse(JSON.stringify(value));
+var bit = (position) => 1 << position;
+var rank = (card) => card % 13;
+var suit = (card) => Math.floor(card / 13);
+var mod = (n) => (n % 13 + 13) % 13;
+var hasCharm = (state, name) => state.deal.charms.includes(name);
+var WARP_NEIGHBOURS = Object.freeze(Array.from({ length: 30 }, (_, position) => {
+  const group = Math.floor(position / 10), local = position % 10, rows2 = [[0], [1, 2], [3, 4, 5], [6, 7, 8, 9]], row = rows2.findIndex((r2) => r2.includes(local)), r = rows2[row], i = r.indexOf(local), near = /* @__PURE__ */ new Set();
+  for (const value of [r[i - 1], r[i + 1]]) if (value !== void 0) near.add(group * 10 + value);
+  for (const p of [...WARP_LAYOUT.coveredBy[position], ...WARP_LAYOUT.children[position]]) near.add(p);
+  return Object.freeze([...near].sort((a, b) => a - b));
+}));
+var freePositions = (state) => WARP_LAYOUT.coveredBy.flatMap((covers, p) => !(state.played & bit(p)) && covers.every((q) => state.played & bit(q)) ? [p] : []);
+var remainingCount = (state) => {
+  let n = 0;
+  for (let mask = state.played; mask; mask &= mask - 1) n++;
+  return 30 - n;
+};
+function markBlocked(state, mark) {
+  if (state.played & bit(mark.position) || state.unlocked & bit(mark.position)) return false;
+  return ["snuffed", "knot", "overgrowth", "frozen", "eclipse"].includes(mark.kind);
+}
+function effectiveRanks(state, position) {
+  let value = rank(state.deal.weave[position]);
+  const marks = state.deal.marks.filter((mark) => mark.position === position);
+  for (const mark of marks) {
+    if (mark.kind === "drift") value = mod(value + (mark.alternateRank === 12 ? -state.draws : state.draws));
+    if (mark.kind === "flicker" && state.draws % 2) value = mark.alternateRank;
+  }
+  const split = marks.find((mark) => mark.kind === "split");
+  return split ? [value, split.alternateRank] : [value];
+}
+function adjacent(state, next) {
+  return isAdjacent({ ...BASE_RULES, loop: state.deal.snag !== "totality", twins: state.mirror, deltas: state.leap ? [1, 2] : [1] }, state.topRank, next);
+}
+function legalPlayRanks(state, position) {
+  if (!Number.isInteger(position) || position < 0 || position >= 30 || state.played & bit(position) || WARP_LAYOUT.coveredBy[position].some((p) => !(state.played & bit(p))) || state.pending || state.deal.marks.some((mark) => mark.position === position && markBlocked(state, mark))) return [];
+  if (state.deal.marks.some((mark) => mark.position === position && mark.kind === "gate") && suit(state.deal.weave[position]) !== state.topSuit) return [];
+  return effectiveRanks(state, position).filter((value) => adjacent(state, value));
+}
+var legalWarpPlays = (state) => freePositions(state).filter((position) => legalPlayRanks(state, position).length > 0);
+function canProgress(state) {
+  return legalWarpPlays(state).length > 0 || state.spool.length > 0 || state.reel.length > 0 || state.spare.length > 0 || state.unpick > 0 && state.lastPlay !== null || state.pending !== null;
+}
+var handCards = (state) => state.anchorEligible ? [state.anchor, ...state.chain] : state.chain;
+var physicalHandCache = /* @__PURE__ */ new WeakMap();
+function physicalHand(state) {
+  let value = physicalHandCache.get(state);
+  if (!value) {
+    value = warpPhysicalHand(state.anchorJoker && state.anchorEligible ? state.chain : handCards(state), state.deal.snag !== "totality");
+    physicalHandCache.set(state, value);
+  }
+  return value;
+}
+function neutralRankKind(ranks, loop) {
+  if (ranks.length <= 5) return evalRanks([...ranks].sort((a, b) => a - b), false, loop);
+  const counts = Array(13).fill(0);
+  for (const rank2 of ranks) counts[rank2]++;
+  const groups = counts.filter(Boolean).sort((a, b) => b - a);
+  if (groups[0] >= 4) return 7;
+  if (groups[0] >= 3 && groups[1] >= 2) return 6;
+  const mask = ranks.reduce((value, rank2) => value | 1 << rank2, 0), patterns = loop ? Array.from({ length: 13 }, (_, r) => Array.from({ length: 5 }, (_2, i) => (r + i) % 13)) : [...Array.from({ length: 9 }, (_, r) => Array.from({ length: 5 }, (_2, i) => r + i)), [0, 9, 10, 11, 12]];
+  if (patterns.some((pattern) => pattern.every((rank2) => mask & 1 << rank2))) return 4;
+  if (groups[0] >= 3) return 3;
+  if (groups[0] >= 2 && groups[1] >= 2) return 2;
+  return groups[0] >= 2 ? 1 : 0;
+}
+var handValueCache = /* @__PURE__ */ new WeakMap();
+function warpHand(state) {
+  const cached = handValueCache.get(state);
+  if (cached) return cached;
+  const loop = state.deal.snag !== "totality", kind = state.anchorJoker && state.anchorEligible ? Math.max(physicalHand(state).kind, neutralRankKind([state.anchor % 13, ...state.chain.map((card) => card % 13)], loop)) : physicalHand(state).kind, scoringLength = state.chain.length + state.links;
+  const value = Object.freeze({ kind, name: NAMES[kind], multiplier: MULT[kind], scoringLength, bankValue: state.chain.length ? baseScore(scoringLength) * MULT[kind] : 0 });
+  handValueCache.set(state, value);
+  return value;
+}
+function bank2(state, scoring = true) {
+  if (!state.chain.length) return { state, events: [] };
+  const hand = scoring ? warpHand(state) : { scoringLength: state.chain.length + state.links, name: "high", bankValue: 0 }, event = { type: "banked", reason: "automatic", chainLength: state.chain.length, scoringLength: hand.scoringLength, handName: hand.name, points: hand.bankValue };
+  return { state: { ...state, score: state.score + event.points, longestChain: Math.max(state.longestChain, state.chain.length), chain: [], links: 0 }, events: [event] };
+}
+function settle2(state, events = [], scoring = true) {
+  let next = state, all = [...events];
+  if (!remainingCount(state) || !legalWarpPlays(state).length && !state.pending) {
+    const banked = bank2(state, scoring);
+    next = banked.state;
+    all.push(...banked.events);
+  }
+  return { state: { ...next, terminal: remainingCount(next) === 0 ? "cleared" : canProgress(next) ? "active" : "stuck" }, events: all };
+}
+function createWarpState(deal2) {
+  if (deal2.version !== WARP_VERSION || deal2.weave.length !== 30 || deal2.spool.length !== 24 || deal2.spool[0]?.kind !== "card") throw new TypeError("Invalid Warp deal");
+  if (deal2.weave.some((c) => !Number.isInteger(c) || c < 0 || c >= 52) || new Set(deal2.spool.map((t) => t.id)).size !== deal2.spool.length) throw new TypeError("Invalid Warp cards");
+  const start = deal2.spool[0].card;
+  let state = { version: WARP_VERSION, deal: copy2(deal2), played: 0, spool: copy2(deal2.spool.slice(1)), reel: [], spare: [], top: start, topRank: rank(start), topSuit: suit(start), topSpecial: null, anchor: start, anchorEligible: true, anchorJoker: false, chain: [], links: 0, score: 0, longestChain: 0, suitedPlays: 0, draws: 0, drawPending: false, mirror: deal2.charms.includes("mirror-light"), leap: deal2.charms.includes("long-stride"), unpick: deal2.charms.includes("unpick-thread") ? 1 : 0, needleReady: deal2.charms.includes("needle-thread"), unlocked: 0, vineCleared: 0, burn: false, fog: false, revealed: [], pending: null, lastPlay: null, terminal: "active" };
+  if (deal2.charms.includes("lantern-eye")) state = { ...state, revealed: state.spool.slice(0, 3).map((t) => t.id) };
+  return settle2(state).state;
+}
+function takeToken(state, token, events) {
+  const event = (kind, description) => events.push({ type: "special", kind, description });
+  if (token.kind === "card") return { ...state, top: token.card, topRank: rank(token.card), topSuit: suit(token.card), topSpecial: null, anchor: token.card, anchorEligible: true, anchorJoker: false, fog: false };
+  switch (token.kind) {
+    case "joker":
+      event("joker", "Choose the rank for this Joker.");
+      return { ...state, pending: { kind: "joker" } };
+    case "needle":
+      event("needle", "Choose one of the next three Spool cards.");
+      return { ...state, pending: state.spool.length ? { kind: "needle", options: state.spool.slice(0, 3) } : null };
+    case "reel":
+      event("reel", "A second face-up stack holds three cards.");
+      return { ...state, reel: [...state.reel, ...state.spool.slice(0, 3)], spool: state.spool.slice(3) };
+    case "spare": {
+      event("spare", "Keep a card aside; bring it into the Thread when you need it.");
+      const capacity = hasCharm(state, "deep-pocket") ? 2 : 1, index = state.spool.findIndex((t) => t.kind === "card");
+      if (state.spare.length >= capacity || index < 0) return state;
+      return { ...state, spare: [...state.spare, state.spool[index]], spool: state.spool.filter((_, i) => i !== index) };
+    }
+    case "mirror":
+      event("mirror", "The next play may also match the same rank.");
+      return { ...state, mirror: true };
+    case "leap":
+      event("leap", "The next play may also leap two ranks.");
+      return { ...state, leap: true };
+    case "unpick":
+      event("unpick", "Return the most recent played card to its place.");
+      return { ...state, unpick: state.unpick + 1 };
+    case "lantern":
+      event("lantern", "The next three Spool cards stay in view.");
+      return { ...state, revealed: [.../* @__PURE__ */ new Set([...state.revealed, ...state.spool.slice(0, 3).map((t) => t.id)])] };
+    case "burn":
+      event("burn", "After each draw, the next Spool card leaves the board.");
+      return { ...state, burn: true };
+    case "fog":
+      event("fog", "The next Spool card stays veiled until it reaches the Thread.");
+      return { ...state, fog: true };
+  }
+}
+function afterDraw(state) {
+  let next = { ...state, drawPending: false };
+  if (next.burn && next.spool.length) next = { ...next, spool: next.spool.slice(1) };
+  if (next.deal.snag === "tide" && next.draws % 5 === 0 && next.spool.length > 1) next = { ...next, spool: [...next.spool.slice(1), next.spool[0]] };
+  if (next.pending?.kind === "needle") next = { ...next, pending: next.spool.length ? { kind: "needle", options: next.spool.slice(0, 3) } : null };
+  return next;
+}
+function legalWarpActions(state) {
+  if (state.terminal !== "active") return [];
+  if (state.pending?.kind === "joker") return Array.from({ length: 13 }, (_, rank2) => ({ type: "choose-rank", rank: rank2 }));
+  if (state.pending?.kind === "needle") return [...state.pending.options.map((token) => ({ type: "choose-needle", id: token.id })), { type: "skip-special" }];
+  const actions = [];
+  for (const position of legalWarpPlays(state)) for (const value of legalPlayRanks(state, position)) actions.push({ type: "play", position, rank: value });
+  if (state.spool.length) actions.push({ type: "draw" });
+  if (state.reel.length) actions.push({ type: "draw-reel" });
+  state.spare.forEach((_, slot) => actions.push({ type: "swap-spare", slot }));
+  if (state.unpick > 0 && state.lastPlay) actions.push({ type: "use-unpick" });
+  return actions;
+}
+function applyWarpAction(source, action, options = {}) {
+  const scoring = options.scoring !== false;
+  if (source.terminal !== "active") throw new Error("Cannot play a finished Warp board");
+  let state = source;
+  const events = [];
+  if (state.pending) {
+    if (state.pending.kind === "joker") {
+      if (action.type !== "choose-rank" || !Number.isInteger(action.rank) || action.rank < 0 || action.rank > 12) throw new Error("Choose a Joker rank");
+      const card = action.rank;
+      state = { ...state, pending: null, top: card, topRank: action.rank, topSuit: -1, topSpecial: "joker", anchor: card, anchorEligible: hasCharm(state, "joker-weave"), anchorJoker: true };
+    } else if (action.type === "skip-special") state = { ...state, pending: null };
+    else if (action.type === "choose-needle") {
+      const token = state.pending.options.find((t) => t.id === action.id);
+      if (!token) throw new Error("Needle choice is not one of the next three cards");
+      state = { ...state, pending: null, spool: state.spool.filter((t) => t.id !== token.id) };
+      state = takeToken(state, token, events);
+    } else throw new Error("Choose a Needle card");
+    if (!state.pending && state.drawPending) state = afterDraw(state);
+    return settle2(state, events, scoring);
+  }
+  if (action.type === "play") {
+    const allowed = legalPlayRanks(state, action.position), value = action.rank ?? allowed[0];
+    if (value === void 0 || !allowed.includes(value)) throw new Error("Warp card is covered, bound or not adjacent");
+    const position = action.position, physical = state.deal.weave[position], card = suit(physical) * 13 + value, matched = state.topSuit >= 0 && suit(physical) === state.topSuit;
+    const lastPlay = { position, played: state.played, top: state.top, topRank: state.topRank, topSuit: state.topSuit, topSpecial: state.topSpecial, anchor: state.anchor, anchorEligible: state.anchorEligible, anchorJoker: state.anchorJoker, chain: [...state.chain], links: state.links, score: state.score, longestChain: state.longestChain, unlocked: state.unlocked, vineCleared: state.vineCleared, mirror: state.mirror, leap: state.leap, suitedPlays: state.suitedPlays };
+    let unlocked = state.unlocked;
+    const cleared = [];
+    for (const mark of state.deal.marks) {
+      if (!markBlocked(state, mark)) continue;
+      let open = false;
+      if (mark.kind === "knot" || mark.kind === "eclipse") open = mark.key === position;
+      else open = WARP_NEIGHBOURS[mark.position].includes(position);
+      if (open && mark.kind === "overgrowth") for (const sibling of state.deal.marks.filter((other) => other.kind === "overgrowth" && other.group === mark.group)) {
+        unlocked |= bit(sibling.position);
+        cleared.push(sibling.position);
+      }
+      else if (open) {
+        unlocked |= bit(mark.position);
+        cleared.push(mark.position);
+      }
+    }
+    if (cleared.length) events.push({ type: "snag-cleared", positions: [...new Set(cleared)] });
+    state = { ...state, lastPlay, played: state.played | bit(position), top: card, topRank: value, topSuit: suit(physical), topSpecial: null, unlocked, chain: [...state.chain, card], links: state.links + (matched ? hasCharm(state, "double-stitch") ? 2 : 1 : 0), suitedPlays: state.suitedPlays + (matched ? 1 : 0), mirror: false, leap: false };
+  } else if (action.type === "draw" || action.type === "draw-reel") {
+    const from = action.type === "draw" ? state.spool : state.reel;
+    if (!from.length) throw new Error("That stack is empty");
+    const banked = bank2(state, scoring);
+    events.push(...banked.events);
+    state = { ...banked.state, anchor: state.top, anchorJoker: state.topSpecial === "joker", anchorEligible: state.topSpecial !== "joker" || hasCharm(state, "joker-weave"), draws: state.draws + 1, drawPending: true };
+    if (action.type === "draw" && state.needleReady) {
+      state = { ...state, needleReady: false, pending: { kind: "needle", options: state.spool.slice(0, 3) } };
+    } else {
+      const token = from[0];
+      state = action.type === "draw" ? { ...state, spool: state.spool.slice(1) } : { ...state, reel: state.reel.slice(1) };
+      state = takeToken(state, token, events);
+      if (!state.pending) state = afterDraw(state);
+    }
+  } else if (action.type === "swap-spare") {
+    const token = state.spare[action.slot];
+    if (!Number.isInteger(action.slot) || !token) throw new Error("No card in that Spare slot");
+    const banked = bank2(state, scoring);
+    events.push(...banked.events);
+    state = { ...banked.state, spare: state.spare.filter((_, i) => i !== action.slot) };
+    state = takeToken(state, token, events);
+  } else if (action.type === "use-unpick") {
+    if (state.unpick < 1 || !state.lastPlay) throw new Error("No Unpick is available");
+    const before = state.lastPlay, { position: _position, ...restore } = before;
+    state = { ...state, ...restore, unpick: state.unpick - 1, lastPlay: null, pending: null };
+    events.push({ type: "undone", position: before.position, scoreDelta: state.score - source.score });
+  } else throw new Error("Unsupported Warp action");
+  return settle2(state, events, scoring);
+}
+function warpReachabilityKey(state) {
+  const suitRelevant = state.deal.snag === "split-gate", phase = state.deal.snag === "drift" ? state.draws % 13 : state.deal.snag === "flicker" ? state.draws % 2 : state.deal.snag === "tide" ? state.draws % 5 : 0;
+  const last = state.unpick && state.lastPlay ? [state.lastPlay.played, state.lastPlay.topRank, suitRelevant ? state.lastPlay.topSuit : 0, state.lastPlay.unlocked, state.lastPlay.mirror, state.lastPlay.leap] : null;
+  return JSON.stringify([state.played, state.topRank, suitRelevant ? state.topSuit : 0, state.spool.map((t) => t.id), state.reel.map((t) => t.id), state.spare.map((t) => t.id), phase, state.drawPending, state.mirror, state.leap, state.unpick, state.needleReady, state.unlocked, state.burn, state.pending, last]);
+}
+
+// warp-core/solver.ts
+function solveWarp(input, options = {}) {
+  const started = performance.now(), budget = options.timeBudgetMs ?? Infinity, maxNodes = options.maxNodes ?? Infinity;
+  if (budget !== Infinity && (!Number.isFinite(budget) || budget < 0) || maxNodes !== Infinity && (!Number.isSafeInteger(maxNodes) || maxNodes < 0)) throw new RangeError("Invalid solver budget");
+  const deadline = budget === Infinity ? Infinity : started + budget, initial = "deal" in input ? input : createWarpState(input), failed = /* @__PURE__ */ new Set(), visiting = /* @__PURE__ */ new Set(), line = [];
+  let nodes = 0, reason = "exhaustive";
+  function priority(state, action) {
+    if (action.type === "play") return 1e3 + WARP_LAYOUT.children[action.position].filter((p) => WARP_LAYOUT.coveredBy[p].filter((q) => !(state.played & 1 << q)).length === 1).length * 50 + state.deal.marks.filter((m) => m.key === action.position).length * 80;
+    if (action.type === "choose-rank") return freePositions(state).filter((p) => {
+      const r = state.deal.weave[p] % 13;
+      return Math.abs(r - action.rank) === 1 || Math.abs(r - action.rank) === 12;
+    }).length * 10;
+    if (action.type === "choose-needle") {
+      const token = state.spool.find((t) => t.id === action.id);
+      if (token?.kind === "card") return freePositions(state).filter((p) => {
+        const r = state.deal.weave[p] % 13, d = Math.abs(r - token.card % 13);
+        return d === 1 || d === 12;
+      }).length * 10;
+      return 1;
+    }
+    return action.type === "draw-reel" ? 3 : action.type === "draw" ? 2 : action.type === "swap-spare" ? 1 : -1;
+  }
+  function search(state) {
+    if (nodes >= maxNodes) {
+      reason = "node-budget";
+      return 0;
+    }
+    if (deadline !== Infinity && (nodes & 63) === 0 && performance.now() >= deadline) {
+      reason = "time-budget";
+      return 0;
+    }
+    nodes++;
+    if (!remainingCount(state)) return 1;
+    if (state.terminal === "stuck") return -1;
+    const key = warpReachabilityKey(state);
+    if (failed.has(key) || visiting.has(key)) return -1;
+    visiting.add(key);
+    const actions = legalWarpActions(state).map((action, index) => ({ action, index, priority: priority(state, action) })).sort((a, b) => b.priority - a.priority || a.index - b.index);
+    for (const { action } of actions) {
+      const next = applyWarpAction(state, action, { scoring: false }).state;
+      line.push(action);
+      const found = search(next);
+      if (found === 1) {
+        visiting.delete(key);
+        return 1;
+      }
+      line.pop();
+      if (found === 0) {
+        visiting.delete(key);
+        return 0;
+      }
+    }
+    visiting.delete(key);
+    failed.add(key);
+    return -1;
+  }
+  const witness = (node) => {
+    const actions = [];
+    for (let n = node; n?.parent; n = n.parent) actions.push(n.action);
+    return actions.reverse();
+  };
+  let fastLine;
+  if (maxNodes >= 2048) {
+    let frontier = [{ state: initial, parent: null, action: null, value: 0 }], seen = /* @__PURE__ */ new Set();
+    for (let depth = 0; depth < 100 && frontier.length && !fastLine; depth++) {
+      const next = [];
+      for (const node of frontier) {
+        if (nodes >= Math.min(maxNodes, 3e4) || deadline !== Infinity && performance.now() >= deadline) break;
+        for (const action of legalWarpActions(node.state)) {
+          if (nodes >= Math.min(maxNodes, 3e4)) break;
+          nodes++;
+          const state = applyWarpAction(node.state, action, { scoring: false }).state, candidate = { state, parent: node, action, value: 0 };
+          if (state.terminal === "cleared") {
+            fastLine = witness(candidate);
+            break;
+          }
+          if (state.terminal === "stuck") continue;
+          const key = warpReachabilityKey(state);
+          if (seen.has(key)) continue;
+          seen.add(key);
+          candidate.value = (30 - remainingCount(state)) * 100 + state.spool.length * 2 + state.reel.length * 3 + state.spare.length * 3 + legalWarpPlays(state).length * 7 - state.deal.marks.filter((mark) => ["knot", "eclipse"].includes(mark.kind) && !(state.unlocked & 1 << mark.position)).length;
+          next.push(candidate);
+        }
+        if (fastLine) break;
+      }
+      next.sort((a, b) => b.value - a.value);
+      frontier = next.slice(0, 96);
+      if (nodes >= Math.min(maxNodes, 3e4)) break;
+    }
+  }
+  const answer = fastLine ? 1 : search(initial);
+  if (fastLine) line.push(...fastLine);
+  const result = { clearable: answer === 0 ? "unknown" : answer === 1, reason, nodes, memoStates: failed.size, ms: performance.now() - started };
+  if (answer === 1) {
+    let check = initial;
+    for (const action of line) check = applyWarpAction(check, action).state;
+    if (check.terminal !== "cleared" || remainingCount(check) !== 0) throw new Error("Warp solver witness failed replay");
+    return { ...result, line: [...line], witnessScore: check.score };
+  }
+  return result;
+}
+
+// warp-core/generator.ts
+var WARP_GENERATOR_SALT = 0x9e3779b9n;
+var one = (values, rng) => values[rng.randrange(values.length)];
+function marksFor(level, weave, rng) {
+  const config = warpLevel(level), positions = Array.from({ length: 30 }, (_, p) => p);
+  rng.shuffle(positions);
+  const chosen = positions.slice(0, config.strength), marks = [];
+  switch (config.snag) {
+    case "snuffed":
+    case "frozen":
+    case "shade":
+      for (const position of chosen) marks.push({ position, kind: config.snag });
+      break;
+    case "knot": {
+      const locks = chosen, keyCandidates = positions.filter((p) => !locks.includes(p));
+      locks.forEach((position, index) => marks.push({ position, kind: "knot", key: keyCandidates[index % keyCandidates.length] }));
+      break;
+    }
+    case "overgrowth": {
+      let group = 0;
+      for (const position of positions) {
+        if (marks.some((m) => m.position === position)) continue;
+        const neighbour = WARP_NEIGHBOURS[position].find((p) => !marks.some((m) => m.position === p));
+        if (neighbour === void 0) continue;
+        marks.push({ position, kind: "overgrowth", group }, { position: neighbour, kind: "overgrowth", group });
+        if (++group >= config.strength) break;
+      }
+      break;
+    }
+    case "drift":
+      marks.push({ position: positions[0], kind: "drift", alternateRank: rng.randrange(2) ? 1 : 12 });
+      break;
+    case "flicker": {
+      const position = positions[0], alternateRank = (weave[position] % 13 + 2 + rng.randrange(9)) % 13;
+      marks.push({ position, kind: "flicker", alternateRank });
+      break;
+    }
+    case "split-gate": {
+      for (const position of chosen) marks.push({ position, kind: "gate" });
+      for (const position of positions.slice(config.strength, config.strength + 3)) marks.push({ position, kind: "split", alternateRank: (weave[position] % 13 + 2 + rng.randrange(9)) % 13 });
+      break;
+    }
+    case "totality": {
+      const group = rng.randrange(3), key = one(positions.filter((p) => Math.floor(p / 10) !== group && WARP_LAYOUT.coveredBy[p].length === 0), rng);
+      for (let p = group * 10; p < (group + 1) * 10; p++) marks.push({ position: p, kind: "eclipse", key });
+      break;
+    }
+    case "tide":
+      break;
+  }
+  return marks;
+}
+function warpCandidate(level, seed3, options = {}) {
+  const config = warpLevel(level), charms = options.charms ?? [], oneShots = options.oneShots ?? [];
+  if (typeof seed3 === "number" && !Number.isSafeInteger(seed3) || !/^-?\d{1,40}$/.test(String(seed3))) throw new TypeError("Invalid Warp seed");
+  if (charms.length > 3 || new Set(charms).size !== charms.length || charms.some((c) => !CHARM_IDS.includes(c)) || oneShots.some((c) => !HELPFUL_IDS.includes(c)) || oneShots.length > 9) throw new TypeError("Invalid Warp rewards");
+  const original = BigInt(seed3), deal2 = deal({ ...getConfig("chainBest"), spool: 24 }, original), rng = new PythonRandom(original ^ 0x57415250n), spool = deal2.spoolOrder.map((card, id) => ({ id, kind: "card", card }));
+  const slots = Array.from({ length: 23 }, (_, i) => i + 1).filter((i) => i !== config.burnAt && i !== config.fogAt);
+  rng.shuffle(slots);
+  let cursor = 0;
+  const helpful = [...config.helpful], variant = config.helpfulVariant;
+  if (variant && new PythonRandom(original ^ 0x574152504d4958n).random() < variant.probability) helpful[variant.index] = variant.kind;
+  for (const kind of [...helpful, ...oneShots]) {
+    const index = slots[cursor++];
+    spool[index] = { id: index, kind };
+  }
+  if (config.burnAt !== null) {
+    const index = config.burnAt;
+    spool[index] = { id: index, kind: "burn" };
+  }
+  if (config.fogAt !== null) {
+    const index = config.fogAt;
+    if (spool[index]?.kind === "card") spool[index] = { id: index, kind: "fog" };
+  }
+  return { version: WARP_VERSION, level, world: config.world, seed: String(original), weave: [...deal2.weave], spool, burned: [...deal2.burned], marks: marksFor(level, deal2.weave, rng), snag: config.snag, boss: config.boss, charms: [...charms], oneShots: [...oneShots], configId: CONFIG_ID };
+}
+
+// warp-core/rewards.ts
+function warpRewardChoices(root, afterLevel, charms = []) {
+  warpLevel(afterLevel);
+  if (charms.length > 3 || new Set(charms).size !== charms.length || charms.some((c) => !CHARM_IDS.includes(c))) throw new TypeError("Invalid held Charms");
+  if (afterLevel === 10) return [];
+  const seed3 = warpSeed(root, afterLevel) ^ 0x524557415244n, rng = new PythonRandom(seed3), charmPool = CHARM_IDS.filter((id) => !charms.includes(id)), cards = [...HELPFUL_IDS];
+  rng.shuffle(charmPool);
+  rng.shuffle(cards);
+  const values = [{ id: `${afterLevel}:charm:${charmPool[0]}`, type: "charm", charm: charmPool[0] }, { id: `${afterLevel}:card:${cards[0]}`, type: "one-shot", card: cards[0] }];
+  if (rng.randrange(2) && charmPool.length > 1) values.push({ id: `${afterLevel}:charm:${charmPool[1]}`, type: "charm", charm: charmPool[1] });
+  else values.push({ id: `${afterLevel}:card:${cards[1]}`, type: "one-shot", card: cards[1] });
+  rng.shuffle(values);
+  return values;
+}
+function applyWarpPick(root, charms, pick) {
+  const reward = warpRewardChoices(root, pick.afterLevel, charms).find((value) => value.id === pick.rewardId);
+  if (!reward) throw new Error("Reward is not one of this clear\u2019s three choices");
+  if (reward.type === "one-shot") {
+    if (pick.replaceCharm !== void 0) throw new Error("A one-shot cannot replace a Charm");
+    return { charms: [...charms], oneShots: [reward.card], reward };
+  }
+  if (charms.includes(reward.charm)) throw new Error("A Charm cannot be held twice");
+  let next = [...charms];
+  if (next.length >= 3) {
+    if (!pick.replaceCharm || !next.includes(pick.replaceCharm)) throw new Error("Choose which of the three Charms to replace");
+    next = next.filter((charm) => charm !== pick.replaceCharm);
+  } else if (pick.replaceCharm !== void 0) throw new Error("There is an empty Charm slot");
+  return { charms: [...next, reward.charm], oneShots: [], reward };
+}
+var CHARM_TEXT = Object.freeze({
+  "needle-thread": { name: "Needle Thread", text: "Your first draw each board chooses one of the next three cards." },
+  "joker-weave": { name: "Joker Weave", text: "A Joker\u2019s chosen rank also counts in the chain\u2019s best hand." },
+  "double-stitch": { name: "Double Stitch", text: "Each suited link adds two to the chain\u2019s scoring length." },
+  "deep-pocket": { name: "Deep Pocket", text: "You may keep two Spare cards instead of one." },
+  "mirror-light": { name: "Mirror Light", text: "Your first play each board may also match the same rank." },
+  "long-stride": { name: "Long Stride", text: "Your first play each board may also leap two ranks." },
+  "lantern-eye": { name: "Lantern Eye", text: "The first three Spool cards begin face-up." },
+  "unpick-thread": { name: "Unpick Thread", text: "One free Unpick is available each board." }
+});
+var HELPFUL_TEXT = Object.freeze({ joker: { name: "Joker", text: "Choose any rank for the Thread." }, needle: { name: "Needle", text: "Choose one of the next three Spool cards." }, reel: { name: "Reel", text: "Open a second face-up stack of three cards." }, spare: { name: "Spare", text: "Keep one card aside to bring into the Thread later." }, mirror: { name: "Mirror", text: "Your next play may also match the same rank." }, leap: { name: "Leap", text: "Your next play may also move two ranks." }, unpick: { name: "Unpick", text: "Return the last played card to its place." }, lantern: { name: "Lantern", text: "Keep the next three Spool cards face-up." } });
+
+// warp-core/run.ts
+var copy3 = (value) => JSON.parse(JSON.stringify(value));
+var seed2 = (value) => {
+  if (typeof value === "number" && !Number.isSafeInteger(value) || !/^-?\d{1,30}$/.test(String(value))) throw new TypeError("Invalid Warp root seed");
+  return String(BigInt(value));
+};
+var date2 = (value) => typeof value === "string" && Number.isFinite(Date.parse(value)) && new Date(value).toISOString() === value;
+var count2 = (value) => typeof value === "number" && Number.isSafeInteger(value) && value >= 0;
+var warpClearBonus = (state) => state.terminal === "cleared" ? 50 * (state.spool.length + state.reel.length + state.spare.length) : 0;
+function replayWarpBoard(proof, actions) {
+  if (!Array.isArray(actions) || actions.length > 256) throw new TypeError("Invalid Warp action history");
+  let state = createWarpState(proof.deal), bestHand = 0;
+  for (const action of actions) {
+    const transition = applyWarpAction(state, action);
+    state = transition.state;
+    for (const event of transition.events) if (event.type === "banked") bestHand = Math.max(bestHand, ["high", "pair", "two_pair", "trips", "straight", "flush", "full_house", "quads", "straight_flush", "royal"].indexOf(event.handName));
+  }
+  return { state, result: { level: proof.deal.level, seed: proof.seed, subSeed: proof.subSeed, attempts: proof.attempts, actions: copy3(actions), score: state.score + warpClearBonus(state), cleared: state.terminal === "cleared", longestChain: state.longestChain, bestHand } };
+}
+function warpRecordId(input) {
+  let hash = 14695981039346656037n;
+  for (const c of JSON.stringify([WARP_VERSION, seed2(input.rootSeed), input.picks.map((pick) => [pick.afterLevel, pick.rewardId, pick.replaceCharm ?? null]), input.perLevel.map((board) => board.actions.map(actionTuple))])) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
+  return "weft-warp-" + hash.toString(16).padStart(16, "0");
+}
+function normalizeWarpRecord(value) {
+  if (!value || typeof value !== "object") throw new TypeError("Invalid Warp record");
+  const r = value;
+  if (r.mode !== "warp" || r.version !== WARP_VERSION || !date2(r.date) || !count2(r.levelsCleared) || r.totalLevels !== 10 || !count2(r.runScore) || !Array.isArray(r.perLevel) || r.perLevel.length < 1 || r.perLevel.length > 10 || !Array.isArray(r.picks) || r.picks.length !== r.perLevel.length - 1) throw new TypeError("Invalid Warp record structure");
+  const completed = r.levelsCleared === 10 && r.perLevel.length === 10;
+  if (!completed && r.levelsCleared !== r.perLevel.length - 1 || r.warpComplete !== void 0 && r.warpComplete !== completed) throw new TypeError("Invalid Warp completion");
+  const root = seed2(r.rootSeed);
+  for (let index = 0; index < r.perLevel.length; index++) {
+    const b = r.perLevel[index];
+    if (b.level !== index + 1 || b.seed !== String(warpSeed(root, index + 1)) || typeof b.subSeed !== "string" || !/^-?\d{1,40}$/.test(b.subSeed) || !count2(b.attempts) || b.attempts < 1 || !Array.isArray(b.actions) || b.actions.length > 256 || !count2(b.score) || b.cleared !== index < r.levelsCleared || !count2(b.longestChain) || b.longestChain > 30 || !count2(b.bestHand) || b.bestHand > 9) throw new TypeError("Invalid Warp board record");
+  }
+  if (r.perLevel.reduce((sum, b) => sum + b.score, 0) !== r.runScore || r.id !== warpRecordId(r)) throw new TypeError("Warp record total or identity disagrees");
+  return copy3({ ...r, rootSeed: root, ...completed ? { warpComplete: true } : {} });
+}
+function actionTuple(action) {
+  switch (action.type) {
+    case "play":
+      return ["play", action.position, action.rank ?? null];
+    case "draw":
+      return ["draw"];
+    case "choose-rank":
+      return ["rank", action.rank];
+    case "choose-needle":
+      return ["needle", action.id];
+    case "draw-reel":
+      return ["reel"];
+    case "swap-spare":
+      return ["spare", action.slot];
+    case "use-unpick":
+      return ["unpick"];
+    case "skip-special":
+      return ["skip"];
+  }
+}
+
+// supabase/warp-replay.ts
+var WARP_SERVER_VERIFICATION_MS = 5e3;
+var WarpVerificationBudgetError = class extends Error {
+  constructor() {
+    super("Warp verification capacity exceeded; retained locally");
+    this.code = "WARP_VERIFICATION_BUDGET";
+  }
+};
+var canonical = (value) => Array.isArray(value) ? "[" + value.map(canonical).join(",") + "]" : value && typeof value === "object" ? "{" + Object.keys(value).sort().map((key) => JSON.stringify(key) + ":" + canonical(value[key])).join(",") + "}" : JSON.stringify(value);
+function admitted(level, seed3, charms, oneShots, attempts, remaining) {
+  if (!Number.isSafeInteger(attempts) || attempts < 1 || attempts > WARP_MAX_CANDIDATES) throw new TypeError("Invalid Warp admission count");
+  let rejectedUnknown = 0, rejectedFalse = 0;
+  const solve2 = (deal2) => {
+    const timeBudgetMs = remaining();
+    if (timeBudgetMs <= 0) throw new WarpVerificationBudgetError();
+    const proof = solveWarp(deal2, { maxNodes: WARP_PROOF_NODE_LIMIT, timeBudgetMs });
+    if (proof.clearable === "unknown" && proof.reason === "time-budget") throw new WarpVerificationBudgetError();
+    return proof;
+  };
+  for (let index = 0; index < attempts; index++) {
+    const subSeed = BigInt(seed3) + BigInt(index) * WARP_GENERATOR_SALT, bare = warpCandidate(level, subSeed, { oneShots }), verification = solve2(bare);
+    if (verification.clearable === "unknown") {
+      rejectedUnknown++;
+      continue;
+    }
+    if (verification.clearable === false) {
+      rejectedFalse++;
+      continue;
+    }
+    const deal2 = { ...bare, charms: [...charms] }, actual = charms.length ? solve2(deal2) : verification;
+    if (actual.clearable === "unknown") {
+      rejectedUnknown++;
+      continue;
+    }
+    if (actual.clearable === false) {
+      rejectedFalse++;
+      continue;
+    }
+    if (!verification.line || !actual.line) throw new Error("Missing canonical Warp witness");
+    return { version: "warp-1", seed: seed3, subSeed: String(subSeed), attempts: index + 1, deal: deal2, verification: actual, line: actual.line, withoutCharms: true, withoutCharmsVerification: verification, withoutCharmsLine: verification.line, rejectedUnknown, rejectedFalse };
+  }
+  throw new TypeError("Warp admission disagrees with its claimed attempt count");
+}
+function verifyWarpSubmission(wire, options = {}) {
+  if (!wire || typeof wire !== "object" || wire.type !== "warp-run") throw new TypeError("Invalid Warp proof envelope");
+  const record = normalizeWarpRecord(wire.record), now = options.now ?? (() => performance.now()), limit2 = options.maxVerificationMs ?? WARP_SERVER_VERIFICATION_MS;
+  if (!Number.isFinite(limit2) || limit2 < 0) throw new RangeError("Invalid Warp verification budget");
+  const deadline = now() + limit2, remaining = () => deadline - now();
+  let charms = [], oneShots = [], total = 0;
+  const boards = [];
+  for (let index = 0; index < record.perLevel.length; index++) {
+    const claimed = record.perLevel[index], level = index + 1, seed3 = String(warpSeed(record.rootSeed, level)), proof = admitted(level, seed3, charms, oneShots, claimed.attempts, remaining), replay = replayWarpBoard(proof, claimed.actions);
+    if (replay.state.terminal === "active" || canonical(replay.result) !== canonical(claimed)) throw new TypeError("Warp board result disagrees with canonical replay");
+    boards.push(replay.result);
+    total += replay.result.score;
+    if (index < record.perLevel.length - 1) {
+      const pick = record.picks[index];
+      if (pick.afterLevel !== level) throw new TypeError("Warp reward belongs to another level");
+      const next = applyWarpPick(record.rootSeed, charms, pick);
+      charms = next.charms;
+      oneShots = next.oneShots;
+    }
+  }
+  const levelsCleared = boards.filter((board) => board.cleared).length, completed = levelsCleared === 10;
+  const expected = { id: record.id, mode: "warp", version: "warp-1", rootSeed: record.rootSeed, date: record.date, levelsCleared, totalLevels: 10, ...completed ? { warpComplete: true } : {}, runScore: total, picks: record.picks, perLevel: boards };
+  if (canonical(expected) !== canonical(record)) throw new TypeError("Warp completion disagrees with canonical replay");
+  if (remaining() <= 0) throw new WarpVerificationBudgetError();
+  const rows2 = boards.map((board) => ({ proof_id: warpBoardProofId(record, board.level), kind: "warp-board", score: board.score, level_reached: board.level, longest_chain: board.longestChain, seed: board.seed, moves: { mode: "warp", runProofId: record.id, rootSeed: record.rootSeed, level: board.level, subSeed: board.subSeed, attempts: board.attempts, actions: board.actions }, version: record.version, daily_date: null }));
+  rows2.push({ proof_id: record.id, kind: "warp-run", score: total, level_reached: record.levelsCleared + 1, longest_chain: Math.max(0, ...boards.map((board) => board.longestChain)), seed: record.rootSeed, moves: { mode: "warp", record }, version: record.version, daily_date: null });
+  return rows2;
+}
+function warpBoardProofId(record, level) {
+  return warpRecordId({ rootSeed: record.rootSeed, picks: record.picks.slice(0, level - 1), perLevel: record.perLevel.slice(0, level) }) + ":board:" + level;
+}
+
 // src/nickname.ts
 var NICKNAME_BLOCKLIST = Object.freeze(["fuck", "shit", "cunt", "nigger", "nazi", "asshole", "bitch", "bastard", "motherfucker", "dickhead", "rapist", "faggot", "whore"]);
 function validateNickname(input) {
@@ -1260,6 +1984,7 @@ function validateNickname(input) {
 // supabase/replay-entry.ts
 var verifier = createLeaderboardVerifier();
 function verifySubmission(wire) {
+  if (wire && typeof wire === "object" && wire.type === "warp-run") return verifyWarpSubmission(wire);
   const submission = decodeLeaderboardProof(wire), run = submission.type === "run" ? verifier.verifyRun(submission.record) : void 0, boards = submission.type === "board" ? [verifier.verifyBoard(submission)] : run.boards;
   const runVersion = submission.type === "board" ? submission.level === void 0 ? null : submission.runVersion ?? submission.record.version : run.record.version;
   const rows2 = boards.flatMap((board) => ["board", "chain", ...board.record.dailyDate ? ["daily"] : []].map((kind) => ({
