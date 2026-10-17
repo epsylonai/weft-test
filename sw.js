@@ -1,8 +1,8 @@
-const CACHE='weft-v6.18.1-run-2244ecd83b4d',pending=new Map();
-const BUILD_VERSION='6.18.1',BUILD_ID='c26acd823469b9411aca3f190222f7a029aed454994b8d9b21af60a9bd6ff15b';
+const CACHE='weft-v6.18.1-run-b7f92be38091',pending=new Map();
+const BUILD_VERSION='6.18.1',BUILD_ID='f41af94c67996965e65a0d87d5d4a8878ae03da84c749f43a2c9d64fd5fc2e17';
 const buildInfo=(activated=false)=>({type:'weft-build-info',version:BUILD_VERSION,buildId:BUILD_ID,activated});
 self.addEventListener('install',event=>event.waitUntil((async()=>{
-  try{const cache=await caches.open(CACHE);await cache.addAll(['./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png',"./game-352b1281939e4459.css","./game-bootstrap-KCKSKAYP.js","./game-chunks/test-mode-host-37Q4CPRE.js","./game-chunks/warp-app-RMQJXOEA.js","./game-chunks/app-M4EYUVUR.js","./game-chunks/chunk-CL7PVUW7.js","./game-chunks/chunk-XJE3S2EH.js",'./fonts/cinzel-roman-latin.woff2','./fonts/eb-garamond-roman-latin.woff2','./fonts/eb-garamond-italic-latin.woff2','./frame/gold-atlas-v1.webp','./frame/emblem-1-v1.svg','./frame/emblem-2-v1.svg','./frame/emblem-3-v1.svg','./frame/emblem-4-v1.svg','./frame/emblem-5-v1.svg','./frame/emblem-6-v1.svg','./frame/emblem-7-v1.svg','./frame/emblem-8-v1.svg','./frame/emblem-9-v1.svg','./frame/emblem-10-v1.svg']);}catch{/* Offline storage is optional. */}
+  try{const cache=await caches.open(CACHE);await cache.addAll(['./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png',"./game-352b1281939e4459.css","./game-bootstrap-YZ7HUSSD.js","./game-chunks/test-mode-host-37Q4CPRE.js","./game-chunks/warp-app-T7GJVVCU.js","./game-chunks/app-NL5TJ7X5.js","./game-chunks/chunk-3X6CX3KG.js","./game-chunks/chunk-XJE3S2EH.js",'./fonts/cinzel-roman-latin.woff2','./fonts/eb-garamond-roman-latin.woff2','./fonts/eb-garamond-italic-latin.woff2','./frame/gold-atlas-v1.webp','./frame/emblem-1-v1.svg','./frame/emblem-2-v1.svg','./frame/emblem-3-v1.svg','./frame/emblem-4-v1.svg','./frame/emblem-5-v1.svg','./frame/emblem-6-v1.svg','./frame/emblem-7-v1.svg','./frame/emblem-8-v1.svg','./frame/emblem-9-v1.svg','./frame/emblem-10-v1.svg']);}catch{/* Offline storage is optional. */}
   await self.skipWaiting();
 })()));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{
