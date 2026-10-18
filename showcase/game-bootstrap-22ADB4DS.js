@@ -1,1 +1,0 @@
-var a=new URLSearchParams(location.hash.slice(1)).get("mode"),e="classic";(async()=>{await window.__WEFT_BOOT__?.stylesReady,e==="warp"?await import("./game-chunks/warp-app-JI5X5AS7.js"):await import("./game-chunks/app-PHJI4JUM.js")})().catch(()=>window.__WEFT_BOOT__?.fail("We couldn\u2019t open the game. Please try again."));
