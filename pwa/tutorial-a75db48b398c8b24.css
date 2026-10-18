@@ -35,3 +35,11 @@
 
 /* Keep the chain numeral below the hand label at short Safari heights. */
 .weft-tutorial #chainMeter.chain-meter{top:30px}
+
+/* B039: compact, non-blocking teaching strip. Its own measured box is placed
+   only after protecting the highlighted input, Thread, Spool and Skip. */
+body.weft-tutorial #tutorialCoach[data-placement=caption]{padding:8px 12px!important;border:1px solid #e6c68a66!important;border-radius:8px!important;background:#102b2af7!important;color:#f4e8cf!important;box-shadow:none!important;pointer-events:none!important}
+body.weft-tutorial #tutorialCoach[data-placement=caption]::before{display:none!important}
+body.weft-tutorial #tutorialCoach[data-placement=caption] .tutorial-step{font:600 11px/14px var(--font-display,'Cinzel',serif)!important;color:#e6c68a!important}
+body.weft-tutorial #tutorialCoach[data-placement=caption] #tutorialCaption{font:500 17px/21px var(--font-text,'EB Garamond',serif)!important;margin:3px 0 0!important;color:#f4e8cf!important}
+body.weft-tutorial #tutorialCoach .tutorial-announcement{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important}
