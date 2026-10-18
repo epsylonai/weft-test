@@ -32,3 +32,6 @@
 .tutorial-complete-card{max-width:390px;background:#142B30;border-color:#DFC08066;border-radius:16px;padding:24px 20px;color:#F2E8D3}.tutorial-complete-emblem svg{width:40px;height:40px}.tutorial-complete-label{font:500 15px/20px 'EB Garamond',Georgia,serif;letter-spacing:0;text-transform:none;color:#C9D0C9}.tutorial-complete h1{margin:12px 0 20px;font:600 24px/30px 'Cinzel',serif;letter-spacing:.025em}.tutorial-complete p{font:500 18px/24px 'EB Garamond',Georgia,serif;letter-spacing:0}#tutorialPlay{display:block;width:100%;min-height:56px;margin-top:24px;font:600 14px/20px 'Cinzel',serif;letter-spacing:.045em}
 
 .tutorial-complete-card>.weft-ui-panel-header,.tutorial-explanation-card>.weft-ui-panel-header{padding:20px}.tutorial-complete-card>.weft-ui-panel-footer{padding:12px 20px 20px}.tutorial-complete-card #tutorialPlay{margin:0}
+
+/* Keep the chain numeral below the hand label at short Safari heights. */
+.weft-tutorial #chainMeter.chain-meter{top:24px}
