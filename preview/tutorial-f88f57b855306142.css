@@ -34,4 +34,4 @@
 .tutorial-complete-card>.weft-ui-panel-header,.tutorial-explanation-card>.weft-ui-panel-header{padding:20px}.tutorial-complete-card>.weft-ui-panel-footer{padding:12px 20px 20px}.tutorial-complete-card #tutorialPlay{margin:0}
 
 /* Keep the chain numeral below the hand label at short Safari heights. */
-.weft-tutorial #chainMeter.chain-meter{top:24px}
+.weft-tutorial #chainMeter.chain-meter{top:30px}
