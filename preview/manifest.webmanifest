@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Weft — World Preview",
+  "name": "Weft — World preview",
   "short_name": "Weft",
-  "description": "Solitaire Reimagined — ten living worlds",
+  "description": "A quiet kind of solitaire — ten living worlds",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
