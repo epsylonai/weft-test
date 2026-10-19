@@ -1,8 +1,9 @@
 {
-  "version": "6.23.0",
+  "version": "6.24.0",
+  "hugoFeature": "hugo-2",
   "scoringVersion": "clear-v2",
   "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
-  "sha256": "e32be62030f65a304446f82c5c419035e1efc7812af8ef85732d12931032573e",
+  "sha256": "1acc4654f68958217a0ecfe6b8c06d3e6082ba0277ea949c6ab7a4db7ba4a897",
   "inputs": [
     {
       "file": "../../B-002/engine/configs.ts",
@@ -41,12 +42,20 @@
       "sha256": "871456d69b0d1f8e0e9767499266227ea6943ca231cc407437805554bf5ad304"
     },
     {
+      "file": "src/grove-opportunity.ts",
+      "sha256": "1d3076c3a9cd1721d3f5e9a01727672cd1603810bea5af2547a9fb050d839f44"
+    },
+    {
+      "file": "src/hugo-trigger.ts",
+      "sha256": "88aaa75d897a3977d2a8e7bd20be46e0b6b13b825e64219dfdd16f3bf3985bfe"
+    },
+    {
       "file": "src/leaderboard-validation.ts",
-      "sha256": "eaf9d2166d1ba44cbb7d8465d8f2bf1d5df1fee3c0ed4b244a9b4e0f74e6268f"
+      "sha256": "ce2b104472e0c4abf296a7f66651d93164d4b20f49243b3bbf963dc145d28206"
     },
     {
       "file": "src/leaderboard-wire.ts",
-      "sha256": "340ffaa8cf93234e9aa8e83643821cbe9c377a64f6dde975696e5bfc693838cc"
+      "sha256": "166ce262473f0c0bdadf7d21356b913bb30c2e00537a4eb828cbd6f3140e5c0b"
     },
     {
       "file": "src/nickname.ts",
@@ -58,7 +67,7 @@
     },
     {
       "file": "src/records.ts",
-      "sha256": "dead93e1917f2fea2a2b0459028da4b506b75eaf808d186a608028a367d8853f"
+      "sha256": "179d85664ee42d57c9d6cccbaa82d273ff12760b90c84b17877d873cc7d47a61"
     },
     {
       "file": "src/replay-practice.ts",
@@ -70,7 +79,7 @@
     },
     {
       "file": "src/run.ts",
-      "sha256": "58690cadaba1207677062bcf279a6524e58dffdaf94c3202deea8b0576310158"
+      "sha256": "7e6095a65f2688b490f75bb36f7083d03ee3fc17dc720901e645a53c8fa3655e"
     },
     {
       "file": "src/score-codec.ts",
@@ -90,7 +99,7 @@
     },
     {
       "file": "supabase/replay-entry.ts",
-      "sha256": "80da042b72f1d5f30aba1304ef093cebe6a05c291beff9a384c1d51603bf6b8c"
+      "sha256": "908dc4c1b05fac9c2c1bbabe77b189d52cec743d83bf19719d098a8b799466de"
     },
     {
       "file": "supabase/warp-replay.ts",
@@ -130,6 +139,16 @@
     "source": "../../B-040/v6.22.2/supabase/functions/weft-leaderboard/canonical-replay.mjs",
     "scoring": "Missing scoringVersion dispatches to the unchanged legacy 50/card and 2500/4000/7400 rules."
   },
+  "previousCurrent": {
+    "file": "../../B-041/v6.23.0/server/weft-leaderboard/canonical-replay.mjs",
+    "sha256": "e32be62030f65a304446f82c5c419035e1efc7812af8ef85732d12931032573e",
+    "accepted": true
+  },
+  "previousHugo": {
+    "file": "server/weft-leaderboard/historical/canonical-replay-31c382ef.mjs",
+    "sha256": "31c382efb9d2f5b90807edacd2b0984c352b85507358e2c1fc1407af4c8ed6f7",
+    "accepted": true
+  },
   "deploymentRequired": true,
-  "currentWritePolicy": "verifyCurrentSubmission requires scoringVersion clear-v2; verifySubmission retains historical proofs; card mechanics/seeds unchanged"
+  "currentWritePolicy": "verifyCurrentSubmission requires scoringVersion clear-v2; verifySubmission retains historical proofs; Hugo insertion validated in its separately versioned proof domain; ordinary rules/positional seeds unchanged; Hugo2 Grove admission and actual world route explicitly versioned; database score-era stays6.23"
 }

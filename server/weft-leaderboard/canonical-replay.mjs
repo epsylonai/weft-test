@@ -78,7 +78,7 @@ function decodeLeaderboardProof(value) {
   if (!value || typeof value !== "object") throw new TypeError("Invalid leaderboard proof");
   const input = value;
   if (input.type === "board" && input.record) return { ...input, record: { ...input.record, moves: decompressMoves(input.record.moves) } };
-  if (input.type === "run" && input.record && Array.isArray(input.record.perLevel) && input.record.perLevel.length <= 1e4) return { ...input, record: { ...input.record, perLevel: input.record.perLevel.map((board) => ({ ...board, moves: decompressMoves(board.moves) })) } };
+  if (input.type === "run" && input.record && Array.isArray(input.record.perLevel) && input.record.perLevel.length <= 1e4) return { ...input, record: { ...input.record, ...input.record.hugo?.result ? { hugo: { ...input.record.hugo, result: { ...input.record.hugo.result, moves: decompressMoves(input.record.hugo.result.moves) } } } : {}, perLevel: input.record.perLevel.map((board2) => ({ ...board2, moves: decompressMoves(board2.moves) })) } };
   throw new TypeError("Invalid leaderboard proof");
 }
 
@@ -230,14 +230,14 @@ function bestFromMany(cards, loop, flush4) {
   });
   let best;
   const consider = (indices) => {
-    const candidate = [...indices].sort((a, b) => a - b);
+    const candidate2 = [...indices].sort((a, b) => a - b);
     if (!best) {
-      best = candidate;
+      best = candidate2;
       return;
     }
     for (let i = 0; i < 5; i++) {
-      if (candidate[i] === best[i]) continue;
-      if (candidate[i] < best[i]) best = candidate;
+      if (candidate2[i] === best[i]) continue;
+      if (candidate2[i] < best[i]) best = candidate2;
       return;
     }
   };
@@ -1029,15 +1029,15 @@ function generateDeal(input, seed3, options = {}) {
   const checks = [];
   for (let index = 0; index < maxAttempts; index += 1) {
     const subSeed = original + BigInt(index) * GENERATOR_SALT;
-    const candidate = deal(rules, subSeed), started = performance.now();
-    const verification = solve(rules, candidate, solverOptions);
+    const candidate2 = deal(rules, subSeed), started = performance.now();
+    const verification = solve(rules, candidate2, solverOptions);
     checks.push({ subSeed, verification, wallMs: performance.now() - started });
     if (verification.clearable === "unknown")
       throw new GenerationBudgetError(original, subSeed, index + 1, verification);
     if (verification.clearable === true) {
       if (!verification.line) throw new Error("A verified deal must include a clearing witness");
       return {
-        deal: candidate,
+        deal: candidate2,
         line: verification.line,
         attempts: index + 1,
         seed: original,
@@ -1054,10 +1054,89 @@ function generateDeal(input, seed3, options = {}) {
 // src/records.ts
 function recordId(record) {
   const actions = record.moves.map((move) => move.type === "play" ? ["play", move.position] : [move.type]);
-  const text = JSON.stringify([record.version, record.seed, actions, record.dailyDate ?? null, ...scoringVersionOf(record) === "legacy" ? [] : ["scoring", CURRENT_SCORING_VERSION]]);
+  const text = JSON.stringify([record.version, record.seed, actions, record.dailyDate ?? null, ...scoringVersionOf(record) === "legacy" ? [] : ["scoring", CURRENT_SCORING_VERSION], ...record.secret === void 0 ? [] : ["secret", record.secret], ...record.admission === void 0 ? [] : ["admission", record.admission]]);
   let hash = 14695981039346656037n;
   for (let index = 0; index < text.length; index++) hash = BigInt.asUintN(64, (hash ^ BigInt(text.charCodeAt(index))) * 1099511628211n);
   return "weft-" + hash.toString(16).padStart(16, "0");
+}
+
+// src/hugo-trigger.ts
+var HUGO_VERSION = "hugo-2";
+var LEGACY_HUGO_VERSION = "hugo-1";
+var HUGO_SPOOL = 22;
+function hugoVersionOf(value) {
+  const feature = value && typeof value === "object" ? value.hugoVersion : void 0;
+  if (feature !== void 0 && feature !== HUGO_VERSION && feature !== LEGACY_HUGO_VERSION) throw new TypeError("Unsupported Hugo feature version");
+  const disabled = value && typeof value === "object" ? value.hugoDisabled : void 0;
+  if (disabled !== void 0 && (disabled !== true || feature !== HUGO_VERSION)) throw new TypeError("Invalid disabled Hugo feature");
+  return feature;
+}
+var hasHugoFeature = (value) => hugoVersionOf(value) !== void 0;
+var hugoTriggerEligible = (value, world3) => hugoVersionOf(value) === LEGACY_HUGO_VERSION || hugoVersionOf(value) === HUGO_VERSION && value.hugoDisabled !== true && world3 === 3;
+function isHugoSacrifice(state, move) {
+  if (move.type !== "draw" || state.terminal !== "active" || state.spoolIndex >= state.spool.length || !state.rules.anchor || state.chain.length !== 3 || legalMoves(state).length === 0) return false;
+  const ranks = [state.anchor, ...state.chain].map((card) => card % 13);
+  return (ranks[0] === 5 || ranks[0] === 6) && ranks.every((rank2, index) => rank2 === (index % 2 ? ranks[0] === 5 ? 6 : 5 : ranks[0]));
+}
+function hugoSeed(root2, afterLevel, version = HUGO_VERSION) {
+  if (!Number.isSafeInteger(afterLevel) || afterLevel < 1 || afterLevel > 10 || typeof root2 === "number" && !Number.isSafeInteger(root2) || !/^-?\d{1,30}$/.test(String(root2))) throw new TypeError("Invalid Hugo seed domain");
+  if (version !== HUGO_VERSION && version !== LEGACY_HUGO_VERSION) throw new TypeError("Unsupported Hugo seed version");
+  let hash = 14695981039346656037n;
+  for (const c of `weft-hugo:${version}:${BigInt(root2)}:${afterLevel}`) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
+  return hash;
+}
+var sameHugoWitness = (a, b) => a === void 0 ? b === void 0 : b !== void 0 && a.seed === b.seed && a.moveIndex === b.moveIndex;
+
+// src/grove-opportunity.ts
+var GROVE_ADMISSION = "grove-hugo-2";
+var SALT = 0x9e3779b9n;
+var STOCKS = [15, 20, 21, 22, 23, 24, 25, 26, 27, 28];
+var GROVE_MAX_CANDIDATES = 32;
+var GROVE_FALLBACK_SEEDS = Object.freeze(Object.fromEntries(STOCKS.map((stock) => [stock, stock === 15 ? "2654435770" : "1"])));
+function continuation(state) {
+  const positions = state.weave.flatMap((_, p) => state.played.includes(p) ? [] : [p]), map = new Map(positions.map((p, i) => [p, i]));
+  const reduced = { weave: positions.map((p) => state.weave[p]), spoolOrder: [state.top, ...state.spool.slice(state.spoolIndex)], burned: state.burned, coveredBy: positions.map((p) => state.layout.coveredBy[p].filter((q) => map.has(q)).map((q) => map.get(q))) };
+  const proof = solve(state.rules, reduced, { timeBudgetMs: Infinity, maxNodes: 1e5 });
+  return proof.clearable === true && proof.line ? { line: proof.line.map((move) => move.type === "play" ? { type: "play", position: positions[move.position] } : move), nodes: proof.nodes } : void 0;
+}
+function candidate(input, seed3) {
+  const rules = resolveRules(input), base = deal(rules, seed3), rng = new PythonRandom(seed3 ^ 0x6875676f32n);
+  const free = [...createState(rules, base).free];
+  rng.shuffle(free);
+  if (free.length < 4) return;
+  const slots = [...base.weave, ...base.spoolOrder, ...base.burned], reserved = /* @__PURE__ */ new Set(), first = 5 + rng.randrange(2), targets = [{ index: base.weave.length, rank: first }, ...free.slice(0, 4).map((position, index) => ({ index: position, rank: index % 2 ? first : 11 - first }))];
+  for (const target of targets) {
+    const choices = slots.flatMap((card, index) => !reserved.has(index) && card % 13 === target.rank ? [index] : []);
+    if (!choices.length) return;
+    const from = choices[rng.randrange(choices.length)];
+    [slots[target.index], slots[from]] = [slots[from], slots[target.index]];
+    reserved.add(target.index);
+  }
+  const deal2 = { weave: slots.slice(0, base.weave.length), spoolOrder: slots.slice(base.weave.length, base.weave.length + base.spoolOrder.length), burned: slots.slice(base.weave.length + base.spoolOrder.length) };
+  const prefix = free.slice(0, 3).map((position) => ({ type: "play", position }));
+  let state = createState(rules, deal2);
+  for (const move of prefix) state = applyMove(state, move).state;
+  if (!isHugoSacrifice(state, { type: "draw" })) return;
+  prefix.push({ type: "draw" });
+  state = applyMove(state, { type: "draw" }).state;
+  const rest = continuation(state);
+  if (!rest) return;
+  const line = [...prefix, ...rest.line];
+  let end = createState(rules, deal2);
+  for (const move of line) end = applyMove(end, move).state;
+  if (end.terminal !== "cleared") throw Error("Grove admission witness failed canonical replay");
+  return { deal: deal2, prefix, line, nodes: rest.nodes };
+}
+function generateGroveOpportunity(input, seed3) {
+  if (typeof seed3 === "number" && !Number.isSafeInteger(seed3)) throw Error("Invalid Grove admission seed");
+  const original = BigInt(seed3), rules = resolveRules(input), started = performance.now();
+  if (!STOCKS.includes(rules.spool) || JSON.stringify({ ...rules, spool: 22 }) !== JSON.stringify({ ...getConfig("chainBest"), spool: 22 })) throw Error("Grove admission requires a current Classic board");
+  for (let index = 0; index <= GROVE_MAX_CANDIDATES; index++) {
+    const subSeed = index === GROVE_MAX_CANDIDATES ? BigInt(GROVE_FALLBACK_SEEDS[rules.spool]) : original + BigInt(index) * SALT, result = candidate(rules, subSeed);
+    if (!result) continue;
+    return { deal: result.deal, line: result.line, opportunity: result.prefix, attempts: index + 1, seed: original, subSeed, salt: SALT, checks: [], verification: { clearable: true, line: result.line, nodes: result.nodes, ms: performance.now() - started, memoStates: result.nodes, reason: "exhaustive", pruned: { memo: 0, rankCapacity: 0, rankPairCapacity: 0, rankHallCapacity: 0, rankReachability: 0, coverReachability: 0 } } };
+  }
+  throw Error("Verified Grove fallback invariant failed");
 }
 
 // src/world-config.ts
@@ -1202,6 +1281,10 @@ function runLevelSeed(rootSeed, level, version = RUN_VERSION) {
 function rulesForLevel(level, version = RUN_VERSION) {
   return resolveRules({ ...getConfig("chainBest"), spool: levelConfig(level, version).spool });
 }
+function board(rootSeed, level, version = RUN_VERSION, presentationWorld, feature = {}) {
+  const config = { ...levelConfig(level, version), ...presentationWorld === void 0 ? {} : { world: presentationWorld } };
+  return { ...config, seed: String(runLevelSeed(rootSeed, level, version)), ...hugoVersionOf(feature) === HUGO_VERSION && config.world === 3 ? { admission: GROVE_ADMISSION } : {} };
+}
 function runPlan(run) {
   if (run.rulesVersion !== CLASSIC_RULES_VERSION) {
     if (hasClassicRoute(run)) throw new TypeError("Historical runs cannot carry world routes");
@@ -1212,16 +1295,29 @@ function runPlan(run) {
 function routeMetadata(value) {
   return hasClassicRoute(value) ? { worldRoute: value.worldRoute, startWorld: value.startWorld, worldOrder: [...value.worldOrder] } : {};
 }
-function replayBoard(input, level, version = RUN_VERSION, presentationWorld, scoring = {}) {
+function generateRunBoard(rules, descriptor) {
+  return descriptor.admission === GROVE_ADMISSION ? generateGroveOpportunity(rules, BigInt(descriptor.seed)) : generateDeal(rules, BigInt(descriptor.seed));
+}
+function featureMetadata(value) {
+  const version = hugoVersionOf(value);
+  return version ? { hugoVersion: version, ...value.hugoDisabled ? { hugoDisabled: true } : {} } : {};
+}
+function replayBoard(input, level, version = RUN_VERSION, presentationWorld, scoring = {}, secret = false) {
   if (!input || !moves(input.moves) || !count(input.score)) throw new TypeError("Invalid run board result");
-  const config = { ...levelConfig(level, version), ...presentationWorld === void 0 ? {} : { world: presentationWorld } }, original = seed(input.seed);
+  const ordinary = board(input.seed, level, version, presentationWorld, scoring), { admission: _admission, ...plain } = ordinary, config = secret ? { ...plain, spool: HUGO_SPOOL, secret: "hugo" } : ordinary, original = seed(input.seed);
+  if (input.admission !== config.admission) throw new Error("Grove admission context disagrees with replay");
+  if (input.secret !== (secret ? "hugo" : void 0)) throw new Error("Secret board context disagrees with replay");
   for (const field of ["level", "world", "spool"])
     if (input[field] !== void 0 && input[field] !== config[field]) throw new Error(`Run board ${field} disagrees with its level`);
   if (input.cleared !== void 0 && typeof input.cleared !== "boolean") throw new TypeError("Invalid Clear marker");
-  const rules = rulesForLevel(level, version), generated = generateDeal(rules, BigInt(original));
+  const rules = { ...rulesForLevel(level, version), spool: config.spool }, generated = generateRunBoard(rules, { ...config, seed: original });
   if (input.subSeed !== void 0 && proofSeed(input.subSeed) !== String(generated.subSeed)) throw new Error("Run board sub-seed disagrees with exact generation");
-  let state = createState(rules, generated.deal);
-  for (const move of input.moves) state = applyMove(state, move).state;
+  let state = createState(rules, generated.deal), trigger;
+  input.moves.forEach((move, moveIndex) => {
+    const eligible = isHugoSacrifice(state, move);
+    state = applyMove(state, move).state;
+    if (eligible && !trigger) trigger = { seed: original, moveIndex };
+  });
   if (state.terminal === "active") throw new Error("Run board is not finished");
   const cleared = state.terminal === "cleared", facts = clearBonusDetails(cleared, state.spool.length - state.spoolIndex, state.score, rules.spool, scoringVersionOf(scoring)), bonus = facts.clearBonus;
   if (input.clearBonusDetails !== void 0 && JSON.stringify(Object.entries(input.clearBonusDetails).sort()) !== JSON.stringify(Object.entries(facts).sort())) throw new Error("Clear-bonus details disagree with replay");
@@ -1236,68 +1332,78 @@ function replayBoard(input, level, version = RUN_VERSION, presentationWorld, sco
     subSeed: String(generated.subSeed),
     chainScore: state.score,
     clearBonus: bonus,
-    ...scoringVersionOf(scoring) === "legacy" ? {} : { clearBonusDetails: facts }
+    ...scoringVersionOf(scoring) === "legacy" ? {} : { clearBonusDetails: facts },
+    ...trigger && !secret && hugoTriggerEligible(scoring, config.world) ? { _hugoTrigger: trigger } : {}
   };
 }
-var completion = ({ chainScore: _chain, clearBonus: _bonus, ...result }) => result;
+var completion = ({ chainScore: _chain, clearBonus: _bonus, _hugoTrigger: _trigger, ...result }) => result;
+function secretRunBoard(run, afterLevel) {
+  const normal = board(run.rootSeed, afterLevel, run.rulesVersion, runPlan(run)?.[afterLevel - 1]);
+  return { ...normal, spool: HUGO_SPOOL, seed: String(hugoSeed(run.rootSeed, afterLevel, hugoVersionOf(run) ?? LEGACY_HUGO_VERSION)), secret: "hugo" };
+}
+function checkedHugo(value, feature, root2, order) {
+  if (value === void 0) return;
+  if (!hasHugoFeature(feature) || Object.keys(value).some((key) => !["version", "afterLevel", "trigger", "result"].includes(key)) || value.version !== hugoVersionOf(feature) || !Number.isSafeInteger(value.afterLevel) || value.afterLevel < 1 || value.afterLevel > 10 || !value.trigger || Object.keys(value.trigger).some((key) => !["seed", "moveIndex"].includes(key)) || value.trigger.seed !== String(runLevelSeed(root2, value.afterLevel)) || !count(value.trigger.moveIndex) || value.trigger.moveIndex >= 256) throw new Error("Invalid Hugo trigger context");
+  if (hugoVersionOf(feature) === HUGO_VERSION && (order?.[value.afterLevel - 1] !== 3 || feature.hugoDisabled)) throw new Error("Hugo2 requires an enabled Grove opportunity");
+  return copy(value);
+}
+function expectedHugo(replayed) {
+  const index = replayed.findIndex((result) => result._hugoTrigger !== void 0);
+  return index < 0 ? void 0 : { afterLevel: index + 1, trigger: replayed[index]._hugoTrigger };
+}
+function verifyHugoWitness(expected, hugo, allowPendingLevel) {
+  if (expected) {
+    if (!hugo || hugo.afterLevel !== expected.afterLevel || !sameHugoWitness(hugo.trigger, expected.trigger)) throw new Error("Hugo trigger disagrees with canonical history");
+  } else if (hugo && hugo.afterLevel !== allowPendingLevel) throw new Error("Hugo trigger has no canonical witness");
+}
 function runRecordId(record) {
   if (!record.perLevel.every((result) => moves(result.moves))) throw new TypeError("Invalid run moves");
-  const text = JSON.stringify([record.version, record.perLevel.map((result) => [seed(result.seed), result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])]), ...hasClassicRoute(record) ? ["classic-world-route-v1", record.worldRoute, record.startWorld, record.worldOrder] : [], ...scoringVersionOf(record) === "legacy" ? [] : ["scoring", CURRENT_SCORING_VERSION]]);
+  const text = JSON.stringify([record.version, record.perLevel.map((result) => [seed(result.seed), result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])]), ...hasClassicRoute(record) ? ["classic-world-route-v1", record.worldRoute, record.startWorld, record.worldOrder] : [], ...scoringVersionOf(record) === "legacy" ? [] : ["scoring", CURRENT_SCORING_VERSION], ...hasHugoFeature(record) ? ["hugo", hugoVersionOf(record), record.hugo ? [record.hugo.afterLevel, record.hugo.trigger, record.hugo.result ? [record.hugo.result.seed, record.hugo.result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])] : null] : null, ...record.hugoDisabled ? ["disabled"] : []] : []]);
   let hash = 14695981039346656037n;
   for (const char of text) hash = BigInt.asUintN(64, (hash ^ BigInt(char.charCodeAt(0))) * 1099511628211n);
   return "weft-run-" + hash.toString(16).padStart(16, "0");
 }
+function normalizeSecretResult(input, descriptor) {
+  if (!input || !moves(input.moves) || !count(input.score) || typeof input.cleared !== "boolean" || input.secret !== "hugo" || input.seed !== descriptor.seed || typeof input.subSeed !== "string") throw new Error("Invalid secret board result");
+  for (const field of ["level", "world", "spool"]) if (input[field] !== descriptor[field]) throw new Error("Secret board descriptor disagrees");
+  return { ...descriptor, level: descriptor.level, world: descriptor.world, spool: descriptor.spool, seed: descriptor.seed, moves: copy(input.moves), score: input.score, cleared: input.cleared, subSeed: proofSeed(input.subSeed), ...input.clearBonusDetails === void 0 ? {} : { clearBonusDetails: copy(input.clearBonusDetails) } };
+}
 function normalizeRunRecord(value) {
   if (!value || typeof value !== "object") throw new TypeError("Invalid run record");
   const input = value;
-  if (!date(input.date) || !isRunVersion(input.version) || !count(input.levelsCleared) || !count(input.runScore) || !Array.isArray(input.perLevel) || !input.perLevel.length || input.perLevel.length > 1e4)
-    throw new TypeError("Invalid completed run record");
-  const rootSeed = input.rootSeed === void 0 ? void 0 : seed(input.rootSeed);
-  if (hasClassicRoute(input) && rootSeed === void 0) throw new TypeError("A world route requires its root seed");
-  const order = runPlan({ rootSeed: rootSeed ?? input.perLevel[0].seed, rulesVersion: input.version, ...routeMetadata(input) });
-  const limit2 = runLevelCount(input.version), complete = limit2 !== null && input.levelsCleared === limit2 && input.perLevel.length === limit2;
-  if (input.levelsCleared !== input.perLevel.length - 1 && !complete || limit2 !== null && input.perLevel.length > limit2) throw new TypeError("Invalid completed run progression");
+  if (!date(input.date) || !isRunVersion(input.version) || !count(input.levelsCleared) || !count(input.runScore) || !Array.isArray(input.perLevel) || !input.perLevel.length || input.perLevel.length > 1e4) throw new TypeError("Invalid completed run record");
+  const rootSeed = input.rootSeed === void 0 ? void 0 : seed(input.rootSeed), root2 = rootSeed ?? seed(input.perLevel[0].seed), feature = hasHugoFeature(input), scoring = scoringMetadata(scoringVersionOf(input));
+  if ((hasClassicRoute(input) || feature) && rootSeed === void 0) throw new TypeError("Current feature metadata requires its root seed");
+  if (feature && (input.version !== CLASSIC_RULES_VERSION || scoringVersionOf(input) !== CURRENT_SCORING_VERSION)) throw new Error("Hugo requires current finite Classic scoring");
+  const route = routeMetadata(input), routeInput = { rootSeed: root2, rulesVersion: input.version, ...route, ...featureMetadata(input) }, order = runPlan(routeInput), limit2 = runLevelCount(input.version), hugo = checkedHugo(input.hugo, input, root2, order), secret = hugo?.result ? normalizeSecretResult(hugo.result, secretRunBoard(routeInput, hugo.afterLevel)) : void 0;
+  const complete = limit2 !== null && input.levelsCleared === limit2 && input.perLevel.length === limit2, secretLoss = !!secret && !secret.cleared && hugo.afterLevel === input.perLevel.length && input.levelsCleared === input.perLevel.length;
+  if (input.levelsCleared !== input.perLevel.length - 1 && !complete && !secretLoss || limit2 !== null && input.perLevel.length > limit2) throw new TypeError("Invalid completed run progression");
   if (input.classicComplete !== void 0 && input.classicComplete !== complete || input.totalLevels !== void 0 && input.totalLevels !== limit2) throw new TypeError("Invalid Classic completion marker");
   const perLevel = input.perLevel.map((result, index) => {
-    if (!result || !moves(result.moves) || !count(result.score)) throw new TypeError("Invalid run board record");
-    const config = { ...levelConfig(index + 1, input.version), ...order === null ? {} : { world: order[index] } };
-    for (const field of ["level", "world", "spool"])
-      if (result[field] !== void 0 && result[field] !== config[field]) throw new Error("Run record level metadata is inconsistent");
+    if (!result || !moves(result.moves) || !count(result.score) || result.secret !== void 0) throw new TypeError("Invalid run board record");
+    const config = board(root2, index + 1, input.version, order?.[index], input);
+    if (result.admission !== config.admission) throw new Error("Run record admission metadata is inconsistent");
+    for (const field of ["level", "world", "spool"]) if (result[field] !== void 0 && result[field] !== config[field]) throw new Error("Run record level metadata is inconsistent");
     const cleared = index < input.levelsCleared;
     if (result.cleared !== void 0 && result.cleared !== cleared) throw new Error("A lost board must end the run");
-    return {
-      ...config,
-      seed: seed(result.seed),
-      moves: copy(result.moves),
-      score: result.score,
-      cleared,
-      ...result.subSeed === void 0 ? {} : { subSeed: proofSeed(result.subSeed) },
-      ...result.clearBonusDetails === void 0 ? {} : { clearBonusDetails: copy(result.clearBonusDetails) }
-    };
+    return { ...config, seed: seed(result.seed), moves: copy(result.moves), score: result.score, cleared, ...result.subSeed === void 0 ? {} : { subSeed: proofSeed(result.subSeed) }, ...result.clearBonusDetails === void 0 ? {} : { clearBonusDetails: copy(result.clearBonusDetails) } };
   });
-  if (perLevel.reduce((sum, result) => sum + result.score, 0) !== input.runScore) throw new Error("Run total does not equal its board scores");
-  const scoring = scoringMetadata(scoringVersionOf(input)), route = routeMetadata(input), id = runRecordId({ version: input.version, perLevel, ...route, ...scoring });
+  if (hugo && (hugo.afterLevel > perLevel.length || secret && hugo.afterLevel > input.levelsCleared || !secret && hugo.afterLevel <= input.levelsCleared || secret?.cleared && perLevel.length === hugo.afterLevel && !complete)) throw new Error("Secret result disagrees with run progression");
+  const progress = hugo ? { ...hugo, ...secret ? { result: secret } : {} } : void 0, featureMeta = { ...featureMetadata(input), ...progress ? { hugo: progress } : {} };
+  if (perLevel.reduce((sum, result) => sum + result.score, 0) + (secret?.score ?? 0) !== input.runScore) throw new Error("Run total does not equal its board scores");
+  const id = runRecordId({ version: input.version, perLevel, ...route, ...scoring, ...featureMeta });
   if (input.id !== void 0 && input.id !== id) throw new Error("Run completion id disagrees with its proof");
   if (rootSeed !== void 0 && perLevel.some((result, index) => result.seed !== String(runLevelSeed(rootSeed, index + 1, input.version)))) throw new Error("Run record seed sequence disagrees with root");
-  return {
-    id,
-    date: input.date,
-    version: input.version,
-    levelsCleared: input.levelsCleared,
-    runScore: input.runScore,
-    perLevel,
-    ...rootSeed === void 0 ? {} : { rootSeed },
-    ...limit2 === null ? {} : { totalLevels: limit2 },
-    ...complete ? { classicComplete: true } : {},
-    ...route,
-    ...scoring
-  };
+  return { id, date: input.date, version: input.version, levelsCleared: input.levelsCleared, runScore: input.runScore, perLevel, ...rootSeed === void 0 ? {} : { rootSeed }, ...limit2 === null ? {} : { totalLevels: limit2 }, ...complete ? { classicComplete: true } : {}, ...route, ...scoring, ...featureMeta };
 }
 function validateRunRecord(value) {
   try {
-    const record = normalizeRunRecord(value), boards = record.perLevel.map((result, index) => replayBoard(result, index + 1, record.version, runPlan({ rootSeed: record.rootSeed ?? record.perLevel[0].seed, rulesVersion: record.version, ...routeMetadata(record) })?.[index], record));
+    const record = normalizeRunRecord(value), routeInput = { rootSeed: record.rootSeed ?? record.perLevel[0].seed, rulesVersion: record.version, ...routeMetadata(record), ...featureMetadata(record) }, order = runPlan(routeInput), boards = record.perLevel.map((result, index) => replayBoard(result, index + 1, record.version, order?.[index], record));
     if (boards.some((result, index) => result.cleared !== index < record.levelsCleared)) throw new Error("Run terminal sequence disagrees with replay");
-    return { valid: true, record: { ...record, perLevel: boards.map(completion) }, boards };
+    if (hasHugoFeature(record)) verifyHugoWitness(expectedHugo(boards), record.hugo);
+    const secret = record.hugo?.result ? replayBoard(record.hugo.result, record.hugo.afterLevel, record.version, secretRunBoard(routeInput, record.hugo.afterLevel).world, record, true) : void 0;
+    const hugo = record.hugo ? { ...record.hugo, ...secret ? { result: completion(secret) } : {} } : void 0;
+    return { valid: true, record: { ...record, perLevel: boards.map(completion), ...hugo ? { hugo } : {} }, boards, ...secret ? { secret } : {} };
   } catch (error) {
     return { valid: false, error: error instanceof Error ? error.message : String(error) };
   }
@@ -1319,6 +1425,7 @@ function createLeaderboardVerifier(options = {}) {
     const record = input?.record;
     if (!canSubmitOnlineScore(record)) throw new TypeError("Relaxed scores stay on this device");
     if (!record || !["6.6", "6.7", "6.9", "6.14"].includes(record.version)) throw new TypeError("Unsupported board version");
+    if (record.secret !== void 0 || record.admission !== void 0) throw new TypeError("Secret/admitted boards require a complete run proof");
     checkDate(record.date);
     if (typeof record.seed !== "string" || !/^-?\d{1,30}$/.test(record.seed)) throw new TypeError("Invalid board seed");
     const moves2 = decompressMoves(compressMoves(record.moves)), level = input.level ?? 1;
@@ -1352,22 +1459,34 @@ function createLeaderboardVerifier(options = {}) {
     const record = validated.record;
     if (!isRunVersion(record.version)) throw new TypeError("Unsupported run version");
     const root2 = record.rootSeed ?? record.perLevel[0].seed;
-    if (record.perLevel.some((board, index) => BigInt(board.seed) !== runLevelSeed(root2, index + 1, record.version))) throw new TypeError("Run boards do not follow one root seed");
-    const boards = validated.boards.map((board, index) => {
+    if (record.perLevel.some((board2, index) => BigInt(board2.seed) !== runLevelSeed(root2, index + 1, record.version))) throw new TypeError("Run boards do not follow one root seed");
+    const boards = validated.boards.map((board2, index) => {
       const rules = ruleResolver(record.version, index + 1);
       if (!rules) throw new TypeError("No canonical rules for this run version");
-      const generated = generateDeal(rules, BigInt(board.seed));
+      const generated = generateRunBoard(rules, board2);
       let state = createState(rules, generated.deal), bestHand = 0;
-      if (board.moves.some((move) => move.type === "bank")) throw new TypeError("Manual Bank is not legal in these run versions");
-      for (const move of board.moves) {
+      if (board2.moves.some((move) => move.type === "bank")) throw new TypeError("Manual Bank is not legal in these run versions");
+      for (const move of board2.moves) {
         bestHand = Math.max(bestHand, snapshot(state).handType);
         const result2 = applyMove(state, move);
         state = result2.state;
         bestHand = Math.max(bestHand, snapshot(state).handType, ...result2.events.map((event) => handNames.indexOf(event.handName)));
       }
-      const result = { id: record.id + ":" + (index + 1), date: record.date, seed: board.seed, version: record.version, moves: clone([...board.moves]), score: board.score, ...scoringMetadata(scoringVersionOf(record)), ...board.clearBonusDetails ? { clearBonusDetails: board.clearBonusDetails } : {}, stars: starCount(board.score, scoringVersionOf(record)), cleared: board.cleared, longestChain: state.longestChain, bestHand };
+      const result = { id: record.id + ":" + (index + 1), date: record.date, seed: board2.seed, version: record.version, ...board2.admission ? { admission: board2.admission } : {}, moves: clone([...board2.moves]), score: board2.score, ...scoringMetadata(scoringVersionOf(record)), ...board2.clearBonusDetails ? { clearBonusDetails: board2.clearBonusDetails } : {}, stars: starCount(board2.score, scoringVersionOf(record)), cleared: board2.cleared, longestChain: state.longestChain, bestHand };
       return { record: result, level: index + 1, spool: rules.spool, sourceId: recordId(result) };
     });
+    if (validated.secret) {
+      const board2 = validated.secret, rules = { ...getConfig("chainBest"), spool: 22 }, generated = generateDeal(rules, BigInt(board2.seed));
+      let state = createState(rules, generated.deal), bestHand = 0;
+      for (const move of board2.moves) {
+        bestHand = Math.max(bestHand, snapshot(state).handType);
+        const result2 = applyMove(state, move);
+        state = result2.state;
+        bestHand = Math.max(bestHand, snapshot(state).handType, ...result2.events.map((event) => handNames.indexOf(event.handName)));
+      }
+      const result = { id: record.id + ":hugo", date: record.date, seed: board2.seed, version: record.version, secret: "hugo", moves: clone([...board2.moves]), score: board2.score, ...scoringMetadata(scoringVersionOf(record)), ...board2.clearBonusDetails ? { clearBonusDetails: board2.clearBonusDetails } : {}, stars: starCount(board2.score, scoringVersionOf(record)), cleared: board2.cleared, longestChain: state.longestChain, bestHand };
+      boards.splice(board2.level, 0, { record: result, level: board2.level, spool: 22, sourceId: recordId(result) });
+    }
     return { record: clone(record), boards };
   }
   return { verifyBoard, verifyRun };
@@ -1423,14 +1542,14 @@ function warpPhysicalHand(cards, loop) {
   });
   let best;
   const consider = (indices) => {
-    const candidate = [...indices].sort((a, b) => a - b);
+    const candidate2 = [...indices].sort((a, b) => a - b);
     if (!best) {
-      best = candidate;
+      best = candidate2;
       return;
     }
     for (let i = 0; i < 5; i++) {
-      if (candidate[i] === best[i]) continue;
-      if (candidate[i] < best[i]) best = candidate;
+      if (candidate2[i] === best[i]) continue;
+      if (candidate2[i] < best[i]) best = candidate2;
       return;
     }
   };
@@ -1789,17 +1908,17 @@ function solveWarp(input, options = {}) {
         for (const action of legalWarpActions(node.state)) {
           if (nodes >= Math.min(maxNodes, 3e4)) break;
           nodes++;
-          const state = applyWarpAction(node.state, action, { scoring: false }).state, candidate = { state, parent: node, action, value: 0 };
+          const state = applyWarpAction(node.state, action, { scoring: false }).state, candidate2 = { state, parent: node, action, value: 0 };
           if (state.terminal === "cleared") {
-            fastLine = witness(candidate);
+            fastLine = witness(candidate2);
             break;
           }
           if (state.terminal === "stuck") continue;
           const key = warpReachabilityKey(state);
           if (seen.has(key)) continue;
           seen.add(key);
-          candidate.value = (30 - remainingCount(state)) * 100 + state.spool.length * 2 + state.reel.length * 3 + state.spare.length * 3 + legalWarpPlays(state).length * 7 - state.deal.marks.filter((mark) => ["knot", "eclipse"].includes(mark.kind) && !(state.unlocked & 1 << mark.position)).length;
-          next.push(candidate);
+          candidate2.value = (30 - remainingCount(state)) * 100 + state.spool.length * 2 + state.reel.length * 3 + state.spare.length * 3 + legalWarpPlays(state).length * 7 - state.deal.marks.filter((mark) => ["knot", "eclipse"].includes(mark.kind) && !(state.unlocked & 1 << mark.position)).length;
+          next.push(candidate2);
         }
         if (fastLine) break;
       }
@@ -1960,7 +2079,7 @@ function replayWarpBoard(proof, actions, version = CURRENT_SCORING_VERSION) {
 }
 function warpRecordId(input) {
   let hash = 14695981039346656037n;
-  for (const c of JSON.stringify([WARP_VERSION, seed2(input.rootSeed), input.picks.map((pick) => [pick.afterLevel, pick.rewardId, pick.replaceCharm ?? null]), input.perLevel.map((board) => board.actions.map(actionTuple)), ...scoringVersionOf(input) === "legacy" ? [] : ["scoring", CURRENT_SCORING_VERSION]])) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
+  for (const c of JSON.stringify([WARP_VERSION, seed2(input.rootSeed), input.picks.map((pick) => [pick.afterLevel, pick.rewardId, pick.replaceCharm ?? null]), input.perLevel.map((board2) => board2.actions.map(actionTuple)), ...scoringVersionOf(input) === "legacy" ? [] : ["scoring", CURRENT_SCORING_VERSION]])) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
   return "weft-warp-" + hash.toString(16).padStart(16, "0");
 }
 function normalizeWarpRecord(value) {
@@ -2062,12 +2181,12 @@ function verifyWarpSubmission(wire, options = {}) {
       oneShots = next.oneShots;
     }
   }
-  const levelsCleared = boards.filter((board) => board.cleared).length, completed = levelsCleared === 10;
+  const levelsCleared = boards.filter((board2) => board2.cleared).length, completed = levelsCleared === 10;
   const expected = { ...scoringMetadata(scoringVersionOf(record)), id: record.id, mode: "warp", version: "warp-1", rootSeed: record.rootSeed, date: record.date, levelsCleared, totalLevels: 10, ...completed ? { warpComplete: true } : {}, runScore: total, picks: record.picks, perLevel: boards };
   if (canonical2(expected) !== canonical2(record)) throw new TypeError("Warp completion disagrees with canonical replay");
   if (remaining() <= 0) throw new WarpVerificationBudgetError();
-  const rows2 = boards.map((board) => ({ proof_id: warpBoardProofId(record, board.level), kind: "warp-board", score: board.score, level_reached: board.level, longest_chain: board.longestChain, seed: board.seed, moves: { mode: "warp", runProofId: record.id, rootSeed: record.rootSeed, level: board.level, subSeed: board.subSeed, attempts: board.attempts, actions: board.actions, ...scoringMetadata(scoringVersionOf(record)) }, version: isCurrentScoring(record) ? "6.23" : record.version, daily_date: null }));
-  rows2.push({ proof_id: record.id, kind: "warp-run", score: total, level_reached: record.levelsCleared + 1, longest_chain: Math.max(0, ...boards.map((board) => board.longestChain)), seed: record.rootSeed, moves: { mode: "warp", record }, version: isCurrentScoring(record) ? "6.23" : record.version, daily_date: null });
+  const rows2 = boards.map((board2) => ({ proof_id: warpBoardProofId(record, board2.level), kind: "warp-board", score: board2.score, level_reached: board2.level, longest_chain: board2.longestChain, seed: board2.seed, moves: { mode: "warp", runProofId: record.id, rootSeed: record.rootSeed, level: board2.level, subSeed: board2.subSeed, attempts: board2.attempts, actions: board2.actions, ...scoringMetadata(scoringVersionOf(record)) }, version: isCurrentScoring(record) ? "6.23" : record.version, daily_date: null }));
+  rows2.push({ proof_id: record.id, kind: "warp-run", score: total, level_reached: record.levelsCleared + 1, longest_chain: Math.max(0, ...boards.map((board2) => board2.longestChain)), seed: record.rootSeed, moves: { mode: "warp", record }, version: isCurrentScoring(record) ? "6.23" : record.version, daily_date: null });
   return rows2;
 }
 function warpBoardProofId(record, level) {
@@ -2091,20 +2210,20 @@ function verifySubmission(wire) {
   if (wire && typeof wire === "object" && wire.type === "warp-run") return verifyWarpSubmission(wire);
   const submission = decodeLeaderboardProof(wire), run = submission.type === "run" ? verifier.verifyRun(submission.record) : void 0, boards = submission.type === "board" ? [verifier.verifyBoard(submission)] : run.boards;
   const runVersion = submission.type === "board" ? submission.level === void 0 ? null : submission.runVersion ?? submission.record.version : run.record.version;
-  const rows2 = boards.flatMap((board) => ["board", "chain", ...board.record.dailyDate ? ["daily"] : []].map((kind) => ({
-    proof_id: board.sourceId,
+  const rows2 = boards.flatMap((board2) => ["board", "chain", ...board2.record.dailyDate ? ["daily"] : []].map((kind) => ({
+    proof_id: board2.sourceId,
     kind,
-    score: board.record.score,
-    level_reached: board.level,
-    longest_chain: board.record.longestChain,
-    seed: board.record.seed,
-    moves: { actions: compressMoves(board.record.moves), spool: board.spool, level: board.level, scoreVersion: board.record.version, runVersion, ...scoringMetadata(scoringVersionOf(board.record)) },
-    version: isCurrentScoring(board.record) ? "6.23" : runVersion ?? board.record.version,
-    daily_date: board.record.dailyDate ?? null
+    score: board2.record.score,
+    level_reached: board2.level,
+    longest_chain: board2.record.longestChain,
+    seed: board2.record.seed,
+    moves: { actions: compressMoves(board2.record.moves), spool: board2.spool, level: board2.level, scoreVersion: board2.record.version, runVersion, ...scoringMetadata(scoringVersionOf(board2.record)), ...board2.record.secret ? { secret: board2.record.secret } : {}, ...board2.record.admission ? { admission: board2.record.admission } : {} },
+    version: isCurrentScoring(board2.record) ? "6.23" : runVersion ?? board2.record.version,
+    daily_date: board2.record.dailyDate ?? null
   })));
   if (run) {
     const record = run.record;
-    rows2.push({ proof_id: record.id, kind: "run", score: record.runScore, level_reached: record.levelsCleared + 1, longest_chain: Math.max(0, ...boards.map((b) => b.record.longestChain)), seed: record.rootSeed ?? record.perLevel[0].seed, moves: record.perLevel.map((b) => ({ seed: b.seed, moves: compressMoves(b.moves) })), version: isCurrentScoring(record) ? "6.23" : record.version, daily_date: null });
+    rows2.push({ proof_id: record.id, kind: "run", score: record.runScore, level_reached: record.levelsCleared + 1, longest_chain: Math.max(0, ...boards.map((b) => b.record.longestChain)), seed: record.rootSeed ?? record.perLevel[0].seed, moves: record.hugoVersion ? { boards: record.perLevel.map((b) => ({ seed: b.seed, moves: compressMoves(b.moves) })), hugoVersion: record.hugoVersion, ...record.hugoDisabled ? { hugoDisabled: true } : {}, ...record.hugoVersion === "hugo-2" ? { worldRoute: record.worldRoute, startWorld: record.startWorld, worldOrder: record.worldOrder } : {}, ...record.hugo ? { hugo: { ...record.hugo, ...record.hugo.result ? { result: { ...record.hugo.result, moves: compressMoves(record.hugo.result.moves) } } : {} } } : {} } : record.perLevel.map((b) => ({ seed: b.seed, moves: compressMoves(b.moves) })), version: isCurrentScoring(record) ? "6.23" : record.version, daily_date: null });
   }
   return rows2;
 }
@@ -2112,6 +2231,7 @@ function verifyCurrentSubmission(wire) {
   if (!wire || typeof wire !== "object" || !isCurrentScoring(wire.record)) throw new TypeError("This score belongs to an archived scoring season");
   const input = wire;
   if (input.type === "run" && input.record.version !== "6.14" || input.type === "warp-run" && input.record.version !== "warp-1") throw new TypeError("Historical mechanics cannot enter the current scoring season");
+  if (input.type === "board" && (input.record.secret !== void 0 || input.record.admission !== void 0)) throw new TypeError("Secret boards require a complete run proof");
   if (input.type === "board" && (!["6.7", "6.14"].includes(String(input.record.version)) || input.runVersion !== void 0 && input.runVersion !== "6.14" || input.level !== void 0 && (!Number.isSafeInteger(input.level) || Number(input.level) < 1 || Number(input.level) > 10))) throw new TypeError("Historical board context cannot enter the current scoring season");
   const rows2 = verifySubmission(wire);
   if (rows2.some((row) => row.version !== "6.23")) throw new TypeError("Mixed scoring seasons");
