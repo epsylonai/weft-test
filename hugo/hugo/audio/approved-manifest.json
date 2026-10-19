@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "approved": false,
+  "status": "awaiting Claude ElevenLabs picks for owner pebble continuation",
+  "clips": [],
+  "requiredRoles": ["bed", "crickets", "roar", "egg-crack", "hatchling-chirp", "pebble-lift", "pebble-throw", "pebble-impact", "glass-crack"],
+  "retiredRoles": ["claw-scratch"],
+  "note": "No generated, substituted or placeholder sound is approved. Impact cues follow the approved pebble media timing; no claw-scratch cue is required."
+}

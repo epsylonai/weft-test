@@ -1,0 +1,38 @@
+B-042 ASSET PROVENANCE
+
+Original for this project:
+- Jungle far/mid/near paintings, babyT-Rex, egg, six hatch poses and court portraits:
+  created with OpenAI's built-in imagegen tool for this task. Exact prompts and
+  unmodified generated PNG masters are included. No third-party stock images,
+  film creature designs, brands, models or purchased resources are incorporated.
+- New egg/fossil/fern card motifs, title emblem, fracture paths/maps, gouges and
+  GLSL reference: original project artwork/code authored in this design task.
+- Existing Weft suit paths and visual reference rules: from this project's own
+  B-001/B-040 production sources, pinned in source/reference-audit/.
+These original assets are project delivery files; no CC0 or third-party licence
+designation is being invented for AI-generated output.
+
+Fonts:
+- Cinzel, SIL Open Font License1.1; existing project font, notices title/fonts/.
+- EB Garamond, SIL Open Font License1.1; existing project font, notices title/fonts/
+  andsource/cards/fonts/OFL.txt. Card/title SVG lettering is outlined.
+The OFL notices accompany the reference font files. No proprietary font binary
+is redistributed. Native runtime typography remains Main's implementation choice.
+
+WebGL / three.js:
+The supplied shader reference uses browser WebGL directly and bundles no library.
+The proposed integration layer may use three.js (MIT); Main must retain its official
+licence if it is added. Reference: https://github.com/mrdoob/three.js/blob/dev/LICENSE
+No GLB or third-party3D texture is bundled. The hatch preview uses registered original
+painted poses and is not represented as a third-party licensed or original rigged3D model.
+
+Audio:
+No audio file is delivered by design. Claude/Main may generate original cues using
+AUDIO-CUES.txt. Log the actual generator/source/licence for each resulting file.
+
+Purchases:
+Paid assets incorporated: NONE. Asset cost requiring approval: NONE.
+Research leads/rejections in animation/REALISM-AND-3D-ROUTE.txt are not dependencies;
+an unavailable price is recorded as unavailable, never quoted as a verified price.
+Any future paid model needs exact item, current price and applicable licence reviewed
+by Claude/owner before purchase. Nothing was bought or imported from those listings.
