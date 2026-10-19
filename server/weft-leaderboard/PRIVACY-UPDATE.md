@@ -1,0 +1,9 @@
+# v6.17 online Warp wording for Claude
+
+Use this paragraph to replace wording that says Warp rankings stay only on the device. This is a draft for the privacy page and later native metadata; the installed build6 remains frozen. No website or App Store record has been changed here.
+
+Weft stores your saved games and records on your device. Its online high scores use your chosen nickname and a randomly generated installation identifier. When a Classic or Warp run finishes, Weft can send its result and replay proof to our Supabase service in Ireland so the server can verify the score. A Warp proof includes the run seed, card moves, reward picks and special-card choices. Eligible saved results may upload automatically when a connection is available, including results retained from an earlier version. Public high-score tables show nicknames and verified results; the installation identifier and full replay proof are not displayed publicly. If the service is unavailable, you can continue playing and view replay-verified results on your device. Weft has no account sign-in, advertising or tracking.
+
+The existing linked User ID / Device ID / Gameplay Content declarations for app functionality remain the proposed categories: enabling Warp adds another game mode's proof to the same service, identity and purpose. Keep the reviewed native privacy manifest unchanged. Retention periods, processor/request-log retention and correction/deletion handling still require the operator's actual policy; this implementation does not establish new answers for those matters. Retain the current support/privacy URLs and famed_dower8z@icloud.com contact. Do not describe all scores as device-only or imply a separate confirmation before each upload.
+
+Deployment order remains: Claude pins and deploys the combined canonical replay bundle, handler and migration before publishing the client. Until then this is prepared client/server source, not a claim that online Warp is live.

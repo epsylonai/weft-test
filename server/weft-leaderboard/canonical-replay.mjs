@@ -1,3 +1,59 @@
+// src/score-config.ts
+var CURRENT_SCORING_VERSION = "clear-v2";
+var SCORE_CONFIG = Object.freeze({
+  version: "6.7",
+  scoringVersion: CURRENT_SCORING_VERSION,
+  clearBonusPerSpoolCard: 50,
+  starThresholds: Object.freeze([2600, 4200, 8300]),
+  legacyStarThresholds: Object.freeze([2500, 4e3, 7400])
+});
+function scoringVersionOf(value) {
+  const version = value && typeof value === "object" ? value.scoringVersion : void 0;
+  if (version === void 0) return "legacy";
+  if (version !== CURRENT_SCORING_VERSION) throw new TypeError("Unsupported scoring version");
+  return version;
+}
+var isCurrentScoring = (value) => !!value && typeof value === "object" && value.scoringVersion === CURRENT_SCORING_VERSION;
+var scoringMetadata = (version) => version === "legacy" ? {} : { scoringVersion: CURRENT_SCORING_VERSION };
+var starThresholds = (version = CURRENT_SCORING_VERSION) => version === "legacy" ? SCORE_CONFIG.legacyStarThresholds : SCORE_CONFIG.starThresholds;
+function starCount(score, version = CURRENT_SCORING_VERSION) {
+  if (!Number.isFinite(score) || score < 0) return 0;
+  const thresholds = starThresholds(version);
+  return thresholds.filter((threshold) => score >= threshold).length;
+}
+var integer = (value) => Number.isSafeInteger(value) && value >= 0;
+function clearBonus(cleared, spoolRemaining, chainCoins, spoolStarted, version = CURRENT_SCORING_VERSION) {
+  if (!cleared || !integer(spoolRemaining)) return 0;
+  if (chainCoins === void 0 || version === "legacy") {
+    const bonus = spoolRemaining * SCORE_CONFIG.clearBonusPerSpoolCard;
+    return integer(bonus) ? bonus : 0;
+  }
+  if (!integer(chainCoins) || !integer(spoolStarted ?? NaN) || !spoolStarted || spoolRemaining > spoolStarted) return 0;
+  const numerator = BigInt(chainCoins) * BigInt(spoolRemaining), denominator = BigInt(spoolStarted);
+  const result = (2n * numerator + denominator) / (2n * denominator);
+  if (result > BigInt(Number.MAX_SAFE_INTEGER) || BigInt(chainCoins) + result > BigInt(Number.MAX_SAFE_INTEGER)) throw new RangeError("Board score exceeds safe integer range");
+  return Number(result);
+}
+function clearBonusDetails(cleared, spoolRemaining, chainCoins, spoolStarted, version = CURRENT_SCORING_VERSION) {
+  if (!integer(chainCoins) || !integer(spoolRemaining) || !integer(spoolStarted) || spoolStarted < 1 || spoolRemaining > spoolStarted) throw new RangeError("Invalid clear-bonus inputs");
+  const bonus = clearBonus(cleared, spoolRemaining, chainCoins, spoolStarted, version), score = chainCoins + bonus;
+  if (!integer(score)) throw new RangeError("Board score exceeds safe integer range");
+  return { chainCoins, spoolRemaining, spoolStarted, clearBonus: bonus, score, percentage: Math.round(100 * spoolRemaining / spoolStarted) };
+}
+
+// src/replay-practice.ts
+var ownsPractice = (value) => !!value && typeof value === "object" && Object.prototype.hasOwnProperty.call(value, "practice");
+function canRankReplayRecord(value) {
+  return !!value && typeof value === "object" && !Array.isArray(value) && !ownsPractice(value);
+}
+
+// src/play-mode.ts
+function canSubmitOnlineScore(record) {
+  if (!record || typeof record !== "object" || !canRankReplayRecord(record)) return false;
+  const mode = record.playMode;
+  return mode === void 0 || mode === "classic";
+}
+
 // src/score-codec.ts
 var MAX_SCORE_MOVES = 256;
 function compressMoves(moves2) {
@@ -26,7 +82,7 @@ function decodeLeaderboardProof(value) {
   throw new TypeError("Invalid leaderboard proof");
 }
 
-// ../B-002/engine/layout.ts
+// ../../B-002/engine/layout.ts
 function makeLayout(name, graph) {
   const coveredBy = graph.map((covers) => [...covers]);
   const children = coveredBy.map(() => []);
@@ -81,12 +137,12 @@ function layoutFor(name) {
   }
 }
 
-// ../B-002/engine/scoring.ts
+// ../../B-002/engine/scoring.ts
 function baseScore(n) {
   return 5 * n * (n + 1);
 }
 
-// ../B-002/engine/hands.ts
+// ../../B-002/engine/hands.ts
 var HIGH = 0;
 var PAIR = 1;
 var TWO_PAIR = 2;
@@ -153,7 +209,7 @@ function evalCards(cards, loop, flush4) {
   const flush = cards.length === 5 && cards.every((card) => Math.floor(card / 13) === suit2);
   return evalRanks(ranks, flush, loop);
 }
-var runs = (loop) => loop ? Array.from({ length: 13 }, (_, start2) => Array.from({ length: 5 }, (_2, i) => (start2 + i) % 13)) : [...Array.from({ length: 9 }, (_, start2) => Array.from({ length: 5 }, (_2, i) => start2 + i)), ROYAL_SET];
+var runs = (loop) => loop ? Array.from({ length: 13 }, (_, start) => Array.from({ length: 5 }, (_2, i) => (start + i) % 13)) : [...Array.from({ length: 9 }, (_, start) => Array.from({ length: 5 }, (_2, i) => start + i)), ROYAL_SET];
 var STRAIGHTS = [runs(false), runs(true)];
 var maskOf = (ranks) => ranks.reduce((mask, rank2) => mask | 1 << rank2, 0);
 var STRAIGHT_MASKS = STRAIGHTS.map((patterns) => patterns.map(maskOf));
@@ -224,14 +280,14 @@ function bestFromMany(cards, loop, flush4) {
   for (const group of ranks) if (group.length === 2) consider(fill(group));
   return best ? result() : cards.slice(0, 5);
 }
-function bestFiveCards(chain, window, loop, flush4 = false) {
-  if (window === 5 || chain.length <= 5) return chain.slice(-5);
-  const cards = chain.slice(-window);
+function bestFiveCards(chain, window2, loop, flush4 = false) {
+  if (window2 === 5 || chain.length <= 5) return chain.slice(-5);
+  const cards = chain.slice(-window2);
   if (cards.length < 5) return [];
   if (fastCards(cards)) return bestFromMany(cards, loop, flush4);
   let best = -1, witness = [];
   const combo = [];
-  function choose(start2) {
+  function choose(start) {
     if (combo.length === 5) {
       const type = evalCards(combo, loop, flush4);
       if (type > best) {
@@ -240,7 +296,7 @@ function bestFiveCards(chain, window, loop, flush4 = false) {
       }
       return;
     }
-    for (let i = start2; i <= cards.length - (5 - combo.length); i++) {
+    for (let i = start; i <= cards.length - (5 - combo.length); i++) {
       combo.push(cards[i]);
       choose(i + 1);
       combo.pop();
@@ -249,20 +305,20 @@ function bestFiveCards(chain, window, loop, flush4 = false) {
   choose(0);
   return witness;
 }
-function handType(chain, window, loop, flush4 = false) {
+function handType(chain, window2, loop, flush4 = false) {
   if (chain.length === 0) return HIGH;
-  if (window === 5 || chain.length <= 5) return evalCards(chain.slice(-5), loop, flush4);
-  const cards = chain.slice(-window);
+  if (window2 === 5 || chain.length <= 5) return evalCards(chain.slice(-5), loop, flush4);
+  const cards = chain.slice(-window2);
   if (fastCards(cards)) return evalCards(bestFromMany(cards, loop, flush4), loop, flush4);
   let best = HIGH;
   const combo = [];
-  function choose(start2) {
+  function choose(start) {
     if (combo.length === 5) {
       best = Math.max(best, evalCards(combo, loop, flush4));
       return;
     }
     const needed = 5 - combo.length;
-    for (let i = start2; i <= cards.length - needed; i += 1) {
+    for (let i = start; i <= cards.length - needed; i += 1) {
       combo.push(cards[i]);
       choose(i + 1);
       combo.pop();
@@ -272,7 +328,7 @@ function handType(chain, window, loop, flush4 = false) {
   return best;
 }
 
-// ../B-002/engine/rules.ts
+// ../../B-002/engine/rules.ts
 function resolveRules(input = {}) {
   const deltas = [...new Set(input.deltas ?? (input.wide ? [1, 2] : [1]))].sort((a, b) => a - b);
   if (!deltas.length || deltas.some((d) => !Number.isInteger(d) || d <= 0))
@@ -463,7 +519,7 @@ function snapshot(state) {
   };
 }
 
-// ../B-002/engine/configs.ts
+// ../../B-002/engine/configs.ts
 var peaksLoop = { layout: "peaks", loop: true };
 var anchor = { ...peaksLoop, anchor: true };
 var CONFIGS = {
@@ -497,7 +553,7 @@ function getConfig(name) {
   return resolveRules(CONFIGS[name]);
 }
 
-// ../B-002/engine/deck.ts
+// ../../B-002/engine/deck.ts
 var PythonRandom = class {
   constructor(seed3) {
     this.mt = new Uint32Array(624);
@@ -601,15 +657,15 @@ function deal(rules, seed3) {
   return { weave, spoolOrder: [...rest, ...extra.slice(0, rules.spool - rest.length)], burned: [] };
 }
 
-// ../B-004/engine/solver.ts
+// ../../B-004/engine/solver.ts
 function population(mask) {
   mask -= mask >>> 1 & 1431655765;
   mask = (mask & 858993459) + (mask >>> 2 & 858993459);
   return (mask + (mask >>> 4) & 252645135) * 16843009 >>> 24;
 }
-function limit(value, name, integer = false) {
-  if (value !== Infinity && (!Number.isFinite(value) || value < 0 || integer && !Number.isInteger(value)))
-    throw new RangeError(`${name} must be nonnegative${integer ? " integer" : ""} or Infinity`);
+function limit(value, name, integer2 = false) {
+  if (value !== Infinity && (!Number.isFinite(value) || value < 0 || integer2 && !Number.isInteger(value)))
+    throw new RangeError(`${name} must be nonnegative${integer2 ? " integer" : ""} or Infinity`);
 }
 var peaksCovers = layoutPeaks().coveredBy.map((c) => c.reduce((mask, p) => mask | 1 << p, 0));
 var idealIndex = new Int16Array(1 << 10).fill(-1);
@@ -790,10 +846,10 @@ function solve(input, deal2, options = {}) {
     suffixCounts[sp][rank2]++;
     for (let target = 0; target < 13; target++) suffixCapacity[sp][target] = suffixCapacity[sp + 1][target] + (adjacentRanks[rank2] & 1 << target ? 1 : 0);
   }
-  const hallFamilies = Array.from({ length: 13 }, (_, start2) => {
+  const hallFamilies = Array.from({ length: 13 }, (_, start) => {
     let predecessors = 0;
     return Array.from({ length: 6 }, (_2, step) => {
-      const target = (start2 + step * 2) % 13, added = adjacentRanks[target] & ~predecessors;
+      const target = (start + step * 2) % 13, added = adjacentRanks[target] & ~predecessors;
       predecessors |= added;
       return {
         target,
@@ -937,7 +993,7 @@ function solve(input, deal2, options = {}) {
   return result(true, "exhaustive", { line: [...line], witnessScore: replay.score });
 }
 
-// ../B-004/engine/generator.ts
+// ../../B-004/engine/generator.ts
 var GENERATOR_SALT = 0x9e3779b9n;
 var GenerationBudgetError = class extends Error {
   constructor(seed3, subSeed, attempts, verification) {
@@ -998,66 +1054,10 @@ function generateDeal(input, seed3, options = {}) {
 // src/records.ts
 function recordId(record) {
   const actions = record.moves.map((move) => move.type === "play" ? ["play", move.position] : [move.type]);
-  const text = JSON.stringify([record.version, record.seed, actions, record.dailyDate ?? null]);
+  const text = JSON.stringify([record.version, record.seed, actions, record.dailyDate ?? null, ...scoringVersionOf(record) === "legacy" ? [] : ["scoring", CURRENT_SCORING_VERSION]]);
   let hash = 14695981039346656037n;
   for (let index = 0; index < text.length; index++) hash = BigInt.asUintN(64, (hash ^ BigInt(text.charCodeAt(index))) * 1099511628211n);
   return "weft-" + hash.toString(16).padStart(16, "0");
-}
-
-// src/run-plan.ts
-var levels = 10;
-function start(value) {
-  if (!Number.isSafeInteger(value) || Number(value) < 1 || Number(value) > levels) throw new TypeError("Starting level must be1..10");
-  return Number(value);
-}
-function root(value) {
-  if (typeof value === "number" && !Number.isSafeInteger(value) || !["string", "number", "bigint"].includes(typeof value) || !/^-?\d{1,30}$/.test(String(value))) throw new TypeError("Invalid Classic route seed");
-  return String(BigInt(value));
-}
-function seededClassicOrder(value) {
-  let state = 14695981039346656037n;
-  for (const char of `weft-classic-route:1:${root(value)}`) state = BigInt.asUintN(64, (state ^ BigInt(char.charCodeAt(0))) * 1099511628211n);
-  const next = () => {
-    state = BigInt.asUintN(64, state + 0x9e3779b97f4a7c15n);
-    let z = state;
-    z = BigInt.asUintN(64, (z ^ z >> 30n) * 0xbf58476d1ce4e5b9n);
-    z = BigInt.asUintN(64, (z ^ z >> 27n) * 0x94d049bb133111ebn);
-    return BigInt.asUintN(64, z ^ z >> 31n);
-  };
-  const order = Array.from({ length: levels }, (_, index) => index + 1);
-  for (let index = order.length - 1; index > 0; index--) {
-    const other = Number(next() % BigInt(index + 1));
-    [order[index], order[other]] = [order[other], order[index]];
-  }
-  return Object.freeze(order);
-}
-function resolveClassicRoute(value, metadata = {}) {
-  const first = metadata.startLevel === void 0 ? 1 : start(metadata.startLevel);
-  if (metadata.order !== void 0) {
-    const expected = seededClassicOrder(value);
-    if (metadata.startLevel !== 1 || !Array.isArray(metadata.order) || metadata.order.length !== levels || metadata.order.some((level, index) => level !== expected[index])) throw new TypeError("Random order disagrees with its run seed");
-    return expected;
-  }
-  return Object.freeze(Array.from({ length: levels - first + 1 }, (_, index) => first + index));
-}
-function hasClassicRoute(value) {
-  return value.startLevel !== void 0 || value.order !== void 0;
-}
-
-// src/score-config.ts
-var SCORE_CONFIG = Object.freeze({
-  version: "6.7",
-  clearBonusPerSpoolCard: 50,
-  starThresholds: Object.freeze([2500, 4e3, 7400])
-});
-function starCount(score) {
-  if (!Number.isFinite(score) || score < 0) return 0;
-  return SCORE_CONFIG.starThresholds.filter((threshold) => score >= threshold).length;
-}
-function clearBonus(cleared, spoolRemaining) {
-  if (!cleared || !Number.isSafeInteger(spoolRemaining) || spoolRemaining < 0) return 0;
-  const bonus = spoolRemaining * SCORE_CONFIG.clearBonusPerSpoolCard;
-  return Number.isSafeInteger(bonus) ? bonus : 0;
 }
 
 // src/world-config.ts
@@ -1112,7 +1112,7 @@ var LEVEL_CONFIG = Object.freeze([
   [8, 21],
   [9, 20],
   [10, 15]
-].map(([world2, spool], index) => Object.freeze({ level: index + 1, world: world2, spool })));
+].map(([world3, spool], index) => Object.freeze({ level: index + 1, world: world3, spool })));
 function runLevelCount(version = CLASSIC_RULES_VERSION) {
   return version === CLASSIC_RULES_VERSION ? CLASSIC_LEVEL_COUNT : null;
 }
@@ -1125,6 +1125,48 @@ function levelConfig(level, version = CLASSIC_RULES_VERSION) {
   }
   const legacy = version === "6.7", table = legacy ? LEGACY_LEVEL_CONFIG : SIX_WORLD_LEVEL_CONFIG;
   return table[level - 1] ?? Object.freeze({ level, world: (level - 1) % (legacy ? 4 : 6) + 1, spool: legacy ? 20 : 23 });
+}
+
+// src/run-plan.ts
+var canonical = Object.freeze(LEVEL_CONFIG.map((level) => level.world));
+function world2(value) {
+  if (!Number.isSafeInteger(value) || !canonical.includes(value)) throw new TypeError("Invalid starting world");
+  return value;
+}
+function root(value) {
+  if (typeof value === "number" && !Number.isSafeInteger(value) || !["string", "number", "bigint"].includes(typeof value) || !/^-?\d{1,30}$/.test(String(value))) throw new TypeError("Invalid world-route seed");
+  return String(BigInt(value));
+}
+function rotatedClassicWorlds(start) {
+  const index = canonical.indexOf(world2(start));
+  return Object.freeze([...canonical.slice(index), ...canonical.slice(0, index)]);
+}
+function seededClassicWorldOrder(value) {
+  let state = 14695981039346656037n;
+  for (const char of `weft-classic-worlds:1:${root(value)}`) state = BigInt.asUintN(64, (state ^ BigInt(char.charCodeAt(0))) * 1099511628211n);
+  const next = () => {
+    state = BigInt.asUintN(64, state + 0x9e3779b97f4a7c15n);
+    let z = state;
+    z = BigInt.asUintN(64, (z ^ z >> 30n) * 0xbf58476d1ce4e5b9n);
+    z = BigInt.asUintN(64, (z ^ z >> 27n) * 0x94d049bb133111ebn);
+    return BigInt.asUintN(64, z ^ z >> 31n);
+  };
+  const order = [...canonical];
+  for (let index = order.length - 1; index > 0; index--) {
+    const other = Number(next() % BigInt(index + 1));
+    [order[index], order[other]] = [order[other], order[index]];
+  }
+  return Object.freeze(order);
+}
+function hasClassicRoute(value) {
+  return value.worldRoute !== void 0 || value.startWorld !== void 0 || value.worldOrder !== void 0;
+}
+function resolveClassicRoute(value, metadata = {}) {
+  if (!hasClassicRoute(metadata)) return canonical;
+  if (metadata.worldRoute !== "rotate-v1" && metadata.worldRoute !== "random-v1") throw new TypeError("Invalid Classic world-route kind");
+  const first = world2(metadata.startWorld), expected = metadata.worldRoute === "random-v1" ? seededClassicWorldOrder(value) : rotatedClassicWorlds(first);
+  if (first !== expected[0] || !Array.isArray(metadata.worldOrder) || metadata.worldOrder.length !== 10 || metadata.worldOrder.some((id, index) => id !== expected[index])) throw new TypeError("World order disagrees with its canonical route");
+  return expected;
 }
 
 // src/run.ts
@@ -1162,14 +1204,17 @@ function rulesForLevel(level, version = RUN_VERSION) {
 }
 function runPlan(run) {
   if (run.rulesVersion !== CLASSIC_RULES_VERSION) {
-    if (hasClassicRoute(run)) throw new TypeError("Historical runs cannot carry a Classic route");
+    if (hasClassicRoute(run)) throw new TypeError("Historical runs cannot carry world routes");
     return null;
   }
   return resolveClassicRoute(run.rootSeed, run);
 }
-function replayBoard(input, level, version = RUN_VERSION) {
+function routeMetadata(value) {
+  return hasClassicRoute(value) ? { worldRoute: value.worldRoute, startWorld: value.startWorld, worldOrder: [...value.worldOrder] } : {};
+}
+function replayBoard(input, level, version = RUN_VERSION, presentationWorld, scoring = {}) {
   if (!input || !moves(input.moves) || !count(input.score)) throw new TypeError("Invalid run board result");
-  const config = levelConfig(level, version), original = seed(input.seed);
+  const config = { ...levelConfig(level, version), ...presentationWorld === void 0 ? {} : { world: presentationWorld } }, original = seed(input.seed);
   for (const field of ["level", "world", "spool"])
     if (input[field] !== void 0 && input[field] !== config[field]) throw new Error(`Run board ${field} disagrees with its level`);
   if (input.cleared !== void 0 && typeof input.cleared !== "boolean") throw new TypeError("Invalid Clear marker");
@@ -1178,7 +1223,8 @@ function replayBoard(input, level, version = RUN_VERSION) {
   let state = createState(rules, generated.deal);
   for (const move of input.moves) state = applyMove(state, move).state;
   if (state.terminal === "active") throw new Error("Run board is not finished");
-  const cleared = state.terminal === "cleared", bonus = clearBonus(cleared, state.spool.length - state.spoolIndex);
+  const cleared = state.terminal === "cleared", facts = clearBonusDetails(cleared, state.spool.length - state.spoolIndex, state.score, rules.spool, scoringVersionOf(scoring)), bonus = facts.clearBonus;
+  if (input.clearBonusDetails !== void 0 && JSON.stringify(Object.entries(input.clearBonusDetails).sort()) !== JSON.stringify(Object.entries(facts).sort())) throw new Error("Clear-bonus details disagree with replay");
   if (input.cleared !== void 0 && input.cleared !== cleared) throw new Error("Run board Clear marker disagrees with replay");
   if (input.score !== state.score + bonus) throw new Error("Run board score disagrees with replay");
   return {
@@ -1189,13 +1235,14 @@ function replayBoard(input, level, version = RUN_VERSION) {
     cleared,
     subSeed: String(generated.subSeed),
     chainScore: state.score,
-    clearBonus: bonus
+    clearBonus: bonus,
+    ...scoringVersionOf(scoring) === "legacy" ? {} : { clearBonusDetails: facts }
   };
 }
 var completion = ({ chainScore: _chain, clearBonus: _bonus, ...result }) => result;
 function runRecordId(record) {
   if (!record.perLevel.every((result) => moves(result.moves))) throw new TypeError("Invalid run moves");
-  const text = JSON.stringify([record.version, record.perLevel.map((result) => [seed(result.seed), result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])]), ...hasClassicRoute(record) ? ["classic-route-v1", record.startLevel, record.order ?? null] : []]);
+  const text = JSON.stringify([record.version, record.perLevel.map((result) => [seed(result.seed), result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])]), ...hasClassicRoute(record) ? ["classic-world-route-v1", record.worldRoute, record.startWorld, record.worldOrder] : [], ...scoringVersionOf(record) === "legacy" ? [] : ["scoring", CURRENT_SCORING_VERSION]]);
   let hash = 14695981039346656037n;
   for (const char of text) hash = BigInt.asUintN(64, (hash ^ BigInt(char.charCodeAt(0))) * 1099511628211n);
   return "weft-run-" + hash.toString(16).padStart(16, "0");
@@ -1206,14 +1253,14 @@ function normalizeRunRecord(value) {
   if (!date(input.date) || !isRunVersion(input.version) || !count(input.levelsCleared) || !count(input.runScore) || !Array.isArray(input.perLevel) || !input.perLevel.length || input.perLevel.length > 1e4)
     throw new TypeError("Invalid completed run record");
   const rootSeed = input.rootSeed === void 0 ? void 0 : seed(input.rootSeed);
-  if (hasClassicRoute(input) && rootSeed === void 0) throw new TypeError("A starting-level route requires its root seed");
-  const plan = runPlan({ rootSeed: rootSeed ?? input.perLevel[0].seed, rulesVersion: input.version, ...input.startLevel === void 0 ? {} : { startLevel: input.startLevel }, ...input.order === void 0 ? {} : { order: input.order } }), limit2 = plan?.length ?? null;
-  const routeComplete = limit2 !== null && input.levelsCleared === limit2 && input.perLevel.length === limit2, complete = routeComplete && limit2 === runLevelCount(CLASSIC_RULES_VERSION);
-  if (input.levelsCleared !== input.perLevel.length - 1 && !routeComplete || limit2 !== null && input.perLevel.length > limit2) throw new TypeError("Invalid completed run progression");
+  if (hasClassicRoute(input) && rootSeed === void 0) throw new TypeError("A world route requires its root seed");
+  const order = runPlan({ rootSeed: rootSeed ?? input.perLevel[0].seed, rulesVersion: input.version, ...routeMetadata(input) });
+  const limit2 = runLevelCount(input.version), complete = limit2 !== null && input.levelsCleared === limit2 && input.perLevel.length === limit2;
+  if (input.levelsCleared !== input.perLevel.length - 1 && !complete || limit2 !== null && input.perLevel.length > limit2) throw new TypeError("Invalid completed run progression");
   if (input.classicComplete !== void 0 && input.classicComplete !== complete || input.totalLevels !== void 0 && input.totalLevels !== limit2) throw new TypeError("Invalid Classic completion marker");
   const perLevel = input.perLevel.map((result, index) => {
     if (!result || !moves(result.moves) || !count(result.score)) throw new TypeError("Invalid run board record");
-    const config = levelConfig(plan?.[index] ?? index + 1, input.version);
+    const config = { ...levelConfig(index + 1, input.version), ...order === null ? {} : { world: order[index] } };
     for (const field of ["level", "world", "spool"])
       if (result[field] !== void 0 && result[field] !== config[field]) throw new Error("Run record level metadata is inconsistent");
     const cleared = index < input.levelsCleared;
@@ -1224,14 +1271,14 @@ function normalizeRunRecord(value) {
       moves: copy(result.moves),
       score: result.score,
       cleared,
-      ...result.subSeed === void 0 ? {} : { subSeed: proofSeed(result.subSeed) }
+      ...result.subSeed === void 0 ? {} : { subSeed: proofSeed(result.subSeed) },
+      ...result.clearBonusDetails === void 0 ? {} : { clearBonusDetails: copy(result.clearBonusDetails) }
     };
   });
   if (perLevel.reduce((sum, result) => sum + result.score, 0) !== input.runScore) throw new Error("Run total does not equal its board scores");
-  const route = { ...input.startLevel === void 0 ? {} : { startLevel: input.startLevel }, ...input.order === void 0 ? {} : { order: [...input.order] } };
-  const id = runRecordId({ version: input.version, perLevel, ...route });
+  const scoring = scoringMetadata(scoringVersionOf(input)), route = routeMetadata(input), id = runRecordId({ version: input.version, perLevel, ...route, ...scoring });
   if (input.id !== void 0 && input.id !== id) throw new Error("Run completion id disagrees with its proof");
-  if (rootSeed !== void 0 && perLevel.some((result, index) => result.seed !== String(runLevelSeed(rootSeed, plan?.[index] ?? index + 1, input.version)))) throw new Error("Run record seed sequence disagrees with root");
+  if (rootSeed !== void 0 && perLevel.some((result, index) => result.seed !== String(runLevelSeed(rootSeed, index + 1, input.version)))) throw new Error("Run record seed sequence disagrees with root");
   return {
     id,
     date: input.date,
@@ -1242,12 +1289,13 @@ function normalizeRunRecord(value) {
     ...rootSeed === void 0 ? {} : { rootSeed },
     ...limit2 === null ? {} : { totalLevels: limit2 },
     ...complete ? { classicComplete: true } : {},
-    ...route
+    ...route,
+    ...scoring
   };
 }
 function validateRunRecord(value) {
   try {
-    const record = normalizeRunRecord(value), boards = record.perLevel.map((result, index) => replayBoard(result, result.level ?? index + 1, record.version));
+    const record = normalizeRunRecord(value), boards = record.perLevel.map((result, index) => replayBoard(result, index + 1, record.version, runPlan({ rootSeed: record.rootSeed ?? record.perLevel[0].seed, rulesVersion: record.version, ...routeMetadata(record) })?.[index], record));
     if (boards.some((result, index) => result.cleared !== index < record.levelsCleared)) throw new Error("Run terminal sequence disagrees with replay");
     return { valid: true, record: { ...record, perLevel: boards.map(completion) }, boards };
   } catch (error) {
@@ -1269,6 +1317,7 @@ function createLeaderboardVerifier(options = {}) {
   });
   function verifyBoard(input) {
     const record = input?.record;
+    if (!canSubmitOnlineScore(record)) throw new TypeError("Relaxed scores stay on this device");
     if (!record || !["6.6", "6.7", "6.9", "6.14"].includes(record.version)) throw new TypeError("Unsupported board version");
     checkDate(record.date);
     if (typeof record.seed !== "string" || !/^-?\d{1,30}$/.test(record.seed)) throw new TypeError("Invalid board seed");
@@ -1289,21 +1338,23 @@ function createLeaderboardVerifier(options = {}) {
       bestHand = Math.max(bestHand, snapshot(state).handType, ...result.events.map((event) => handNames.indexOf(event.handName)));
     }
     if (state.terminal === "active") throw new TypeError("Board is unfinished");
-    const cleared = state.terminal === "cleared", score = state.score + clearBonus(cleared, state.spool.length - state.spoolIndex), stars = starCount(score);
+    const version = scoringVersionOf(record), cleared = state.terminal === "cleared", facts = clearBonusDetails(cleared, state.spool.length - state.spoolIndex, state.score, rules.spool, version), score = facts.score, stars = starCount(score, version);
+    if (record.clearBonusDetails !== void 0 && JSON.stringify(Object.entries(record.clearBonusDetails).sort()) !== JSON.stringify(Object.entries(facts).sort())) throw new TypeError("Clear-bonus details disagree with canonical replay");
     if (record.score !== score || record.longestChain !== state.longestChain || record.cleared !== cleared || record.stars !== stars || record.bestHand !== bestHand) throw new TypeError("Board result disagrees with canonical replay");
     const normalized = { ...clone(record), seed: String(BigInt(record.seed)), moves: moves2 };
     const sourceId = recordId(normalized);
     return { record: normalized, level, spool: rules.spool, sourceId };
   }
   function verifyRun(value) {
+    if (!canSubmitOnlineScore(value)) throw new TypeError("Relaxed scores stay on this device");
     const validated = (options.validateRun ?? validateRunRecord)(value);
     if (!validated.valid) throw new TypeError(validated.error);
     const record = validated.record;
     if (!isRunVersion(record.version)) throw new TypeError("Unsupported run version");
     const root2 = record.rootSeed ?? record.perLevel[0].seed;
-    if (record.perLevel.some((board, index) => BigInt(board.seed) !== runLevelSeed(root2, board.level ?? index + 1, record.version))) throw new TypeError("Run boards do not follow one root seed");
+    if (record.perLevel.some((board, index) => BigInt(board.seed) !== runLevelSeed(root2, index + 1, record.version))) throw new TypeError("Run boards do not follow one root seed");
     const boards = validated.boards.map((board, index) => {
-      const level = board.level ?? index + 1, rules = ruleResolver(record.version, level);
+      const rules = ruleResolver(record.version, index + 1);
       if (!rules) throw new TypeError("No canonical rules for this run version");
       const generated = generateDeal(rules, BigInt(board.seed));
       let state = createState(rules, generated.deal), bestHand = 0;
@@ -1314,8 +1365,8 @@ function createLeaderboardVerifier(options = {}) {
         state = result2.state;
         bestHand = Math.max(bestHand, snapshot(state).handType, ...result2.events.map((event) => handNames.indexOf(event.handName)));
       }
-      const result = { id: record.id + ":" + (index + 1), date: record.date, seed: board.seed, version: record.version, moves: clone([...board.moves]), score: board.score, stars: starCount(board.score), cleared: board.cleared, longestChain: state.longestChain, bestHand };
-      return { record: result, level, spool: rules.spool, sourceId: recordId(result) };
+      const result = { id: record.id + ":" + (index + 1), date: record.date, seed: board.seed, version: record.version, moves: clone([...board.moves]), score: board.score, ...scoringMetadata(scoringVersionOf(record)), ...board.clearBonusDetails ? { clearBonusDetails: board.clearBonusDetails } : {}, stars: starCount(board.score, scoringVersionOf(record)), cleared: board.cleared, longestChain: state.longestChain, bestHand };
+      return { record: result, level: index + 1, spool: rules.spool, sourceId: recordId(result) };
     });
     return { record: clone(record), boards };
   }
@@ -1329,7 +1380,7 @@ var CHARM_IDS = Object.freeze(["needle-thread", "joker-weave", "double-stitch", 
 var SNAG_TEXT = Object.freeze({ snuffed: "Play a neighbouring card to bring a dark card into the light.", knot: "Play a golden key card to untie its matching knot.", overgrowth: "Play beside the vine to uncover its two cards.", tide: "Every fifth draw carries the next Spool card to the bottom.", drift: "A drifting card moves one rank after every draw.", flicker: "A flickering card changes between two ranks after each draw.", frozen: "Play a neighbouring card to thaw the ice.", shade: "A shaded rank appears when its card is uncovered.", "split-gate": "Split cards offer two ranks; gates need a matching suit.", totality: "Aces and Kings do not join. Play the gold key to reveal the eclipsed pillar." });
 var worlds = [1, 2, 3, 5, 6, 4, 7, 8, 9, 10];
 var snags = ["snuffed", "knot", "overgrowth", "tide", "drift", "flicker", "frozen", "shade", "split-gate", "totality"];
-var WARP_LEVELS = Object.freeze(worlds.map((world2, index) => Object.freeze({ level: index + 1, world: world2, snag: snags[index], boss: index === 4 || index === 9, strength: [6, 1, 2, 3, 6, 5, 7, 9, 4, 10][index], helpful: Object.freeze([
+var WARP_LEVELS = Object.freeze(worlds.map((world3, index) => Object.freeze({ level: index + 1, world: world3, snag: snags[index], boss: index === 4 || index === 9, strength: [6, 1, 2, 3, 6, 5, 7, 9, 4, 10][index], helpful: Object.freeze([
   ["joker", "needle", "joker", "needle"],
   ["joker", "needle", "joker", "needle", "mirror", "spare"],
   ["joker", "needle", "joker", "needle", "reel", "lantern"],
@@ -1392,7 +1443,7 @@ function warpPhysicalHand(cards, loop) {
   };
   for (const indexed of suitRanks) pattern(indexed, ROYAL2);
   if (best) return result();
-  const runs2 = loop ? Array.from({ length: 13 }, (_, start2) => Array.from({ length: 5 }, (_2, offset) => (start2 + offset) % 13)) : [...Array.from({ length: 9 }, (_, start2) => Array.from({ length: 5 }, (_2, offset) => start2 + offset)), ROYAL2];
+  const runs2 = loop ? Array.from({ length: 13 }, (_, start) => Array.from({ length: 5 }, (_2, offset) => (start + offset) % 13)) : [...Array.from({ length: 9 }, (_, start) => Array.from({ length: 5 }, (_2, offset) => start + offset)), ROYAL2];
   for (const indexed of suitRanks) for (const values of runs2) pattern(indexed, values);
   if (best) return result();
   for (let rank2 = 0; rank2 < 13; rank2++) if (ranks[rank2].length >= 4) {
@@ -1526,8 +1577,8 @@ function settle2(state, events = [], scoring = true) {
 function createWarpState(deal2) {
   if (deal2.version !== WARP_VERSION || deal2.weave.length !== 30 || deal2.spool.length !== 24 || deal2.spool[0]?.kind !== "card") throw new TypeError("Invalid Warp deal");
   if (deal2.weave.some((c) => !Number.isInteger(c) || c < 0 || c >= 52) || new Set(deal2.spool.map((t) => t.id)).size !== deal2.spool.length) throw new TypeError("Invalid Warp cards");
-  const start2 = deal2.spool[0].card;
-  let state = { version: WARP_VERSION, deal: copy2(deal2), played: 0, spool: copy2(deal2.spool.slice(1)), reel: [], spare: [], top: start2, topRank: rank(start2), topSuit: suit(start2), topSpecial: null, anchor: start2, anchorEligible: true, anchorJoker: false, chain: [], links: 0, score: 0, longestChain: 0, suitedPlays: 0, draws: 0, drawPending: false, mirror: deal2.charms.includes("mirror-light"), leap: deal2.charms.includes("long-stride"), unpick: deal2.charms.includes("unpick-thread") ? 1 : 0, needleReady: deal2.charms.includes("needle-thread"), unlocked: 0, vineCleared: 0, burn: false, fog: false, revealed: [], pending: null, lastPlay: null, terminal: "active" };
+  const start = deal2.spool[0].card;
+  let state = { version: WARP_VERSION, deal: copy2(deal2), played: 0, spool: copy2(deal2.spool.slice(1)), reel: [], spare: [], top: start, topRank: rank(start), topSuit: suit(start), topSpecial: null, anchor: start, anchorEligible: true, anchorJoker: false, chain: [], links: 0, score: 0, longestChain: 0, suitedPlays: 0, draws: 0, drawPending: false, mirror: deal2.charms.includes("mirror-light"), leap: deal2.charms.includes("long-stride"), unpick: deal2.charms.includes("unpick-thread") ? 1 : 0, needleReady: deal2.charms.includes("needle-thread"), unlocked: 0, vineCleared: 0, burn: false, fog: false, revealed: [], pending: null, lastPlay: null, terminal: "active" };
   if (deal2.charms.includes("lantern-eye")) state = { ...state, revealed: state.spool.slice(0, 3).map((t) => t.id) };
   return settle2(state).state;
 }
@@ -1895,8 +1946,9 @@ var seed2 = (value) => {
 };
 var date2 = (value) => typeof value === "string" && Number.isFinite(Date.parse(value)) && new Date(value).toISOString() === value;
 var count2 = (value) => typeof value === "number" && Number.isSafeInteger(value) && value >= 0;
-var warpClearBonus = (state) => state.terminal === "cleared" ? 50 * (state.spool.length + state.reel.length + state.spare.length) : 0;
-function replayWarpBoard(proof, actions) {
+var warpClearBonusDetails = (state, version = CURRENT_SCORING_VERSION) => clearBonusDetails(state.terminal === "cleared", state.spool.length + state.reel.length + state.spare.length, state.score, state.deal.spool.length, version);
+var warpClearBonus = (state, version = CURRENT_SCORING_VERSION) => warpClearBonusDetails(state, version).clearBonus;
+function replayWarpBoard(proof, actions, version = CURRENT_SCORING_VERSION) {
   if (!Array.isArray(actions) || actions.length > 256) throw new TypeError("Invalid Warp action history");
   let state = createWarpState(proof.deal), bestHand = 0;
   for (const action of actions) {
@@ -1904,16 +1956,17 @@ function replayWarpBoard(proof, actions) {
     state = transition.state;
     for (const event of transition.events) if (event.type === "banked") bestHand = Math.max(bestHand, ["high", "pair", "two_pair", "trips", "straight", "flush", "full_house", "quads", "straight_flush", "royal"].indexOf(event.handName));
   }
-  return { state, result: { level: proof.deal.level, seed: proof.seed, subSeed: proof.subSeed, attempts: proof.attempts, actions: copy3(actions), score: state.score + warpClearBonus(state), cleared: state.terminal === "cleared", longestChain: state.longestChain, bestHand } };
+  return { state, result: { level: proof.deal.level, seed: proof.seed, subSeed: proof.subSeed, attempts: proof.attempts, actions: copy3(actions), ...version === "legacy" ? {} : { clearBonusDetails: warpClearBonusDetails(state, version) }, score: state.score + warpClearBonus(state, version), cleared: state.terminal === "cleared", longestChain: state.longestChain, bestHand } };
 }
 function warpRecordId(input) {
   let hash = 14695981039346656037n;
-  for (const c of JSON.stringify([WARP_VERSION, seed2(input.rootSeed), input.picks.map((pick) => [pick.afterLevel, pick.rewardId, pick.replaceCharm ?? null]), input.perLevel.map((board) => board.actions.map(actionTuple))])) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
+  for (const c of JSON.stringify([WARP_VERSION, seed2(input.rootSeed), input.picks.map((pick) => [pick.afterLevel, pick.rewardId, pick.replaceCharm ?? null]), input.perLevel.map((board) => board.actions.map(actionTuple)), ...scoringVersionOf(input) === "legacy" ? [] : ["scoring", CURRENT_SCORING_VERSION]])) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
   return "weft-warp-" + hash.toString(16).padStart(16, "0");
 }
 function normalizeWarpRecord(value) {
   if (!value || typeof value !== "object") throw new TypeError("Invalid Warp record");
   const r = value;
+  scoringVersionOf(r);
   if (r.mode !== "warp" || r.version !== WARP_VERSION || !date2(r.date) || !count2(r.levelsCleared) || r.totalLevels !== 10 || !count2(r.runScore) || !Array.isArray(r.perLevel) || r.perLevel.length < 1 || r.perLevel.length > 10 || !Array.isArray(r.picks) || r.picks.length !== r.perLevel.length - 1) throw new TypeError("Invalid Warp record structure");
   const completed = r.levelsCleared === 10 && r.perLevel.length === 10;
   if (!completed && r.levelsCleared !== r.perLevel.length - 1 || r.warpComplete !== void 0 && r.warpComplete !== completed) throw new TypeError("Invalid Warp completion");
@@ -1954,7 +2007,7 @@ var WarpVerificationBudgetError = class extends Error {
     this.code = "WARP_VERIFICATION_BUDGET";
   }
 };
-var canonical = (value) => Array.isArray(value) ? "[" + value.map(canonical).join(",") + "]" : value && typeof value === "object" ? "{" + Object.keys(value).sort().map((key) => JSON.stringify(key) + ":" + canonical(value[key])).join(",") + "}" : JSON.stringify(value);
+var canonical2 = (value) => Array.isArray(value) ? "[" + value.map(canonical2).join(",") + "]" : value && typeof value === "object" ? "{" + Object.keys(value).sort().map((key) => JSON.stringify(key) + ":" + canonical2(value[key])).join(",") + "}" : JSON.stringify(value);
 function admitted(level, seed3, charms, oneShots, attempts, remaining) {
   if (!Number.isSafeInteger(attempts) || attempts < 1 || attempts > WARP_MAX_CANDIDATES) throw new TypeError("Invalid Warp admission count");
   let rejectedUnknown = 0, rejectedFalse = 0;
@@ -1997,8 +2050,8 @@ function verifyWarpSubmission(wire, options = {}) {
   let charms = [], oneShots = [], total = 0;
   const boards = [];
   for (let index = 0; index < record.perLevel.length; index++) {
-    const claimed = record.perLevel[index], level = index + 1, seed3 = String(warpSeed(record.rootSeed, level)), proof = admitted(level, seed3, charms, oneShots, claimed.attempts, remaining), replay = replayWarpBoard(proof, claimed.actions);
-    if (replay.state.terminal === "active" || canonical(replay.result) !== canonical(claimed)) throw new TypeError("Warp board result disagrees with canonical replay");
+    const claimed = record.perLevel[index], level = index + 1, seed3 = String(warpSeed(record.rootSeed, level)), proof = admitted(level, seed3, charms, oneShots, claimed.attempts, remaining), replay = replayWarpBoard(proof, claimed.actions, scoringVersionOf(record));
+    if (replay.state.terminal === "active" || canonical2(replay.result) !== canonical2(claimed)) throw new TypeError("Warp board result disagrees with canonical replay");
     boards.push(replay.result);
     total += replay.result.score;
     if (index < record.perLevel.length - 1) {
@@ -2010,15 +2063,15 @@ function verifyWarpSubmission(wire, options = {}) {
     }
   }
   const levelsCleared = boards.filter((board) => board.cleared).length, completed = levelsCleared === 10;
-  const expected = { id: record.id, mode: "warp", version: "warp-1", rootSeed: record.rootSeed, date: record.date, levelsCleared, totalLevels: 10, ...completed ? { warpComplete: true } : {}, runScore: total, picks: record.picks, perLevel: boards };
-  if (canonical(expected) !== canonical(record)) throw new TypeError("Warp completion disagrees with canonical replay");
+  const expected = { ...scoringMetadata(scoringVersionOf(record)), id: record.id, mode: "warp", version: "warp-1", rootSeed: record.rootSeed, date: record.date, levelsCleared, totalLevels: 10, ...completed ? { warpComplete: true } : {}, runScore: total, picks: record.picks, perLevel: boards };
+  if (canonical2(expected) !== canonical2(record)) throw new TypeError("Warp completion disagrees with canonical replay");
   if (remaining() <= 0) throw new WarpVerificationBudgetError();
-  const rows2 = boards.map((board) => ({ proof_id: warpBoardProofId(record, board.level), kind: "warp-board", score: board.score, level_reached: board.level, longest_chain: board.longestChain, seed: board.seed, moves: { mode: "warp", runProofId: record.id, rootSeed: record.rootSeed, level: board.level, subSeed: board.subSeed, attempts: board.attempts, actions: board.actions }, version: record.version, daily_date: null }));
-  rows2.push({ proof_id: record.id, kind: "warp-run", score: total, level_reached: record.levelsCleared + 1, longest_chain: Math.max(0, ...boards.map((board) => board.longestChain)), seed: record.rootSeed, moves: { mode: "warp", record }, version: record.version, daily_date: null });
+  const rows2 = boards.map((board) => ({ proof_id: warpBoardProofId(record, board.level), kind: "warp-board", score: board.score, level_reached: board.level, longest_chain: board.longestChain, seed: board.seed, moves: { mode: "warp", runProofId: record.id, rootSeed: record.rootSeed, level: board.level, subSeed: board.subSeed, attempts: board.attempts, actions: board.actions, ...scoringMetadata(scoringVersionOf(record)) }, version: isCurrentScoring(record) ? "6.23" : record.version, daily_date: null }));
+  rows2.push({ proof_id: record.id, kind: "warp-run", score: total, level_reached: record.levelsCleared + 1, longest_chain: Math.max(0, ...boards.map((board) => board.longestChain)), seed: record.rootSeed, moves: { mode: "warp", record }, version: isCurrentScoring(record) ? "6.23" : record.version, daily_date: null });
   return rows2;
 }
 function warpBoardProofId(record, level) {
-  return warpRecordId({ rootSeed: record.rootSeed, picks: record.picks.slice(0, level - 1), perLevel: record.perLevel.slice(0, level) }) + ":board:" + level;
+  return warpRecordId({ rootSeed: record.rootSeed, picks: record.picks.slice(0, level - 1), perLevel: record.perLevel.slice(0, level), ...scoringMetadata(scoringVersionOf(record)) }) + ":board:" + level;
 }
 
 // src/nickname.ts
@@ -2038,25 +2091,34 @@ function verifySubmission(wire) {
   if (wire && typeof wire === "object" && wire.type === "warp-run") return verifyWarpSubmission(wire);
   const submission = decodeLeaderboardProof(wire), run = submission.type === "run" ? verifier.verifyRun(submission.record) : void 0, boards = submission.type === "board" ? [verifier.verifyBoard(submission)] : run.boards;
   const runVersion = submission.type === "board" ? submission.level === void 0 ? null : submission.runVersion ?? submission.record.version : run.record.version;
-  const route = run && run.record.startLevel !== void 0 ? { startLevel: run.record.startLevel, ...run.record.order ? { order: [...run.record.order] } : {}, totalLevels: 10 } : null;
-  const rows2 = boards.flatMap((board, index) => ["board", "chain", ...board.record.dailyDate ? ["daily"] : []].map((kind) => ({
+  const rows2 = boards.flatMap((board) => ["board", "chain", ...board.record.dailyDate ? ["daily"] : []].map((kind) => ({
     proof_id: board.sourceId,
     kind,
     score: board.record.score,
     level_reached: board.level,
     longest_chain: board.record.longestChain,
     seed: board.record.seed,
-    moves: { actions: compressMoves(board.record.moves), spool: board.spool, level: board.level, scoreVersion: board.record.version, runVersion, ...route ? { ...route, routePosition: index + 1 } : {} },
-    version: runVersion ?? board.record.version,
+    moves: { actions: compressMoves(board.record.moves), spool: board.spool, level: board.level, scoreVersion: board.record.version, runVersion, ...scoringMetadata(scoringVersionOf(board.record)) },
+    version: isCurrentScoring(board.record) ? "6.23" : runVersion ?? board.record.version,
     daily_date: board.record.dailyDate ?? null
   })));
   if (run) {
     const record = run.record;
-    rows2.push({ proof_id: record.id, kind: "run", score: record.runScore, level_reached: record.levelsCleared + 1, longest_chain: Math.max(0, ...boards.map((b) => b.record.longestChain)), seed: record.rootSeed ?? record.perLevel[0].seed, moves: route ? { ...route, boards: record.perLevel.map((b) => ({ level: b.level, seed: b.seed, moves: compressMoves(b.moves) })), routePosition: record.perLevel.length, classicComplete: record.classicComplete === true } : record.perLevel.map((b) => ({ seed: b.seed, moves: compressMoves(b.moves) })), version: record.version, daily_date: null });
+    rows2.push({ proof_id: record.id, kind: "run", score: record.runScore, level_reached: record.levelsCleared + 1, longest_chain: Math.max(0, ...boards.map((b) => b.record.longestChain)), seed: record.rootSeed ?? record.perLevel[0].seed, moves: record.perLevel.map((b) => ({ seed: b.seed, moves: compressMoves(b.moves) })), version: isCurrentScoring(record) ? "6.23" : record.version, daily_date: null });
   }
+  return rows2;
+}
+function verifyCurrentSubmission(wire) {
+  if (!wire || typeof wire !== "object" || !isCurrentScoring(wire.record)) throw new TypeError("This score belongs to an archived scoring season");
+  const input = wire;
+  if (input.type === "run" && input.record.version !== "6.14" || input.type === "warp-run" && input.record.version !== "warp-1") throw new TypeError("Historical mechanics cannot enter the current scoring season");
+  if (input.type === "board" && (!["6.7", "6.14"].includes(String(input.record.version)) || input.runVersion !== void 0 && input.runVersion !== "6.14" || input.level !== void 0 && (!Number.isSafeInteger(input.level) || Number(input.level) < 1 || Number(input.level) > 10))) throw new TypeError("Historical board context cannot enter the current scoring season");
+  const rows2 = verifySubmission(wire);
+  if (rows2.some((row) => row.version !== "6.23")) throw new TypeError("Mixed scoring seasons");
   return rows2;
 }
 export {
   validateNickname,
+  verifyCurrentSubmission,
   verifySubmission
 };
