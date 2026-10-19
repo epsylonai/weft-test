@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "version": "6.24.2",
+  "version": "6.24.4",
   "entries": [
     {
       "source": "Claude/assets/B-042/audio/grove-67-chain-break-v2.m4a",
@@ -93,19 +93,19 @@
       "metadata": "Inherited exact-v1 delivered metadata; channels2/sampleRate48000/AAC verified in v1 receipt"
     },
     {
-      "source": "Claude/assets/B-042/audio/hugo-ambience-bed-loop-v2.m4a",
+      "source": "Claude/assets/B-042/audio/hugo-ambience-bed-loop-v4.m4a",
       "id": "hugo-ambience-bed-loop-v2",
-      "file": "hugo/audio/hugo-ambience-bed-loop-v2.m4a",
+      "file": "hugo/audio/hugo-ambience-bed-loop-v4-a08365d800b8.m4a",
       "kind": "bed",
-      "duration": 81.0,
+      "duration": 81.002,
       "channels": 2,
       "sampleRate": 48000,
       "codec": "aac",
       "gainDb": 0,
-      "bytes": 1321974,
-      "sha256": "f97774658ee02ea49a7b4410e9febaca184a04dbcd5b7853eece244b23147a74",
+      "bytes": 1648259,
+      "sha256": "a08365d800b8d133187277e3280ee32ad7b7f19a3136f6627b457fc496b5484f",
       "copy": "byte-exact",
-      "metadata": "File:           /Users/konstantinkoos/Claude-Projects/MOTE/Claude/assets/B-042/audio/hugo-ambience-bed-loop-v2.m4a\nFile type ID:   m4af\nNum Tracks:     1\n----\nData format:     2 ch,  48000 Hz, aac  (0x00000000) 0 bits/channel, 0 bytes/packet, 1024 frames/packet, 0 bytes/frame\n                no channel layout.\nestimated duration: 81.000000 sec\naudio bytes: 1300082\naudio packets: 3798\nbit rate: 128365 bits per second\npacket size upper bound: 462\nmaximum packet size: 462\naudio data file offset: 5921\nnot optimized\naudio 3888000 valid frames + 1024 priming + 128 remainder = 3889152\n----\n"
+      "metadata": "File:           /Users/konstantinkoos/Claude-Projects/MOTE/Claude/assets/B-042/audio/hugo-ambience-bed-loop-v4.m4a\nFile type ID:   m4af\nNum Tracks:     1\n----\nData format:     2 ch,  48000 Hz, aac  (0x00000000) 0 bits/channel, 0 bytes/packet, 1024 frames/packet, 0 bytes/frame\n                no channel layout.\nestimated duration: 81.002000 sec\naudio bytes: 1626375\naudio packets: 3798\nbit rate: 160582 bits per second\npacket size upper bound: 526\nmaximum packet size: 526\naudio data file offset: 5921\nnot optimized\naudio 3888096 valid frames + 1024 priming + 32 remainder = 3889152\n----\n"
     },
     {
       "source": "Claude/assets/B-042/audio/hugo-glass-crack.m4a",
@@ -243,7 +243,7 @@
       "metadata": "Inherited exact-v1 delivered metadata; channels2/sampleRate48000/AAC verified in v1 receipt"
     }
   ],
-  "totalBytes": 2310021,
+  "totalBytes": 2636306,
   "retiredActiveFiles": [
     "hugo/audio/hugo-ambience-bed-loop.m4a",
     "hugo/audio/hugo-distant-pterosaur.m4a",
@@ -252,7 +252,7 @@
     "hugo/audio/hugo-distant-trex.m4a"
   ],
   "priorVersionAssetsPreserved": true,
-  "manifestSha256": "ea8c45a069e15ab00b7da76fbac6c488c8e5e8704849dd1cf8f76689aa921236",
+  "manifestSha256": "b18849683b5d769f489a44165421f4de5427575830e023877eee2a4174f2e44a",
   "documents": [
     {
       "file": "Claude/assets/B-042/SOUNDS.md",
@@ -294,5 +294,6 @@
       "sha256": "71fb07530da7842527a66f98616dfd5ce7ad0dee6d2c0d8f908cf8c85cc93a72",
       "bytes": 4014
     }
-  ]
+  ],
+  "ownerAuthorization": "Inbox20 item7 plus explicit Q054 answer: Use the current v4 file. Current a08365d8 pin supersedes stale brief5fb1edbe pin."
 }

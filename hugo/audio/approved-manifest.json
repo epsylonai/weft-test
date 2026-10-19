@@ -1,7 +1,7 @@
 {
   "version": 1,
   "approved": true,
-  "status": "owner-approved-delivered-audio-v2-patch",
+  "status": "owner-approved-current-bed-v4-patch",
   "clips": [
     {
       "id": "grove-67-chain-break",
@@ -77,15 +77,15 @@
     },
     {
       "id": "hugo-ambience-bed-loop-v2",
-      "file": "hugo/audio/hugo-ambience-bed-loop-v2.m4a",
+      "file": "hugo/audio/hugo-ambience-bed-loop-v4-a08365d800b8.m4a",
       "kind": "bed",
-      "duration": 81.0,
+      "duration": 81.002,
       "channels": 2,
       "sampleRate": 48000,
       "codec": "aac",
       "gainDb": 0,
-      "bytes": 1321974,
-      "sha256": "f97774658ee02ea49a7b4410e9febaca184a04dbcd5b7853eece244b23147a74"
+      "bytes": 1648259,
+      "sha256": "a08365d800b8d133187277e3280ee32ad7b7f19a3136f6627b457fc496b5484f"
     },
     {
       "id": "hugo-glass-crack",
