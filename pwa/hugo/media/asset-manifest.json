@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "approvedBy": "Claude owner relay 2026-10-19 12:20, to-main-mote-17-b042-media-and-owner-rules.md",
+  "entries": [
+    {
+      "source": "Claude/assets/B-042/video/hugo-sequence-alpha.webm",
+      "file": "hugo/media/video/hugo-sequence-alpha.webm",
+      "bytes": 4675457,
+      "sha256": "ed250bc4377c37e9b9f1f2c136d6fa3564a30e4ab6bf84bb42578d5cd0a2ac43",
+      "copy": "byte-exact"
+    },
+    {
+      "source": "Claude/assets/B-042/video/hugo-sequence-packed-alpha.mp4",
+      "file": "hugo/media/video/hugo-sequence-packed-alpha.mp4",
+      "bytes": 4823137,
+      "sha256": "0dce73c9603b88c8066dea76bbe3ee2a8c135971096084f48b410bfe0f389d8f",
+      "copy": "byte-exact"
+    },
+    {
+      "source": "Claude/assets/B-042/stills/egg-frame0.png",
+      "file": "hugo/media/stills/egg-frame0.png",
+      "bytes": 913185,
+      "sha256": "4dfdb478d2c721e1cc5d01c809088296e45deaaf0953003e620d474216c39133",
+      "copy": "byte-exact"
+    },
+    {
+      "source": "Claude/assets/B-042/stills/egg-frame0-trim.png",
+      "file": "hugo/media/stills/egg-frame0-trim.png",
+      "bytes": 906247,
+      "sha256": "e960db497a60d95b5af20b3b676f2b563dbb4c99b27aaf13fdb584a9b5984df5",
+      "copy": "byte-exact"
+    },
+    {
+      "source": "Claude/assets/B-042/stills/empty-shell-final.png",
+      "file": "hugo/media/stills/empty-shell-final.png",
+      "bytes": 777624,
+      "sha256": "700168f04b9e72abd227f7ac4df601b188477c08797a1f0d1f2a32c974207b0c",
+      "copy": "byte-exact"
+    }
+  ],
+  "totalBytes": 12095650,
+  "references": [
+    {
+      "file": "Claude/assets/B-042/OVERLAY-NOTES.md",
+      "bytes": 3132,
+      "sha256": "ed6c82c7efa27805c48981c077d7adc7ce7a7bf77635556efe33b422172f57c9"
+    },
+    {
+      "file": "Claude/assets/B-042/registration.json",
+      "bytes": 373,
+      "sha256": "c36c97945f2ad4364f41ef48ec4c5444f4e9f5ec7a86ae837df10bea044b1e47"
+    },
+    {
+      "file": "Claude/assets/B-042/SOUNDS.md",
+      "bytes": 2638,
+      "sha256": "d19a0934e65d55adaa6d51afd1bd5ff65053a21144950d6fe6d2194d4f116e73"
+    },
+    {
+      "file": "Claude/assets/B-042/hugo-crack-shader.html",
+      "bytes": 7870,
+      "sha256": "fc4c2146d4e16b0654bdf5e4bee2ab5134ef367d4a20032dd25ef56d72aab5da"
+    }
+  ],
+  "masterFrames": 430,
+  "frameRate": 24,
+  "naturalMovieMs": 17916.666666666668,
+  "impactAtMs": 16125,
+  "completePresentationMs": 21375,
+  "target8000ms": "Owner accepts this complete17.917s cut plus glide/glass tail; no retiming or trimming.",
+  "alpha": {
+    "chromium": "VP9 native alpha",
+    "webkit": "Approved AVC RGB-left/alpha-right, reconstructed in the existing one-pass glass shader"
+  },
+  "hevcProbe": {
+    "status": "unavailable",
+    "error": "AVFoundation -11834 Cannot Encode: HEVC-with-alpha encoder not available on this Mac; packed approved source used unchanged."
+  }
+}
