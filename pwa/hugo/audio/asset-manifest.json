@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "version": "6.24.1",
+  "version": "6.24.2",
   "entries": [
     {
       "source": "Claude/assets/B-042/audio/grove-67-chain-break-v2.m4a",
@@ -63,19 +63,19 @@
       "metadata": "Inherited exact-v1 delivered metadata; channels2/sampleRate48000/AAC verified in v1 receipt"
     },
     {
-      "source": "Claude/assets/B-042/audio/grove-67-roar-4.m4a",
+      "source": "Claude/assets/B-042/audio/grove-67-roar-4-v2.m4a",
       "id": "grove-67-roar-4",
       "file": "hugo/audio/grove-67-roar-4.m4a",
       "kind": "grove-cue",
-      "duration": 1.764,
+      "duration": 1.77,
       "channels": 2,
       "sampleRate": 48000,
       "codec": "aac",
       "gainDb": 0,
-      "bytes": 43259,
-      "sha256": "3b7713199d89b62a5bcfaf482b59eedd01c6e3983e7dc3ea65c777980a8d53eb",
+      "bytes": 37184,
+      "sha256": "41d07446fd526e5073bdf1d2c988c8709723593426295bb7529afe85fae970f2",
       "copy": "byte-exact",
-      "metadata": "Inherited exact-v1 delivered metadata; channels2/sampleRate48000/AAC verified in v1 receipt"
+      "metadata": "File:           /Users/konstantinkoos/Claude-Projects/MOTE/Claude/assets/B-042/audio/grove-67-roar-4-v2.m4a\nFile type ID:   m4af\nNum Tracks:     1\n----\nData format:     2 ch,  48000 Hz, aac  (0x00000000) 0 bits/channel, 0 bytes/packet, 1024 frames/packet, 0 bytes/frame\n                no channel layout.\nestimated duration: 1.770000 sec\naudio bytes: 36049\naudio packets: 84\nbit rate: 160933 bits per second\npacket size upper bound: 560\nmaximum packet size: 560\naudio data file offset: 44\nnot optimized\naudio 84960 valid frames + 1024 priming + 32 remainder = 86016\n----\n"
     },
     {
       "source": "Claude/assets/B-042/audio/grove-secret-unlocked-trex.m4a",
@@ -243,7 +243,7 @@
       "metadata": "Inherited exact-v1 delivered metadata; channels2/sampleRate48000/AAC verified in v1 receipt"
     }
   ],
-  "totalBytes": 2316096,
+  "totalBytes": 2310021,
   "retiredActiveFiles": [
     "hugo/audio/hugo-ambience-bed-loop.m4a",
     "hugo/audio/hugo-distant-pterosaur.m4a",
@@ -252,7 +252,7 @@
     "hugo/audio/hugo-distant-trex.m4a"
   ],
   "priorVersionAssetsPreserved": true,
-  "manifestSha256": "3dd5e8d9f666ac249c72852a189798bba4751eab8735bb633ae4fe24a43467bc",
+  "manifestSha256": "ea8c45a069e15ab00b7da76fbac6c488c8e5e8704849dd1cf8f76689aa921236",
   "documents": [
     {
       "file": "Claude/assets/B-042/SOUNDS.md",
@@ -279,6 +279,20 @@
       "archiveFile": "source/b042-audio-before-item10/SOUNDS-through-v3-item10.md",
       "sha256": "77143ecc8833e0e8b779fcdcd08c4ea08c4f538984557088a00e141a7d0f7d3e",
       "bytes": 3823
+    }
+  ],
+  "item14Authorizations": [
+    {
+      "file": "Claude/inbox/to-main-mote-19-b042-patch-v6.24.1.md",
+      "archiveFile": "source/b042-audio-before-v6242/owner-patch19-through-items12-14.md",
+      "sha256": "ada8f409cd4a475e57f9e605e937d1622b3bf1a8b54eed8cc068a6dc794f9a78",
+      "bytes": 14149
+    },
+    {
+      "file": "Claude/assets/B-042/SOUNDS.md",
+      "archiveFile": "source/b042-audio-before-v6242/SOUNDS-at-item14.md",
+      "sha256": "71fb07530da7842527a66f98616dfd5ce7ad0dee6d2c0d8f908cf8c85cc93a72",
+      "bytes": 4014
     }
   ]
 }

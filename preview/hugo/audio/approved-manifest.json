@@ -55,13 +55,13 @@
       "id": "grove-67-roar-4",
       "file": "hugo/audio/grove-67-roar-4.m4a",
       "kind": "grove-cue",
-      "duration": 1.764,
+      "duration": 1.77,
       "channels": 2,
       "sampleRate": 48000,
       "codec": "aac",
       "gainDb": 0,
-      "bytes": 43259,
-      "sha256": "3b7713199d89b62a5bcfaf482b59eedd01c6e3983e7dc3ea65c777980a8d53eb"
+      "bytes": 37184,
+      "sha256": "41d07446fd526e5073bdf1d2c988c8709723593426295bb7529afe85fae970f2"
     },
     {
       "id": "grove-secret-unlocked-trex",
@@ -214,7 +214,8 @@
     "decodedPcmBytes": 0,
     "nativeMediaDecoderBytes": "unmeasured",
     "bed": "two81secondHTMLmediaelements;3secondequalpowercrossfade;noHTMLloop;4secondentryfade",
-    "bedEndGuardSeconds": 0.1
+    "bedEndGuardSeconds": 0.1,
+    "breakPriority": "Every break emits only the unchanged v2 baby-dino awww; no card/draw tone or overlapping Grove growl. Step4 uses supplied louderv2; otherlevels unchanged."
   },
   "provenance": {
     "source": "Claude/assets/B-042",
@@ -289,6 +290,32 @@
         }
       ],
       "processing": "Exact encoded bytes copied under stable runtime cue filename. gainDb0; no transcode or attenuation."
+    },
+    "item14": {
+      "sourceFile": "Claude/assets/B-042/audio/grove-67-roar-4-v2.m4a",
+      "sourceSha256": "41d07446fd526e5073bdf1d2c988c8709723593426295bb7529afe85fae970f2",
+      "runtimeFile": "hugo/audio/grove-67-roar-4.m4a",
+      "measuredDuration": 1.77,
+      "suppliedLoudness": {
+        "integratedLufs": -11.5,
+        "peakDbfs": -1.3,
+        "independentlyReMeasured": false
+      },
+      "documents": [
+        {
+          "file": "Claude/inbox/to-main-mote-19-b042-patch-v6.24.1.md",
+          "archiveFile": "source/b042-audio-before-v6242/owner-patch19-through-items12-14.md",
+          "sha256": "ada8f409cd4a475e57f9e605e937d1622b3bf1a8b54eed8cc068a6dc794f9a78",
+          "bytes": 14149
+        },
+        {
+          "file": "Claude/assets/B-042/SOUNDS.md",
+          "archiveFile": "source/b042-audio-before-v6242/SOUNDS-at-item14.md",
+          "sha256": "71fb07530da7842527a66f98616dfd5ce7ad0dee6d2c0d8f908cf8c85cc93a72",
+          "bytes": 4014
+        }
+      ],
+      "processing": "Exact supplied louder AAC bytes under stable cueID/runtimefilename. gainDb0. No generation/transcode/normalization."
     }
   },
   "retiredRoles": [
