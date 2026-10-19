@@ -1,0 +1,27 @@
+B-042 ORIGINAL AUDIO REQUESTS FOR CLAUDE / MAIN MOTE
+No audio assets generated or third-party recordings incorporated by design.
+Use the owner's authorised ElevenLabs connector or another cleared original source.
+Save the actual generator/version, date, prompt, source and licence with each file.
+No melodies, rhythmic score or music in Hugo's Secret Level; normal game SFX remain.
+
+1 jungle-bed:60–90s seamless stereo ambience; humid dense prehistoric woodland,
+soft canopy air, distant insects, subtle leaf movement. Rich natural depth, quiet
+foreground, no bird species spotlight, no tonal drone, no dramatic rise or impact.
+2 cricket-detail:2–5s sparse small insect phrases; natural uneven spacing, soft,
+dry/warm air, no piercing digital ticks. Leave long quiet gaps in Main's randomiser.
+3 distant-call-A/B/C:2–4s each; original low distant reptilian woodland calls behind
+trees, gentle air/reverb, never a recognisable film roar. No aggressive close attack.
+Audition calls well below card SFX; randomise conservatively, never cluster or startle.
+4 shell-fissure:0.20–0.35s; small dry eggshell hairline tick, delicate restrained transient.
+5 shell-release:0.5–0.9s; a few light brittle shell chips landing on damp leaf litter,
+one or two small diminishing contacts. No explosion, crunching bone or wet gore.
+6 hatchling-breath/chirp:0.4–0.8s; tiny natural breath and restrained reptilian contact
+call, soft and inquisitive. No cartoon squeak, child speech or toy/chicken imitation.
+7 glass-fracture:0.35–0.6s; a controlled initial crack and fine branching glass stress,
+short muted decay. No gunshot, huge crash, piercing shard shower or loud sub impact.
+Only use with the separately approved glass impact; no unexplained sound during hatch.
+
+Mix/implementation: bind cues to real presentation clock; skip cancels pending cues,
+resumes underlying ambience once, never doubles it on replay/context restoration.
+Use current volume preference. Reduced-motion cue is a quiet shell acknowledgement,
+without glass/roar/approach. Main owns final measured levels, randomisation and looping.

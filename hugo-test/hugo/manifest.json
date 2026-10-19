@@ -1,0 +1,471 @@
+{
+  "schema": 1,
+  "version": "6.24.0",
+  "worldKey": "hugo",
+  "activation": "Only after descriptor.secret === hugo; no startup fetches or menu preload",
+  "cardRepresentation": "52 body-only images below the existing single runtime index pair; one shared Spool back",
+  "entries": [
+    {
+      "source": "ChatGPT/B-042-design/AUDIO-CUES.txt",
+      "file": "hugo/AUDIO-CUES.txt",
+      "role": "provenance",
+      "bytes": 2103,
+      "sha256": "18ea8c47167bf660cd75f2f6bce333ebf29a2af433574c04f37aad5dfb27dedf"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/back.webp",
+      "file": "hugo/cards/back.webp",
+      "role": "single-card-back",
+      "bytes": 21098,
+      "sha256": "e68df5b2483fab1d9b497173804c7827c34e417d1be7969dfd9e630d637add4a"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/club-10.webp",
+      "file": "hugo/cards/club-10.webp",
+      "role": "card-body-only",
+      "bytes": 13158,
+      "sha256": "64dc54ed84ce39a4db3ba46e652506e0ba2f181b5badea825554f2155ab0ee0a"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/club-2.webp",
+      "file": "hugo/cards/club-2.webp",
+      "role": "card-body-only",
+      "bytes": 9242,
+      "sha256": "d86247cd12069a9d156479548b91bbeed9c2b37c08747816e792f9c061c6198a"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/club-3.webp",
+      "file": "hugo/cards/club-3.webp",
+      "role": "card-body-only",
+      "bytes": 9742,
+      "sha256": "0bb3929b9bf893e775bcfaf9e89b926eddf92158334d218a4298621a3347709e"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/club-4.webp",
+      "file": "hugo/cards/club-4.webp",
+      "role": "card-body-only",
+      "bytes": 10388,
+      "sha256": "6e2380d0e92254554695a75d8ca96311fb2f9f8bfb7d7399b1f137417cc9cf4c"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/club-5.webp",
+      "file": "hugo/cards/club-5.webp",
+      "role": "card-body-only",
+      "bytes": 11122,
+      "sha256": "c7df4f0d50b938f454a13e0548dca126adab84ceb331e642e7cd26c1373c10bd"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/club-6.webp",
+      "file": "hugo/cards/club-6.webp",
+      "role": "card-body-only",
+      "bytes": 11800,
+      "sha256": "5675375cedbe3eb1f75ac7640179f982d0d4637c7ddf9f427f979280f056cfff"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/club-7.webp",
+      "file": "hugo/cards/club-7.webp",
+      "role": "card-body-only",
+      "bytes": 12276,
+      "sha256": "a8adaefcfb2c783dae790039826d76b5344d02d653e5da0c7e41020f181d4a1c"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/club-8.webp",
+      "file": "hugo/cards/club-8.webp",
+      "role": "card-body-only",
+      "bytes": 12840,
+      "sha256": "8c8cc552c6983f32ce9d914e6929fdaf5ed6bc43f4151f0917541eff4f80d77e"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/club-9.webp",
+      "file": "hugo/cards/club-9.webp",
+      "role": "card-body-only",
+      "bytes": 12760,
+      "sha256": "67d2dc7d42d6c1acc989684c71052cbbd32dcc0839fe4d856e1c21a135ba2dcf"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/club-a.webp",
+      "file": "hugo/cards/club-a.webp",
+      "role": "card-body-only",
+      "bytes": 11612,
+      "sha256": "fc2ad36424f3714dd2fb60c4aa680a663a39efea499458f81dda89cecc0da9e8"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/club-j.webp",
+      "file": "hugo/cards/club-j.webp",
+      "role": "card-body-only",
+      "bytes": 18536,
+      "sha256": "a541c6e7206fc66e6dc4f6b339088d70af3157586044d592711f1fe243562d6d"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/club-k.webp",
+      "file": "hugo/cards/club-k.webp",
+      "role": "card-body-only",
+      "bytes": 18676,
+      "sha256": "b897f76e1a31ed7e122d3362f41605332214451ae2a649fae28bdcced0eb96bb"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/club-q.webp",
+      "file": "hugo/cards/club-q.webp",
+      "role": "card-body-only",
+      "bytes": 18058,
+      "sha256": "13f908717e5151051a81f3c93900c3381ffe79c8c5f9e2ddbdeaaf543ffa9151"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/diamond-10.webp",
+      "file": "hugo/cards/diamond-10.webp",
+      "role": "card-body-only",
+      "bytes": 10626,
+      "sha256": "3ac3a62cc890084591ddcf8e450f022424192c1595bae5422448f5975f61bd27"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/diamond-2.webp",
+      "file": "hugo/cards/diamond-2.webp",
+      "role": "card-body-only",
+      "bytes": 8704,
+      "sha256": "3b3c24f6a79fc681e976d285405b36d614422ecec9d4d01d4e2cd9afd4c0a63d"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/diamond-3.webp",
+      "file": "hugo/cards/diamond-3.webp",
+      "role": "card-body-only",
+      "bytes": 8916,
+      "sha256": "aa6ac4cd4b9fdd083efbb86b0ec4fa95e1748473de040a7ac8ec4e157e28179c"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/diamond-4.webp",
+      "file": "hugo/cards/diamond-4.webp",
+      "role": "card-body-only",
+      "bytes": 9142,
+      "sha256": "d7837bb5a7548edb4f9c67b9c51871e4d1811ecc57cc96fdca0af3481f04d3e1"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/diamond-5.webp",
+      "file": "hugo/cards/diamond-5.webp",
+      "role": "card-body-only",
+      "bytes": 9514,
+      "sha256": "d2792f0c5826fb34b92ef67eb50a66c1b7c35cbbe33577f0e339ab47b5ea61c5"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/diamond-6.webp",
+      "file": "hugo/cards/diamond-6.webp",
+      "role": "card-body-only",
+      "bytes": 9810,
+      "sha256": "fbbd81a4503b94572a2c31c785b75ea572e272c344e8c3dda6b05c08432e71c4"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/diamond-7.webp",
+      "file": "hugo/cards/diamond-7.webp",
+      "role": "card-body-only",
+      "bytes": 10160,
+      "sha256": "00c8a812ae3e19a31e245216442a18f7ca3271c72de8814ac486ef6cecaa8d18"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/diamond-8.webp",
+      "file": "hugo/cards/diamond-8.webp",
+      "role": "card-body-only",
+      "bytes": 10428,
+      "sha256": "5cbbef0083c4f5e1989440552b5d4fcd0792a94bf1a4e0b200085b0b88d53769"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/diamond-9.webp",
+      "file": "hugo/cards/diamond-9.webp",
+      "role": "card-body-only",
+      "bytes": 10376,
+      "sha256": "45b8f5b32bc25c2cb70d7793805247303f43b79d6abc47abd7b994988bd9ae29"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/diamond-a.webp",
+      "file": "hugo/cards/diamond-a.webp",
+      "role": "card-body-only",
+      "bytes": 11128,
+      "sha256": "0e036d48a6a24eb694bc5e046bf320d7d23c7a7cf2b51f55668534cb7b39c7ea"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/diamond-j.webp",
+      "file": "hugo/cards/diamond-j.webp",
+      "role": "card-body-only",
+      "bytes": 18822,
+      "sha256": "bf226c660b7dca883e1b67fa71f4086d1c31eebfb8bdde9a6f9d55158b763323"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/diamond-k.webp",
+      "file": "hugo/cards/diamond-k.webp",
+      "role": "card-body-only",
+      "bytes": 18896,
+      "sha256": "5fdac547a946dd58a460d206fc3f869b4bf3ae7f24069c7e4bebf748a6287a0a"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/diamond-q.webp",
+      "file": "hugo/cards/diamond-q.webp",
+      "role": "card-body-only",
+      "bytes": 18238,
+      "sha256": "5aa37d30ef028c05e15b9a58b3ac1025ac71704c101496a791e100737189b3d7"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/heart-10.webp",
+      "file": "hugo/cards/heart-10.webp",
+      "role": "card-body-only",
+      "bytes": 11154,
+      "sha256": "43f3d789b4d399884345172a88906b7b0633330bb68716174e959aede5266064"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/heart-2.webp",
+      "file": "hugo/cards/heart-2.webp",
+      "role": "card-body-only",
+      "bytes": 8768,
+      "sha256": "b6d800a8fd9c6ddded55fff96dd252157a6aff6adad3c8ad6f160a51a04da52a"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/heart-3.webp",
+      "file": "hugo/cards/heart-3.webp",
+      "role": "card-body-only",
+      "bytes": 9112,
+      "sha256": "1a52bfa1489a221fa3c64a4251d8b96bd736f82d89c288ceb3e1f1117a45a3f8"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/heart-4.webp",
+      "file": "hugo/cards/heart-4.webp",
+      "role": "card-body-only",
+      "bytes": 9424,
+      "sha256": "30bbcc4f454c6e2986dcf2f8bb4429f7a8017abe369330c1c52fd94c0ad04f90"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/heart-5.webp",
+      "file": "hugo/cards/heart-5.webp",
+      "role": "card-body-only",
+      "bytes": 9914,
+      "sha256": "33d0673dc2e9ea11bb23076d7517e7d94eb64aee8b5e9e7cafc3b64333b27252"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/heart-6.webp",
+      "file": "hugo/cards/heart-6.webp",
+      "role": "card-body-only",
+      "bytes": 10222,
+      "sha256": "7255c7b6a0dc763cb96a8bb00c0697b3c08d11904c4029c6a43c34fbfdbc21bf"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/heart-7.webp",
+      "file": "hugo/cards/heart-7.webp",
+      "role": "card-body-only",
+      "bytes": 10680,
+      "sha256": "7c89e96bee8a503b2fdca1a5b95f94df4a2814be7a2fe9423c5536f58c6f965b"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/heart-8.webp",
+      "file": "hugo/cards/heart-8.webp",
+      "role": "card-body-only",
+      "bytes": 10946,
+      "sha256": "5d612272315597e5d4ddb17bf720d4039957b9a6f6ea2b1b4b6e5eddd0cc290d"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/heart-9.webp",
+      "file": "hugo/cards/heart-9.webp",
+      "role": "card-body-only",
+      "bytes": 10868,
+      "sha256": "e32be986d7d789b80ec33ca4fc28bb14387efb451d0439d761fc04a5498cb3bd"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/heart-a.webp",
+      "file": "hugo/cards/heart-a.webp",
+      "role": "card-body-only",
+      "bytes": 10920,
+      "sha256": "bea1f1537a18f13d4c859aa64cfafc79091f6b4be9ee2098571e897bf550dd67"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/heart-j.webp",
+      "file": "hugo/cards/heart-j.webp",
+      "role": "card-body-only",
+      "bytes": 18866,
+      "sha256": "8bb6076f10a5487a1bb6c9c8091b2ca521afb9591ae453159d76dcf8b42623a1"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/heart-k.webp",
+      "file": "hugo/cards/heart-k.webp",
+      "role": "card-body-only",
+      "bytes": 18954,
+      "sha256": "3e8e7a7a8b69390d09ceaa42b43b0a73f26ab1aa926178e7851133223b72cc07"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/heart-q.webp",
+      "file": "hugo/cards/heart-q.webp",
+      "role": "card-body-only",
+      "bytes": 18210,
+      "sha256": "7bc5aa2d65691f0a57a7ae99426f6d51694d7dedb983dc39bbbae9a158c5f491"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/spade-10.webp",
+      "file": "hugo/cards/spade-10.webp",
+      "role": "card-body-only",
+      "bytes": 12144,
+      "sha256": "747f410bee7b4217a27a8e5db9c24c8b295901186755f2df8a11d08d5ba11bf5"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/spade-2.webp",
+      "file": "hugo/cards/spade-2.webp",
+      "role": "card-body-only",
+      "bytes": 8998,
+      "sha256": "eb10922471b9ecbb2740e21a55d474c8f2536cdf5ee8e88ca2d05d7bffd75473"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/spade-3.webp",
+      "file": "hugo/cards/spade-3.webp",
+      "role": "card-body-only",
+      "bytes": 9418,
+      "sha256": "d40953a531b4cf927cdb39e883e2eb135213b52f64d5b4c6decd3a49a49e39a2"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/spade-4.webp",
+      "file": "hugo/cards/spade-4.webp",
+      "role": "card-body-only",
+      "bytes": 9984,
+      "sha256": "40bf3235cba2bd8116a08e777662216c8fd88cb9741283885bec1105065098a6"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/spade-5.webp",
+      "file": "hugo/cards/spade-5.webp",
+      "role": "card-body-only",
+      "bytes": 10522,
+      "sha256": "00170caedd9956a2602184c2aa85144721e6cc4588c6227f3008425acb155b85"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/spade-6.webp",
+      "file": "hugo/cards/spade-6.webp",
+      "role": "card-body-only",
+      "bytes": 10934,
+      "sha256": "be20cafbcba7b9385dfdd8467cded22f75f433c41ac89e61771996c0ccc0fea7"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/spade-7.webp",
+      "file": "hugo/cards/spade-7.webp",
+      "role": "card-body-only",
+      "bytes": 11458,
+      "sha256": "ef940c0fffff093c4039439d9c207dcb136d5c5e7aa6aedaf509fc717321675e"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/spade-8.webp",
+      "file": "hugo/cards/spade-8.webp",
+      "role": "card-body-only",
+      "bytes": 11882,
+      "sha256": "9ab3994e40c452b0401ff756713d85423d9dcbdc226bfc9d4287d8273cb8f814"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/spade-9.webp",
+      "file": "hugo/cards/spade-9.webp",
+      "role": "card-body-only",
+      "bytes": 11786,
+      "sha256": "f4926616bae040178736608382fc8e9e25928159362db6d4d2b4bd4b5f4a810f"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/spade-a.webp",
+      "file": "hugo/cards/spade-a.webp",
+      "role": "card-body-only",
+      "bytes": 11446,
+      "sha256": "561585d1e42281151568bae69dd1411995bd2c2dd1ecff682862c3eaf90b0123"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/spade-j.webp",
+      "file": "hugo/cards/spade-j.webp",
+      "role": "card-body-only",
+      "bytes": 18660,
+      "sha256": "f19f60dcb60b3152bd215b5cb7c3b715226ad0c3fec2b00e0585edfbe2eedc26"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/spade-k.webp",
+      "file": "hugo/cards/spade-k.webp",
+      "role": "card-body-only",
+      "bytes": 18788,
+      "sha256": "ad58ca7ee9006fc197f9921f626b916ec2baca87946278cb52f4b536bc32dec4"
+    },
+    {
+      "source": "ChatGPT/B-042-design/cards/bodies/spade-q.webp",
+      "file": "hugo/cards/spade-q.webp",
+      "role": "card-body-only",
+      "bytes": 18130,
+      "sha256": "a85496cb11d47a29392206987ca1e1a573d18d095e378644f94e77a2ff3e1177"
+    },
+    {
+      "source": "ChatGPT/B-042-design/LICENSES.txt",
+      "file": "hugo/LICENSES.txt",
+      "role": "provenance",
+      "bytes": 2268,
+      "sha256": "85da4f58a09a44940bc2ecc274b6d76f9e36c509540a6dc93b3f2759fc0de2a9"
+    },
+    {
+      "source": "ChatGPT/B-042-design/title/hugo-emblem.svg",
+      "file": "hugo/title/hugo-emblem.svg",
+      "role": "title-art",
+      "bytes": 353,
+      "sha256": "3ef9b4afc3ddbe848a911e550b7dd309ae0913b7c1efde59ece8c796d82b5d43"
+    },
+    {
+      "source": "ChatGPT/B-042-design/title/hugo-title.svg",
+      "file": "hugo/title/hugo-title.svg",
+      "role": "title-art",
+      "bytes": 30167,
+      "sha256": "7635f43744f8ca09e105e83c471aa06af3b7335f0462647b905b3c077df05740"
+    },
+    {
+      "source": "ChatGPT/B-042-design/world/jungle-375x600-low.webp",
+      "file": "hugo/world/jungle-375x600-low.webp",
+      "role": "flattened-low-world",
+      "bytes": 128732,
+      "sha256": "2dae841a2d8585ff6a4ec834fd5c14eb62d980128cea2108bcec99d9aee694fa"
+    },
+    {
+      "source": "ChatGPT/B-042-design/world/jungle-393x852-low.webp",
+      "file": "hugo/world/jungle-393x852-low.webp",
+      "role": "flattened-low-world",
+      "bytes": 193664,
+      "sha256": "d5eb42a8b9777c74bff026775cbc3e2b7d3634275a314ee63f0646d919723a1f"
+    },
+    {
+      "source": "ChatGPT/B-042-design/world/jungle-far-375x600@2x.webp",
+      "file": "hugo/world/jungle-far-375x600@2x.webp",
+      "role": "registered-world-layer",
+      "bytes": 431980,
+      "sha256": "b3e9c64adc5ed778ee9ad1235497ec6eed8314fa51ecc2214e4d2fd8a8e36c71"
+    },
+    {
+      "source": "ChatGPT/B-042-design/world/jungle-far-393x852@2x.webp",
+      "file": "hugo/world/jungle-far-393x852@2x.webp",
+      "role": "registered-world-layer",
+      "bytes": 619390,
+      "sha256": "935ba3b57e1e6ecb6031e63f091ded91fae40b7c80a790137de2ffccea8716a6"
+    },
+    {
+      "source": "ChatGPT/B-042-design/world/jungle-mid-375x600@2x.webp",
+      "file": "hugo/world/jungle-mid-375x600@2x.webp",
+      "role": "registered-world-layer",
+      "bytes": 321902,
+      "sha256": "011009df9f9416c04050dbc0f1c67a794bbc7f22644e7613b83bd5dafec1fa4d"
+    },
+    {
+      "source": "ChatGPT/B-042-design/world/jungle-mid-393x852@2x.webp",
+      "file": "hugo/world/jungle-mid-393x852@2x.webp",
+      "role": "registered-world-layer",
+      "bytes": 595454,
+      "sha256": "465ebc241878bc3341abe4a40d9064dc46c4e86b842062ae201ecff504669589"
+    },
+    {
+      "source": "ChatGPT/B-042-design/world/jungle-near-375x600@2x.webp",
+      "file": "hugo/world/jungle-near-375x600@2x.webp",
+      "role": "registered-world-layer",
+      "bytes": 204028,
+      "sha256": "9f51a5e2d6ee0150ef4e43e00f4e287792882b6e70ccb3f2609edef21538469a"
+    },
+    {
+      "source": "ChatGPT/B-042-design/world/jungle-near-393x852@2x.webp",
+      "file": "hugo/world/jungle-near-393x852@2x.webp",
+      "role": "registered-world-layer",
+      "bytes": 223396,
+      "sha256": "ab6ef5ba01b35520815a2236e907276cddc659c57f85accbb0ac7166a4da119d"
+    }
+  ],
+  "totalBytes": 3421693,
+  "excluded": {
+    "oldPaintedEgg": "Not frame0 of the owner-selected Kling clip; reference only",
+    "paintedMotionStudy": "Not cinematic-approved; no atlas/GIF/review MP4 copied",
+    "cinematic": "Pending approved alpha video, exact frame0 and final shell still, continuity hashes and cue manifest",
+    "audio": "Pending Claude/assets/B-042/audio original ElevenLabs picks"
+  }
+}

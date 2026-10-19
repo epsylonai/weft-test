@@ -1,1 +1,0 @@
-var a="hugo/media/approved-manifest-338737cf92b88bfc9e05f300cf0d8fff7adbab378e6cd2a50f07479c99369fde.json",f="hugo/audio/approved-manifest-03b12fd26127ec1ae842576b68316b5264fc690a2faa1a786b4bdef03188aba4.json";export{a,f as b};

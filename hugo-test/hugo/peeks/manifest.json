@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "ownerRule": "B042 patch item7, 19Oct15:35",
+  "entries": [
+    {
+      "source": "ChatGPT/B-042-design/source/cards/portraits/king-court-2x.png",
+      "file": "hugo/peeks/king-court-2x.png",
+      "bytes": 223400,
+      "sha256": "79fbb3c82e5f1852b7a38453a94da3325357fb30aaab8f5f8b6589e9e418921a",
+      "width": 332,
+      "height": 472,
+      "role": "existing transparent court portrait; original bytes, no new generation"
+    },
+    {
+      "source": "ChatGPT/B-042-design/source/cards/portraits/queen-court-2x.png",
+      "file": "hugo/peeks/queen-court-2x.png",
+      "bytes": 215235,
+      "sha256": "57064ea11374b4c9b5d579327ae09e4638736b4b6caa0ba0643416a3a36bd671",
+      "width": 332,
+      "height": 472,
+      "role": "existing transparent court portrait; original bytes, no new generation"
+    },
+    {
+      "source": "ChatGPT/B-042-design/source/cards/portraits/jack-court-2x.png",
+      "file": "hugo/peeks/jack-court-2x.png",
+      "bytes": 195623,
+      "sha256": "43e3a96fe8146af4c93d5e654a2c946cd5dda75f1033b743e3bf78b1838a10a6",
+      "width": 332,
+      "height": 472,
+      "role": "existing transparent court portrait; original bytes, no new generation"
+    }
+  ],
+  "totalBytes": 634258,
+  "licence": "Original B042 artwork; source LICENSES.txt applies; no new art generation"
+}

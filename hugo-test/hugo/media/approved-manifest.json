@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "approved": true,
+  "id": "hugo-owner-cut-20261019-v1",
+  "stage": "cover",
+  "canvas": [
+    786,
+    1704
+  ],
+  "idleFrame": {
+    "src": "hugo/media/stills/egg-frame0.png",
+    "sha256": "4dfdb478d2c721e1cc5d01c809088296e45deaaf0953003e620d474216c39133",
+    "width": 786,
+    "height": 1704,
+    "visibleBounds": [
+      0,
+      643,
+      786,
+      806
+    ],
+    "anchor": [
+      448.6,
+      901.4
+    ]
+  },
+  "finalFrame": {
+    "src": "hugo/media/stills/empty-shell-final.png",
+    "sha256": "700168f04b9e72abd227f7ac4df601b188477c08797a1f0d1f2a32c974207b0c",
+    "width": 786,
+    "height": 1704,
+    "visibleBounds": [
+      0,
+      693,
+      786,
+      756
+    ],
+    "anchor": [
+      448.6,
+      901.4
+    ]
+  },
+  "finalPose": "empty-shell",
+  "clips": [
+    {
+      "kind": "sequence",
+      "durationMs": 17916.666666666668,
+      "frameRate": 24,
+      "startFrameSha256": "4dfdb478d2c721e1cc5d01c809088296e45deaaf0953003e620d474216c39133",
+      "endFrameSha256": "700168f04b9e72abd227f7ac4df601b188477c08797a1f0d1f2a32c974207b0c",
+      "impactAtMs": 16125,
+      "impactEffect": "pebble",
+      "impactPoint": [
+        0.5979643765903307,
+        0.176056338028169
+      ],
+      "tailAfterImpactMs": 4050,
+      "sources": [
+        {
+          "src": "hugo/media/video/hugo-sequence-alpha.webm",
+          "type": "video/webm; codecs=\"vp9\"",
+          "sha256": "ed250bc4377c37e9b9f1f2c136d6fa3564a30e4ab6bf84bb42578d5cd0a2ac43",
+          "alpha": true
+        },
+        {
+          "src": "hugo/media/video/hugo-sequence-packed-alpha.mp4",
+          "type": "video/mp4; codecs=\"avc1.640033\"",
+          "sha256": "0dce73c9603b88c8066dea76bbe3ee2a8c135971096084f48b410bfe0f389d8f",
+          "alpha": true,
+          "encoding": "packed-alpha"
+        }
+      ]
+    }
+  ],
+  "registration": {
+    "source": "Claude/assets/B-042/registration.json",
+    "eggBodyBounds": [
+      110,
+      645,
+      668,
+      491
+    ],
+    "eggBodyCentre": [
+      448.6,
+      901.4
+    ],
+    "trimAlternative": {
+      "src": "hugo/media/stills/egg-frame0-trim.png",
+      "sourceOffset": [
+        0,
+        643
+      ],
+      "width": 786,
+      "height": 808
+    },
+    "note": "Full frame0 is deliberately used for exact clip registration; trimmed alternative retains its authored offset."
+  }
+}
