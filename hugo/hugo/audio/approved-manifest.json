@@ -1,9 +1,275 @@
 {
   "version": 1,
-  "approved": false,
-  "status": "awaiting Claude ElevenLabs picks for owner pebble continuation",
-  "clips": [],
-  "requiredRoles": ["bed", "crickets", "roar", "egg-crack", "hatchling-chirp", "pebble-lift", "pebble-throw", "pebble-impact", "glass-crack"],
-  "retiredRoles": ["claw-scratch"],
-  "note": "No generated, substituted or placeholder sound is approved. Impact cues follow the approved pebble media timing; no claw-scratch cue is required."
+  "approved": true,
+  "status": "owner-approved-delivered-media",
+  "clips": [
+    {
+      "id": "grove-67-chain-break",
+      "file": "hugo/audio/grove-67-chain-break.m4a",
+      "kind": "grove-cue",
+      "duration": 1.08,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 29300,
+      "sha256": "01bf48e6df441ff72a7c502fb2b30a6fba3a22f6088c4445c97f0948b4efb089"
+    },
+    {
+      "id": "grove-67-roar-1",
+      "file": "hugo/audio/grove-67-roar-1.m4a",
+      "kind": "grove-cue",
+      "duration": 1.36,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 35473,
+      "sha256": "4a0178e26124888cf38f5cedcee79d0a28d43a253052b45fbf91e8017e0dd250"
+    },
+    {
+      "id": "grove-67-roar-2",
+      "file": "hugo/audio/grove-67-roar-2.m4a",
+      "kind": "grove-cue",
+      "duration": 1.483,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 38841,
+      "sha256": "c44f9ab42ccf32ea087f17a7d3b36f3207564ea90bbe6803c35a508dcb929292"
+    },
+    {
+      "id": "grove-67-roar-3",
+      "file": "hugo/audio/grove-67-roar-3.m4a",
+      "kind": "grove-cue",
+      "duration": 1.617,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 40306,
+      "sha256": "6b0c53dd1d578ab85f50057d53909a24b3e7ece25e7020803c3268ac38020a78"
+    },
+    {
+      "id": "grove-67-roar-4",
+      "file": "hugo/audio/grove-67-roar-4.m4a",
+      "kind": "grove-cue",
+      "duration": 1.764,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 43259,
+      "sha256": "3b7713199d89b62a5bcfaf482b59eedd01c6e3983e7dc3ea65c777980a8d53eb"
+    },
+    {
+      "id": "grove-secret-unlocked-trex",
+      "file": "hugo/audio/grove-secret-unlocked-trex.m4a",
+      "kind": "grove-cue",
+      "duration": 3.2,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 71571,
+      "sha256": "d1cc848248f1b1bc5c0ad802078e9f022096cdc977dc6000c80ae2d8c4a39edd"
+    },
+    {
+      "id": "hugo-ambience-bed-loop",
+      "file": "hugo/audio/hugo-ambience-bed-loop.m4a",
+      "kind": "bed",
+      "duration": 24,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 493388,
+      "sha256": "ec680aefbe50572db89205f9dfc461bd0aded3fe891998de37699d69c0c95de9"
+    },
+    {
+      "id": "hugo-distant-pterosaur",
+      "file": "hugo/audio/hugo-distant-pterosaur.m4a",
+      "kind": "distant-call",
+      "duration": 3.48,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 77077,
+      "sha256": "a6c4d815a829c1ec5523716e90fb1dba40934942c566013fec19e5036ae953ca"
+    },
+    {
+      "id": "hugo-distant-raptors",
+      "file": "hugo/audio/hugo-distant-raptors.m4a",
+      "kind": "distant-call",
+      "duration": 4,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 89366,
+      "sha256": "a994a1b3972dad4e0dd91c514c81213aeafcfed8ce2a38ff34bfcdc506d8fe81"
+    },
+    {
+      "id": "hugo-distant-sauropod",
+      "file": "hugo/audio/hugo-distant-sauropod.m4a",
+      "kind": "distant-call",
+      "duration": 5,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 107586,
+      "sha256": "a983b063cd43e7f8f227ab02cada621bc461860d8d12d0addd2a7902a8797e62"
+    },
+    {
+      "id": "hugo-distant-trex",
+      "file": "hugo/audio/hugo-distant-trex.m4a",
+      "kind": "distant-call",
+      "duration": 6,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 128982,
+      "sha256": "c46341ffbdde591f9e9eb336db597f2c0a6ba1d34a04ec81b407eefd97036372"
+    },
+    {
+      "id": "hugo-glass-crack",
+      "file": "hugo/audio/hugo-glass-crack.m4a",
+      "kind": "glass-crack",
+      "duration": 2.48,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 57474,
+      "sha256": "76f52b0ce134de70e8bf27dae705cfcf4c5988fe77d920255af97652168f8a5e"
+    },
+    {
+      "id": "hugo-sequence-audio",
+      "file": "hugo/audio/hugo-sequence-audio.m4a",
+      "kind": "sequence",
+      "duration": 17.898,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 367371,
+      "sha256": "4ac8f0d5f96f0e09124b01bca09f678b7caeac8780b3d227a6f85d633814e1f7"
+    },
+    {
+      "id": "hugo-tap-growl-1",
+      "file": "hugo/audio/hugo-tap-growl-1.m4a",
+      "kind": "tap-growl",
+      "duration": 0.75,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 22295,
+      "sha256": "773824e7e71b05f3ad2b0243ab30a833598fe5d50c9ac05f604898377f68e541"
+    },
+    {
+      "id": "hugo-tap-growl-2",
+      "file": "hugo/audio/hugo-tap-growl-2.m4a",
+      "kind": "tap-growl",
+      "duration": 0.75,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 22642,
+      "sha256": "36ee1c18dfe35af8ef86df3e120790ab5c7bac96d9766a2280c3d1ecbc37e4bf"
+    },
+    {
+      "id": "hugo-tap-growl-3",
+      "file": "hugo/audio/hugo-tap-growl-3.m4a",
+      "kind": "tap-growl",
+      "duration": 0.75,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 22250,
+      "sha256": "cab9ab226be2cf205ae8ad48b67dd22d085650aa0deafc75d81d7bfd53b7544b"
+    },
+    {
+      "id": "hugo-tap-growl-4",
+      "file": "hugo/audio/hugo-tap-growl-4.m4a",
+      "kind": "tap-growl",
+      "duration": 0.75,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 22277,
+      "sha256": "7690b6feda43f00fc40fc24d43a8a470fd905aa6d5c9b51db5c4d444ed7e8471"
+    },
+    {
+      "id": "hugo-tap-growl-5",
+      "file": "hugo/audio/hugo-tap-growl-5.m4a",
+      "kind": "tap-growl",
+      "duration": 0.75,
+      "channels": 2,
+      "sampleRate": 48000,
+      "codec": "aac",
+      "gainDb": 0,
+      "bytes": 24823,
+      "sha256": "be99b8c7eb9eb3aa7152ac292a7b9fd6048482d00d1a56178f9a61d9ca7135e1"
+    }
+  ],
+  "policy": {
+    "sourceGainDb": 0,
+    "normalWorldMusic": "continues",
+    "ambientBus": "music",
+    "effectsBus": "effects",
+    "distantGapMs": [
+      12000,
+      30000
+    ],
+    "distantNoImmediateRepeat": true,
+    "tapNoImmediateRepeat": true,
+    "sequenceClock": "actual-video-time",
+    "sequenceStartSeconds": 0,
+    "glassContactSeconds": 16.125,
+    "maximumMediaSlots": 5,
+    "decodedPcmBytes": 0,
+    "nativeMediaDecoderBytes": "unmeasured"
+  },
+  "provenance": {
+    "source": "Claude/assets/B-042",
+    "documents": [
+      {
+        "file": "Claude/assets/B-042/SOUNDS.md",
+        "archiveFile": "source/b042-approved-audio/SOUNDS.md",
+        "sha256": "d19a0934e65d55adaa6d51afd1bd5ff65053a21144950d6fe6d2194d4f116e73",
+        "bytes": 2638
+      },
+      {
+        "file": "Claude/assets/B-042/OVERLAY-NOTES.md",
+        "archiveFile": "source/b042-approved-audio/OVERLAY-NOTES.md",
+        "sha256": "ed6c82c7efa27805c48981c077d7adc7ce7a7bf77635556efe33b422172f57c9",
+        "bytes": 3132
+      },
+      {
+        "file": "Claude/assets/B-042/registration.json",
+        "archiveFile": "source/b042-approved-audio/registration.json",
+        "sha256": "c36c97945f2ad4364f41ef48ec4c5444f4e9f5ec7a86ae837df10bea044b1e47",
+        "bytes": 373
+      },
+      {
+        "file": "Claude/inbox/to-main-mote-17-b042-media-and-owner-rules.md",
+        "archiveFile": "source/b042-approved-audio/to-main-mote-17-b042-media-and-owner-rules.md",
+        "sha256": "619af6d5cc39a13155a10b135ae8e954c24668fd88693da9fe14652cd9ed24b5",
+        "bytes": 3198
+      }
+    ],
+    "processing": "Exact encoded byte copy only; supplied mastering unchanged; no new generation or transcode."
+  },
+  "retiredRoles": [
+    "claw-scratch"
+  ],
+  "note": "The full supplied soundtrack includes the hatch and pebble lift/throw/impact. Only the separate supplied glass crack is added at contact."
 }
