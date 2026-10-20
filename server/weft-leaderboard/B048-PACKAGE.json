@@ -1,33 +1,29 @@
 {
   "status": "prepared-not-deployed",
-  "version": "6.24.8",
-  "brief": "B-048 window-1 server-first",
-  "canonicalSha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05",
+  "version": "6.24.9",
+  "brief": "B-048 window-2 server-first",
+  "canonicalSha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679",
   "files": [
     {
       "file": "server/weft-leaderboard/canonical-replay.mjs",
-      "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05"
+      "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679"
     },
     {
       "file": "server/weft-leaderboard/canonical-replay-manifest.json",
-      "sha256": "1eeb24448c70d7cd64b7fbdd9e2abef07e9411d510704a16b4827638ff6deb5b"
+      "sha256": "6fca407684247934afa2db3b4097bc893a64f48379b5c92e5d29cd30846fc4f8"
     },
     {
       "file": "server/weft-leaderboard/index.ts",
       "sha256": "b654a7b052f4c33fc6f8fa278b033c94d3c699d80a7cb51e1fd0a35071efdd88"
     },
     {
-      "file": "server/weft-leaderboard/202610200001_window_secret_badge.sql",
-      "sha256": "cf9b4c3fb2ae033efdc5e636a0e940d1da7883d83011624ab359000e3a2925c2"
-    },
-    {
       "file": "server/weft-leaderboard/README-B048.md",
-      "sha256": "fe21f8d68c98be45b8e048cedfaefc1ebb05320da391fcaa8a878980ecae4864"
+      "sha256": "715dc38ae0bfc2dc227517680a54e6a12715a5d17905976bee343264dc0793bd"
     }
   ],
   "acceptance": {
-    "file": "test-output/b048-window-server/acceptance.json",
-    "sha256": "dae3458cf5047dff5c3232d7af7f25ed0219275ca221da094ff3be360736bbe4"
+    "file": "test-output/b048-window-v6249-server/acceptance.json",
+    "sha256": "982142d85093846869b0ead37b7780b58d38e05c52e967d39acf7d7ed0441647"
   },
   "historicalAuthorities": [
     {
@@ -49,20 +45,24 @@
     {
       "file": "server/weft-leaderboard/historical/canonical-replay-02b96949.mjs",
       "sha256": "02b9694947c1b4a475679c705fb939f75b59a020cd6a3e73aad38d34cf8ecfce"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-05bd763a.mjs",
+      "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05"
     }
   ],
-  "onlyMigration": "202610200001_window_secret_badge.sql",
+  "migration": null,
+  "sqlAction": "NONE. Do not reapply v6.24.8 badge migration.",
   "excludedActions": [
-    "No B044 or other season wipe",
-    "No score deletion",
-    "No badge deletion",
-    "No new client badge writes",
+    "No migration",
+    "No SQL reapply",
+    "No season wipe",
+    "No score or badge deletion",
     "No deployment or database execution performed"
   ],
   "ownerOrder": [
     "Pin exact canonical bundle at immutable URL and deploy unchanged Edge handler importing that URL",
-    "Apply only 202610200001_window_secret_badge.sql",
-    "Verify genuine Window, dual-secret, Neon-last and forged cases plus historical policy",
+    "Verify Window2 genuine/forged and zero-board-ace legacy/new cases, plus historical parity",
     "Publish client after server acceptance"
   ],
   "databaseExecuted": false,

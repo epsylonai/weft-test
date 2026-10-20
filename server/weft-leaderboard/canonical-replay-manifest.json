@@ -1,11 +1,12 @@
 {
-  "version": "6.24.8",
+  "version": "6.24.9",
   "hugoFeature": "hugo-2",
-  "windowFeature": "window-1",
+  "windowFeature": "window-2",
+  "legacyWindowFeature": "window-1",
   "scoringVersion": "level-v3",
   "unchangedScoringVersion": "clear-v2",
   "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
-  "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05",
+  "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679",
   "inputs": [
     {
       "file": "../../B-002/engine/configs.ts",
@@ -60,6 +61,10 @@
       "sha256": "6506e31507bfaccf5b2f562616780d23f32177f6887c5d26f175acef96fd08ec"
     },
     {
+      "file": "src/neon-window-admission.ts",
+      "sha256": "6055a410d183ae9bd78acf29b6bb2b184e0d9cfe54bc0fdb9b801930b8f4064b"
+    },
+    {
       "file": "src/nickname.ts",
       "sha256": "ff927dfd8363f4e3f51075adff878ba0ae935413146b1d2d95827251b608cf3b"
     },
@@ -69,7 +74,7 @@
     },
     {
       "file": "src/records.ts",
-      "sha256": "8b8ef876a448e711f91b4668fe78d95261bec8c4b67361b241c074f5cef59407"
+      "sha256": "c0140e9290e5b04064f358e08163699b9e44b49b70bd13d936b18b58edbc70cc"
     },
     {
       "file": "src/replay-practice.ts",
@@ -81,7 +86,7 @@
     },
     {
       "file": "src/run.ts",
-      "sha256": "718983c0600e466d7846bf8fef3927639181129ef5b8caf78004da0323986698"
+      "sha256": "88a95b05929b158e95832c48b6e233e9a7575aaa21e53f050fef550e102a44c8"
     },
     {
       "file": "src/score-codec.ts",
@@ -97,7 +102,7 @@
     },
     {
       "file": "src/window-trigger.ts",
-      "sha256": "d6c913d5c1a5e4feb4bd0c02747841569bcf58003060791739de888aef6eddc8"
+      "sha256": "a2683babf9748afd117c52bc731c530cd2a94c647e148dc13cdb5e868db3bf86"
     },
     {
       "file": "src/world-config.ts",
@@ -105,7 +110,7 @@
     },
     {
       "file": "supabase/replay-entry.ts",
-      "sha256": "96af4aa510f039ae648523ce5b547660d052daa1c0a65cb92865a2386236d2a8"
+      "sha256": "1654aa784bdcb0aff184afa1d0aeb9c83f1b563a30f69ee417e8734d3f8f0039"
     },
     {
       "file": "supabase/warp-replay.ts",
@@ -165,13 +170,18 @@
       "file": "server/weft-leaderboard/historical/canonical-replay-02b96949.mjs",
       "sha256": "02b9694947c1b4a475679c705fb939f75b59a020cd6a3e73aad38d34cf8ecfce",
       "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-05bd763a.mjs",
+      "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05",
+      "accepted": true
     }
   ],
   "previousCurrent": {
-    "file": "../v6.24.7/server/weft-leaderboard/canonical-replay.mjs",
-    "sha256": "02b9694947c1b4a475679c705fb939f75b59a020cd6a3e73aad38d34cf8ecfce",
+    "file": "../v6.24.8/server/weft-leaderboard/canonical-replay.mjs",
+    "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05",
     "accepted": true
   },
   "deploymentRequired": true,
-  "currentWritePolicy": "B048 server-first: Neon violin-ace draw witness gates the separately replayed Window interlude; inherited next-level spool/factor, no normal-level clear reward. Hugo and historical proofs without Window remain accepted by verifySubmission. Current Classic remains level-v3; clear-v2 Classic writes reject UPDATE_GAME_REQUIRED; Daily/Warp clear-v2 unchanged. Row version remains6.23. This package contains no season wipe or database execution."
+  "currentWritePolicy": "B048 server-first: Window2 admits only deterministic solver-verified Neon deals with at least one board ace; the first board ace gates the draw witness after any chain of at least one played card, with no hand requirement. Window1 retains the exact old ordinary generator, full-deal first-ace plus pair-or-better rule and seed domain. Room difficulty/scoring/proof shape unchanged. Hugo and six historical authorities remain accepted by verifySubmission. Current Classic remains level-v3; clear-v2 Classic writes reject UPDATE_GAME_REQUIRED; Daily/Warp clear-v2 unchanged. Row version remains6.23. NO migration or SQL reapply this round; no season wipe or database execution."
 }

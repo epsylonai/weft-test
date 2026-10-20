@@ -1093,28 +1093,54 @@ function recordId(record) {
   return "weft-" + hash.toString(16).padStart(16, "0");
 }
 
+// src/neon-window-admission.ts
+var NEON_WINDOW_ADMISSION = "neon-window-2";
+function generateNeonOpportunity(input, seed3, options = {}) {
+  if (typeof seed3 === "number" && !Number.isSafeInteger(seed3)) throw new RangeError("Seed must be a safe integer or bigint");
+  const original = BigInt(seed3), rules = resolveRules(input), maxAttempts = options.maxAttempts ?? 1e3;
+  if (maxAttempts !== Infinity && (!Number.isSafeInteger(maxAttempts) || maxAttempts < 1)) throw new RangeError("maxAttempts must be a positive safe integer or Infinity");
+  const solverOptions = { timeBudgetMs: options.timeBudgetMs ?? Infinity, maxNodes: options.maxNodes ?? Infinity }, checks = [];
+  for (let index = 0; index < maxAttempts; index++) {
+    const subSeed = original + BigInt(index) * GENERATOR_SALT, candidate2 = deal(rules, subSeed), started = performance.now(), verification = solve(rules, candidate2, solverOptions);
+    checks.push({ subSeed, verification, wallMs: performance.now() - started });
+    if (verification.clearable === "unknown") throw new GenerationBudgetError(original, subSeed, index + 1, verification);
+    const violinAce = candidate2.weave.find((card) => card % 13 === 0);
+    if (verification.clearable === true && violinAce !== void 0) {
+      if (!verification.line) throw new Error("A verified Neon deal needs a clearing witness");
+      return { deal: candidate2, line: verification.line, attempts: index + 1, seed: original, subSeed, salt: GENERATOR_SALT, verification, checks, violinAce };
+    }
+  }
+  throw new GenerationAttemptsError(original, maxAttempts);
+}
+
 // src/window-trigger.ts
-var WINDOW_VERSION = "window-1";
+var WINDOW_VERSION = "window-2";
+var LEGACY_WINDOW_VERSION = "window-1";
 function windowVersionOf(value) {
   const version = value && typeof value === "object" ? value.windowVersion : void 0;
-  if (version !== void 0 && version !== WINDOW_VERSION) throw new TypeError("Unsupported Window feature version");
+  if (version !== void 0 && version !== WINDOW_VERSION && version !== LEGACY_WINDOW_VERSION) throw new TypeError("Unsupported Window feature version");
+  const disabled = value && typeof value === "object" ? value.windowDisabled : void 0;
+  if (disabled !== void 0 && (disabled !== true || version !== WINDOW_VERSION)) throw new TypeError("Invalid disabled Window feature");
   return version;
 }
 var hasWindowFeature = (value) => windowVersionOf(value) !== void 0;
-var windowTriggerEligible = (value, world3) => hasWindowFeature(value) && world3 === 4;
-function chosenWindowAce(deal2) {
-  const cards = Array.isArray(deal2) ? deal2 : [...deal2.weave, ...deal2.spoolOrder, ...deal2.burned];
+var windowTriggerEligible = (value, world3) => hasWindowFeature(value) && !value.windowDisabled && world3 === 4;
+function chosenWindowAce(deal2, version = WINDOW_VERSION) {
+  windowVersionOf({ windowVersion: version });
+  const cards = Array.isArray(deal2) ? version === LEGACY_WINDOW_VERSION ? deal2 : deal2.slice(0, 30) : version === LEGACY_WINDOW_VERSION ? [...deal2.weave, ...deal2.spoolOrder, ...deal2.burned] : deal2.weave;
   const ace = cards.find((card) => card % 13 === 0);
-  if (ace === void 0) throw new Error("Generated Neon deal has no ace");
+  if (ace === void 0) throw new Error("Generated Neon board has no ace");
   return ace;
 }
-function isWindowSacrifice(state, move, ace) {
-  return move.type === "draw" && state.terminal === "active" && state.spoolIndex < state.spool.length && state.chain.length > 0 && Number.isInteger(ace) && ace >= 0 && ace < 52 && ace % 13 === 0 && state.chain[state.chain.length - 1] === ace && state.top === ace && snapshot(state).handType >= 1;
+function isWindowSacrifice(state, move, ace, version = WINDOW_VERSION) {
+  windowVersionOf({ windowVersion: version });
+  return move.type === "draw" && state.terminal === "active" && state.spoolIndex < state.spool.length && state.chain.length > 0 && Number.isInteger(ace) && ace >= 0 && ace < 52 && ace % 13 === 0 && state.chain[state.chain.length - 1] === ace && state.top === ace && (version !== LEGACY_WINDOW_VERSION || snapshot(state).handType >= 1);
 }
-function windowSeed(root2, afterLevel) {
+function windowSeed(root2, afterLevel, version = WINDOW_VERSION) {
   if (!Number.isSafeInteger(afterLevel) || afterLevel < 1 || afterLevel > 10 || typeof root2 === "number" && !Number.isSafeInteger(root2) || !/^-?\d{1,30}$/.test(String(root2))) throw new TypeError("Invalid Window seed domain");
+  windowVersionOf({ windowVersion: version });
   let hash = 14695981039346656037n;
-  for (const c of `weft-window:${WINDOW_VERSION}:${BigInt(root2)}:${afterLevel}`) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
+  for (const c of `weft-window:${version}:${BigInt(root2)}:${afterLevel}`) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
   return hash;
 }
 var sameWindowWitness = (a, b) => a === void 0 ? b === void 0 : b !== void 0 && a.seed === b.seed && a.moveIndex === b.moveIndex && a.ace === b.ace;
@@ -1342,7 +1368,7 @@ function rulesForLevel(level, version = RUN_VERSION) {
 }
 function board(rootSeed, level, version = RUN_VERSION, presentationWorld, feature = {}) {
   const config = { ...levelConfig(level, version), ...presentationWorld === void 0 ? {} : { world: presentationWorld } };
-  return { ...config, seed: String(runLevelSeed(rootSeed, level, version)), ...hugoVersionOf(feature) === HUGO_VERSION && config.world === 3 ? { admission: GROVE_ADMISSION } : {} };
+  return { ...config, seed: String(runLevelSeed(rootSeed, level, version)), ...hugoVersionOf(feature) === HUGO_VERSION && config.world === 3 ? { admission: GROVE_ADMISSION } : windowVersionOf(feature) === WINDOW_VERSION && config.world === 4 ? { admission: NEON_WINDOW_ADMISSION } : {} };
 }
 function runPlan(run) {
   if (run.rulesVersion !== CLASSIC_RULES_VERSION) {
@@ -1355,7 +1381,7 @@ function routeMetadata(value) {
   return hasClassicRoute(value) ? { worldRoute: value.worldRoute, startWorld: value.startWorld, worldOrder: [...value.worldOrder] } : {};
 }
 function generateRunBoard(rules, descriptor) {
-  return descriptor.admission === GROVE_ADMISSION ? generateGroveOpportunity(rules, BigInt(descriptor.seed)) : generateDeal(rules, BigInt(descriptor.seed));
+  return descriptor.admission === GROVE_ADMISSION ? generateGroveOpportunity(rules, BigInt(descriptor.seed)) : descriptor.admission === NEON_WINDOW_ADMISSION ? generateNeonOpportunity(rules, BigInt(descriptor.seed)) : generateDeal(rules, BigInt(descriptor.seed));
 }
 function featureMetadata(value) {
   const version = hugoVersionOf(value);
@@ -1373,9 +1399,9 @@ function replayBoard(input, level, version = RUN_VERSION, presentationWorld, sco
   if (input.subSeed !== void 0 && proofSeed(input.subSeed) !== String(generated.subSeed)) throw new Error("Run board sub-seed disagrees with exact generation");
   let chainCoins = 0, unmultipliedChainCoins = 0;
   let state = createState(rules, generated.deal), trigger, windowTrigger;
-  const violin = chosenWindowAce(generated.deal);
+  const violin = !secret && windowTriggerEligible(scoring, config.world) ? chosenWindowAce(generated.deal, windowVersionOf(scoring)) : void 0;
   input.moves.forEach((move, moveIndex) => {
-    const eligible = isHugoSacrifice(state, move), windowEligible = isWindowSacrifice(state, move, violin);
+    const eligible = isHugoSacrifice(state, move), windowEligible = violin !== void 0 && isWindowSacrifice(state, move, violin, windowVersionOf(scoring));
     const transition = applyMove(state, move);
     chainCoins += transition.events.reduce((sum, event) => sum + levelChainCoins(event, level, scoringVersionOf(scoring)), 0);
     unmultipliedChainCoins += transition.events.reduce((sum, event) => sum + levelChainCoins(event, 1, scoringVersionOf(scoring)), 0);
@@ -1423,16 +1449,17 @@ function verifyHugoWitness(expected, hugo, allowPendingLevel) {
   } else if (hugo && hugo.afterLevel !== allowPendingLevel) throw new Error("Hugo trigger has no canonical witness");
 }
 function windowMetadata(value) {
-  return hasWindowFeature(value) ? { windowVersion: WINDOW_VERSION } : {};
+  const version = windowVersionOf(value);
+  return version ? { windowVersion: version, ...value.windowDisabled ? { windowDisabled: true } : {} } : {};
 }
 function windowRunBoard(run, afterLevel) {
   if (!Number.isSafeInteger(afterLevel) || afterLevel < 1 || afterLevel > 10 || run.rulesVersion !== CLASSIC_RULES_VERSION) throw new Error("Invalid Window insertion position");
   const config = levelConfig(Math.min(afterLevel + 1, 10), run.rulesVersion);
-  return { ...config, world: 4, seed: String(windowSeed(run.rootSeed, afterLevel)), secret: "window" };
+  return { ...config, world: 4, seed: String(windowSeed(run.rootSeed, afterLevel, windowVersionOf(run) ?? LEGACY_WINDOW_VERSION)), secret: "window" };
 }
 function checkedWindow(value, feature, root2, order) {
   if (value === void 0) return;
-  if (!hasWindowFeature(feature) || Object.keys(value).some((k) => !["version", "afterLevel", "trigger", "result"].includes(k)) || value.version !== WINDOW_VERSION || !count(value.afterLevel) || value.afterLevel < 1 || value.afterLevel > 10 || order?.[value.afterLevel - 1] !== 4 || !value.trigger || Object.keys(value.trigger).some((k) => !["seed", "moveIndex", "ace"].includes(k)) || value.trigger.seed !== String(runLevelSeed(root2, value.afterLevel)) || !count(value.trigger.moveIndex) || value.trigger.moveIndex >= 256 || !count(value.trigger.ace) || value.trigger.ace >= 52 || value.trigger.ace % 13 !== 0) throw new Error("Invalid Window trigger context");
+  if (!windowTriggerEligible(feature, 4) || Object.keys(value).some((k) => !["version", "afterLevel", "trigger", "result"].includes(k)) || value.version !== windowVersionOf(feature) || !count(value.afterLevel) || value.afterLevel < 1 || value.afterLevel > 10 || order?.[value.afterLevel - 1] !== 4 || !value.trigger || Object.keys(value.trigger).some((k) => !["seed", "moveIndex", "ace"].includes(k)) || value.trigger.seed !== String(runLevelSeed(root2, value.afterLevel)) || !count(value.trigger.moveIndex) || value.trigger.moveIndex >= 256 || !count(value.trigger.ace) || value.trigger.ace >= 52 || value.trigger.ace % 13 !== 0) throw new Error("Invalid Window trigger context");
   return copy(value);
 }
 function expectedWindow(replayed) {
@@ -1446,7 +1473,7 @@ function verifyWindowWitness(expected, window2, allowPendingLevel) {
 }
 function runRecordId(record) {
   if (!record.perLevel.every((result) => moves(result.moves))) throw new TypeError("Invalid run moves");
-  const text = JSON.stringify([record.version, record.perLevel.map((result) => [seed(result.seed), result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])]), ...hasClassicRoute(record) ? ["classic-world-route-v1", record.worldRoute, record.startWorld, record.worldOrder] : [], ...scoringVersionOf(record) === "legacy" ? [] : ["scoring", scoringVersionOf(record)], ...hasHugoFeature(record) ? ["hugo", hugoVersionOf(record), record.hugo ? [record.hugo.afterLevel, record.hugo.trigger, record.hugo.result ? [record.hugo.result.seed, record.hugo.result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])] : null] : null, ...record.hugoDisabled ? ["disabled"] : []] : [], ...hasWindowFeature(record) ? ["window", WINDOW_VERSION, record.window ? [record.window.afterLevel, [record.window.trigger.seed, record.window.trigger.moveIndex, record.window.trigger.ace], record.window.result ? [record.window.result.seed, record.window.result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])] : null] : null] : []]);
+  const text = JSON.stringify([record.version, record.perLevel.map((result) => [seed(result.seed), result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])]), ...hasClassicRoute(record) ? ["classic-world-route-v1", record.worldRoute, record.startWorld, record.worldOrder] : [], ...scoringVersionOf(record) === "legacy" ? [] : ["scoring", scoringVersionOf(record)], ...hasHugoFeature(record) ? ["hugo", hugoVersionOf(record), record.hugo ? [record.hugo.afterLevel, record.hugo.trigger, record.hugo.result ? [record.hugo.result.seed, record.hugo.result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])] : null] : null, ...record.hugoDisabled ? ["disabled"] : []] : [], ...hasWindowFeature(record) ? ["window", windowVersionOf(record), record.window ? [record.window.afterLevel, [record.window.trigger.seed, record.window.trigger.moveIndex, record.window.trigger.ace], record.window.result ? [record.window.result.seed, record.window.result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])] : null] : null, ...record.windowDisabled ? ["disabled"] : []] : []]);
   let hash = 14695981039346656037n;
   for (const char of text) hash = BigInt.asUintN(64, (hash ^ BigInt(char.charCodeAt(0))) * 1099511628211n);
   return "weft-run-" + hash.toString(16).padStart(16, "0");
@@ -2321,7 +2348,7 @@ function runMoves(record) {
   const moves2 = record.hugoVersion || record.windowVersion ? {
     boards,
     ...record.hugoVersion ? { hugoVersion: record.hugoVersion, ...record.hugoDisabled ? { hugoDisabled: true } : {}, ...record.hugoVersion === "hugo-2" ? { worldRoute: record.worldRoute, startWorld: record.startWorld, worldOrder: record.worldOrder } : {}, ...record.hugo ? { hugo: { ...record.hugo, ...record.hugo.result ? { result: { ...record.hugo.result, moves: compressMoves(record.hugo.result.moves) } } : {} } } : {} } : {},
-    ...record.windowVersion ? { windowVersion: record.windowVersion, worldRoute: record.worldRoute, startWorld: record.startWorld, worldOrder: record.worldOrder, ...record.window ? { window: { ...record.window, ...record.window.result ? { result: { ...record.window.result, moves: compressMoves(record.window.result.moves) } } : {} } } : {} } : {}
+    ...record.windowVersion ? { windowVersion: record.windowVersion, ...record.windowDisabled ? { windowDisabled: true } : {}, worldRoute: record.worldRoute, startWorld: record.startWorld, worldOrder: record.worldOrder, ...record.window ? { window: { ...record.window, ...record.window.result ? { result: { ...record.window.result, moves: compressMoves(record.window.result.moves) } } : {} } } : {} } : {}
   } : boards;
   return scoringVersionOf(record) === CLASSIC_SCORING_VERSION ? Array.isArray(moves2) ? { boards: moves2, scoringVersion: CLASSIC_SCORING_VERSION } : { ...moves2, scoringVersion: CLASSIC_SCORING_VERSION } : moves2;
 }
@@ -2349,6 +2376,7 @@ function verifySubmission(wire) {
 function verifyCurrentSubmission(wire) {
   if (!wire || typeof wire !== "object" || !isCurrentScoring(wire.record)) throw new TypeError("This score belongs to an archived scoring season");
   const input = wire;
+  if (input.type === "run" && input.record.windowVersion === "window-2" && input.record.windowDisabled === true) throw new TypeError("Assisted Window runs stay on this device");
   const unchanged = input.type === "warp-run" || input.type === "board" && input.record.dailyDate !== void 0;
   if (input.record.scoringVersion !== (unchanged ? CURRENT_SCORING_VERSION : CLASSIC_SCORING_VERSION)) {
     const error = new TypeError("Please update Weft to post scores");

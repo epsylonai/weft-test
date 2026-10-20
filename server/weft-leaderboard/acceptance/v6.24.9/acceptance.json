@@ -1,0 +1,355 @@
+{
+  "status": "passed-prepared-not-deployed",
+  "version": "6.24.9",
+  "brief": "B-048 inbox31 §7/§9 board-ace guarantee",
+  "startedAt": "2026-10-20T15:00:15.776Z",
+  "finishedAt": "2026-10-20T15:00:44.825Z",
+  "canonical": {
+    "file": "server/weft-leaderboard/canonical-replay.mjs",
+    "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679"
+  },
+  "manifest": {
+    "file": "server/weft-leaderboard/canonical-replay-manifest.json",
+    "sha256": "6fca407684247934afa2db3b4097bc893a64f48379b5c92e5d29cd30846fc4f8"
+  },
+  "inputs": [
+    {
+      "file": "../../B-002/engine/configs.ts",
+      "sha256": "8621b35d7f0fe80f5601ca8654704b9b34793096197e60dc41ddb4aa45bc7907"
+    },
+    {
+      "file": "../../B-002/engine/deck.ts",
+      "sha256": "0979809455663e60b7e2027866eb2f4cec095233efd43cd71b1660eda577026f"
+    },
+    {
+      "file": "../../B-002/engine/hands.ts",
+      "sha256": "ca19f65afae92a32f3f6f5b85ce64e145860d4f9ad9fbe7806696c39f4ae94d0"
+    },
+    {
+      "file": "../../B-002/engine/layout.ts",
+      "sha256": "df22ac84f7a7fbc6e0703ccd7dcab980f2c2edd5b43ad5eb7fd47e306f8178d2"
+    },
+    {
+      "file": "../../B-002/engine/rules.ts",
+      "sha256": "16168b9c3dafb772629f1b0301f6b1bcb2f392d32e3b7b6029d5857215b4c341"
+    },
+    {
+      "file": "../../B-002/engine/scoring.ts",
+      "sha256": "07558c6eb071ed05bc8b54a5afd137e72ff75d923a7d42861c6af26e2c6e8dd9"
+    },
+    {
+      "file": "../../B-004/engine/generator.ts",
+      "sha256": "b00f0a8cd185088aa5d169857041783aa006432c8daa1487298ec0f7fb022c94"
+    },
+    {
+      "file": "../../B-004/engine/solver.ts",
+      "sha256": "4151ff98caff4ada906bff06368a2e50ac225d52aa1917cd5d825b6e689b3c51"
+    },
+    {
+      "file": "src/daily.ts",
+      "sha256": "871456d69b0d1f8e0e9767499266227ea6943ca231cc407437805554bf5ad304"
+    },
+    {
+      "file": "src/grove-opportunity.ts",
+      "sha256": "1d3076c3a9cd1721d3f5e9a01727672cd1603810bea5af2547a9fb050d839f44"
+    },
+    {
+      "file": "src/hugo-trigger.ts",
+      "sha256": "88aaa75d897a3977d2a8e7bd20be46e0b6b13b825e64219dfdd16f3bf3985bfe"
+    },
+    {
+      "file": "src/leaderboard-validation.ts",
+      "sha256": "2bf113f1cd3b92cac53f185021832713689d1ebb342feec26e25310957f70597"
+    },
+    {
+      "file": "src/leaderboard-wire.ts",
+      "sha256": "6506e31507bfaccf5b2f562616780d23f32177f6887c5d26f175acef96fd08ec"
+    },
+    {
+      "file": "src/neon-window-admission.ts",
+      "sha256": "6055a410d183ae9bd78acf29b6bb2b184e0d9cfe54bc0fdb9b801930b8f4064b"
+    },
+    {
+      "file": "src/nickname.ts",
+      "sha256": "ff927dfd8363f4e3f51075adff878ba0ae935413146b1d2d95827251b608cf3b"
+    },
+    {
+      "file": "src/play-mode.ts",
+      "sha256": "9a23eddacdbd055fdf8c0cee7ed672c1a7d05502b0e6755cf359104cb935fccc"
+    },
+    {
+      "file": "src/records.ts",
+      "sha256": "c0140e9290e5b04064f358e08163699b9e44b49b70bd13d936b18b58edbc70cc"
+    },
+    {
+      "file": "src/replay-practice.ts",
+      "sha256": "ecac3c0382236619510065b45c5752f6844e9caac18a465af3510d5ee146b9b0"
+    },
+    {
+      "file": "src/run-plan.ts",
+      "sha256": "899cb55db481615799c06b3b5ce56de0c822e08b490b829642dda8f58ffa39a7"
+    },
+    {
+      "file": "src/run.ts",
+      "sha256": "88a95b05929b158e95832c48b6e233e9a7575aaa21e53f050fef550e102a44c8"
+    },
+    {
+      "file": "src/score-codec.ts",
+      "sha256": "c0332ec839afda0cc327c1be2bd26b9252c2da3796eb1e43e7cc6bb4f8964718"
+    },
+    {
+      "file": "src/score-config.ts",
+      "sha256": "4aa7692e8e0418ffc333d28232a4898110d4aaf7dbed83ee209dbf2b9eebf636"
+    },
+    {
+      "file": "src/test-mode-gate.ts",
+      "sha256": "060845e59f42f39215caf01ec969f033af47b9bcae73d3574dfdc19e510571c0"
+    },
+    {
+      "file": "src/window-trigger.ts",
+      "sha256": "a2683babf9748afd117c52bc731c530cd2a94c647e148dc13cdb5e868db3bf86"
+    },
+    {
+      "file": "src/world-config.ts",
+      "sha256": "4ab81a5b2267c618802b10c27c8d98d734e026206543b7aab74fb270c806e06d"
+    },
+    {
+      "file": "supabase/replay-entry.ts",
+      "sha256": "1654aa784bdcb0aff184afa1d0aeb9c83f1b563a30f69ee417e8734d3f8f0039"
+    },
+    {
+      "file": "supabase/warp-replay.ts",
+      "sha256": "634f0191982db2b6ba284b0d15924262cb38828d5254eb79619e778b18e4333b"
+    },
+    {
+      "file": "warp-core/config.ts",
+      "sha256": "9287a54693c4de169f7c795d2791735692edb9422087730e218cc97809d98ea7"
+    },
+    {
+      "file": "warp-core/generator.ts",
+      "sha256": "39e566d3b8b7381d408c3178747958bff6334f25f94b1fd48b86fd9ecd70ae1c"
+    },
+    {
+      "file": "warp-core/hands.ts",
+      "sha256": "6d0be2f5da992ef725eda55670091725b8a3b54cc3b701611342046b16520e24"
+    },
+    {
+      "file": "warp-core/rewards.ts",
+      "sha256": "2da5a01fdf85bcfefb28ebb665d43d5a2db12804db19fcdc96abfcdb6ea9fb59"
+    },
+    {
+      "file": "warp-core/rules.ts",
+      "sha256": "a83c41a3046de141bc691e8f068b4b98d4e18aec073cfc14cfb4055a74f67f91"
+    },
+    {
+      "file": "warp-core/run.ts",
+      "sha256": "7c7538f74c1201985a48838d1d18c0db77aaee469851fc6fcd04e889d434d597"
+    },
+    {
+      "file": "warp-core/solver.ts",
+      "sha256": "06c49515f899e00cd1e02556f191b6bd05b78b09628c111fa70aab662d1680a5"
+    }
+  ],
+  "controller": {
+    "file": "src/run-controller.ts",
+    "sha256": "ce3816fbefae5607bb8adce166491fa60ffd97806607d7d7bb5adb89d14192be"
+  },
+  "tests": {
+    "cases": 62,
+    "passed": 62,
+    "failed": 0,
+    "log": {
+      "file": "test-output/b048-window-v6249-server/tests.log",
+      "sha256": "a941d29b9c87dba299bf497b2ec8c2361edf8413a9cee2c7936e803890e90dae"
+    },
+    "selections": [
+      {
+        "file": "tests/window-leaderboard-server-v6249-b048.test.cjs",
+        "sha256": "7fec003bf6d2c89bf2a251cde7350d15d862e8989849505fc97794e57b2cbc8f"
+      },
+      {
+        "file": "tests/window-leaderboard-client-b048.test.cjs",
+        "sha256": "6d62536ab628a5bd73abe0a0f1e1f8fd48f12809c196e6557e9b38c88f248262"
+      }
+    ],
+    "fixturePreparation": {
+      "source": {
+        "file": "tools/prepare-window-server-fixtures-v6249-b048.cjs",
+        "sha256": "a948cc8b5b895545434d0410d59a3f00ee408b157f8f71ef56aa71b8ce417d42"
+      },
+      "log": {
+        "file": "test-output/b048-window-v6249-server/fixture-preparation.log",
+        "sha256": "9fcde3c2bd5eb697219441b27739b31cdcd791fa705bcf65311c92426510cee8"
+      }
+    },
+    "typecheck": {
+      "exitCode": 0,
+      "log": {
+        "file": "test-output/b048-window-v6249-server/typecheck.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  },
+  "acceptedFixtures": [
+    {
+      "name": "genuine-window-v2-run-proof",
+      "fixture": {
+        "file": "test-output/b048-window-v2-genuine-run-proof.json",
+        "sha256": "c87b85e452de20679114d0e3f09a140629540510d0cdff1f9f04750fd811ceb9"
+      },
+      "rows": {
+        "file": "test-output/b048-window-v6249-server/genuine-window-v2-run-proof-rows.json",
+        "sha256": "e0cb83d194782f7de17df2b43c4851874f5ed2df7eee9a25e48c36e0b5fb34af"
+      },
+      "runScore": 11008,
+      "windowVersion": "window-2",
+      "windowCleared": true
+    },
+    {
+      "name": "zero-board-ace-legacy-window1",
+      "fixture": {
+        "file": "test-output/window-v2/zero-board-ace-reroll.json",
+        "sha256": "3abe39dfd8a594494b5a6a1f569fb3419e98acdb76aeb7cf1f6e9440308cab98"
+      },
+      "rows": {
+        "file": "test-output/b048-window-v6249-server/zero-board-ace-legacy-window1-rows.json",
+        "sha256": "cbc63d52fee35e3f64e74ad658f227ab0a4537473f3e9c650478e82f266c1d69"
+      },
+      "runScore": 0,
+      "windowVersion": "window-1",
+      "windowCleared": false
+    },
+    {
+      "name": "zero-board-ace-window2",
+      "fixture": {
+        "file": "test-output/window-v2/zero-board-ace-window2-run-proof.json",
+        "sha256": "127c67ca35206b2ddac733c2d4f18cab3e93fac7fdfc87a8c016206328259260"
+      },
+      "rows": {
+        "file": "test-output/b048-window-v6249-server/zero-board-ace-window2-rows.json",
+        "sha256": "8a5ca9fddd73740ebe9e8aac9e8f55fa2d076a85cc45afa2bdba46ea66141dab"
+      },
+      "runScore": 36,
+      "windowVersion": "window-2",
+      "windowCleared": false
+    },
+    {
+      "name": "owner98-window2-chain1-unlock",
+      "fixture": {
+        "file": "test-output/window-v2/owner-ace-on-two-window2-proof.json",
+        "sha256": "8d1f26f79ea2f7af2f41fa0f5b839533c10192560dc5aa759c1264f110e1b024"
+      },
+      "rows": {
+        "file": "test-output/b048-window-v6249-server/owner98-window2-chain1-unlock-rows.json",
+        "sha256": "6760c6c62575028fe8ac67f6b77fe38afbedddb0e1987eaa729f8f0ae7b873cb"
+      },
+      "runScore": 16317,
+      "windowVersion": "window-2",
+      "windowCleared": true
+    },
+    {
+      "name": "owner98-window1-no-unlock",
+      "fixture": {
+        "file": "test-output/window-v2/owner-ace-on-two-v6248-loss-proof.json",
+        "sha256": "8dcfd38803b5091bed97388afd0aa6ae3e257303b24f5114163b9bd860e1142b"
+      },
+      "rows": {
+        "file": "test-output/b048-window-v6249-server/owner98-window1-no-unlock-rows.json",
+        "sha256": "efb5cbcf0385b58cad5e5fb9520307ae6c954281efb2d235771b122bd3dd8133"
+      },
+      "runScore": 70,
+      "windowVersion": "window-1",
+      "windowCleared": false
+    },
+    {
+      "name": "owner98-play-after-ace-no-unlock",
+      "fixture": {
+        "file": "test-output/window-v2/owner-ace-then-other-window2-proof.json",
+        "sha256": "f25a08fca964c525a9fd27161de00551aea3e325eaf4a0f00fc82215c7818bc5"
+      },
+      "rows": {
+        "file": "test-output/b048-window-v6249-server/owner98-play-after-ace-no-unlock-rows.json",
+        "sha256": "57f7bd353a311aab2629af30bf37be7a07b86617b705fc691e9be2dc2b766237"
+      },
+      "runScore": 90,
+      "windowVersion": "window-2",
+      "windowCleared": false
+    }
+  ],
+  "changedTotalRejectedByEmittedCanonical": true,
+  "historicalAuthorities": [
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-756acac0.mjs",
+      "sha256": "756acac049db13ce91dd965ff33da1fe939bcb6c56af8c1a013701032608b1ea"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-e32be620.mjs",
+      "sha256": "e32be62030f65a304446f82c5c419035e1efc7812af8ef85732d12931032573e"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-31c382ef.mjs",
+      "sha256": "31c382efb9d2f5b90807edacd2b0984c352b85507358e2c1fc1407af4c8ed6f7"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-1acc4654.mjs",
+      "sha256": "1acc4654f68958217a0ecfe6b8c06d3e6082ba0277ea949c6ab7a4db7ba4a897"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-02b96949.mjs",
+      "sha256": "02b9694947c1b4a475679c705fb939f75b59a020cd6a3e73aad38d34cf8ecfce"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-05bd763a.mjs",
+      "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05"
+    }
+  ],
+  "historicalParity": {
+    "756acac0": "6.7/6.9/6.14 proof rows deep-equal",
+    "e32be620": "clear-v2 historical rows deep-equal",
+    "31c382ef": "Hugo1 rows deep-equal",
+    "1acc4654": "partial and full-ten Hugo2 rows deep-equal",
+    "02b96949": "level-v3 full-ten+Hugo current rows deep-equal",
+    "05bd763a": "Window1 partial, dual-secret, Neon-last, zero-board-ace and owner98 chain1-no-unlock rows deep-equal",
+    "currentClassicClearV2": "UPDATE_GAME_REQUIRED",
+    "daily": "clear-v2 amount/ID/rows deep-equal",
+    "warp": "clear-v2 full-run rows deep-equal"
+  },
+  "checks": {
+    "sourceStable": true,
+    "ordinaryEngineAndGeneratorUnchanged": true,
+    "neonOnlyAdmission": true,
+    "deterministicSaltedRetry": true,
+    "solverVerifiedWithBoardAce": true,
+    "firstBoardAceOnly": true,
+    "window2AnyPositiveChainLength": true,
+    "window1HistoricalPairRuleUnchanged": true,
+    "window1SeedAndGeneratorUnchanged": true,
+    "forgedAdmissionAndOldZeroAceRejectUnderWindow2": true,
+    "compactWireShapePreserved": true,
+    "routePreservedForBothWindowVersions": true,
+    "badgeProjectionUnchanged": true,
+    "assistedWindow2CurrentWritesRejected": true
+  },
+  "handler": {
+    "file": "server/weft-leaderboard/index.ts",
+    "sha256": "b654a7b052f4c33fc6f8fa278b033c94d3c699d80a7cb51e1fd0a35071efdd88"
+  },
+  "sql": {
+    "newMigration": null,
+    "reapplyPriorMigration": false,
+    "inheritedCopiesUnchanged": [
+      {
+        "file": "supabase/migrations/202610200001_window_secret_badge.sql",
+        "sha256": "cf9b4c3fb2ae033efdc5e636a0e940d1da7883d83011624ab359000e3a2925c2"
+      },
+      {
+        "file": "server/weft-leaderboard/202610200001_window_secret_badge.sql",
+        "sha256": "cf9b4c3fb2ae033efdc5e636a0e940d1da7883d83011624ab359000e3a2925c2"
+      }
+    ],
+    "executed": false,
+    "scoresDeleted": false
+  },
+  "deploymentExecuted": false,
+  "networkOrDatabaseAccess": false
+}
