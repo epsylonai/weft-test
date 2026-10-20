@@ -14,7 +14,8 @@
 // B044 v6.24.4 (deployed by Claude 2026-10-19 22:3x Lisbon): bundle import pinned to epsylonai/weft-test 387d5a8 (sha256 02b96949…8ecfce, checked after push); handler body = Main MOTE's index.ts b654a7b0 unchanged.
 // B048 v6.24.8 (deployed by Claude 2026-10-20 15:2x Lisbon): bundle import pinned to epsylonai/weft-test cfc9ae9 (sha256 05bd763a…bdd05, checked after push): Late Night Violin unlock + room verification; handler body still b654a7b0 unchanged.
 // B048 v6.24.9 (deployed by Claude 2026-10-20 evening Lisbon): bundle import pinned to epsylonai/weft-test 0241335 (sha256 9a0cdaea…eee679, checked after push): violin ace always on the board, unlock = any chain ending on the ace then a spool draw (window-2); window-1 proofs unchanged; handler body still b654a7b0 unchanged; no SQL.
-import {verifyCurrentSubmission,validateNickname} from 'https://raw.githubusercontent.com/epsylonai/weft-test/0241335a04ff91e8aaab04f0e2594e2d2f031b41/server/weft-leaderboard/canonical-replay.mjs';
+// B048 v6.24.10 (deployed by Claude 2026-10-20 21:1x Lisbon): bundle import pinned to epsylonai/weft-test 882fb35 (sha256 21d5e8ee…6f30, checked after push): window-3 — violin ace = ace of hearts, auto-bank on the ace then a draw unlocks; window-1/2 history unchanged; handler body still b654a7b0 unchanged; no SQL.
+import {verifyCurrentSubmission,validateNickname} from 'https://raw.githubusercontent.com/epsylonai/weft-test/882fb35a815406bcf68d9b7fe47419bda4a2888e/server/weft-leaderboard/canonical-replay.mjs';
 const cors={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'apikey,authorization,x-client-info,content-type,x-region','Access-Control-Allow-Methods':'GET,POST,OPTIONS'};
 const response=(body:unknown,status=200)=>Response.json(body,{status,headers:cors});
 const validDevice=(value:unknown):value is string=>typeof value==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
