@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "name": "Late Night Violin",
-  "authorization": "Claude/inbox/to-main-mote-30-b048-owner-notes-2.md ADDENDUM12:15",
+  "authorization": "Claude/inbox/to-main-mote-32-b048-owner-notes-4.md \u00a715; approved second storm delivery20:30",
   "license": "ElevenLabs commercial output under the owner plan; generated and approved by Claude; no generation by this build.",
   "sha256Ledger": "d2aa2335a99f48edb4fb2405894d67bdd10883bf8a80eb39daa0bcf86d6e4293",
   "clips": [
@@ -60,6 +60,48 @@
       "sourceDeclaredLufs": -19.3,
       "sourceDeclaredPeakDbtp": -2.2,
       "encodedBytesExact": true
+    },
+    {
+      "id": "thunder-growl",
+      "file": "window-room/audio/storm/thunder-growl.m4a",
+      "source": "Claude/assets/B-048/audio/storm/thunder-growl.m4a",
+      "sha256": "50df2210525677b9d02802992c9148309db29d06181a333b308ff96b2d74b998",
+      "bytes": 184454,
+      "duration": 11.0,
+      "sampleRate": 48000,
+      "channels": 2,
+      "kind": "far",
+      "relativeMusicDb": -18,
+      "sourceDeclaredLufs": -25,
+      "encodedBytesExact": true
+    },
+    {
+      "id": "thunder-crash",
+      "file": "window-room/audio/storm/thunder-crash.m4a",
+      "source": "Claude/assets/B-048/audio/storm/thunder-crash.m4a",
+      "sha256": "0abaf949a47ddd77fd46ac315f589df0ea7536ba7679be5b9a813609668cfb70",
+      "bytes": 151860,
+      "duration": 9.0,
+      "sampleRate": 48000,
+      "channels": 2,
+      "kind": "close",
+      "relativeMusicDb": -12,
+      "sourceDeclaredLufs": -18,
+      "encodedBytesExact": true
+    },
+    {
+      "id": "thunder-roll",
+      "file": "window-room/audio/storm/thunder-roll.m4a",
+      "source": "Claude/assets/B-048/audio/storm/thunder-roll.m4a",
+      "sha256": "1b80acdd1f2761f83dd0721b4b239088e303f5b10971ebb30dbd74a075c3358c",
+      "bytes": 126984,
+      "duration": 7.505,
+      "sampleRate": 48000,
+      "channels": 2,
+      "kind": "mid",
+      "relativeMusicDb": -14,
+      "sourceDeclaredLufs": -22,
+      "encodedBytesExact": true
     }
   ],
   "rainCrossfadeSeconds": 0.5,
@@ -72,6 +114,19 @@
     1,
     1.03
   ],
-  "variantRule": "Only one delivered take per distance. Random non-repeating playback-rate variant per distance, not a claim of alternate recordings.",
-  "decodedInJavaScript": false
+  "decodedInJavaScript": false,
+  "sha256Ledgers": {
+    "original": "d2aa2335a99f48edb4fb2405894d67bdd10883bf8a80eb39daa0bcf86d6e4293",
+    "second": "f094b91742624d503a7b89b742c623571367074dd30413baa001bf0c4b75728e"
+  },
+  "recordingRule": "Global no consecutive recording repeat; each available recording cycle is exhausted before reuse. Playback-rate variation is additional, never the recording identity.",
+  "minimumRecordingGapMs": 1800,
+  "clearStrikeGapMs": [
+    2200,
+    3600
+  ],
+  "activeLightningGapMs": [
+    10000,
+    16000
+  ]
 }
