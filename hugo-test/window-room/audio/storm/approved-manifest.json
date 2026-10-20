@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "name": "Late Night Violin",
+  "authorization": "Claude/inbox/to-main-mote-30-b048-owner-notes-2.md ADDENDUM12:15",
+  "license": "ElevenLabs commercial output under the owner plan; generated and approved by Claude; no generation by this build.",
+  "sha256Ledger": "d2aa2335a99f48edb4fb2405894d67bdd10883bf8a80eb39daa0bcf86d6e4293",
+  "clips": [
+    {
+      "id": "rain-window-loop",
+      "file": "window-room/audio/storm/rain-window-loop.m4a",
+      "source": "Claude/assets/B-048/audio/storm/rain-window-loop.m4a",
+      "sha256": "704d1c0751d7c0a4536eb18a486a3272ef86cf4fc679caac66bc3e399ab11d54",
+      "bytes": 276489,
+      "duration": 22.0,
+      "sampleRate": 48000,
+      "channels": 1,
+      "relativeMusicDb": -24,
+      "sourceDeclaredLufs": -30.4,
+      "sourceDeclaredPeakDbtp": -9.6,
+      "encodedBytesExact": true
+    },
+    {
+      "id": "thunder-far",
+      "file": "window-room/audio/storm/thunder-far.m4a",
+      "source": "Claude/assets/B-048/audio/storm/thunder-far.m4a",
+      "sha256": "a857371af49d9deb67f19469462dffcb7ff3a73c10c93c18e5e1b08c0409688b",
+      "bytes": 107623,
+      "duration": 8.0,
+      "sampleRate": 48000,
+      "channels": 1,
+      "relativeMusicDb": -16,
+      "sourceDeclaredLufs": -22,
+      "sourceDeclaredPeakDbtp": -2.3,
+      "encodedBytesExact": true
+    },
+    {
+      "id": "thunder-mid",
+      "file": "window-room/audio/storm/thunder-mid.m4a",
+      "source": "Claude/assets/B-048/audio/storm/thunder-mid.m4a",
+      "sha256": "386e536c1949eb6a322c6ba11f43c236be61a9d98537a80d1b4a302c7e5fd396",
+      "bytes": 97598,
+      "duration": 7.0,
+      "sampleRate": 48000,
+      "channels": 1,
+      "relativeMusicDb": -14,
+      "sourceDeclaredLufs": -22.2,
+      "sourceDeclaredPeakDbtp": -1.1,
+      "encodedBytesExact": true
+    },
+    {
+      "id": "thunder-close",
+      "file": "window-room/audio/storm/thunder-close.m4a",
+      "source": "Claude/assets/B-048/audio/storm/thunder-close.m4a",
+      "sha256": "1af8f2ed70d97db405ca8a7cc4bbb0d71169e2c0a4f9358bc2db4d5191384429",
+      "bytes": 80377,
+      "duration": 6.0,
+      "sampleRate": 48000,
+      "channels": 1,
+      "relativeMusicDb": -12,
+      "sourceDeclaredLufs": -19.3,
+      "sourceDeclaredPeakDbtp": -2.2,
+      "encodedBytesExact": true
+    }
+  ],
+  "rainCrossfadeSeconds": 0.5,
+  "farIntervalSeconds": [
+    20,
+    45
+  ],
+  "playbackVariants": [
+    0.97,
+    1,
+    1.03
+  ],
+  "variantRule": "Only one delivered take per distance. Random non-repeating playback-rate variant per distance, not a claim of alternate recordings.",
+  "decodedInJavaScript": false
+}
