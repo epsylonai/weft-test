@@ -12,7 +12,8 @@
 // Claude publishes this byte-exact file under server/ and replaces this local
 // import with its new commit-pinned URL before redeploying. No deployment here.
 // B044 v6.24.4 (deployed by Claude 2026-10-19 22:3x Lisbon): bundle import pinned to epsylonai/weft-test 387d5a8 (sha256 02b96949…8ecfce, checked after push); handler body = Main MOTE's index.ts b654a7b0 unchanged.
-import {verifyCurrentSubmission,validateNickname} from 'https://raw.githubusercontent.com/epsylonai/weft-test/387d5a84a2ce07fd03b18913ccc083372a5c0984/server/weft-leaderboard/canonical-replay.mjs';
+// B048 v6.24.8 (deployed by Claude 2026-10-20 15:2x Lisbon): bundle import pinned to epsylonai/weft-test cfc9ae9 (sha256 05bd763a…bdd05, checked after push): Late Night Violin unlock + room verification; handler body still b654a7b0 unchanged.
+import {verifyCurrentSubmission,validateNickname} from 'https://raw.githubusercontent.com/epsylonai/weft-test/cfc9ae960dc9aefd56843a6c394e763e031bdb22/server/weft-leaderboard/canonical-replay.mjs';
 const cors={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'apikey,authorization,x-client-info,content-type,x-region','Access-Control-Allow-Methods':'GET,POST,OPTIONS'};
 const response=(body:unknown,status=200)=>Response.json(body,{status,headers:cors});
 const validDevice=(value:unknown):value is string=>typeof value==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
