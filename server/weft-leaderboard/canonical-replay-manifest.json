@@ -1,9 +1,11 @@
 {
-  "version": "6.24.0",
+  "version": "6.24.8",
   "hugoFeature": "hugo-2",
-  "scoringVersion": "clear-v2",
+  "windowFeature": "window-1",
+  "scoringVersion": "level-v3",
+  "unchangedScoringVersion": "clear-v2",
   "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
-  "sha256": "1acc4654f68958217a0ecfe6b8c06d3e6082ba0277ea949c6ab7a4db7ba4a897",
+  "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05",
   "inputs": [
     {
       "file": "../../B-002/engine/configs.ts",
@@ -51,11 +53,11 @@
     },
     {
       "file": "src/leaderboard-validation.ts",
-      "sha256": "ce2b104472e0c4abf296a7f66651d93164d4b20f49243b3bbf963dc145d28206"
+      "sha256": "2bf113f1cd3b92cac53f185021832713689d1ebb342feec26e25310957f70597"
     },
     {
       "file": "src/leaderboard-wire.ts",
-      "sha256": "166ce262473f0c0bdadf7d21356b913bb30c2e00537a4eb828cbd6f3140e5c0b"
+      "sha256": "6506e31507bfaccf5b2f562616780d23f32177f6887c5d26f175acef96fd08ec"
     },
     {
       "file": "src/nickname.ts",
@@ -67,7 +69,7 @@
     },
     {
       "file": "src/records.ts",
-      "sha256": "179d85664ee42d57c9d6cccbaa82d273ff12760b90c84b17877d873cc7d47a61"
+      "sha256": "8b8ef876a448e711f91b4668fe78d95261bec8c4b67361b241c074f5cef59407"
     },
     {
       "file": "src/replay-practice.ts",
@@ -79,7 +81,7 @@
     },
     {
       "file": "src/run.ts",
-      "sha256": "7e6095a65f2688b490f75bb36f7083d03ee3fc17dc720901e645a53c8fa3655e"
+      "sha256": "718983c0600e466d7846bf8fef3927639181129ef5b8caf78004da0323986698"
     },
     {
       "file": "src/score-codec.ts",
@@ -87,11 +89,15 @@
     },
     {
       "file": "src/score-config.ts",
-      "sha256": "61e4ffd0a61c7360212a01d0676aab72e2f1ed67c76cc561511616dff1372836"
+      "sha256": "4aa7692e8e0418ffc333d28232a4898110d4aaf7dbed83ee209dbf2b9eebf636"
     },
     {
       "file": "src/test-mode-gate.ts",
       "sha256": "060845e59f42f39215caf01ec969f033af47b9bcae73d3574dfdc19e510571c0"
+    },
+    {
+      "file": "src/window-trigger.ts",
+      "sha256": "d6c913d5c1a5e4feb4bd0c02747841569bcf58003060791739de888aef6eddc8"
     },
     {
       "file": "src/world-config.ts",
@@ -99,7 +105,7 @@
     },
     {
       "file": "supabase/replay-entry.ts",
-      "sha256": "908dc4c1b05fac9c2c1bbabe77b189d52cec743d83bf19719d098a8b799466de"
+      "sha256": "96af4aa510f039ae648523ce5b547660d052daa1c0a65cb92865a2386236d2a8"
     },
     {
       "file": "supabase/warp-replay.ts",
@@ -127,28 +133,45 @@
     },
     {
       "file": "warp-core/run.ts",
-      "sha256": "874f17bbd6d5e3c3d161beaf4c348642e081a58babfbda093b6a0ddfeafa2a60"
+      "sha256": "7c7538f74c1201985a48838d1d18c0db77aaee469851fc6fcd04e889d434d597"
     },
     {
       "file": "warp-core/solver.ts",
       "sha256": "06c49515f899e00cd1e02556f191b6bd05b78b09628c111fa70aab662d1680a5"
     }
   ],
-  "historical": {
-    "sha256": "756acac049db13ce91dd965ff33da1fe939bcb6c56af8c1a013701032608b1ea",
-    "source": "../../B-040/v6.22.2/supabase/functions/weft-leaderboard/canonical-replay.mjs",
-    "scoring": "Missing scoringVersion dispatches to the unchanged legacy 50/card and 2500/4000/7400 rules."
-  },
+  "historicalAuthorities": [
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-756acac0.mjs",
+      "sha256": "756acac049db13ce91dd965ff33da1fe939bcb6c56af8c1a013701032608b1ea",
+      "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-e32be620.mjs",
+      "sha256": "e32be62030f65a304446f82c5c419035e1efc7812af8ef85732d12931032573e",
+      "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-31c382ef.mjs",
+      "sha256": "31c382efb9d2f5b90807edacd2b0984c352b85507358e2c1fc1407af4c8ed6f7",
+      "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-1acc4654.mjs",
+      "sha256": "1acc4654f68958217a0ecfe6b8c06d3e6082ba0277ea949c6ab7a4db7ba4a897",
+      "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-02b96949.mjs",
+      "sha256": "02b9694947c1b4a475679c705fb939f75b59a020cd6a3e73aad38d34cf8ecfce",
+      "accepted": true
+    }
+  ],
   "previousCurrent": {
-    "file": "../../B-041/v6.23.0/server/weft-leaderboard/canonical-replay.mjs",
-    "sha256": "e32be62030f65a304446f82c5c419035e1efc7812af8ef85732d12931032573e",
-    "accepted": true
-  },
-  "previousHugo": {
-    "file": "server/weft-leaderboard/historical/canonical-replay-31c382ef.mjs",
-    "sha256": "31c382efb9d2f5b90807edacd2b0984c352b85507358e2c1fc1407af4c8ed6f7",
+    "file": "../v6.24.7/server/weft-leaderboard/canonical-replay.mjs",
+    "sha256": "02b9694947c1b4a475679c705fb939f75b59a020cd6a3e73aad38d34cf8ecfce",
     "accepted": true
   },
   "deploymentRequired": true,
-  "currentWritePolicy": "verifyCurrentSubmission requires scoringVersion clear-v2; verifySubmission retains historical proofs; Hugo insertion validated in its separately versioned proof domain; ordinary rules/positional seeds unchanged; Hugo2 Grove admission and actual world route explicitly versioned; database score-era stays6.23"
+  "currentWritePolicy": "B048 server-first: Neon violin-ace draw witness gates the separately replayed Window interlude; inherited next-level spool/factor, no normal-level clear reward. Hugo and historical proofs without Window remain accepted by verifySubmission. Current Classic remains level-v3; clear-v2 Classic writes reject UPDATE_GAME_REQUIRED; Daily/Warp clear-v2 unchanged. Row version remains6.23. This package contains no season wipe or database execution."
 }

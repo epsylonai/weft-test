@@ -116,7 +116,7 @@ function decodeLeaderboardProof(value) {
   if (!value || typeof value !== "object") throw new TypeError("Invalid leaderboard proof");
   const input = value;
   if (input.type === "board" && input.record) return { ...input, record: { ...input.record, moves: decompressMoves(input.record.moves) } };
-  if (input.type === "run" && input.record && Array.isArray(input.record.perLevel) && input.record.perLevel.length <= 1e4) return { ...input, record: { ...input.record, ...input.record.hugo?.result ? { hugo: { ...input.record.hugo, result: { ...input.record.hugo.result, moves: decompressMoves(input.record.hugo.result.moves) } } } : {}, perLevel: input.record.perLevel.map((board2) => ({ ...board2, moves: decompressMoves(board2.moves) })) } };
+  if (input.type === "run" && input.record && Array.isArray(input.record.perLevel) && input.record.perLevel.length <= 1e4) return { ...input, record: { ...input.record, ...input.record.hugo?.result ? { hugo: { ...input.record.hugo, result: { ...input.record.hugo.result, moves: decompressMoves(input.record.hugo.result.moves) } } } : {}, ...input.record.window?.result ? { window: { ...input.record.window, result: { ...input.record.window.result, moves: decompressMoves(input.record.window.result.moves) } } } : {}, perLevel: input.record.perLevel.map((board2) => ({ ...board2, moves: decompressMoves(board2.moves) })) } };
   throw new TypeError("Invalid leaderboard proof");
 }
 
@@ -1093,6 +1093,32 @@ function recordId(record) {
   return "weft-" + hash.toString(16).padStart(16, "0");
 }
 
+// src/window-trigger.ts
+var WINDOW_VERSION = "window-1";
+function windowVersionOf(value) {
+  const version = value && typeof value === "object" ? value.windowVersion : void 0;
+  if (version !== void 0 && version !== WINDOW_VERSION) throw new TypeError("Unsupported Window feature version");
+  return version;
+}
+var hasWindowFeature = (value) => windowVersionOf(value) !== void 0;
+var windowTriggerEligible = (value, world3) => hasWindowFeature(value) && world3 === 4;
+function chosenWindowAce(deal2) {
+  const cards = Array.isArray(deal2) ? deal2 : [...deal2.weave, ...deal2.spoolOrder, ...deal2.burned];
+  const ace = cards.find((card) => card % 13 === 0);
+  if (ace === void 0) throw new Error("Generated Neon deal has no ace");
+  return ace;
+}
+function isWindowSacrifice(state, move, ace) {
+  return move.type === "draw" && state.terminal === "active" && state.spoolIndex < state.spool.length && state.chain.length > 0 && Number.isInteger(ace) && ace >= 0 && ace < 52 && ace % 13 === 0 && state.chain[state.chain.length - 1] === ace && state.top === ace && snapshot(state).handType >= 1;
+}
+function windowSeed(root2, afterLevel) {
+  if (!Number.isSafeInteger(afterLevel) || afterLevel < 1 || afterLevel > 10 || typeof root2 === "number" && !Number.isSafeInteger(root2) || !/^-?\d{1,30}$/.test(String(root2))) throw new TypeError("Invalid Window seed domain");
+  let hash = 14695981039346656037n;
+  for (const c of `weft-window:${WINDOW_VERSION}:${BigInt(root2)}:${afterLevel}`) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
+  return hash;
+}
+var sameWindowWitness = (a, b) => a === void 0 ? b === void 0 : b !== void 0 && a.seed === b.seed && a.moveIndex === b.moveIndex && a.ace === b.ace;
+
 // src/hugo-trigger.ts
 var HUGO_VERSION = "hugo-2";
 var LEGACY_HUGO_VERSION = "hugo-1";
@@ -1337,26 +1363,28 @@ function featureMetadata(value) {
 }
 function replayBoard(input, level, version = RUN_VERSION, presentationWorld, scoring = {}, secret = false) {
   if (!input || !moves(input.moves) || !count(input.score)) throw new TypeError("Invalid run board result");
-  const ordinary = board(input.seed, level, version, presentationWorld, scoring), { admission: _admission, ...plain } = ordinary, config = secret ? { ...plain, spool: HUGO_SPOOL, secret: "hugo" } : ordinary, original = seed(input.seed);
+  const ordinary = board(input.seed, level, version, presentationWorld, scoring), { admission: _admission, ...plain } = ordinary, config = secret ? { ...plain, spool: secret === "hugo" ? HUGO_SPOOL : levelConfig(level, version).spool, secret } : ordinary, original = seed(input.seed);
   if (input.admission !== config.admission) throw new Error("Grove admission context disagrees with replay");
-  if (input.secret !== (secret ? "hugo" : void 0)) throw new Error("Secret board context disagrees with replay");
+  if (input.secret !== (secret || void 0)) throw new Error("Secret board context disagrees with replay");
   for (const field of ["level", "world", "spool"])
     if (input[field] !== void 0 && input[field] !== config[field]) throw new Error(`Run board ${field} disagrees with its level`);
   if (input.cleared !== void 0 && typeof input.cleared !== "boolean") throw new TypeError("Invalid Clear marker");
   const rules = { ...rulesForLevel(level, version), spool: config.spool }, generated = generateRunBoard(rules, { ...config, seed: original });
   if (input.subSeed !== void 0 && proofSeed(input.subSeed) !== String(generated.subSeed)) throw new Error("Run board sub-seed disagrees with exact generation");
   let chainCoins = 0, unmultipliedChainCoins = 0;
-  let state = createState(rules, generated.deal), trigger;
+  let state = createState(rules, generated.deal), trigger, windowTrigger;
+  const violin = chosenWindowAce(generated.deal);
   input.moves.forEach((move, moveIndex) => {
-    const eligible = isHugoSacrifice(state, move);
+    const eligible = isHugoSacrifice(state, move), windowEligible = isWindowSacrifice(state, move, violin);
     const transition = applyMove(state, move);
     chainCoins += transition.events.reduce((sum, event) => sum + levelChainCoins(event, level, scoringVersionOf(scoring)), 0);
     unmultipliedChainCoins += transition.events.reduce((sum, event) => sum + levelChainCoins(event, 1, scoringVersionOf(scoring)), 0);
     state = transition.state;
     if (eligible && !trigger) trigger = { seed: original, moveIndex };
+    if (windowEligible && !windowTrigger) windowTrigger = { seed: original, moveIndex, ace: violin };
   });
   if (state.terminal === "active") throw new Error("Run board is not finished");
-  const cleared = state.terminal === "cleared", facts = boardScoreDetails(cleared, state.spool.length - state.spoolIndex, state.score, rules.spool, { version: scoringVersionOf(scoring), level, ...secret ? { secret: "hugo" } : {}, chainCoins, unmultipliedChainCoins }), bonus = facts.clearBonus;
+  const cleared = state.terminal === "cleared", facts = boardScoreDetails(cleared, state.spool.length - state.spoolIndex, state.score, rules.spool, { version: scoringVersionOf(scoring), level, ...secret ? { secret } : {}, chainCoins, unmultipliedChainCoins }), bonus = facts.clearBonus;
   if (input.clearBonusDetails !== void 0 && JSON.stringify(Object.entries(input.clearBonusDetails).sort()) !== JSON.stringify(Object.entries(facts).sort())) throw new Error("Clear-bonus details disagree with replay");
   if (input.cleared !== void 0 && input.cleared !== cleared) throw new Error("Run board Clear marker disagrees with replay");
   if (input.score !== facts.score) throw new Error("Run board score disagrees with replay");
@@ -1370,10 +1398,11 @@ function replayBoard(input, level, version = RUN_VERSION, presentationWorld, sco
     chainScore: facts.chainCoins,
     clearBonus: bonus,
     ...scoringVersionOf(scoring) === "legacy" ? {} : { clearBonusDetails: facts },
-    ...trigger && !secret && hugoTriggerEligible(scoring, config.world) ? { _hugoTrigger: trigger } : {}
+    ...trigger && !secret && hugoTriggerEligible(scoring, config.world) ? { _hugoTrigger: trigger } : {},
+    ...windowTrigger && !secret && windowTriggerEligible(scoring, config.world) ? { _windowTrigger: windowTrigger } : {}
   };
 }
-var completion = ({ chainScore: _chain, clearBonus: _bonus, _hugoTrigger: _trigger, ...result }) => result;
+var completion = ({ chainScore: _chain, clearBonus: _bonus, _hugoTrigger: _trigger, _windowTrigger: _window, ...result }) => result;
 function secretRunBoard(run, afterLevel) {
   const normal = board(run.rootSeed, afterLevel, run.rulesVersion, runPlan(run)?.[afterLevel - 1]);
   return { ...normal, spool: HUGO_SPOOL, seed: String(hugoSeed(run.rootSeed, afterLevel, hugoVersionOf(run) ?? LEGACY_HUGO_VERSION)), secret: "hugo" };
@@ -1393,15 +1422,37 @@ function verifyHugoWitness(expected, hugo, allowPendingLevel) {
     if (!hugo || hugo.afterLevel !== expected.afterLevel || !sameHugoWitness(hugo.trigger, expected.trigger)) throw new Error("Hugo trigger disagrees with canonical history");
   } else if (hugo && hugo.afterLevel !== allowPendingLevel) throw new Error("Hugo trigger has no canonical witness");
 }
+function windowMetadata(value) {
+  return hasWindowFeature(value) ? { windowVersion: WINDOW_VERSION } : {};
+}
+function windowRunBoard(run, afterLevel) {
+  if (!Number.isSafeInteger(afterLevel) || afterLevel < 1 || afterLevel > 10 || run.rulesVersion !== CLASSIC_RULES_VERSION) throw new Error("Invalid Window insertion position");
+  const config = levelConfig(Math.min(afterLevel + 1, 10), run.rulesVersion);
+  return { ...config, world: 4, seed: String(windowSeed(run.rootSeed, afterLevel)), secret: "window" };
+}
+function checkedWindow(value, feature, root2, order) {
+  if (value === void 0) return;
+  if (!hasWindowFeature(feature) || Object.keys(value).some((k) => !["version", "afterLevel", "trigger", "result"].includes(k)) || value.version !== WINDOW_VERSION || !count(value.afterLevel) || value.afterLevel < 1 || value.afterLevel > 10 || order?.[value.afterLevel - 1] !== 4 || !value.trigger || Object.keys(value.trigger).some((k) => !["seed", "moveIndex", "ace"].includes(k)) || value.trigger.seed !== String(runLevelSeed(root2, value.afterLevel)) || !count(value.trigger.moveIndex) || value.trigger.moveIndex >= 256 || !count(value.trigger.ace) || value.trigger.ace >= 52 || value.trigger.ace % 13 !== 0) throw new Error("Invalid Window trigger context");
+  return copy(value);
+}
+function expectedWindow(replayed) {
+  const index = replayed.findIndex((result) => result._windowTrigger !== void 0);
+  return index < 0 ? void 0 : { afterLevel: index + 1, trigger: replayed[index]._windowTrigger };
+}
+function verifyWindowWitness(expected, window2, allowPendingLevel) {
+  if (expected) {
+    if (!window2 || window2.afterLevel !== expected.afterLevel || !sameWindowWitness(window2.trigger, expected.trigger)) throw new Error("Window trigger disagrees with canonical history");
+  } else if (window2 && window2.afterLevel !== allowPendingLevel) throw new Error("Window trigger has no canonical witness");
+}
 function runRecordId(record) {
   if (!record.perLevel.every((result) => moves(result.moves))) throw new TypeError("Invalid run moves");
-  const text = JSON.stringify([record.version, record.perLevel.map((result) => [seed(result.seed), result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])]), ...hasClassicRoute(record) ? ["classic-world-route-v1", record.worldRoute, record.startWorld, record.worldOrder] : [], ...scoringVersionOf(record) === "legacy" ? [] : ["scoring", scoringVersionOf(record)], ...hasHugoFeature(record) ? ["hugo", hugoVersionOf(record), record.hugo ? [record.hugo.afterLevel, record.hugo.trigger, record.hugo.result ? [record.hugo.result.seed, record.hugo.result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])] : null] : null, ...record.hugoDisabled ? ["disabled"] : []] : []]);
+  const text = JSON.stringify([record.version, record.perLevel.map((result) => [seed(result.seed), result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])]), ...hasClassicRoute(record) ? ["classic-world-route-v1", record.worldRoute, record.startWorld, record.worldOrder] : [], ...scoringVersionOf(record) === "legacy" ? [] : ["scoring", scoringVersionOf(record)], ...hasHugoFeature(record) ? ["hugo", hugoVersionOf(record), record.hugo ? [record.hugo.afterLevel, record.hugo.trigger, record.hugo.result ? [record.hugo.result.seed, record.hugo.result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])] : null] : null, ...record.hugoDisabled ? ["disabled"] : []] : [], ...hasWindowFeature(record) ? ["window", WINDOW_VERSION, record.window ? [record.window.afterLevel, [record.window.trigger.seed, record.window.trigger.moveIndex, record.window.trigger.ace], record.window.result ? [record.window.result.seed, record.window.result.moves.map((move) => move.type === "play" ? ["play", move.position] : ["draw"])] : null] : null] : []]);
   let hash = 14695981039346656037n;
   for (const char of text) hash = BigInt.asUintN(64, (hash ^ BigInt(char.charCodeAt(0))) * 1099511628211n);
   return "weft-run-" + hash.toString(16).padStart(16, "0");
 }
 function normalizeSecretResult(input, descriptor) {
-  if (!input || !moves(input.moves) || !count(input.score) || typeof input.cleared !== "boolean" || input.secret !== "hugo" || input.seed !== descriptor.seed || typeof input.subSeed !== "string") throw new Error("Invalid secret board result");
+  if (!input || !moves(input.moves) || !count(input.score) || typeof input.cleared !== "boolean" || input.secret !== descriptor.secret || input.seed !== descriptor.seed || typeof input.subSeed !== "string") throw new Error("Invalid secret board result");
   for (const field of ["level", "world", "spool"]) if (input[field] !== descriptor[field]) throw new Error("Secret board descriptor disagrees");
   return { ...descriptor, level: descriptor.level, world: descriptor.world, spool: descriptor.spool, seed: descriptor.seed, moves: copy(input.moves), score: input.score, cleared: input.cleared, subSeed: proofSeed(input.subSeed), ...input.clearBonusDetails === void 0 ? {} : { clearBonusDetails: copy(input.clearBonusDetails) } };
 }
@@ -1410,11 +1461,13 @@ function normalizeRunRecord(value) {
   const input = value;
   if (!date(input.date) || !isRunVersion(input.version) || !count(input.levelsCleared) || !count(input.runScore) || !Array.isArray(input.perLevel) || !input.perLevel.length || input.perLevel.length > 1e4) throw new TypeError("Invalid completed run record");
   if (scoringVersionOf(input) === CLASSIC_SCORING_VERSION && input.version !== CLASSIC_RULES_VERSION) throw new Error("Level scoring requires finite ten-board Classic mechanics");
-  const rootSeed = input.rootSeed === void 0 ? void 0 : seed(input.rootSeed), root2 = rootSeed ?? seed(input.perLevel[0].seed), feature = hasHugoFeature(input), scoring = scoringMetadata(scoringVersionOf(input));
-  if ((hasClassicRoute(input) || feature) && rootSeed === void 0) throw new TypeError("Current feature metadata requires its root seed");
+  const rootSeed = input.rootSeed === void 0 ? void 0 : seed(input.rootSeed), root2 = rootSeed ?? seed(input.perLevel[0].seed), feature = hasHugoFeature(input), windowFeature = hasWindowFeature(input), scoring = scoringMetadata(scoringVersionOf(input));
+  if ((hasClassicRoute(input) || feature || windowFeature) && rootSeed === void 0) throw new TypeError("Current feature metadata requires its root seed");
   if (feature && (input.version !== CLASSIC_RULES_VERSION || scoringVersionOf(input) === "legacy")) throw new Error("Hugo requires current finite Classic scoring");
-  const route = routeMetadata(input), routeInput = { rootSeed: root2, rulesVersion: input.version, ...route, ...featureMetadata(input) }, order = runPlan(routeInput), limit2 = runLevelCount(input.version), hugo = checkedHugo(input.hugo, input, root2, order), secret = hugo?.result ? normalizeSecretResult(hugo.result, secretRunBoard(routeInput, hugo.afterLevel)) : void 0;
-  const complete = limit2 !== null && input.levelsCleared === limit2 && input.perLevel.length === limit2, secretLoss = !!secret && !secret.cleared && hugo.afterLevel === input.perLevel.length && input.levelsCleared === input.perLevel.length;
+  if (windowFeature && (input.version !== CLASSIC_RULES_VERSION || scoringVersionOf(input) !== CLASSIC_SCORING_VERSION)) throw new Error("Window requires level-v3 Classic scoring");
+  const route = routeMetadata(input), routeInput = { rootSeed: root2, rulesVersion: input.version, ...route, ...featureMetadata(input), ...windowMetadata(input) }, order = runPlan(routeInput), limit2 = runLevelCount(input.version), hugo = checkedHugo(input.hugo, input, root2, order), window2 = checkedWindow(input.window, input, root2, order);
+  const secret = hugo?.result ? normalizeSecretResult(hugo.result, secretRunBoard(routeInput, hugo.afterLevel)) : void 0, windowResult = window2?.result ? normalizeSecretResult(window2.result, windowRunBoard(routeInput, window2.afterLevel)) : void 0;
+  const complete = limit2 !== null && input.levelsCleared === limit2 && input.perLevel.length === limit2, secretLoss = !!secret && !secret.cleared && hugo.afterLevel === input.perLevel.length && input.levelsCleared === input.perLevel.length || !!windowResult && !windowResult.cleared && window2.afterLevel === input.perLevel.length && input.levelsCleared === input.perLevel.length;
   if (input.levelsCleared !== input.perLevel.length - 1 && !complete && !secretLoss || limit2 !== null && input.perLevel.length > limit2) throw new TypeError("Invalid completed run progression");
   if (input.classicComplete !== void 0 && input.classicComplete !== complete || input.totalLevels !== void 0 && input.totalLevels !== limit2) throw new TypeError("Invalid Classic completion marker");
   const perLevel = input.perLevel.map((result, index) => {
@@ -1426,9 +1479,9 @@ function normalizeRunRecord(value) {
     if (result.cleared !== void 0 && result.cleared !== cleared) throw new Error("A lost board must end the run");
     return { ...config, seed: seed(result.seed), moves: copy(result.moves), score: result.score, cleared, ...result.subSeed === void 0 ? {} : { subSeed: proofSeed(result.subSeed) }, ...result.clearBonusDetails === void 0 ? {} : { clearBonusDetails: copy(result.clearBonusDetails) } };
   });
-  if (hugo && (hugo.afterLevel > perLevel.length || secret && hugo.afterLevel > input.levelsCleared || !secret && hugo.afterLevel <= input.levelsCleared || secret?.cleared && perLevel.length === hugo.afterLevel && !complete)) throw new Error("Secret result disagrees with run progression");
-  const progress = hugo ? { ...hugo, ...secret ? { result: secret } : {} } : void 0, featureMeta = { ...featureMetadata(input), ...progress ? { hugo: progress } : {} };
-  if (perLevel.reduce((sum, result) => sum + result.score, 0) + (secret?.score ?? 0) !== input.runScore) throw new Error("Run total does not equal its board scores");
+  for (const [progress, result] of [[hugo, secret], [window2, windowResult]]) if (progress && (progress.afterLevel > perLevel.length || result && progress.afterLevel > input.levelsCleared || !result && progress.afterLevel <= input.levelsCleared || result?.cleared && perLevel.length === progress.afterLevel && !complete && !secretLoss)) throw new Error("Secret result disagrees with run progression");
+  const featureMeta = { ...featureMetadata(input), ...windowMetadata(input), ...hugo ? { hugo: { ...hugo, ...secret ? { result: secret } : {} } } : {}, ...window2 ? { window: { ...window2, ...windowResult ? { result: windowResult } : {} } } : {} };
+  if (perLevel.reduce((sum, result) => sum + result.score, 0) + (secret?.score ?? 0) + (windowResult?.score ?? 0) !== input.runScore) throw new Error("Run total does not equal its board scores");
   const id = runRecordId({ version: input.version, perLevel, ...route, ...scoring, ...featureMeta });
   if (input.id !== void 0 && input.id !== id) throw new Error("Run completion id disagrees with its proof");
   if (rootSeed !== void 0 && perLevel.some((result, index) => result.seed !== String(runLevelSeed(rootSeed, index + 1, input.version)))) throw new Error("Run record seed sequence disagrees with root");
@@ -1436,12 +1489,13 @@ function normalizeRunRecord(value) {
 }
 function validateRunRecord(value) {
   try {
-    const record = normalizeRunRecord(value), routeInput = { rootSeed: record.rootSeed ?? record.perLevel[0].seed, rulesVersion: record.version, ...routeMetadata(record), ...featureMetadata(record) }, order = runPlan(routeInput), boards = record.perLevel.map((result, index) => replayBoard(result, index + 1, record.version, order?.[index], record));
+    const record = normalizeRunRecord(value), routeInput = { rootSeed: record.rootSeed ?? record.perLevel[0].seed, rulesVersion: record.version, ...routeMetadata(record), ...featureMetadata(record), ...windowMetadata(record) }, order = runPlan(routeInput), boards = record.perLevel.map((result, index) => replayBoard(result, index + 1, record.version, order?.[index], record));
     if (boards.some((result, index) => result.cleared !== index < record.levelsCleared)) throw new Error("Run terminal sequence disagrees with replay");
     if (hasHugoFeature(record)) verifyHugoWitness(expectedHugo(boards), record.hugo);
-    const secret = record.hugo?.result ? replayBoard(record.hugo.result, record.hugo.afterLevel, record.version, secretRunBoard(routeInput, record.hugo.afterLevel).world, record, true) : void 0;
-    const hugo = record.hugo ? { ...record.hugo, ...secret ? { result: completion(secret) } : {} } : void 0;
-    return { valid: true, record: { ...record, perLevel: boards.map(completion), ...hugo ? { hugo } : {} }, boards, ...secret ? { secret } : {} };
+    if (hasWindowFeature(record)) verifyWindowWitness(expectedWindow(boards), record.window);
+    const secret = record.hugo?.result ? replayBoard(record.hugo.result, record.hugo.afterLevel, record.version, secretRunBoard(routeInput, record.hugo.afterLevel).world, record, "hugo") : void 0, windowBoard = record.window ? windowRunBoard(routeInput, record.window.afterLevel) : void 0, windowSecret = record.window?.result ? replayBoard(record.window.result, windowBoard.level, record.version, windowBoard.world, record, "window") : void 0;
+    const hugo = record.hugo ? { ...record.hugo, ...secret ? { result: completion(secret) } : {} } : void 0, window2 = record.window ? { ...record.window, ...windowSecret ? { result: completion(windowSecret) } : {} } : void 0;
+    return { valid: true, record: { ...record, perLevel: boards.map(completion), ...hugo ? { hugo } : {}, ...window2 ? { window: window2 } : {} }, boards, ...secret ? { secret } : {}, ...windowSecret ? { windowSecret } : {} };
   } catch (error) {
     return { valid: false, error: error instanceof Error ? error.message : String(error) };
   }
@@ -1528,6 +1582,20 @@ function createLeaderboardVerifier(options = {}) {
       }
       const result = { id: record.id + ":hugo", date: record.date, seed: board2.seed, version: record.version, secret: "hugo", moves: clone([...board2.moves]), score: board2.score, ...scoringMetadata(scoringVersionOf(record)), ...board2.clearBonusDetails ? { clearBonusDetails: board2.clearBonusDetails } : {}, stars: starCount(starCoinScore(board2.clearBonusDetails ?? { score: board2.score }), scoringVersionOf(record)), cleared: board2.cleared, longestChain: state.longestChain, bestHand };
       boards.splice(board2.level, 0, { record: result, level: board2.level, spool: 22, sourceId: recordId(result) });
+    }
+    if (validated.windowSecret) {
+      const board2 = validated.windowSecret, rules = { ...getConfig("chainBest"), spool: board2.spool }, generated = generateDeal(rules, BigInt(board2.seed));
+      let state = createState(rules, generated.deal), bestHand = 0;
+      for (const move of board2.moves) {
+        bestHand = Math.max(bestHand, snapshot(state).handType);
+        const result2 = applyMove(state, move);
+        state = result2.state;
+        bestHand = Math.max(bestHand, snapshot(state).handType, ...result2.events.map((event) => handNames.indexOf(event.handName)));
+      }
+      const result = { id: record.id + ":window", date: record.date, seed: board2.seed, version: record.version, secret: "window", moves: clone([...board2.moves]), score: board2.score, ...scoringMetadata(scoringVersionOf(record)), ...board2.clearBonusDetails ? { clearBonusDetails: board2.clearBonusDetails } : {}, stars: starCount(starCoinScore(board2.clearBonusDetails ?? { score: board2.score }), scoringVersionOf(record)), cleared: board2.cleared, longestChain: state.longestChain, bestHand };
+      const predecessor = boards.findIndex((item) => item.record.secret === void 0 && item.level === record.window.afterLevel);
+      if (predecessor < 0) throw new TypeError("Window Room has no preceding normal board");
+      boards.splice(predecessor + 1, 0, { record: result, level: board2.level, spool: rules.spool, sourceId: recordId(result) });
     }
     return { record: clone(record), boards };
   }
@@ -2249,7 +2317,12 @@ function validateNickname(input) {
 // supabase/replay-entry.ts
 var verifier = createLeaderboardVerifier();
 function runMoves(record) {
-  const moves2 = record.hugoVersion ? { boards: record.perLevel.map((b) => ({ seed: b.seed, moves: compressMoves(b.moves) })), hugoVersion: record.hugoVersion, ...record.hugoDisabled ? { hugoDisabled: true } : {}, ...record.hugoVersion === "hugo-2" ? { worldRoute: record.worldRoute, startWorld: record.startWorld, worldOrder: record.worldOrder } : {}, ...record.hugo ? { hugo: { ...record.hugo, ...record.hugo.result ? { result: { ...record.hugo.result, moves: compressMoves(record.hugo.result.moves) } } : {} } } : {} } : record.perLevel.map((b) => ({ seed: b.seed, moves: compressMoves(b.moves) }));
+  const boards = record.perLevel.map((b) => ({ seed: b.seed, moves: compressMoves(b.moves) }));
+  const moves2 = record.hugoVersion || record.windowVersion ? {
+    boards,
+    ...record.hugoVersion ? { hugoVersion: record.hugoVersion, ...record.hugoDisabled ? { hugoDisabled: true } : {}, ...record.hugoVersion === "hugo-2" ? { worldRoute: record.worldRoute, startWorld: record.startWorld, worldOrder: record.worldOrder } : {}, ...record.hugo ? { hugo: { ...record.hugo, ...record.hugo.result ? { result: { ...record.hugo.result, moves: compressMoves(record.hugo.result.moves) } } : {} } } : {} } : {},
+    ...record.windowVersion ? { windowVersion: record.windowVersion, worldRoute: record.worldRoute, startWorld: record.startWorld, worldOrder: record.worldOrder, ...record.window ? { window: { ...record.window, ...record.window.result ? { result: { ...record.window.result, moves: compressMoves(record.window.result.moves) } } : {} } } : {} } : {}
+  } : boards;
   return scoringVersionOf(record) === CLASSIC_SCORING_VERSION ? Array.isArray(moves2) ? { boards: moves2, scoringVersion: CLASSIC_SCORING_VERSION } : { ...moves2, scoringVersion: CLASSIC_SCORING_VERSION } : moves2;
 }
 function verifySubmission(wire) {
