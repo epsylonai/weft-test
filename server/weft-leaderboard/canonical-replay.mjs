@@ -1093,34 +1093,16 @@ function recordId(record) {
   return "weft-" + hash.toString(16).padStart(16, "0");
 }
 
-// src/neon-window-admission.ts
-var NEON_WINDOW_ADMISSION = "neon-window-2";
-function generateNeonOpportunity(input, seed3, options = {}) {
-  if (typeof seed3 === "number" && !Number.isSafeInteger(seed3)) throw new RangeError("Seed must be a safe integer or bigint");
-  const original = BigInt(seed3), rules = resolveRules(input), maxAttempts = options.maxAttempts ?? 1e3;
-  if (maxAttempts !== Infinity && (!Number.isSafeInteger(maxAttempts) || maxAttempts < 1)) throw new RangeError("maxAttempts must be a positive safe integer or Infinity");
-  const solverOptions = { timeBudgetMs: options.timeBudgetMs ?? Infinity, maxNodes: options.maxNodes ?? Infinity }, checks = [];
-  for (let index = 0; index < maxAttempts; index++) {
-    const subSeed = original + BigInt(index) * GENERATOR_SALT, candidate2 = deal(rules, subSeed), started = performance.now(), verification = solve(rules, candidate2, solverOptions);
-    checks.push({ subSeed, verification, wallMs: performance.now() - started });
-    if (verification.clearable === "unknown") throw new GenerationBudgetError(original, subSeed, index + 1, verification);
-    const violinAce = candidate2.weave.find((card) => card % 13 === 0);
-    if (verification.clearable === true && violinAce !== void 0) {
-      if (!verification.line) throw new Error("A verified Neon deal needs a clearing witness");
-      return { deal: candidate2, line: verification.line, attempts: index + 1, seed: original, subSeed, salt: GENERATOR_SALT, verification, checks, violinAce };
-    }
-  }
-  throw new GenerationAttemptsError(original, maxAttempts);
-}
-
 // src/window-trigger.ts
-var WINDOW_VERSION = "window-2";
+var WINDOW_VERSION = "window-3";
+var BOARD_WINDOW_VERSION = "window-2";
 var LEGACY_WINDOW_VERSION = "window-1";
+var WINDOW_VIOLIN_ACE = 13;
 function windowVersionOf(value) {
   const version = value && typeof value === "object" ? value.windowVersion : void 0;
-  if (version !== void 0 && version !== WINDOW_VERSION && version !== LEGACY_WINDOW_VERSION) throw new TypeError("Unsupported Window feature version");
+  if (version !== void 0 && version !== WINDOW_VERSION && version !== BOARD_WINDOW_VERSION && version !== LEGACY_WINDOW_VERSION) throw new TypeError("Unsupported Window feature version");
   const disabled = value && typeof value === "object" ? value.windowDisabled : void 0;
-  if (disabled !== void 0 && (disabled !== true || version !== WINDOW_VERSION)) throw new TypeError("Invalid disabled Window feature");
+  if (disabled !== void 0 && (disabled !== true || version !== WINDOW_VERSION && version !== BOARD_WINDOW_VERSION)) throw new TypeError("Invalid disabled Window feature");
   return version;
 }
 var hasWindowFeature = (value) => windowVersionOf(value) !== void 0;
@@ -1128,13 +1110,17 @@ var windowTriggerEligible = (value, world3) => hasWindowFeature(value) && !value
 function chosenWindowAce(deal2, version = WINDOW_VERSION) {
   windowVersionOf({ windowVersion: version });
   const cards = Array.isArray(deal2) ? version === LEGACY_WINDOW_VERSION ? deal2 : deal2.slice(0, 30) : version === LEGACY_WINDOW_VERSION ? [...deal2.weave, ...deal2.spoolOrder, ...deal2.burned] : deal2.weave;
-  const ace = cards.find((card) => card % 13 === 0);
-  if (ace === void 0) throw new Error("Generated Neon board has no ace");
+  const ace = version === WINDOW_VERSION ? cards.find((card) => card === WINDOW_VIOLIN_ACE) : cards.find((card) => card % 13 === 0);
+  if (ace === void 0) throw new Error("Generated Neon board has no ace required by its Window version");
   return ace;
 }
-function isWindowSacrifice(state, move, ace, version = WINDOW_VERSION) {
+function windowAutoBankedAce(transition, move, ace, version = WINDOW_VERSION) {
+  return version === WINDOW_VERSION && ace === WINDOW_VIOLIN_ACE && move.type === "play" && transition.state.weave[move.position] === ace && transition.state.top === ace && transition.state.chain.length === 0 && transition.state.terminal === "active" && transition.state.spoolIndex < transition.state.spool.length && legalMoves(transition.state).length === 0 && transition.events.some((event) => event.reason === "automatic" && event.chainLength >= 1);
+}
+function isWindowSacrifice(state, move, ace, version = WINDOW_VERSION, autoBankedAce = false) {
   windowVersionOf({ windowVersion: version });
-  return move.type === "draw" && state.terminal === "active" && state.spoolIndex < state.spool.length && state.chain.length > 0 && Number.isInteger(ace) && ace >= 0 && ace < 52 && ace % 13 === 0 && state.chain[state.chain.length - 1] === ace && state.top === ace && (version !== LEGACY_WINDOW_VERSION || snapshot(state).handType >= 1);
+  const direct = state.chain.length > 0 && state.chain[state.chain.length - 1] === ace, banked = version === WINDOW_VERSION && autoBankedAce && state.chain.length === 0 && legalMoves(state).length === 0;
+  return move.type === "draw" && state.terminal === "active" && state.spoolIndex < state.spool.length && Number.isInteger(ace) && ace >= 0 && ace < 52 && ace % 13 === 0 && (version !== WINDOW_VERSION || ace === WINDOW_VIOLIN_ACE) && (direct || banked) && state.top === ace && (version !== LEGACY_WINDOW_VERSION || snapshot(state).handType >= 1);
 }
 function windowSeed(root2, afterLevel, version = WINDOW_VERSION) {
   if (!Number.isSafeInteger(afterLevel) || afterLevel < 1 || afterLevel > 10 || typeof root2 === "number" && !Number.isSafeInteger(root2) || !/^-?\d{1,30}$/.test(String(root2))) throw new TypeError("Invalid Window seed domain");
@@ -1144,6 +1130,28 @@ function windowSeed(root2, afterLevel, version = WINDOW_VERSION) {
   return hash;
 }
 var sameWindowWitness = (a, b) => a === void 0 ? b === void 0 : b !== void 0 && a.seed === b.seed && a.moveIndex === b.moveIndex && a.ace === b.ace;
+
+// src/neon-window-admission.ts
+var NEON_WINDOW_ADMISSION = "neon-window-3";
+var LEGACY_NEON_WINDOW_ADMISSION = "neon-window-2";
+function generateNeonOpportunity(input, seed3, options = {}, admission = NEON_WINDOW_ADMISSION) {
+  if (admission !== NEON_WINDOW_ADMISSION && admission !== LEGACY_NEON_WINDOW_ADMISSION) throw new TypeError("Unsupported Neon admission");
+  if (typeof seed3 === "number" && !Number.isSafeInteger(seed3)) throw new RangeError("Seed must be a safe integer or bigint");
+  const original = BigInt(seed3), rules = resolveRules(input), maxAttempts = options.maxAttempts ?? 1e3;
+  if (maxAttempts !== Infinity && (!Number.isSafeInteger(maxAttempts) || maxAttempts < 1)) throw new RangeError("maxAttempts must be a positive safe integer or Infinity");
+  const solverOptions = { timeBudgetMs: options.timeBudgetMs ?? Infinity, maxNodes: options.maxNodes ?? Infinity }, checks = [];
+  for (let index = 0; index < maxAttempts; index++) {
+    const subSeed = original + BigInt(index) * GENERATOR_SALT, candidate2 = deal(rules, subSeed), started = performance.now(), verification = solve(rules, candidate2, solverOptions);
+    checks.push({ subSeed, verification, wallMs: performance.now() - started });
+    if (verification.clearable === "unknown") throw new GenerationBudgetError(original, subSeed, index + 1, verification);
+    const violinAce = candidate2.weave.find((card) => admission === NEON_WINDOW_ADMISSION ? card === WINDOW_VIOLIN_ACE : card % 13 === 0);
+    if (verification.clearable === true && violinAce !== void 0) {
+      if (!verification.line) throw new Error("A verified Neon deal needs a clearing witness");
+      return { deal: candidate2, line: verification.line, attempts: index + 1, seed: original, subSeed, salt: GENERATOR_SALT, verification, checks, violinAce };
+    }
+  }
+  throw new GenerationAttemptsError(original, maxAttempts);
+}
 
 // src/hugo-trigger.ts
 var HUGO_VERSION = "hugo-2";
@@ -1368,7 +1376,7 @@ function rulesForLevel(level, version = RUN_VERSION) {
 }
 function board(rootSeed, level, version = RUN_VERSION, presentationWorld, feature = {}) {
   const config = { ...levelConfig(level, version), ...presentationWorld === void 0 ? {} : { world: presentationWorld } };
-  return { ...config, seed: String(runLevelSeed(rootSeed, level, version)), ...hugoVersionOf(feature) === HUGO_VERSION && config.world === 3 ? { admission: GROVE_ADMISSION } : windowVersionOf(feature) === WINDOW_VERSION && config.world === 4 ? { admission: NEON_WINDOW_ADMISSION } : {} };
+  return { ...config, seed: String(runLevelSeed(rootSeed, level, version)), ...hugoVersionOf(feature) === HUGO_VERSION && config.world === 3 ? { admission: GROVE_ADMISSION } : config.world === 4 && windowVersionOf(feature) === WINDOW_VERSION ? { admission: NEON_WINDOW_ADMISSION } : config.world === 4 && windowVersionOf(feature) === BOARD_WINDOW_VERSION ? { admission: LEGACY_NEON_WINDOW_ADMISSION } : {} };
 }
 function runPlan(run) {
   if (run.rulesVersion !== CLASSIC_RULES_VERSION) {
@@ -1381,7 +1389,7 @@ function routeMetadata(value) {
   return hasClassicRoute(value) ? { worldRoute: value.worldRoute, startWorld: value.startWorld, worldOrder: [...value.worldOrder] } : {};
 }
 function generateRunBoard(rules, descriptor) {
-  return descriptor.admission === GROVE_ADMISSION ? generateGroveOpportunity(rules, BigInt(descriptor.seed)) : descriptor.admission === NEON_WINDOW_ADMISSION ? generateNeonOpportunity(rules, BigInt(descriptor.seed)) : generateDeal(rules, BigInt(descriptor.seed));
+  return descriptor.admission === GROVE_ADMISSION ? generateGroveOpportunity(rules, BigInt(descriptor.seed)) : descriptor.admission === NEON_WINDOW_ADMISSION || descriptor.admission === LEGACY_NEON_WINDOW_ADMISSION ? generateNeonOpportunity(rules, BigInt(descriptor.seed), {}, descriptor.admission) : generateDeal(rules, BigInt(descriptor.seed));
 }
 function featureMetadata(value) {
   const version = hugoVersionOf(value);
@@ -1397,12 +1405,13 @@ function replayBoard(input, level, version = RUN_VERSION, presentationWorld, sco
   if (input.cleared !== void 0 && typeof input.cleared !== "boolean") throw new TypeError("Invalid Clear marker");
   const rules = { ...rulesForLevel(level, version), spool: config.spool }, generated = generateRunBoard(rules, { ...config, seed: original });
   if (input.subSeed !== void 0 && proofSeed(input.subSeed) !== String(generated.subSeed)) throw new Error("Run board sub-seed disagrees with exact generation");
-  let chainCoins = 0, unmultipliedChainCoins = 0;
+  let chainCoins = 0, unmultipliedChainCoins = 0, pendingWindowAutoBank = false;
   let state = createState(rules, generated.deal), trigger, windowTrigger;
   const violin = !secret && windowTriggerEligible(scoring, config.world) ? chosenWindowAce(generated.deal, windowVersionOf(scoring)) : void 0;
   input.moves.forEach((move, moveIndex) => {
-    const eligible = isHugoSacrifice(state, move), windowEligible = violin !== void 0 && isWindowSacrifice(state, move, violin, windowVersionOf(scoring));
+    const eligible = isHugoSacrifice(state, move), windowEligible = violin !== void 0 && isWindowSacrifice(state, move, violin, windowVersionOf(scoring), pendingWindowAutoBank);
     const transition = applyMove(state, move);
+    pendingWindowAutoBank = violin !== void 0 && windowAutoBankedAce(transition, move, violin, windowVersionOf(scoring));
     chainCoins += transition.events.reduce((sum, event) => sum + levelChainCoins(event, level, scoringVersionOf(scoring)), 0);
     unmultipliedChainCoins += transition.events.reduce((sum, event) => sum + levelChainCoins(event, 1, scoringVersionOf(scoring)), 0);
     state = transition.state;
@@ -1459,7 +1468,7 @@ function windowRunBoard(run, afterLevel) {
 }
 function checkedWindow(value, feature, root2, order) {
   if (value === void 0) return;
-  if (!windowTriggerEligible(feature, 4) || Object.keys(value).some((k) => !["version", "afterLevel", "trigger", "result"].includes(k)) || value.version !== windowVersionOf(feature) || !count(value.afterLevel) || value.afterLevel < 1 || value.afterLevel > 10 || order?.[value.afterLevel - 1] !== 4 || !value.trigger || Object.keys(value.trigger).some((k) => !["seed", "moveIndex", "ace"].includes(k)) || value.trigger.seed !== String(runLevelSeed(root2, value.afterLevel)) || !count(value.trigger.moveIndex) || value.trigger.moveIndex >= 256 || !count(value.trigger.ace) || value.trigger.ace >= 52 || value.trigger.ace % 13 !== 0) throw new Error("Invalid Window trigger context");
+  if (!windowTriggerEligible(feature, 4) || Object.keys(value).some((k) => !["version", "afterLevel", "trigger", "result"].includes(k)) || value.version !== windowVersionOf(feature) || !count(value.afterLevel) || value.afterLevel < 1 || value.afterLevel > 10 || order?.[value.afterLevel - 1] !== 4 || !value.trigger || Object.keys(value.trigger).some((k) => !["seed", "moveIndex", "ace"].includes(k)) || value.trigger.seed !== String(runLevelSeed(root2, value.afterLevel)) || !count(value.trigger.moveIndex) || value.trigger.moveIndex >= 256 || !count(value.trigger.ace) || value.trigger.ace >= 52 || value.trigger.ace % 13 !== 0 || windowVersionOf(feature) === WINDOW_VERSION && value.trigger.ace !== WINDOW_VIOLIN_ACE) throw new Error("Invalid Window trigger context");
   return copy(value);
 }
 function expectedWindow(replayed) {
@@ -2376,7 +2385,7 @@ function verifySubmission(wire) {
 function verifyCurrentSubmission(wire) {
   if (!wire || typeof wire !== "object" || !isCurrentScoring(wire.record)) throw new TypeError("This score belongs to an archived scoring season");
   const input = wire;
-  if (input.type === "run" && input.record.windowVersion === "window-2" && input.record.windowDisabled === true) throw new TypeError("Assisted Window runs stay on this device");
+  if (input.type === "run" && (input.record.windowVersion === "window-2" || input.record.windowVersion === "window-3") && input.record.windowDisabled === true) throw new TypeError("Assisted Window runs stay on this device");
   const unchanged = input.type === "warp-run" || input.type === "board" && input.record.dailyDate !== void 0;
   if (input.record.scoringVersion !== (unchanged ? CURRENT_SCORING_VERSION : CLASSIC_SCORING_VERSION)) {
     const error = new TypeError("Please update Weft to post scores");

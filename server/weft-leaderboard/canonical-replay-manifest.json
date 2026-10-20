@@ -1,12 +1,16 @@
 {
-  "version": "6.24.9",
+  "version": "6.24.10",
   "hugoFeature": "hugo-2",
-  "windowFeature": "window-2",
+  "windowFeature": "window-3",
   "legacyWindowFeature": "window-1",
+  "legacyWindowFeatures": [
+    "window-1",
+    "window-2"
+  ],
   "scoringVersion": "level-v3",
   "unchangedScoringVersion": "clear-v2",
   "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
-  "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679",
+  "sha256": "21d5e8ee337e97b0d7ff5574d96d085596023bb373c856f48e6dc0fa6ef36f30",
   "inputs": [
     {
       "file": "../../B-002/engine/configs.ts",
@@ -62,7 +66,7 @@
     },
     {
       "file": "src/neon-window-admission.ts",
-      "sha256": "6055a410d183ae9bd78acf29b6bb2b184e0d9cfe54bc0fdb9b801930b8f4064b"
+      "sha256": "c468f1c5ae3f28df197151864addee5074c62c6c647d54c2410c60660541a010"
     },
     {
       "file": "src/nickname.ts",
@@ -74,7 +78,7 @@
     },
     {
       "file": "src/records.ts",
-      "sha256": "c0140e9290e5b04064f358e08163699b9e44b49b70bd13d936b18b58edbc70cc"
+      "sha256": "cb7589f36f4005cae312dc460d652e6fdc2c139956e5016b3ff3f37a9d5727ff"
     },
     {
       "file": "src/replay-practice.ts",
@@ -86,7 +90,7 @@
     },
     {
       "file": "src/run.ts",
-      "sha256": "88a95b05929b158e95832c48b6e233e9a7575aaa21e53f050fef550e102a44c8"
+      "sha256": "cb9fa344d0a40738118484383109755d6cc346b8e9a666bf7747a2cd2f32ad4d"
     },
     {
       "file": "src/score-codec.ts",
@@ -102,7 +106,7 @@
     },
     {
       "file": "src/window-trigger.ts",
-      "sha256": "a2683babf9748afd117c52bc731c530cd2a94c647e148dc13cdb5e868db3bf86"
+      "sha256": "0b314b4ac96045a193e332e810a9c1c128137b7db925c7b5a5821ab4d0a4753a"
     },
     {
       "file": "src/world-config.ts",
@@ -110,7 +114,7 @@
     },
     {
       "file": "supabase/replay-entry.ts",
-      "sha256": "1654aa784bdcb0aff184afa1d0aeb9c83f1b563a30f69ee417e8734d3f8f0039"
+      "sha256": "2e6ac4f911ca37ced43d8b73d55ed834e6e8fbdd1357e2c1fa29ded1023f0e4b"
     },
     {
       "file": "supabase/warp-replay.ts",
@@ -175,13 +179,18 @@
       "file": "server/weft-leaderboard/historical/canonical-replay-05bd763a.mjs",
       "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05",
       "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-9a0cdaea.mjs",
+      "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679",
+      "accepted": true
     }
   ],
   "previousCurrent": {
-    "file": "../v6.24.8/server/weft-leaderboard/canonical-replay.mjs",
-    "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05",
+    "file": "../v6.24.9/server/weft-leaderboard/canonical-replay.mjs",
+    "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679",
     "accepted": true
   },
   "deploymentRequired": true,
-  "currentWritePolicy": "B048 server-first: Window2 admits only deterministic solver-verified Neon deals with at least one board ace; the first board ace gates the draw witness after any chain of at least one played card, with no hand requirement. Window1 retains the exact old ordinary generator, full-deal first-ace plus pair-or-better rule and seed domain. Room difficulty/scoring/proof shape unchanged. Hugo and six historical authorities remain accepted by verifySubmission. Current Classic remains level-v3; clear-v2 Classic writes reject UPDATE_GAME_REQUIRED; Daily/Warp clear-v2 unchanged. Row version remains6.23. NO migration or SQL reapply this round; no season wipe or database execution."
+  "currentWritePolicy": "B048 server-first: Window3 admits deterministic solver-clearable Neon deals containing the fixed ace of hearts (card 13) among the 30 board cards. Any chain ending on that ace followed by a draw unlocks, including an automatic bank immediately after the ace; an intervening board play clears the replay-derived pending latch. No proof/latch fields added. Window1 and Window2 retain exact generation, trigger rules and seed domains. Seven historical authorities remain byte-exact; current Classic remains level-v3, clear-v2 Classic writes reject UPDATE_GAME_REQUIRED; Daily/Warp clear-v2 unchanged. Row version remains 6.23. NO migration or SQL reapply, no database execution."
 }

@@ -1,16 +1,16 @@
 {
   "status": "prepared-not-deployed",
-  "version": "6.24.9",
-  "brief": "B-048 window-2 server-first",
-  "canonicalSha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679",
+  "version": "6.24.10",
+  "brief": "B-048 window-3 server-first",
+  "canonicalSha256": "21d5e8ee337e97b0d7ff5574d96d085596023bb373c856f48e6dc0fa6ef36f30",
   "files": [
     {
       "file": "server/weft-leaderboard/canonical-replay.mjs",
-      "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679"
+      "sha256": "21d5e8ee337e97b0d7ff5574d96d085596023bb373c856f48e6dc0fa6ef36f30"
     },
     {
       "file": "server/weft-leaderboard/canonical-replay-manifest.json",
-      "sha256": "6fca407684247934afa2db3b4097bc893a64f48379b5c92e5d29cd30846fc4f8"
+      "sha256": "4979a18d3d2868c0ef9f9e2826d8c2895eb2fd34444d82fd69740513ad78819b"
     },
     {
       "file": "server/weft-leaderboard/index.ts",
@@ -18,12 +18,12 @@
     },
     {
       "file": "server/weft-leaderboard/README-B048.md",
-      "sha256": "715dc38ae0bfc2dc227517680a54e6a12715a5d17905976bee343264dc0793bd"
+      "sha256": "657b2a6a90ec98154950d7252514f28476cdf02cf64c07c9f16f699305fff257"
     }
   ],
   "acceptance": {
-    "file": "test-output/b048-window-v6249-server/acceptance.json",
-    "sha256": "982142d85093846869b0ead37b7780b58d38e05c52e967d39acf7d7ed0441647"
+    "file": "test-output/b048-window-v62410-server/acceptance.json",
+    "sha256": "e938493662cbc771c2b2d67bd5fb992d40f0045bc7f76ded02288ca16a4dafc5"
   },
   "historicalAuthorities": [
     {
@@ -49,6 +49,10 @@
     {
       "file": "server/weft-leaderboard/historical/canonical-replay-05bd763a.mjs",
       "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-9a0cdaea.mjs",
+      "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679"
     }
   ],
   "migration": null,
@@ -62,7 +66,7 @@
   ],
   "ownerOrder": [
     "Pin exact canonical bundle at immutable URL and deploy unchanged Edge handler importing that URL",
-    "Verify Window2 genuine/forged and zero-board-ace legacy/new cases, plus historical parity",
+    "Verify Window3 fixed hearts13, auto-bank→draw unlock, forged latch/score, and seven historical authorities",
     "Publish client after server acceptance"
   ],
   "databaseExecuted": false,
