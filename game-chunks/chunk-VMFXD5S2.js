@@ -1,1 +1,0 @@
-var t=!1,o=!1,n=()=>o||t;function i(){typeof window>"u"||(window.__WEFT_TEST_ACTIVE__=n(),window.dispatchEvent(new Event(n()?"weft-test-enter":"weft-test-leave")))}function T(e){o=e,i()}function E(e){t=e,i()}export{n as a,T as b,E as c};
