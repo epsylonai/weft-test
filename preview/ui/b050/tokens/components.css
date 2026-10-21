@@ -1,0 +1,39 @@
+/* B-050 semantic component geometry. Design reference, no controller/game code.
+   Import tokens.css first. All dimensions are logical CSS px, never multiplied
+   for display density. Named exceptions use the same fixed family/type scale. */
+:root {
+ --weft-action-type: 600 17px / 22px 'Weft Cinzel', serif;
+ --weft-player-name-type: 600 19px / 24px 'Weft Garamond', serif;
+ --weft-rank-type: 600 17px / 22px 'Weft Garamond', serif;
+ --weft-section-type: 600 19px / 24px 'Weft Cinzel', serif;
+}
+.weft-ui { color:var(--weft-paper);font:var(--weft-body-type);font-synthesis:none; }
+.weft-ui button,.weft-ui input {font:inherit;color:inherit;}
+.weft-ui button {cursor:pointer;}
+.weft-ui button:disabled {cursor:default;color:var(--weft-secondary);}
+.weft-ui :focus-visible {outline:2px solid var(--weft-focus);outline-offset:3px;}
+.weft-ui h1,.weft-ui h2,.weft-ui h3,.weft-ui p {margin:0;}
+.weft-ui .frame-decoration {position:absolute;inset:0;box-sizing:border-box;pointer-events:none;}
+.weft-ui .panel-content {position:relative;min-width:0;}
+.weft-ui .action-label {font:var(--weft-action-type);color:var(--weft-gold);}
+.weft-ui .reading-body {overflow:auto;overscroll-behavior:contain;scrollbar-color:var(--weft-teal) var(--weft-ink);}
+.weft-ui .mode-controls {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;}
+.weft-ui .metric-controls {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 8px;}
+.weft-ui .mode-controls button,.weft-ui .metric-controls button {min-height:44px;font:var(--weft-control-type);white-space:nowrap;}
+.weft-ui .player-name {font:var(--weft-player-name-type);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.weft-ui .rank {font:var(--weft-rank-type);}
+.weft-ui .score {font:var(--weft-score-type);text-align:right;white-space:nowrap;}
+.weft-ui .score-row[data-you=true] {background:var(--weft-raised);border-inline-start:2px solid var(--weft-teal);}
+.weft-ui .score-row[data-overflow=true] {min-height:118px;}
+.weft-ui .score-row[data-overflow=true] .score {grid-column:1/-1;}
+/* Measure actual text. If a rank exceeds four digits or the28px value exceeds
+   its128px rail, use the expanded reference layout; never clip/round/ellipsis
+   a rank or score, compress its width, or silently drop a separator. */
+.weft-ui .badge {width:20px;height:20px;object-fit:contain;flex:none;}
+.weft-ui .date {font:var(--weft-date-type);color:var(--weft-secondary);}
+.weft-ui .section-heading {font:var(--weft-section-type);color:var(--weft-gold);}
+.weft-ui .secret-hint {color:var(--weft-teal);border-inline-start:1px solid var(--weft-teal);background:var(--weft-raised);font:var(--weft-secondary-type);}
+/* Keep panels responsive to actual safe areas / visual keyboard / text zoom.
+   These classes do not replace each layout.json's exact reference baselines,
+   boxes, pinned actions, hit areas and parent scroll clips. */
+@media (prefers-reduced-motion:reduce) {.weft-ui * {scroll-behavior:auto;transition-duration:0ms;animation:none;}}

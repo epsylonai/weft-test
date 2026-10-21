@@ -1,0 +1,84 @@
+/* B-050 · Woven Folio design tokens. Local OFL fonts; no game logic. */
+@font-face { font-family: 'Weft Cinzel'; src: url('../assets/fonts/cinzel-roman-latin.woff2') format('woff2'); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Weft Garamond'; src: url('../assets/fonts/eb-garamond-roman-latin.woff2') format('woff2'); font-style: normal; font-weight: 500 600; font-display: swap; }
+@font-face { font-family: 'Weft Garamond'; src: url('../assets/fonts/eb-garamond-italic-latin.woff2') format('woff2'); font-style: italic; font-weight: 500 600; font-display: swap; }
+:root {
+  color-scheme: dark;
+  --weft-ink: #071C1C;
+  --weft-raised: #102B2A;
+  --weft-pressed: #061716;
+  --weft-paper: #F4E8CF;
+  --weft-secondary: #BBCABF;
+  /* Exactly two active UI accents. Original painting/emblem/wordmark hues stay art. */
+  --weft-gold: #E6C68A;
+  --weft-teal: #8FCAC4;
+  --weft-focus: #F5DFAE;
+  --weft-heading-face: 'Weft Cinzel', serif;
+  --weft-reading-face: 'Weft Garamond', serif;
+  --weft-screen-type: 600 25px / 30px 'Weft Cinzel', serif;
+  --weft-world-type: 600 24px / 30px 'Weft Cinzel', serif;
+  --weft-panel-type: 600 22px / 28px 'Weft Cinzel', serif;
+  --weft-body-type: 500 18px / 24px 'Weft Garamond', serif;
+  --weft-secondary-type: 500 17px / 22px 'Weft Garamond', serif;
+  --weft-control-type: 600 18px / 24px 'Weft Garamond', serif;
+  --weft-score-type: 600 28px / 32px 'Weft Garamond', serif;
+  --weft-result-score-type: 600 34px / 38px 'Weft Garamond', serif;
+  --weft-date-type: 500 13px / 18px 'Weft Garamond', serif;
+  --weft-space-1: 4px; --weft-space-2: 8px; --weft-space-3: 12px;
+  --weft-space-4: 16px; --weft-space-5: 20px; --weft-space-6: 24px;
+  --weft-space-7: 28px; --weft-space-8: 32px;
+  --weft-modal-rail: 12px; --weft-content-rail: 20px;
+  --weft-min-hit: 44px; --weft-button-height: 56px;
+  --weft-frame-slice: 30; --weft-frame-border: 30px;
+  --weft-frame-content: 30px 28px;
+  --weft-plate-slice: 24 28; --weft-plate-border: 24px 28px;
+  --weft-primary-content: 14px 34px; --weft-secondary-content: 14px 30px;
+  --weft-control-slice: 16 20; --weft-control-border: 16px 20px;
+  --weft-control-content: 10px 16px;
+  --weft-icon-slice: 20; --weft-icon-border: 20px;
+  --weft-radius: 0px; /* Authored chamfered silhouette, not a rounded browser card. */
+  --weft-focus-width: 2px; --weft-focus-offset: 3px;
+  --weft-entry-ms: 220ms; --weft-press-ms: 160ms;
+  --weft-level-entry-guard-ms: 300ms;
+  --weft-reading-budget-seconds: 9; /* Copy-length target; NEVER an auto-dismiss timer. */
+}
+/* Reference roles. Use real semantic headings/labels/values; artwork is decorative. */
+.weft-screen-title { font: var(--weft-screen-type); color: var(--weft-gold); }
+.weft-world-title { font: var(--weft-world-type); color: var(--weft-gold); max-width: 100%; overflow-wrap: normal; }
+.weft-panel-title { font: var(--weft-panel-type); color: var(--weft-gold); }
+.weft-body { font: var(--weft-body-type); color: var(--weft-paper); }
+.weft-secondary { font: var(--weft-secondary-type); color: var(--weft-secondary); }
+.weft-control { font: var(--weft-control-type); min-height: var(--weft-min-hit); }
+.weft-score { font: var(--weft-score-type); color: var(--weft-paper); white-space: nowrap; }
+.weft-date { font: var(--weft-date-type); color: var(--weft-secondary); }
+.weft-nickname { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.weft-secret-hint, .weft-you-label { color: var(--weft-teal); }
+.weft-metric-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 8px; }
+.weft-mode-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.weft-focus:focus-visible { outline: var(--weft-focus-width) solid var(--weft-focus); outline-offset: var(--weft-focus-offset); }
+/* Nine-slice reference uses the unchanged vector masters so slice coordinates
+   stay logical at every density. A raster renderer must multiply source crops
+   by DPR while preserving destination corner geometry; see MATERIALS.json. */
+.weft-frame-material {
+  border-style: solid; border-width: 30px;
+  border-image-source: url('../assets/materials/panel-frame/default.svg');
+  border-image-slice: 30 fill; border-image-width: 30px; border-image-repeat: stretch;
+}
+.weft-transparent-frame-material {
+  border-style: solid; border-width: 30px;
+  border-image-source: url('../assets/materials/mode-card-frame/default.svg');
+  border-image-slice: 30 fill; border-image-width: 30px; border-image-repeat: stretch;
+}
+.weft-primary-material {
+  border-style: solid; border-width: 24px 28px;
+  border-image-source: url('../assets/materials/primary-plate/default.svg');
+  border-image-slice: 24 28 fill; border-image-width: 24px 28px; border-image-repeat: stretch;
+}
+/* Keep the named material's contentInsets separate from border-box accounting.
+   Minimum action height is56px and minimum target44px. Reserve focus clearance.
+   Change the asset state path for pressed/selected/disabled/focus. Never lower
+   whole-control opacity: disabled text still needs reading contrast. No entire
+   screen scaling, width-squeezed text, stretched ornaments or score digit clipping. */
+@media (prefers-reduced-motion: reduce) {
+  :root { --weft-entry-ms: 0ms; --weft-press-ms: 0ms; }
+}
