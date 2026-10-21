@@ -1,0 +1,376 @@
+{
+  "approved": true,
+  "revision": "4.1-citylight",
+  "faces": [
+    {
+      "card": 0,
+      "file": "window-room/cards/citylight-v41/spade-a-c11b916b1040.webp",
+      "sha256": "c11b916b10406b88fd5708c2b2586c9868e7a7665987d6b75751f142f1a3b88a",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 1,
+      "file": "window-room/cards/citylight-v41/spade-2-3137955895e1.webp",
+      "sha256": "3137955895e189b539726bf19095e10536f44dfca368016971f7ea03abf6d7b1",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 2,
+      "file": "window-room/cards/citylight-v41/spade-3-b52bc3988272.webp",
+      "sha256": "b52bc3988272c01ccd2fd6343eeec400abbcc7f0bc6b00cf2069c6ded0ee00ad",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 3,
+      "file": "window-room/cards/citylight-v41/spade-4-3dc2ef9d0be0.webp",
+      "sha256": "3dc2ef9d0be01f261bbd11700efe66e7b8712bdf88ae9111f4e118c2b456790e",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 4,
+      "file": "window-room/cards/citylight-v41/spade-5-95e848c8e2df.webp",
+      "sha256": "95e848c8e2dfc27e6c241e177187ffd843024f01acb26c1fbc41d4f9492eb873",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 5,
+      "file": "window-room/cards/citylight-v41/spade-6-1daf7e044e6f.webp",
+      "sha256": "1daf7e044e6f15a9f74cd58839d6a0820b8639724ace27c1d8355f4b42b8d715",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 6,
+      "file": "window-room/cards/citylight-v41/spade-7-2d53723ce5a4.webp",
+      "sha256": "2d53723ce5a43e103289d45f78533725d2469f364356def2b4c8da1ac2af636b",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 7,
+      "file": "window-room/cards/citylight-v41/spade-8-52b129811062.webp",
+      "sha256": "52b12981106226e84bd752292c779ca01dfd2708cbff94a53adbafaa4a3bfba2",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 8,
+      "file": "window-room/cards/citylight-v41/spade-9-51870cce4083.webp",
+      "sha256": "51870cce4083e5f4aa179dc0d87c981a802dfa160c1b46ab0b34f2b23ea947c7",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 9,
+      "file": "window-room/cards/citylight-v41/spade-10-7ab64c6a2086.webp",
+      "sha256": "7ab64c6a20863b7e4bb93146c7a1e6de069a5006dc60919cbc4e08c24106387b",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 10,
+      "file": "window-room/cards/citylight-v41/spade-j-03a0498bb0bb.webp",
+      "sha256": "03a0498bb0bbad6d7574558d0ebd7571d17a5d435a1fd64119bc937d88705465",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 11,
+      "file": "window-room/cards/citylight-v41/spade-q-a4bb841d266f.webp",
+      "sha256": "a4bb841d266ffb49a1722f8847e2fb7d3c16f9c928a408dccc74d2f98af87033",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 12,
+      "file": "window-room/cards/citylight-v41/spade-k-d8ce28c2dcac.webp",
+      "sha256": "d8ce28c2dcaced47a35ce4f2b17c2d27fe69364da0a5a4e39fdd4aff84061240",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 13,
+      "file": "window-room/cards/citylight-v41/heart-a-bb63104ebc8d.webp",
+      "sha256": "bb63104ebc8d8c7b4d937fcb067cfaeab0677a6a67ac119e58b70f7b3db4d7cf",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 14,
+      "file": "window-room/cards/citylight-v41/heart-2-d3b30e5ee175.webp",
+      "sha256": "d3b30e5ee175dd4a72e5209a7ad9cc141b611cc23e3cf65a21d5118982ba9e51",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 15,
+      "file": "window-room/cards/citylight-v41/heart-3-2dedea64835e.webp",
+      "sha256": "2dedea64835e328c1ab40bce2ae3b94b0d3978955806faf433c69aa9cdf3337a",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 16,
+      "file": "window-room/cards/citylight-v41/heart-4-5beaee90816b.webp",
+      "sha256": "5beaee90816b1621f85e47566761800e11ce47526bbb68c1d5620d1ba84febc0",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 17,
+      "file": "window-room/cards/citylight-v41/heart-5-5d801324fe0c.webp",
+      "sha256": "5d801324fe0c2548b29886c6d1deb3070548a9d559ff3081c976062ce3131ea3",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 18,
+      "file": "window-room/cards/citylight-v41/heart-6-f19bf9bdbe17.webp",
+      "sha256": "f19bf9bdbe174178ccc8c8bebb9b47fe57e08817696655dc8e288d6cce8ce935",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 19,
+      "file": "window-room/cards/citylight-v41/heart-7-4269c44dbdd7.webp",
+      "sha256": "4269c44dbdd78003cc5b4736d6969f479280778a822dc1c0dbe266bf9e37879a",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 20,
+      "file": "window-room/cards/citylight-v41/heart-8-f51c077b526d.webp",
+      "sha256": "f51c077b526d001ee26f93923383de4f03a9abb9ba049047613505e6837f0af9",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 21,
+      "file": "window-room/cards/citylight-v41/heart-9-64744f18804c.webp",
+      "sha256": "64744f18804c815f31ad92300817f2e04e144b19febe069980828ac38cdddc69",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 22,
+      "file": "window-room/cards/citylight-v41/heart-10-3beff54d2c4c.webp",
+      "sha256": "3beff54d2c4c8a71ff47b51a2f01adbeb742133b89f6b94e976d3c26b50e6b4a",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 23,
+      "file": "window-room/cards/citylight-v41/heart-j-b19474b592dd.webp",
+      "sha256": "b19474b592dd653206717ce6f1e25f1fbc61bdb49c3e195f76226709759279d1",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 24,
+      "file": "window-room/cards/citylight-v41/heart-q-f7fb37fef2b5.webp",
+      "sha256": "f7fb37fef2b56c72d5324f96cc9932d394a4998a6b0ade8eb77c563241b40d67",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 25,
+      "file": "window-room/cards/citylight-v41/heart-k-89c653a280d4.webp",
+      "sha256": "89c653a280d4f8023f53f036e3b7e25499350885a21536861fc011979239b8b6",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 26,
+      "file": "window-room/cards/citylight-v41/diamond-a-5177ae42fc67.webp",
+      "sha256": "5177ae42fc67368887530b9b451fb446c1a0d824844f4ceedba20dfd28e788f3",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 27,
+      "file": "window-room/cards/citylight-v41/diamond-2-26a2fe9e5836.webp",
+      "sha256": "26a2fe9e5836bf8d6d8baafbf948b2203a98f759aa2977136c8778613fff5429",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 28,
+      "file": "window-room/cards/citylight-v41/diamond-3-2ec319f9944d.webp",
+      "sha256": "2ec319f9944df935f91d37459ae4c5c99d0d0e7a6f1cee4cfca4f91af58f2d29",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 29,
+      "file": "window-room/cards/citylight-v41/diamond-4-179bec705b2d.webp",
+      "sha256": "179bec705b2dc0cdbd1f9e85942442d32f7b0f3212ac88900fa17ae5ce02e29f",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 30,
+      "file": "window-room/cards/citylight-v41/diamond-5-cc841eba0345.webp",
+      "sha256": "cc841eba03452b455998d12dfd2b889eaf5d4ee85ae04665d2d558753376595f",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 31,
+      "file": "window-room/cards/citylight-v41/diamond-6-743071012f05.webp",
+      "sha256": "743071012f05f42f5fe53a00e6edc92554f43928f2de89895db2f1a705c6b8f3",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 32,
+      "file": "window-room/cards/citylight-v41/diamond-7-4783ef229609.webp",
+      "sha256": "4783ef229609eb8422883b393384452caf106edcc4e1c098463ea3d93bb6a65a",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 33,
+      "file": "window-room/cards/citylight-v41/diamond-8-d78946a89c7c.webp",
+      "sha256": "d78946a89c7cb6d363c2919cfcad379fc625ebd6428ecb6b3830e804ceaf7012",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 34,
+      "file": "window-room/cards/citylight-v41/diamond-9-441f671dc075.webp",
+      "sha256": "441f671dc0754d1c0d6af2593caa9e5954e7197315caf1fc7aa9209b792593f2",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 35,
+      "file": "window-room/cards/citylight-v41/diamond-10-578bf1f3309f.webp",
+      "sha256": "578bf1f3309fa9786bd9f3d2124c5a2560c99d9e69c561242fa21cb8075dc1d4",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 36,
+      "file": "window-room/cards/citylight-v41/diamond-j-6eacc2eac007.webp",
+      "sha256": "6eacc2eac007d35b092608c24d141f4df2c5cae6353a334c6626f33319fd98f3",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 37,
+      "file": "window-room/cards/citylight-v41/diamond-q-091225fb17b8.webp",
+      "sha256": "091225fb17b83cdfbf881ee204aaa6b7bd9a93d5b4a8a79f5b0195a57fdf6838",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 38,
+      "file": "window-room/cards/citylight-v41/diamond-k-d38576ca4981.webp",
+      "sha256": "d38576ca4981100015c1e1d635d984d652a093a99ac5e1a39696dfcd368f810c",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 39,
+      "file": "window-room/cards/citylight-v41/club-a-4c2d88c79b62.webp",
+      "sha256": "4c2d88c79b62607048af268f07c0f9a2b572955652a678a3c77d64c225cf3f9e",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 40,
+      "file": "window-room/cards/citylight-v41/club-2-88d7855c0faa.webp",
+      "sha256": "88d7855c0faae02dd53fb005454f84bcadb9f2675e1cad26f36c45a283e2943f",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 41,
+      "file": "window-room/cards/citylight-v41/club-3-d1d563f245da.webp",
+      "sha256": "d1d563f245da801df7a9a5cfd24b8c7bec74702c9580fc6ead761fd19cb905f7",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 42,
+      "file": "window-room/cards/citylight-v41/club-4-76bf37b1343f.webp",
+      "sha256": "76bf37b1343f49c1a1fd4657e1c5e81d791c162e86bb648d4e464c7e42430eb6",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 43,
+      "file": "window-room/cards/citylight-v41/club-5-084f6a0bb5fd.webp",
+      "sha256": "084f6a0bb5fd672643850cac020a9309ea7f2facb865dc866ea999cd30ac38c9",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 44,
+      "file": "window-room/cards/citylight-v41/club-6-63495384255c.webp",
+      "sha256": "63495384255ceeb845e261bced3de5baaa3a1599eb3d92c114acb356b250ccfa",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 45,
+      "file": "window-room/cards/citylight-v41/club-7-9bc0468f3a73.webp",
+      "sha256": "9bc0468f3a7391a9a9ec044205b75133eff42654b048f297a00e9cc918a5dcbd",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 46,
+      "file": "window-room/cards/citylight-v41/club-8-b5fdfae1cb3a.webp",
+      "sha256": "b5fdfae1cb3a643b055bc5d322f45ccf088d1c4eea0adb02b4a6148846ff9141",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 47,
+      "file": "window-room/cards/citylight-v41/club-9-f871f4842de4.webp",
+      "sha256": "f871f4842de41bc43efe3293cf92c5b38537065b25ca2881a9a612a3f5b1f928",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 48,
+      "file": "window-room/cards/citylight-v41/club-10-fde7d7da52b6.webp",
+      "sha256": "fde7d7da52b682687fd96c78cca2d77257706a4f0e9420703cb10ef88a54bebb",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 49,
+      "file": "window-room/cards/citylight-v41/club-j-03a0498bb0bb.webp",
+      "sha256": "03a0498bb0bbad6d7574558d0ebd7571d17a5d435a1fd64119bc937d88705465",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 50,
+      "file": "window-room/cards/citylight-v41/club-q-75912b9b08c4.webp",
+      "sha256": "75912b9b08c4362409b9c1a0e76ec7b24e88678abf355feacb79d945718db555",
+      "width": 300,
+      "height": 420
+    },
+    {
+      "card": 51,
+      "file": "window-room/cards/citylight-v41/club-k-d8d68418f35c.webp",
+      "sha256": "d8d68418f35c04583d60ad64b449eb7ca0328d35fc3ae48f91b271476473927f",
+      "width": 300,
+      "height": 420
+    }
+  ],
+  "back": {
+    "file": "window-room/cards/citylight-v41/back-e900dd5f89f3.webp",
+    "sha256": "e900dd5f89f39cef3d4469d12517887f0d8ed8a769f5276abffcf6ee9f96766e",
+    "width": 300,
+    "height": 420
+  }
+}
