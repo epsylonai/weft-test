@@ -1,16 +1,25 @@
 {
-  "version": "6.24.10",
-  "hugoFeature": "hugo-2",
-  "windowFeature": "window-3",
+  "version": "6.24.11",
+  "hugoFeature": "hugo-4",
+  "legacyHugoFeatures": [
+    "hugo-1",
+    "hugo-2",
+    "hugo-3"
+  ],
+  "undeployedContinueMechanics": [
+    "hugo-3"
+  ],
+  "windowFeature": "window-4",
   "legacyWindowFeature": "window-1",
   "legacyWindowFeatures": [
     "window-1",
-    "window-2"
+    "window-2",
+    "window-3"
   ],
   "scoringVersion": "level-v3",
   "unchangedScoringVersion": "clear-v2",
   "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
-  "sha256": "21d5e8ee337e97b0d7ff5574d96d085596023bb373c856f48e6dc0fa6ef36f30",
+  "sha256": "156cfcd328460fa799d72c43ccf2577eead891192e0a86f9485958c5107b3006",
   "inputs": [
     {
       "file": "../../B-002/engine/configs.ts",
@@ -54,11 +63,11 @@
     },
     {
       "file": "src/hugo-trigger.ts",
-      "sha256": "88aaa75d897a3977d2a8e7bd20be46e0b6b13b825e64219dfdd16f3bf3985bfe"
+      "sha256": "dcb341acd8f62fc3753821f9535c5eb9149c1bde851c4957df63745ab64f0117"
     },
     {
       "file": "src/leaderboard-validation.ts",
-      "sha256": "2bf113f1cd3b92cac53f185021832713689d1ebb342feec26e25310957f70597"
+      "sha256": "6c89cfd7d52bf1a72dae3241a1383de9999d3cc0b08a78adb918eb73d8ec32bc"
     },
     {
       "file": "src/leaderboard-wire.ts",
@@ -90,7 +99,7 @@
     },
     {
       "file": "src/run.ts",
-      "sha256": "cb9fa344d0a40738118484383109755d6cc346b8e9a666bf7747a2cd2f32ad4d"
+      "sha256": "dfa6f5ef4887ac94ccec49bfa87a4c0a011188d7421204a99e5d08a10b5c02d0"
     },
     {
       "file": "src/score-codec.ts",
@@ -98,7 +107,7 @@
     },
     {
       "file": "src/score-config.ts",
-      "sha256": "4aa7692e8e0418ffc333d28232a4898110d4aaf7dbed83ee209dbf2b9eebf636"
+      "sha256": "ddfb0f9a34c23246cfb1c80d14169d52b642b98983573199c818d248b36fc405"
     },
     {
       "file": "src/test-mode-gate.ts",
@@ -106,7 +115,7 @@
     },
     {
       "file": "src/window-trigger.ts",
-      "sha256": "0b314b4ac96045a193e332e810a9c1c128137b7db925c7b5a5821ab4d0a4753a"
+      "sha256": "358327c79146213c1a9eb557c5530cff5b5acd70154fe7604dbcd658a324228c"
     },
     {
       "file": "src/world-config.ts",
@@ -114,7 +123,7 @@
     },
     {
       "file": "supabase/replay-entry.ts",
-      "sha256": "2e6ac4f911ca37ced43d8b73d55ed834e6e8fbdd1357e2c1fa29ded1023f0e4b"
+      "sha256": "6b2ca42fe07c0ab5cff15725cedc616fc23fc6924846ea1ad9d1891c4920c42f"
     },
     {
       "file": "supabase/warp-replay.ts",
@@ -184,13 +193,18 @@
       "file": "server/weft-leaderboard/historical/canonical-replay-9a0cdaea.mjs",
       "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679",
       "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-21d5e8ee.mjs",
+      "sha256": "21d5e8ee337e97b0d7ff5574d96d085596023bb373c856f48e6dc0fa6ef36f30",
+      "accepted": true
     }
   ],
   "previousCurrent": {
-    "file": "../v6.24.9/server/weft-leaderboard/canonical-replay.mjs",
-    "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679",
+    "file": "../v6.24.10/server/weft-leaderboard/canonical-replay.mjs",
+    "sha256": "21d5e8ee337e97b0d7ff5574d96d085596023bb373c856f48e6dc0fa6ef36f30",
     "accepted": true
   },
   "deploymentRequired": true,
-  "currentWritePolicy": "B048 server-first: Window3 admits deterministic solver-clearable Neon deals containing the fixed ace of hearts (card 13) among the 30 board cards. Any chain ending on that ace followed by a draw unlocks, including an automatic bank immediately after the ace; an intervening board play clears the replay-derived pending latch. No proof/latch fields added. Window1 and Window2 retain exact generation, trigger rules and seed domains. Seven historical authorities remain byte-exact; current Classic remains level-v3, clear-v2 Classic writes reject UPDATE_GAME_REQUIRED; Daily/Warp clear-v2 unchanged. Row version remains 6.23. NO migration or SQL reapply, no database execution."
+  "currentWritePolicy": "B049 AddendumF server-first: Hugo4 and Window4 both use the next ordinary Classic position (clamped at ten), including its stock, level descriptor, coin factor, unused-stock bonus and normal level-clear reward. The run then plays that same ordinary next position; no board is skipped or renumbered. Fresh seed domains distinguish new mechanics. Historical Hugo1/2, local prepared-never-deployed Hugo3, and Window1/2/3 retain exact seeds, stock and scoring. Eight deployed historical authorities remain byte-exact;0a87 Hugo3 is archived only as superseded-never-deployed, not authority9. Current Classic remains level-v3; old Classic clear-v2 writes reject UPDATE_GAME_REQUIRED; Daily/Warp clear-v2 unchanged. Row version remains6.23. NO migration or SQL reapply; confirmed livev10 read-kind whitelist retained; no database execution."
 }

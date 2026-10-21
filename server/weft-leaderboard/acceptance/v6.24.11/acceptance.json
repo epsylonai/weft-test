@@ -1,0 +1,539 @@
+{
+  "status": "passed-prepared-not-deployed",
+  "version": "6.24.11",
+  "brief": "B049 AddendumF Hugo4 and Window4 next-position stock,factor and ordinary Clear reward",
+  "startedAt": "2026-10-21T09:41:58.509Z",
+  "finishedAt": "2026-10-21T09:42:21.356Z",
+  "canonical": {
+    "file": "server/weft-leaderboard/canonical-replay.mjs",
+    "bytes": 146434,
+    "sha256": "156cfcd328460fa799d72c43ccf2577eead891192e0a86f9485958c5107b3006"
+  },
+  "manifest": {
+    "file": "server/weft-leaderboard/canonical-replay-manifest.json",
+    "bytes": 7916,
+    "sha256": "58f4e47026a95a01623f03b27c3d2e05823a3c7302205732534b18665fb4eeb3"
+  },
+  "inputs": [
+    {
+      "file": "../../B-002/engine/configs.ts",
+      "sha256": "8621b35d7f0fe80f5601ca8654704b9b34793096197e60dc41ddb4aa45bc7907"
+    },
+    {
+      "file": "../../B-002/engine/deck.ts",
+      "sha256": "0979809455663e60b7e2027866eb2f4cec095233efd43cd71b1660eda577026f"
+    },
+    {
+      "file": "../../B-002/engine/hands.ts",
+      "sha256": "ca19f65afae92a32f3f6f5b85ce64e145860d4f9ad9fbe7806696c39f4ae94d0"
+    },
+    {
+      "file": "../../B-002/engine/layout.ts",
+      "sha256": "df22ac84f7a7fbc6e0703ccd7dcab980f2c2edd5b43ad5eb7fd47e306f8178d2"
+    },
+    {
+      "file": "../../B-002/engine/rules.ts",
+      "sha256": "16168b9c3dafb772629f1b0301f6b1bcb2f392d32e3b7b6029d5857215b4c341"
+    },
+    {
+      "file": "../../B-002/engine/scoring.ts",
+      "sha256": "07558c6eb071ed05bc8b54a5afd137e72ff75d923a7d42861c6af26e2c6e8dd9"
+    },
+    {
+      "file": "../../B-004/engine/generator.ts",
+      "sha256": "b00f0a8cd185088aa5d169857041783aa006432c8daa1487298ec0f7fb022c94"
+    },
+    {
+      "file": "../../B-004/engine/solver.ts",
+      "sha256": "4151ff98caff4ada906bff06368a2e50ac225d52aa1917cd5d825b6e689b3c51"
+    },
+    {
+      "file": "src/daily.ts",
+      "sha256": "871456d69b0d1f8e0e9767499266227ea6943ca231cc407437805554bf5ad304"
+    },
+    {
+      "file": "src/grove-opportunity.ts",
+      "sha256": "1d3076c3a9cd1721d3f5e9a01727672cd1603810bea5af2547a9fb050d839f44"
+    },
+    {
+      "file": "src/hugo-trigger.ts",
+      "sha256": "dcb341acd8f62fc3753821f9535c5eb9149c1bde851c4957df63745ab64f0117"
+    },
+    {
+      "file": "src/leaderboard-validation.ts",
+      "sha256": "6c89cfd7d52bf1a72dae3241a1383de9999d3cc0b08a78adb918eb73d8ec32bc"
+    },
+    {
+      "file": "src/leaderboard-wire.ts",
+      "sha256": "6506e31507bfaccf5b2f562616780d23f32177f6887c5d26f175acef96fd08ec"
+    },
+    {
+      "file": "src/neon-window-admission.ts",
+      "sha256": "c468f1c5ae3f28df197151864addee5074c62c6c647d54c2410c60660541a010"
+    },
+    {
+      "file": "src/nickname.ts",
+      "sha256": "ff927dfd8363f4e3f51075adff878ba0ae935413146b1d2d95827251b608cf3b"
+    },
+    {
+      "file": "src/play-mode.ts",
+      "sha256": "9a23eddacdbd055fdf8c0cee7ed672c1a7d05502b0e6755cf359104cb935fccc"
+    },
+    {
+      "file": "src/records.ts",
+      "sha256": "cb7589f36f4005cae312dc460d652e6fdc2c139956e5016b3ff3f37a9d5727ff"
+    },
+    {
+      "file": "src/replay-practice.ts",
+      "sha256": "ecac3c0382236619510065b45c5752f6844e9caac18a465af3510d5ee146b9b0"
+    },
+    {
+      "file": "src/run-plan.ts",
+      "sha256": "899cb55db481615799c06b3b5ce56de0c822e08b490b829642dda8f58ffa39a7"
+    },
+    {
+      "file": "src/run.ts",
+      "sha256": "dfa6f5ef4887ac94ccec49bfa87a4c0a011188d7421204a99e5d08a10b5c02d0"
+    },
+    {
+      "file": "src/score-codec.ts",
+      "sha256": "c0332ec839afda0cc327c1be2bd26b9252c2da3796eb1e43e7cc6bb4f8964718"
+    },
+    {
+      "file": "src/score-config.ts",
+      "sha256": "ddfb0f9a34c23246cfb1c80d14169d52b642b98983573199c818d248b36fc405"
+    },
+    {
+      "file": "src/test-mode-gate.ts",
+      "sha256": "060845e59f42f39215caf01ec969f033af47b9bcae73d3574dfdc19e510571c0"
+    },
+    {
+      "file": "src/window-trigger.ts",
+      "sha256": "358327c79146213c1a9eb557c5530cff5b5acd70154fe7604dbcd658a324228c"
+    },
+    {
+      "file": "src/world-config.ts",
+      "sha256": "4ab81a5b2267c618802b10c27c8d98d734e026206543b7aab74fb270c806e06d"
+    },
+    {
+      "file": "supabase/replay-entry.ts",
+      "sha256": "6b2ca42fe07c0ab5cff15725cedc616fc23fc6924846ea1ad9d1891c4920c42f"
+    },
+    {
+      "file": "supabase/warp-replay.ts",
+      "sha256": "634f0191982db2b6ba284b0d15924262cb38828d5254eb79619e778b18e4333b"
+    },
+    {
+      "file": "warp-core/config.ts",
+      "sha256": "9287a54693c4de169f7c795d2791735692edb9422087730e218cc97809d98ea7"
+    },
+    {
+      "file": "warp-core/generator.ts",
+      "sha256": "39e566d3b8b7381d408c3178747958bff6334f25f94b1fd48b86fd9ecd70ae1c"
+    },
+    {
+      "file": "warp-core/hands.ts",
+      "sha256": "6d0be2f5da992ef725eda55670091725b8a3b54cc3b701611342046b16520e24"
+    },
+    {
+      "file": "warp-core/rewards.ts",
+      "sha256": "2da5a01fdf85bcfefb28ebb665d43d5a2db12804db19fcdc96abfcdb6ea9fb59"
+    },
+    {
+      "file": "warp-core/rules.ts",
+      "sha256": "a83c41a3046de141bc691e8f068b4b98d4e18aec073cfc14cfb4055a74f67f91"
+    },
+    {
+      "file": "warp-core/run.ts",
+      "sha256": "7c7538f74c1201985a48838d1d18c0db77aaee469851fc6fcd04e889d434d597"
+    },
+    {
+      "file": "warp-core/solver.ts",
+      "sha256": "06c49515f899e00cd1e02556f191b6bd05b78b09628c111fa70aab662d1680a5"
+    }
+  ],
+  "controller": {
+    "file": "src/run-controller.ts",
+    "bytes": 39962,
+    "sha256": "3c56c0a12542dadd1bf1403ad743c29f6daa07deed4460ef3f75b7814860c90e"
+  },
+  "tests": {
+    "cases": 159,
+    "passed": 159,
+    "failed": 0,
+    "selections": [
+      {
+        "file": "tests/secret4-leaderboard-server-b049.test.cjs",
+        "bytes": 27956,
+        "sha256": "54ad4c2788c42bf665dd14460640ce9ca6bb86ba9de8f2b2a153fcb324f439d4"
+      },
+      {
+        "file": "tests/hugo3-local-continue-cases-b049.cjs",
+        "bytes": 7952,
+        "sha256": "74fab5549cbf4af157e6742fefb576751345b40a60ec4784e7133eb4bcee68c6"
+      },
+      {
+        "file": "tests/secret4-scoring-server-b049.test.cjs",
+        "bytes": 8156,
+        "sha256": "8f61c9dca289df679e85d4bee2978e154f6ef1a7652eb5343547786f3d796591"
+      },
+      {
+        "file": "tests/window-leaderboard-client-b049.test.cjs",
+        "bytes": 5894,
+        "sha256": "225f889a893c33d86ad4340aae72f914b963357d0339851a87cbd7ab8563fe00"
+      },
+      {
+        "file": "tests/run-score-backends-b049.test.cjs",
+        "bytes": 9547,
+        "sha256": "fd370e059eb25d1fdfb74ea19947ef0370a5ebc1eb6fbf63859b2eab7a61404f"
+      }
+    ],
+    "log": {
+      "file": "test-output/b049-secret4-server/tests.log",
+      "bytes": 13780,
+      "sha256": "1e9a1c32e10b5f0f00554c73c4a5a2ba98cd6587106380197965d55675536987"
+    },
+    "typecheck": {
+      "exitCode": 0,
+      "log": {
+        "file": "test-output/b049-secret4-server/typecheck.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  },
+  "acceptedFixtures": [
+    {
+      "fixture": {
+        "file": "test-output/b049-secret4/hugo4-genuine-run-proof.json",
+        "bytes": 4953,
+        "sha256": "f5e17aea7682fbab4065e2f432abd203badb3b57db28a9db94ac9b0255d5f1f9"
+      },
+      "rows": {
+        "file": "test-output/b049-secret4-server/hugo4-genuine-run-proof-rows.json",
+        "bytes": 8943,
+        "sha256": "395b64908f63adef2d84539dea2f31ea459af122daeca4c6e1515d3d51df76d9"
+      },
+      "features": {
+        "hugoVersion": "hugo-4",
+        "windowVersion": null
+      },
+      "secrets": {
+        "hugo": {
+          "level": 2,
+          "spool": 27,
+          "cleared": true,
+          "score": 12235,
+          "levelFactor": 1.5,
+          "levelBonus": 3750
+        }
+      },
+      "runScore": 16845,
+      "levelReached": 2
+    },
+    {
+      "fixture": {
+        "file": "test-output/b049-secret4/window4-genuine-run-proof.json",
+        "bytes": 4878,
+        "sha256": "d163c2043d912de0880fd16461b5fb76b207724677b4a2f3ae4266af4afb128d"
+      },
+      "rows": {
+        "file": "test-output/b049-secret4-server/window4-genuine-run-proof-rows.json",
+        "bytes": 8727,
+        "sha256": "72bcb13bfa6933441e404f680fec340319e5053d23dee796eeaff0ef14332521"
+      },
+      "features": {
+        "hugoVersion": null,
+        "windowVersion": "window-4"
+      },
+      "secrets": {
+        "window": {
+          "level": 2,
+          "spool": 27,
+          "cleared": true,
+          "score": 9316,
+          "levelFactor": 1.5,
+          "levelBonus": 3750
+        }
+      },
+      "runScore": 13735,
+      "levelReached": 2
+    },
+    {
+      "fixture": {
+        "file": "test-output/b049-secret4/dual-secret4-genuine-run-proof.json",
+        "bytes": 10834,
+        "sha256": "002bd607011297c97484a2d96f90a9ab93303f5ecd3f1097c0db1bd1c418b496"
+      },
+      "rows": {
+        "file": "test-output/b049-secret4-server/dual-secret4-genuine-run-proof-rows.json",
+        "bytes": 20162,
+        "sha256": "d43a8b8917fb736bb834f4954fec735943a02ae84139c3758257916ef7645469"
+      },
+      "features": {
+        "hugoVersion": "hugo-4",
+        "windowVersion": "window-4"
+      },
+      "secrets": {
+        "hugo": {
+          "level": 2,
+          "spool": 27,
+          "cleared": true,
+          "score": 12235,
+          "levelFactor": 1.5,
+          "levelBonus": 3750
+        },
+        "window": {
+          "level": 5,
+          "spool": 24,
+          "cleared": true,
+          "score": 41568,
+          "levelFactor": 4,
+          "levelBonus": 10000
+        }
+      },
+      "runScore": 100622,
+      "levelReached": 5
+    },
+    {
+      "fixture": {
+        "file": "test-output/b049-secret4/hugo4-full-ten-final-secret-clear-proof.json",
+        "bytes": 16226,
+        "sha256": "11d1d4a480271c23bbe7536597ea33b4c19e1e297e998e01b8675aecd82072fa"
+      },
+      "rows": {
+        "file": "test-output/b049-secret4-server/hugo4-full-ten-final-secret-clear-proof-rows.json",
+        "bytes": 29600,
+        "sha256": "04e94eade4e3230c8b2e199d379017964bf13ab628e81807c41198472206ad2b"
+      },
+      "features": {
+        "hugoVersion": "hugo-4",
+        "windowVersion": null
+      },
+      "secrets": {
+        "hugo": {
+          "level": 10,
+          "spool": 15,
+          "cleared": true,
+          "score": 113800,
+          "levelFactor": 20,
+          "levelBonus": 50000
+        }
+      },
+      "runScore": 523356,
+      "levelReached": 11
+    },
+    {
+      "fixture": {
+        "file": "test-output/b049-hugo3/hugo3-genuine-run-proof.json",
+        "bytes": 4985,
+        "sha256": "52a8801eaeccdef59cb77bbd26d3bc6a44432c1028b4db1955b09c9fe8c627f4"
+      },
+      "rows": {
+        "file": "test-output/b049-secret4-server/hugo3-genuine-run-proof-rows.json",
+        "bytes": 9175,
+        "sha256": "9cd2f2840c63f6459342f993a8100cf55e40245d639fa55dff538ea7de0934ef"
+      },
+      "features": {
+        "hugoVersion": "hugo-3",
+        "windowVersion": null
+      },
+      "secrets": {
+        "hugo": {
+          "level": 1,
+          "spool": 27,
+          "cleared": true,
+          "score": 4416,
+          "levelFactor": 1,
+          "levelBonus": 0
+        }
+      },
+      "runScore": 9026,
+      "levelReached": 2
+    },
+    {
+      "fixture": {
+        "file": "test-output/b049-hugo3/hugo2-historical-genuine-run-proof.json",
+        "bytes": 4952,
+        "sha256": "f59ba09affc0f3d799ff7c616e3a9e6f5821ed9561ab3b3f7050f7377af6ca54"
+      },
+      "rows": {
+        "file": "test-output/b049-secret4-server/hugo2-historical-genuine-run-proof-rows.json",
+        "bytes": 9091,
+        "sha256": "2643e6fb63bf772623f15b7122c400cdd8ddf00be1bde2db573660738572480f"
+      },
+      "features": {
+        "hugoVersion": "hugo-2",
+        "windowVersion": null
+      },
+      "secrets": {
+        "hugo": {
+          "level": 1,
+          "spool": 22,
+          "cleared": true,
+          "score": 3417,
+          "levelFactor": 1,
+          "levelBonus": 0
+        }
+      },
+      "runScore": 8027,
+      "levelReached": 2
+    },
+    {
+      "fixture": {
+        "file": "test-output/b049-hugo3/hugo3-full-ten-final-secret-loss-proof.json",
+        "bytes": 15773,
+        "sha256": "308dfc34178b1991f92afe87058a435e2d79c9ba68bdd604caadae6d0f434990"
+      },
+      "rows": {
+        "file": "test-output/b049-secret4-server/hugo3-full-ten-final-secret-loss-proof-rows.json",
+        "bytes": 28634,
+        "sha256": "c23daa967763cd93f13aa15ea7fd102045d2efef8047f1e60c63bba60a00944c"
+      },
+      "features": {
+        "hugoVersion": "hugo-3",
+        "windowVersion": null
+      },
+      "secrets": {
+        "hugo": {
+          "level": 10,
+          "spool": 15,
+          "cleared": false,
+          "score": 4500,
+          "levelFactor": 20,
+          "levelBonus": 0
+        }
+      },
+      "runScore": 414056,
+      "levelReached": 11
+    }
+  ],
+  "stockByPrecedingLevel": [
+    27,
+    26,
+    25,
+    24,
+    23,
+    22,
+    21,
+    20,
+    15,
+    15
+  ],
+  "changedTotalStockFactorAndOrdinaryRewardRejected": true,
+  "serverFirstNecessary": true,
+  "live21d5RejectsUnsupportedNew4": true,
+  "historicalAuthorities": [
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-756acac0.mjs",
+      "bytes": 102782,
+      "sha256": "756acac049db13ce91dd965ff33da1fe939bcb6c56af8c1a013701032608b1ea"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-e32be620.mjs",
+      "bytes": 112120,
+      "sha256": "e32be62030f65a304446f82c5c419035e1efc7812af8ef85732d12931032573e"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-31c382ef.mjs",
+      "bytes": 120292,
+      "sha256": "31c382efb9d2f5b90807edacd2b0984c352b85507358e2c1fc1407af4c8ed6f7"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-1acc4654.mjs",
+      "bytes": 126629,
+      "sha256": "1acc4654f68958217a0ecfe6b8c06d3e6082ba0277ea949c6ab7a4db7ba4a897"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-02b96949.mjs",
+      "bytes": 131806,
+      "sha256": "02b9694947c1b4a475679c705fb939f75b59a020cd6a3e73aad38d34cf8ecfce"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-05bd763a.mjs",
+      "bytes": 139599,
+      "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-9a0cdaea.mjs",
+      "bytes": 142653,
+      "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-21d5e8ee.mjs",
+      "bytes": 144485,
+      "sha256": "21d5e8ee337e97b0d7ff5574d96d085596023bb373c856f48e6dc0fa6ef36f30"
+    }
+  ],
+  "historicalParity": {
+    "756acac0": "6.7/6.9/6.14 Classic rows deep-equal",
+    "e32be620": "clear-v2 historical rows deep-equal",
+    "31c382ef": "Hugo1 rows deep-equal",
+    "1acc4654": "Hugo2 partial/full-ten rows deep-equal",
+    "02b96949": "level-v3 full-ten+Hugo rows deep-equal",
+    "05bd763a": "Window1/dual-secret/Neon-last rows deep-equal",
+    "9a0cdaea": "Window2 genuine/zero-ace/owner rows deep-equal",
+    "21d5e8ee": "Hugo2 fixed22 and Window3 auto-bank/conventional/other-card proofs deep-equal",
+    "currentClassicClearV2": "UPDATE_GAME_REQUIRED",
+    "daily": "current clear-v2 amount/id/rows unchanged",
+    "warp": "current clear-v2 full-run rows unchanged"
+  },
+  "checks": {
+    "sourceStable": true,
+    "ordinaryEngineAndGeneratorUnchanged": true,
+    "bothSecretsNextStock": true,
+    "bothSecretsNextDescriptorAndFactor": true,
+    "bothSecretsOrdinaryClearReward": true,
+    "new4SeparateSeedDomains": true,
+    "preparedHugo3ContinueExact": true,
+    "hugo1And2Fixed22AndSeedsExact": true,
+    "groveAdmissionUnchanged": true,
+    "triggerProgressionAndWireShapeUnchanged": true,
+    "secretCoinsIncludedInRun": true,
+    "newSecretsMatchOrdinaryClearBonus": true,
+    "historicalSecretsNoOrdinaryClearBonusExact": true,
+    "noOrdinaryBoardSkipped": true,
+    "finalSecretLossRetainsClassicCompletion": true,
+    "Window1And2And3Unchanged": true,
+    "badgeProjectionUnchanged": true
+  },
+  "handler": {
+    "file": "server/weft-leaderboard/index.ts",
+    "bytes": 5100,
+    "sha256": "fb4a0b99ba143974c002c02c725fcdd27af48f5e93cb6c9108ef17501808dc47"
+  },
+  "alreadyAppliedReadKinds": {
+    "sql": {
+      "file": "supabase/migrations/202610210001_run_score_kind.sql",
+      "bytes": 2786,
+      "sha256": "55af8fa5799b093ce79ceb76ddd4dcd991c29961fef4f31c17361b0e15ec7757"
+    },
+    "reportedLiveBy": "Claude inbox34 09:45, Edgev10; source mirror only",
+    "kinds": [
+      "run-score",
+      "warp-run-score"
+    ],
+    "reapply": false,
+    "warpChain": "Local-only; no unsupported GET"
+  },
+  "sql": {
+    "newMigration": null,
+    "reapplyPriorMigration": false,
+    "inheritedCopiesUnchanged": [
+      {
+        "file": "supabase/migrations/202610200001_window_secret_badge.sql",
+        "bytes": 3972,
+        "sha256": "cf9b4c3fb2ae033efdc5e636a0e940d1da7883d83011624ab359000e3a2925c2"
+      },
+      {
+        "file": "server/weft-leaderboard/202610200001_window_secret_badge.sql",
+        "bytes": 3972,
+        "sha256": "cf9b4c3fb2ae033efdc5e636a0e940d1da7883d83011624ab359000e3a2925c2"
+      }
+    ],
+    "executed": false,
+    "scoresDeleted": false
+  },
+  "deploymentExecuted": false,
+  "networkOrDatabaseAccess": false
+}

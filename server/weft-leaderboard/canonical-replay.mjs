@@ -1,125 +1,3 @@
-// ../../B-002/engine/scoring.ts
-function baseScore(n) {
-  return 5 * n * (n + 1);
-}
-
-// src/score-config.ts
-var CURRENT_SCORING_VERSION = "clear-v2";
-var CLASSIC_SCORING_VERSION = "level-v3";
-var SCORE_CONFIG = Object.freeze({
-  version: "6.7",
-  scoringVersion: CURRENT_SCORING_VERSION,
-  clearBonusPerSpoolCard: 50,
-  starThresholds: Object.freeze([2600, 4200, 8300]),
-  legacyStarThresholds: Object.freeze([2500, 4e3, 7400])
-});
-function scoringVersionOf(value) {
-  const version = value && typeof value === "object" ? value.scoringVersion : void 0;
-  if (version === void 0) return "legacy";
-  if (version !== CURRENT_SCORING_VERSION && version !== CLASSIC_SCORING_VERSION) throw new TypeError("Unsupported scoring version");
-  return version;
-}
-var isCurrentScoring = (value) => !!value && typeof value === "object" && [CURRENT_SCORING_VERSION, CLASSIC_SCORING_VERSION].includes(value.scoringVersion);
-var scoringMetadata = (version) => version === "legacy" ? {} : { scoringVersion: version };
-var starThresholds = (version = CURRENT_SCORING_VERSION) => version === "legacy" ? SCORE_CONFIG.legacyStarThresholds : SCORE_CONFIG.starThresholds;
-function starCount(score, version = CURRENT_SCORING_VERSION) {
-  if (!Number.isFinite(score) || score < 0) return 0;
-  const thresholds = starThresholds(version);
-  return thresholds.filter((threshold) => score >= threshold).length;
-}
-var integer = (value) => Number.isSafeInteger(value) && value >= 0;
-function clearBonus(cleared, spoolRemaining, chainCoins, spoolStarted, version = CURRENT_SCORING_VERSION) {
-  if (!cleared || !integer(spoolRemaining)) return 0;
-  if (chainCoins === void 0 || version === "legacy") {
-    const bonus = spoolRemaining * SCORE_CONFIG.clearBonusPerSpoolCard;
-    return integer(bonus) ? bonus : 0;
-  }
-  if (!integer(chainCoins) || !integer(spoolStarted ?? NaN) || !spoolStarted || spoolRemaining > spoolStarted) return 0;
-  const numerator = BigInt(chainCoins) * BigInt(spoolRemaining), denominator = BigInt(spoolStarted);
-  const result = (2n * numerator + denominator) / (2n * denominator);
-  if (result > BigInt(Number.MAX_SAFE_INTEGER) || BigInt(chainCoins) + result > BigInt(Number.MAX_SAFE_INTEGER)) throw new RangeError("Board score exceeds safe integer range");
-  return Number(result);
-}
-function clearBonusDetails(cleared, spoolRemaining, chainCoins, spoolStarted, version = CURRENT_SCORING_VERSION) {
-  if (!integer(chainCoins) || !integer(spoolRemaining) || !integer(spoolStarted) || spoolStarted < 1 || spoolRemaining > spoolStarted) throw new RangeError("Invalid clear-bonus inputs");
-  const bonus = clearBonus(cleared, spoolRemaining, chainCoins, spoolStarted, version), score = chainCoins + bonus;
-  if (!integer(score)) throw new RangeError("Board score exceeds safe integer range");
-  return { chainCoins, spoolRemaining, spoolStarted, clearBonus: bonus, score, percentage: Math.round(100 * spoolRemaining / spoolStarted) };
-}
-var LEVEL_FACTORS_TENTHS = Object.freeze([10, 15, 20, 30, 40, 55, 75, 100, 140, 200]);
-var HAND_NAMES = ["high", "pair", "two_pair", "trips", "straight", "flush", "full_house", "quads", "straight_flush", "royal"];
-var HAND_MULTIPLIERS_TENTHS = [10, 12, 15, 20, 25, 30, 40, 50, 80, 120];
-function levelCoinFactor(level, version = CLASSIC_SCORING_VERSION) {
-  if (!Number.isSafeInteger(level) || level < 1 || version === CLASSIC_SCORING_VERSION && level > 10) throw new RangeError("Invalid scoring level");
-  return version === CLASSIC_SCORING_VERSION ? LEVEL_FACTORS_TENTHS[level - 1] / 10 : 1;
-}
-function levelChainCoins(event, level, version = CLASSIC_SCORING_VERSION) {
-  levelCoinFactor(level, version);
-  if (version !== CLASSIC_SCORING_VERSION) {
-    const points = typeof event === "number" ? event : event.points;
-    if (!integer(points)) throw new RangeError("Invalid chain coins");
-    return points;
-  }
-  if (typeof event !== "object" || !event || !integer(event.scoringLength)) throw new TypeError("Level scoring requires the original Bank event");
-  const hand = HAND_NAMES.indexOf(event.handName), base = baseScore(event.scoringLength);
-  if (hand < 0 || !integer(base)) throw new RangeError("Invalid scoring hand/base");
-  const result = BigInt(base) * BigInt(HAND_MULTIPLIERS_TENTHS[hand]) * BigInt(LEVEL_FACTORS_TENTHS[level - 1]) / 100n;
-  if (result > BigInt(Number.MAX_SAFE_INTEGER)) throw new RangeError("Chain coins exceed safe integer range");
-  return Number(result);
-}
-function boardScoreDetails(cleared, left, rawChainCoins, start, context) {
-  if (context.version !== CLASSIC_SCORING_VERSION) return clearBonusDetails(cleared, left, rawChainCoins, start, context.version);
-  if (!integer(rawChainCoins) || !integer(left) || !integer(start) || start < 1 || left > start) throw new RangeError("Invalid clear-bonus inputs");
-  const levelFactor = levelCoinFactor(context.level, context.version), chainCoins = context.chainCoins, unmultipliedChainCoins = context.unmultipliedChainCoins ?? rawChainCoins;
-  if (!integer(chainCoins ?? NaN) || !integer(unmultipliedChainCoins)) throw new RangeError("Missing derived level chain coins");
-  const factor10 = LEVEL_FACTORS_TENTHS[context.level - 1], spoolBonus = cleared ? 5 * left * factor10 : 0, levelBonus = cleared && !context.secret ? 250 * factor10 : 0, clearBonus2 = spoolBonus + levelBonus, score = chainCoins + clearBonus2;
-  const starCoins = unmultipliedChainCoins + (cleared ? 50 * left : 0) + (cleared && !context.secret ? 2500 : 0);
-  if (!integer(score) || !integer(starCoins)) throw new RangeError("Board score exceeds safe integer range");
-  return { rawChainCoins, unmultipliedChainCoins, chainCoins, spoolRemaining: left, spoolStarted: start, spoolBonus, levelBonus, level: context.level, levelFactor, clearBonus: clearBonus2, score, starCoins, percentage: Math.round(100 * left / start) };
-}
-var starCoinScore = (facts) => facts.starCoins ?? facts.score;
-
-// src/replay-practice.ts
-var ownsPractice = (value) => !!value && typeof value === "object" && Object.prototype.hasOwnProperty.call(value, "practice");
-function canRankReplayRecord(value) {
-  return !!value && typeof value === "object" && !Array.isArray(value) && !ownsPractice(value);
-}
-
-// src/play-mode.ts
-function canSubmitOnlineScore(record) {
-  if (!record || typeof record !== "object" || !canRankReplayRecord(record)) return false;
-  const mode = record.playMode;
-  return mode === void 0 || mode === "classic";
-}
-
-// src/score-codec.ts
-var MAX_SCORE_MOVES = 256;
-function compressMoves(moves2) {
-  if (!Array.isArray(moves2) || moves2.length > MAX_SCORE_MOVES) throw new TypeError("Invalid move count");
-  return Array.from(moves2).map((move) => {
-    if (move?.type === "play" && Number.isInteger(move.position) && move.position >= 0 && move.position < 30) return move.position;
-    if (move?.type === "draw") return 30;
-    if (move?.type === "bank") return 31;
-    throw new TypeError("Invalid score action");
-  });
-}
-function decompressMoves(bytes) {
-  if (!Array.isArray(bytes) || bytes.length > MAX_SCORE_MOVES) throw new TypeError("Invalid compressed move count");
-  return Array.from(bytes).map((value) => {
-    if (!Number.isInteger(value) || value < 0 || value > 31) throw new TypeError("Invalid compressed score action");
-    return value < 30 ? { type: "play", position: value } : value === 30 ? { type: "draw" } : { type: "bank" };
-  });
-}
-
-// src/leaderboard-wire.ts
-function decodeLeaderboardProof(value) {
-  if (!value || typeof value !== "object") throw new TypeError("Invalid leaderboard proof");
-  const input = value;
-  if (input.type === "board" && input.record) return { ...input, record: { ...input.record, moves: decompressMoves(input.record.moves) } };
-  if (input.type === "run" && input.record && Array.isArray(input.record.perLevel) && input.record.perLevel.length <= 1e4) return { ...input, record: { ...input.record, ...input.record.hugo?.result ? { hugo: { ...input.record.hugo, result: { ...input.record.hugo.result, moves: decompressMoves(input.record.hugo.result.moves) } } } : {}, ...input.record.window?.result ? { window: { ...input.record.window, result: { ...input.record.window.result, moves: decompressMoves(input.record.window.result.moves) } } } : {}, perLevel: input.record.perLevel.map((board2) => ({ ...board2, moves: decompressMoves(board2.moves) })) } };
-  throw new TypeError("Invalid leaderboard proof");
-}
-
 // ../../B-002/engine/layout.ts
 function makeLayout(name, graph) {
   const coveredBy = graph.map((covers) => [...covers]);
@@ -173,6 +51,11 @@ function layoutFor(name) {
     default:
       throw new Error(`Unknown layout: ${String(name)}`);
   }
+}
+
+// ../../B-002/engine/scoring.ts
+function baseScore(n) {
+  return 5 * n * (n + 1);
 }
 
 // ../../B-002/engine/hands.ts
@@ -550,6 +433,201 @@ function snapshot(state) {
     unseenTotal: state.unseenTotal,
     terminal: state.terminal
   };
+}
+
+// src/hugo-trigger.ts
+var HUGO_VERSION = "hugo-4";
+var NEXT_SPOOL_HUGO_VERSION = "hugo-3";
+var GROVE_HUGO_VERSION = "hugo-2";
+var LEGACY_HUGO_VERSION = "hugo-1";
+var HUGO_SPOOL = 22;
+function hugoVersionOf(value) {
+  const feature = value && typeof value === "object" ? value.hugoVersion : void 0;
+  if (feature !== void 0 && feature !== HUGO_VERSION && feature !== NEXT_SPOOL_HUGO_VERSION && feature !== GROVE_HUGO_VERSION && feature !== LEGACY_HUGO_VERSION) throw new TypeError("Unsupported Hugo feature version");
+  const disabled = value && typeof value === "object" ? value.hugoDisabled : void 0;
+  if (disabled !== void 0 && (disabled !== true || feature !== HUGO_VERSION && feature !== NEXT_SPOOL_HUGO_VERSION && feature !== GROVE_HUGO_VERSION)) throw new TypeError("Invalid disabled Hugo feature");
+  return feature;
+}
+var hasHugoFeature = (value) => hugoVersionOf(value) !== void 0;
+var hasGroveHugoFeature = (value) => {
+  const version = hugoVersionOf(value);
+  return version === HUGO_VERSION || version === NEXT_SPOOL_HUGO_VERSION || version === GROVE_HUGO_VERSION;
+};
+var hugoTriggerEligible = (value, world3) => hugoVersionOf(value) === LEGACY_HUGO_VERSION || hasGroveHugoFeature(value) && value.hugoDisabled !== true && world3 === 3;
+function isHugoSacrifice(state, move) {
+  if (move.type !== "draw" || state.terminal !== "active" || state.spoolIndex >= state.spool.length || !state.rules.anchor || state.chain.length !== 3 || legalMoves(state).length === 0) return false;
+  const ranks = [state.anchor, ...state.chain].map((card) => card % 13);
+  return (ranks[0] === 5 || ranks[0] === 6) && ranks.every((rank2, index) => rank2 === (index % 2 ? ranks[0] === 5 ? 6 : 5 : ranks[0]));
+}
+function hugoSeed(root2, afterLevel, version = HUGO_VERSION) {
+  if (!Number.isSafeInteger(afterLevel) || afterLevel < 1 || afterLevel > 10 || typeof root2 === "number" && !Number.isSafeInteger(root2) || !/^-?\d{1,30}$/.test(String(root2))) throw new TypeError("Invalid Hugo seed domain");
+  if (version !== HUGO_VERSION && version !== NEXT_SPOOL_HUGO_VERSION && version !== GROVE_HUGO_VERSION && version !== LEGACY_HUGO_VERSION) throw new TypeError("Unsupported Hugo seed version");
+  let hash = 14695981039346656037n;
+  for (const c of `weft-hugo:${version}:${BigInt(root2)}:${afterLevel}`) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
+  return hash;
+}
+var sameHugoWitness = (a, b) => a === void 0 ? b === void 0 : b !== void 0 && a.seed === b.seed && a.moveIndex === b.moveIndex;
+
+// src/window-trigger.ts
+var WINDOW_VERSION = "window-4";
+var AUTO_BANK_WINDOW_VERSION = "window-3";
+var BOARD_WINDOW_VERSION = "window-2";
+var LEGACY_WINDOW_VERSION = "window-1";
+var WINDOW_VIOLIN_ACE = 13;
+function windowVersionOf(value) {
+  const version = value && typeof value === "object" ? value.windowVersion : void 0;
+  if (version !== void 0 && version !== WINDOW_VERSION && version !== AUTO_BANK_WINDOW_VERSION && version !== BOARD_WINDOW_VERSION && version !== LEGACY_WINDOW_VERSION) throw new TypeError("Unsupported Window feature version");
+  const disabled = value && typeof value === "object" ? value.windowDisabled : void 0;
+  if (disabled !== void 0 && (disabled !== true || version !== WINDOW_VERSION && version !== AUTO_BANK_WINDOW_VERSION && version !== BOARD_WINDOW_VERSION)) throw new TypeError("Invalid disabled Window feature");
+  return version;
+}
+var hasFixedWindowAce = (value) => {
+  const version = windowVersionOf(value);
+  return version === WINDOW_VERSION || version === AUTO_BANK_WINDOW_VERSION;
+};
+var hasWindowAutoBank = hasFixedWindowAce;
+var hasWindowFeature = (value) => windowVersionOf(value) !== void 0;
+var windowTriggerEligible = (value, world3) => hasWindowFeature(value) && !value.windowDisabled && world3 === 4;
+function chosenWindowAce(deal2, version = WINDOW_VERSION) {
+  windowVersionOf({ windowVersion: version });
+  const cards = Array.isArray(deal2) ? version === LEGACY_WINDOW_VERSION ? deal2 : deal2.slice(0, 30) : version === LEGACY_WINDOW_VERSION ? [...deal2.weave, ...deal2.spoolOrder, ...deal2.burned] : deal2.weave;
+  const ace = hasFixedWindowAce({ windowVersion: version }) ? cards.find((card) => card === WINDOW_VIOLIN_ACE) : cards.find((card) => card % 13 === 0);
+  if (ace === void 0) throw new Error("Generated Neon board has no ace required by its Window version");
+  return ace;
+}
+function windowAutoBankedAce(transition, move, ace, version = WINDOW_VERSION) {
+  return hasWindowAutoBank({ windowVersion: version }) && ace === WINDOW_VIOLIN_ACE && move.type === "play" && transition.state.weave[move.position] === ace && transition.state.top === ace && transition.state.chain.length === 0 && transition.state.terminal === "active" && transition.state.spoolIndex < transition.state.spool.length && legalMoves(transition.state).length === 0 && transition.events.some((event) => event.reason === "automatic" && event.chainLength >= 1);
+}
+function isWindowSacrifice(state, move, ace, version = WINDOW_VERSION, autoBankedAce = false) {
+  windowVersionOf({ windowVersion: version });
+  const direct = state.chain.length > 0 && state.chain[state.chain.length - 1] === ace, banked = hasWindowAutoBank({ windowVersion: version }) && autoBankedAce && state.chain.length === 0 && legalMoves(state).length === 0;
+  return move.type === "draw" && state.terminal === "active" && state.spoolIndex < state.spool.length && Number.isInteger(ace) && ace >= 0 && ace < 52 && ace % 13 === 0 && (!hasFixedWindowAce({ windowVersion: version }) || ace === WINDOW_VIOLIN_ACE) && (direct || banked) && state.top === ace && (version !== LEGACY_WINDOW_VERSION || snapshot(state).handType >= 1);
+}
+function windowSeed(root2, afterLevel, version = WINDOW_VERSION) {
+  if (!Number.isSafeInteger(afterLevel) || afterLevel < 1 || afterLevel > 10 || typeof root2 === "number" && !Number.isSafeInteger(root2) || !/^-?\d{1,30}$/.test(String(root2))) throw new TypeError("Invalid Window seed domain");
+  windowVersionOf({ windowVersion: version });
+  let hash = 14695981039346656037n;
+  for (const c of `weft-window:${version}:${BigInt(root2)}:${afterLevel}`) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
+  return hash;
+}
+var sameWindowWitness = (a, b) => a === void 0 ? b === void 0 : b !== void 0 && a.seed === b.seed && a.moveIndex === b.moveIndex && a.ace === b.ace;
+
+// src/score-config.ts
+var CURRENT_SCORING_VERSION = "clear-v2";
+var CLASSIC_SCORING_VERSION = "level-v3";
+var SCORE_CONFIG = Object.freeze({
+  version: "6.7",
+  scoringVersion: CURRENT_SCORING_VERSION,
+  clearBonusPerSpoolCard: 50,
+  starThresholds: Object.freeze([2600, 4200, 8300]),
+  legacyStarThresholds: Object.freeze([2500, 4e3, 7400])
+});
+function scoringVersionOf(value) {
+  const version = value && typeof value === "object" ? value.scoringVersion : void 0;
+  if (version === void 0) return "legacy";
+  if (version !== CURRENT_SCORING_VERSION && version !== CLASSIC_SCORING_VERSION) throw new TypeError("Unsupported scoring version");
+  return version;
+}
+var isCurrentScoring = (value) => !!value && typeof value === "object" && [CURRENT_SCORING_VERSION, CLASSIC_SCORING_VERSION].includes(value.scoringVersion);
+var scoringMetadata = (version) => version === "legacy" ? {} : { scoringVersion: version };
+var starThresholds = (version = CURRENT_SCORING_VERSION) => version === "legacy" ? SCORE_CONFIG.legacyStarThresholds : SCORE_CONFIG.starThresholds;
+function starCount(score, version = CURRENT_SCORING_VERSION) {
+  if (!Number.isFinite(score) || score < 0) return 0;
+  const thresholds = starThresholds(version);
+  return thresholds.filter((threshold) => score >= threshold).length;
+}
+var integer = (value) => Number.isSafeInteger(value) && value >= 0;
+function clearBonus(cleared, spoolRemaining, chainCoins, spoolStarted, version = CURRENT_SCORING_VERSION) {
+  if (!cleared || !integer(spoolRemaining)) return 0;
+  if (chainCoins === void 0 || version === "legacy") {
+    const bonus = spoolRemaining * SCORE_CONFIG.clearBonusPerSpoolCard;
+    return integer(bonus) ? bonus : 0;
+  }
+  if (!integer(chainCoins) || !integer(spoolStarted ?? NaN) || !spoolStarted || spoolRemaining > spoolStarted) return 0;
+  const numerator = BigInt(chainCoins) * BigInt(spoolRemaining), denominator = BigInt(spoolStarted);
+  const result = (2n * numerator + denominator) / (2n * denominator);
+  if (result > BigInt(Number.MAX_SAFE_INTEGER) || BigInt(chainCoins) + result > BigInt(Number.MAX_SAFE_INTEGER)) throw new RangeError("Board score exceeds safe integer range");
+  return Number(result);
+}
+function clearBonusDetails(cleared, spoolRemaining, chainCoins, spoolStarted, version = CURRENT_SCORING_VERSION) {
+  if (!integer(chainCoins) || !integer(spoolRemaining) || !integer(spoolStarted) || spoolStarted < 1 || spoolRemaining > spoolStarted) throw new RangeError("Invalid clear-bonus inputs");
+  const bonus = clearBonus(cleared, spoolRemaining, chainCoins, spoolStarted, version), score = chainCoins + bonus;
+  if (!integer(score)) throw new RangeError("Board score exceeds safe integer range");
+  return { chainCoins, spoolRemaining, spoolStarted, clearBonus: bonus, score, percentage: Math.round(100 * spoolRemaining / spoolStarted) };
+}
+var LEVEL_FACTORS_TENTHS = Object.freeze([10, 15, 20, 30, 40, 55, 75, 100, 140, 200]);
+var HAND_NAMES = ["high", "pair", "two_pair", "trips", "straight", "flush", "full_house", "quads", "straight_flush", "royal"];
+var HAND_MULTIPLIERS_TENTHS = [10, 12, 15, 20, 25, 30, 40, 50, 80, 120];
+function levelCoinFactor(level, version = CLASSIC_SCORING_VERSION) {
+  if (!Number.isSafeInteger(level) || level < 1 || version === CLASSIC_SCORING_VERSION && level > 10) throw new RangeError("Invalid scoring level");
+  return version === CLASSIC_SCORING_VERSION ? LEVEL_FACTORS_TENTHS[level - 1] / 10 : 1;
+}
+function levelChainCoins(event, level, version = CLASSIC_SCORING_VERSION) {
+  levelCoinFactor(level, version);
+  if (version !== CLASSIC_SCORING_VERSION) {
+    const points = typeof event === "number" ? event : event.points;
+    if (!integer(points)) throw new RangeError("Invalid chain coins");
+    return points;
+  }
+  if (typeof event !== "object" || !event || !integer(event.scoringLength)) throw new TypeError("Level scoring requires the original Bank event");
+  const hand = HAND_NAMES.indexOf(event.handName), base = baseScore(event.scoringLength);
+  if (hand < 0 || !integer(base)) throw new RangeError("Invalid scoring hand/base");
+  const result = BigInt(base) * BigInt(HAND_MULTIPLIERS_TENTHS[hand]) * BigInt(LEVEL_FACTORS_TENTHS[level - 1]) / 100n;
+  if (result > BigInt(Number.MAX_SAFE_INTEGER)) throw new RangeError("Chain coins exceed safe integer range");
+  return Number(result);
+}
+function boardScoreDetails(cleared, left, rawChainCoins, start, context) {
+  if (context.version !== CLASSIC_SCORING_VERSION) return clearBonusDetails(cleared, left, rawChainCoins, start, context.version);
+  if (!integer(rawChainCoins) || !integer(left) || !integer(start) || start < 1 || left > start) throw new RangeError("Invalid clear-bonus inputs");
+  const levelFactor = levelCoinFactor(context.level, context.version), chainCoins = context.chainCoins, unmultipliedChainCoins = context.unmultipliedChainCoins ?? rawChainCoins;
+  if (!integer(chainCoins ?? NaN) || !integer(unmultipliedChainCoins)) throw new RangeError("Missing derived level chain coins");
+  const normalReward = !context.secret || context.secret === "hugo" && hugoVersionOf(context) === HUGO_VERSION || context.secret === "window" && windowVersionOf(context) === WINDOW_VERSION;
+  const factor10 = LEVEL_FACTORS_TENTHS[context.level - 1], spoolBonus = cleared ? 5 * left * factor10 : 0, levelBonus = cleared && normalReward ? 250 * factor10 : 0, clearBonus2 = spoolBonus + levelBonus, score = chainCoins + clearBonus2;
+  const starCoins = unmultipliedChainCoins + (cleared ? 50 * left : 0) + (cleared && normalReward ? 2500 : 0);
+  if (!integer(score) || !integer(starCoins)) throw new RangeError("Board score exceeds safe integer range");
+  return { rawChainCoins, unmultipliedChainCoins, chainCoins, spoolRemaining: left, spoolStarted: start, spoolBonus, levelBonus, level: context.level, levelFactor, clearBonus: clearBonus2, score, starCoins, percentage: Math.round(100 * left / start) };
+}
+var starCoinScore = (facts) => facts.starCoins ?? facts.score;
+
+// src/replay-practice.ts
+var ownsPractice = (value) => !!value && typeof value === "object" && Object.prototype.hasOwnProperty.call(value, "practice");
+function canRankReplayRecord(value) {
+  return !!value && typeof value === "object" && !Array.isArray(value) && !ownsPractice(value);
+}
+
+// src/play-mode.ts
+function canSubmitOnlineScore(record) {
+  if (!record || typeof record !== "object" || !canRankReplayRecord(record)) return false;
+  const mode = record.playMode;
+  return mode === void 0 || mode === "classic";
+}
+
+// src/score-codec.ts
+var MAX_SCORE_MOVES = 256;
+function compressMoves(moves2) {
+  if (!Array.isArray(moves2) || moves2.length > MAX_SCORE_MOVES) throw new TypeError("Invalid move count");
+  return Array.from(moves2).map((move) => {
+    if (move?.type === "play" && Number.isInteger(move.position) && move.position >= 0 && move.position < 30) return move.position;
+    if (move?.type === "draw") return 30;
+    if (move?.type === "bank") return 31;
+    throw new TypeError("Invalid score action");
+  });
+}
+function decompressMoves(bytes) {
+  if (!Array.isArray(bytes) || bytes.length > MAX_SCORE_MOVES) throw new TypeError("Invalid compressed move count");
+  return Array.from(bytes).map((value) => {
+    if (!Number.isInteger(value) || value < 0 || value > 31) throw new TypeError("Invalid compressed score action");
+    return value < 30 ? { type: "play", position: value } : value === 30 ? { type: "draw" } : { type: "bank" };
+  });
+}
+
+// src/leaderboard-wire.ts
+function decodeLeaderboardProof(value) {
+  if (!value || typeof value !== "object") throw new TypeError("Invalid leaderboard proof");
+  const input = value;
+  if (input.type === "board" && input.record) return { ...input, record: { ...input.record, moves: decompressMoves(input.record.moves) } };
+  if (input.type === "run" && input.record && Array.isArray(input.record.perLevel) && input.record.perLevel.length <= 1e4) return { ...input, record: { ...input.record, ...input.record.hugo?.result ? { hugo: { ...input.record.hugo, result: { ...input.record.hugo.result, moves: decompressMoves(input.record.hugo.result.moves) } } } : {}, ...input.record.window?.result ? { window: { ...input.record.window, result: { ...input.record.window.result, moves: decompressMoves(input.record.window.result.moves) } } } : {}, perLevel: input.record.perLevel.map((board2) => ({ ...board2, moves: decompressMoves(board2.moves) })) } };
+  throw new TypeError("Invalid leaderboard proof");
 }
 
 // ../../B-002/engine/configs.ts
@@ -1093,44 +1171,6 @@ function recordId(record) {
   return "weft-" + hash.toString(16).padStart(16, "0");
 }
 
-// src/window-trigger.ts
-var WINDOW_VERSION = "window-3";
-var BOARD_WINDOW_VERSION = "window-2";
-var LEGACY_WINDOW_VERSION = "window-1";
-var WINDOW_VIOLIN_ACE = 13;
-function windowVersionOf(value) {
-  const version = value && typeof value === "object" ? value.windowVersion : void 0;
-  if (version !== void 0 && version !== WINDOW_VERSION && version !== BOARD_WINDOW_VERSION && version !== LEGACY_WINDOW_VERSION) throw new TypeError("Unsupported Window feature version");
-  const disabled = value && typeof value === "object" ? value.windowDisabled : void 0;
-  if (disabled !== void 0 && (disabled !== true || version !== WINDOW_VERSION && version !== BOARD_WINDOW_VERSION)) throw new TypeError("Invalid disabled Window feature");
-  return version;
-}
-var hasWindowFeature = (value) => windowVersionOf(value) !== void 0;
-var windowTriggerEligible = (value, world3) => hasWindowFeature(value) && !value.windowDisabled && world3 === 4;
-function chosenWindowAce(deal2, version = WINDOW_VERSION) {
-  windowVersionOf({ windowVersion: version });
-  const cards = Array.isArray(deal2) ? version === LEGACY_WINDOW_VERSION ? deal2 : deal2.slice(0, 30) : version === LEGACY_WINDOW_VERSION ? [...deal2.weave, ...deal2.spoolOrder, ...deal2.burned] : deal2.weave;
-  const ace = version === WINDOW_VERSION ? cards.find((card) => card === WINDOW_VIOLIN_ACE) : cards.find((card) => card % 13 === 0);
-  if (ace === void 0) throw new Error("Generated Neon board has no ace required by its Window version");
-  return ace;
-}
-function windowAutoBankedAce(transition, move, ace, version = WINDOW_VERSION) {
-  return version === WINDOW_VERSION && ace === WINDOW_VIOLIN_ACE && move.type === "play" && transition.state.weave[move.position] === ace && transition.state.top === ace && transition.state.chain.length === 0 && transition.state.terminal === "active" && transition.state.spoolIndex < transition.state.spool.length && legalMoves(transition.state).length === 0 && transition.events.some((event) => event.reason === "automatic" && event.chainLength >= 1);
-}
-function isWindowSacrifice(state, move, ace, version = WINDOW_VERSION, autoBankedAce = false) {
-  windowVersionOf({ windowVersion: version });
-  const direct = state.chain.length > 0 && state.chain[state.chain.length - 1] === ace, banked = version === WINDOW_VERSION && autoBankedAce && state.chain.length === 0 && legalMoves(state).length === 0;
-  return move.type === "draw" && state.terminal === "active" && state.spoolIndex < state.spool.length && Number.isInteger(ace) && ace >= 0 && ace < 52 && ace % 13 === 0 && (version !== WINDOW_VERSION || ace === WINDOW_VIOLIN_ACE) && (direct || banked) && state.top === ace && (version !== LEGACY_WINDOW_VERSION || snapshot(state).handType >= 1);
-}
-function windowSeed(root2, afterLevel, version = WINDOW_VERSION) {
-  if (!Number.isSafeInteger(afterLevel) || afterLevel < 1 || afterLevel > 10 || typeof root2 === "number" && !Number.isSafeInteger(root2) || !/^-?\d{1,30}$/.test(String(root2))) throw new TypeError("Invalid Window seed domain");
-  windowVersionOf({ windowVersion: version });
-  let hash = 14695981039346656037n;
-  for (const c of `weft-window:${version}:${BigInt(root2)}:${afterLevel}`) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
-  return hash;
-}
-var sameWindowWitness = (a, b) => a === void 0 ? b === void 0 : b !== void 0 && a.seed === b.seed && a.moveIndex === b.moveIndex && a.ace === b.ace;
-
 // src/neon-window-admission.ts
 var NEON_WINDOW_ADMISSION = "neon-window-3";
 var LEGACY_NEON_WINDOW_ADMISSION = "neon-window-2";
@@ -1152,33 +1192,6 @@ function generateNeonOpportunity(input, seed3, options = {}, admission = NEON_WI
   }
   throw new GenerationAttemptsError(original, maxAttempts);
 }
-
-// src/hugo-trigger.ts
-var HUGO_VERSION = "hugo-2";
-var LEGACY_HUGO_VERSION = "hugo-1";
-var HUGO_SPOOL = 22;
-function hugoVersionOf(value) {
-  const feature = value && typeof value === "object" ? value.hugoVersion : void 0;
-  if (feature !== void 0 && feature !== HUGO_VERSION && feature !== LEGACY_HUGO_VERSION) throw new TypeError("Unsupported Hugo feature version");
-  const disabled = value && typeof value === "object" ? value.hugoDisabled : void 0;
-  if (disabled !== void 0 && (disabled !== true || feature !== HUGO_VERSION)) throw new TypeError("Invalid disabled Hugo feature");
-  return feature;
-}
-var hasHugoFeature = (value) => hugoVersionOf(value) !== void 0;
-var hugoTriggerEligible = (value, world3) => hugoVersionOf(value) === LEGACY_HUGO_VERSION || hugoVersionOf(value) === HUGO_VERSION && value.hugoDisabled !== true && world3 === 3;
-function isHugoSacrifice(state, move) {
-  if (move.type !== "draw" || state.terminal !== "active" || state.spoolIndex >= state.spool.length || !state.rules.anchor || state.chain.length !== 3 || legalMoves(state).length === 0) return false;
-  const ranks = [state.anchor, ...state.chain].map((card) => card % 13);
-  return (ranks[0] === 5 || ranks[0] === 6) && ranks.every((rank2, index) => rank2 === (index % 2 ? ranks[0] === 5 ? 6 : 5 : ranks[0]));
-}
-function hugoSeed(root2, afterLevel, version = HUGO_VERSION) {
-  if (!Number.isSafeInteger(afterLevel) || afterLevel < 1 || afterLevel > 10 || typeof root2 === "number" && !Number.isSafeInteger(root2) || !/^-?\d{1,30}$/.test(String(root2))) throw new TypeError("Invalid Hugo seed domain");
-  if (version !== HUGO_VERSION && version !== LEGACY_HUGO_VERSION) throw new TypeError("Unsupported Hugo seed version");
-  let hash = 14695981039346656037n;
-  for (const c of `weft-hugo:${version}:${BigInt(root2)}:${afterLevel}`) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
-  return hash;
-}
-var sameHugoWitness = (a, b) => a === void 0 ? b === void 0 : b !== void 0 && a.seed === b.seed && a.moveIndex === b.moveIndex;
 
 // src/grove-opportunity.ts
 var GROVE_ADMISSION = "grove-hugo-2";
@@ -1376,7 +1389,7 @@ function rulesForLevel(level, version = RUN_VERSION) {
 }
 function board(rootSeed, level, version = RUN_VERSION, presentationWorld, feature = {}) {
   const config = { ...levelConfig(level, version), ...presentationWorld === void 0 ? {} : { world: presentationWorld } };
-  return { ...config, seed: String(runLevelSeed(rootSeed, level, version)), ...hugoVersionOf(feature) === HUGO_VERSION && config.world === 3 ? { admission: GROVE_ADMISSION } : config.world === 4 && windowVersionOf(feature) === WINDOW_VERSION ? { admission: NEON_WINDOW_ADMISSION } : config.world === 4 && windowVersionOf(feature) === BOARD_WINDOW_VERSION ? { admission: LEGACY_NEON_WINDOW_ADMISSION } : {} };
+  return { ...config, seed: String(runLevelSeed(rootSeed, level, version)), ...hasGroveHugoFeature(feature) && config.world === 3 ? { admission: GROVE_ADMISSION } : config.world === 4 && hasFixedWindowAce(feature) ? { admission: NEON_WINDOW_ADMISSION } : config.world === 4 && windowVersionOf(feature) === BOARD_WINDOW_VERSION ? { admission: LEGACY_NEON_WINDOW_ADMISSION } : {} };
 }
 function runPlan(run) {
   if (run.rulesVersion !== CLASSIC_RULES_VERSION) {
@@ -1395,9 +1408,9 @@ function featureMetadata(value) {
   const version = hugoVersionOf(value);
   return version ? { hugoVersion: version, ...value.hugoDisabled ? { hugoDisabled: true } : {} } : {};
 }
-function replayBoard(input, level, version = RUN_VERSION, presentationWorld, scoring = {}, secret = false) {
+function replayBoard(input, level, version = RUN_VERSION, presentationWorld, scoring = {}, secret = false, afterLevel = level) {
   if (!input || !moves(input.moves) || !count(input.score)) throw new TypeError("Invalid run board result");
-  const ordinary = board(input.seed, level, version, presentationWorld, scoring), { admission: _admission, ...plain } = ordinary, config = secret ? { ...plain, spool: secret === "hugo" ? HUGO_SPOOL : levelConfig(level, version).spool, secret } : ordinary, original = seed(input.seed);
+  const ordinary = board(input.seed, level, version, presentationWorld, scoring), { admission: _admission, ...plain } = ordinary, config = secret ? { ...plain, spool: secret === "hugo" ? hugoSpoolForLevel(scoring, afterLevel, version) : levelConfig(level, version).spool, secret } : ordinary, original = seed(input.seed);
   if (input.admission !== config.admission) throw new Error("Grove admission context disagrees with replay");
   if (input.secret !== (secret || void 0)) throw new Error("Secret board context disagrees with replay");
   for (const field of ["level", "world", "spool"])
@@ -1419,7 +1432,7 @@ function replayBoard(input, level, version = RUN_VERSION, presentationWorld, sco
     if (windowEligible && !windowTrigger) windowTrigger = { seed: original, moveIndex, ace: violin };
   });
   if (state.terminal === "active") throw new Error("Run board is not finished");
-  const cleared = state.terminal === "cleared", facts = boardScoreDetails(cleared, state.spool.length - state.spoolIndex, state.score, rules.spool, { version: scoringVersionOf(scoring), level, ...secret ? { secret } : {}, chainCoins, unmultipliedChainCoins }), bonus = facts.clearBonus;
+  const cleared = state.terminal === "cleared", facts = boardScoreDetails(cleared, state.spool.length - state.spoolIndex, state.score, rules.spool, { ...featureMetadata(scoring), ...windowMetadata(scoring), version: scoringVersionOf(scoring), level, ...secret ? { secret } : {}, chainCoins, unmultipliedChainCoins }), bonus = facts.clearBonus;
   if (input.clearBonusDetails !== void 0 && JSON.stringify(Object.entries(input.clearBonusDetails).sort()) !== JSON.stringify(Object.entries(facts).sort())) throw new Error("Clear-bonus details disagree with replay");
   if (input.cleared !== void 0 && input.cleared !== cleared) throw new Error("Run board Clear marker disagrees with replay");
   if (input.score !== facts.score) throw new Error("Run board score disagrees with replay");
@@ -1438,14 +1451,18 @@ function replayBoard(input, level, version = RUN_VERSION, presentationWorld, sco
   };
 }
 var completion = ({ chainScore: _chain, clearBonus: _bonus, _hugoTrigger: _trigger, _windowTrigger: _window, ...result }) => result;
+function hugoSpoolForLevel(feature, afterLevel, version = RUN_VERSION) {
+  if (!Number.isSafeInteger(afterLevel) || afterLevel < 1 || afterLevel > 10) throw new RangeError("Invalid Hugo insertion position");
+  return [HUGO_VERSION, NEXT_SPOOL_HUGO_VERSION].includes(hugoVersionOf(feature)) ? levelConfig(Math.min(afterLevel + 1, 10), version).spool : HUGO_SPOOL;
+}
 function secretRunBoard(run, afterLevel) {
   const normal = board(run.rootSeed, afterLevel, run.rulesVersion, runPlan(run)?.[afterLevel - 1]);
-  return { ...normal, spool: HUGO_SPOOL, seed: String(hugoSeed(run.rootSeed, afterLevel, hugoVersionOf(run) ?? LEGACY_HUGO_VERSION)), secret: "hugo" };
+  return { ...normal, ...hugoVersionOf(run) === HUGO_VERSION ? { level: Math.min(afterLevel + 1, 10) } : {}, spool: hugoSpoolForLevel(run, afterLevel, run.rulesVersion), seed: String(hugoSeed(run.rootSeed, afterLevel, hugoVersionOf(run) ?? LEGACY_HUGO_VERSION)), secret: "hugo" };
 }
 function checkedHugo(value, feature, root2, order) {
   if (value === void 0) return;
   if (!hasHugoFeature(feature) || Object.keys(value).some((key) => !["version", "afterLevel", "trigger", "result"].includes(key)) || value.version !== hugoVersionOf(feature) || !Number.isSafeInteger(value.afterLevel) || value.afterLevel < 1 || value.afterLevel > 10 || !value.trigger || Object.keys(value.trigger).some((key) => !["seed", "moveIndex"].includes(key)) || value.trigger.seed !== String(runLevelSeed(root2, value.afterLevel)) || !count(value.trigger.moveIndex) || value.trigger.moveIndex >= 256) throw new Error("Invalid Hugo trigger context");
-  if (hugoVersionOf(feature) === HUGO_VERSION && (order?.[value.afterLevel - 1] !== 3 || feature.hugoDisabled)) throw new Error("Hugo2 requires an enabled Grove opportunity");
+  if (hasGroveHugoFeature(feature) && (order?.[value.afterLevel - 1] !== 3 || feature.hugoDisabled)) throw new Error("Grove Hugo requires an enabled Grove opportunity");
   return copy(value);
 }
 function expectedHugo(replayed) {
@@ -1468,7 +1485,7 @@ function windowRunBoard(run, afterLevel) {
 }
 function checkedWindow(value, feature, root2, order) {
   if (value === void 0) return;
-  if (!windowTriggerEligible(feature, 4) || Object.keys(value).some((k) => !["version", "afterLevel", "trigger", "result"].includes(k)) || value.version !== windowVersionOf(feature) || !count(value.afterLevel) || value.afterLevel < 1 || value.afterLevel > 10 || order?.[value.afterLevel - 1] !== 4 || !value.trigger || Object.keys(value.trigger).some((k) => !["seed", "moveIndex", "ace"].includes(k)) || value.trigger.seed !== String(runLevelSeed(root2, value.afterLevel)) || !count(value.trigger.moveIndex) || value.trigger.moveIndex >= 256 || !count(value.trigger.ace) || value.trigger.ace >= 52 || value.trigger.ace % 13 !== 0 || windowVersionOf(feature) === WINDOW_VERSION && value.trigger.ace !== WINDOW_VIOLIN_ACE) throw new Error("Invalid Window trigger context");
+  if (!windowTriggerEligible(feature, 4) || Object.keys(value).some((k) => !["version", "afterLevel", "trigger", "result"].includes(k)) || value.version !== windowVersionOf(feature) || !count(value.afterLevel) || value.afterLevel < 1 || value.afterLevel > 10 || order?.[value.afterLevel - 1] !== 4 || !value.trigger || Object.keys(value.trigger).some((k) => !["seed", "moveIndex", "ace"].includes(k)) || value.trigger.seed !== String(runLevelSeed(root2, value.afterLevel)) || !count(value.trigger.moveIndex) || value.trigger.moveIndex >= 256 || !count(value.trigger.ace) || value.trigger.ace >= 52 || value.trigger.ace % 13 !== 0 || hasFixedWindowAce(feature) && value.trigger.ace !== WINDOW_VIOLIN_ACE) throw new Error("Invalid Window trigger context");
   return copy(value);
 }
 function expectedWindow(replayed) {
@@ -1529,7 +1546,7 @@ function validateRunRecord(value) {
     if (boards.some((result, index) => result.cleared !== index < record.levelsCleared)) throw new Error("Run terminal sequence disagrees with replay");
     if (hasHugoFeature(record)) verifyHugoWitness(expectedHugo(boards), record.hugo);
     if (hasWindowFeature(record)) verifyWindowWitness(expectedWindow(boards), record.window);
-    const secret = record.hugo?.result ? replayBoard(record.hugo.result, record.hugo.afterLevel, record.version, secretRunBoard(routeInput, record.hugo.afterLevel).world, record, "hugo") : void 0, windowBoard = record.window ? windowRunBoard(routeInput, record.window.afterLevel) : void 0, windowSecret = record.window?.result ? replayBoard(record.window.result, windowBoard.level, record.version, windowBoard.world, record, "window") : void 0;
+    const secret = record.hugo?.result ? replayBoard(record.hugo.result, secretRunBoard(routeInput, record.hugo.afterLevel).level, record.version, secretRunBoard(routeInput, record.hugo.afterLevel).world, record, "hugo", record.hugo.afterLevel) : void 0, windowBoard = record.window ? windowRunBoard(routeInput, record.window.afterLevel) : void 0, windowSecret = record.window?.result ? replayBoard(record.window.result, windowBoard.level, record.version, windowBoard.world, record, "window") : void 0;
     const hugo = record.hugo ? { ...record.hugo, ...secret ? { result: completion(secret) } : {} } : void 0, window2 = record.window ? { ...record.window, ...windowSecret ? { result: completion(windowSecret) } : {} } : void 0;
     return { valid: true, record: { ...record, perLevel: boards.map(completion), ...hugo ? { hugo } : {}, ...window2 ? { window: window2 } : {} }, boards, ...secret ? { secret } : {}, ...windowSecret ? { windowSecret } : {} };
   } catch (error) {
@@ -1608,7 +1625,7 @@ function createLeaderboardVerifier(options = {}) {
       return { record: result, level: index + 1, spool: rules.spool, sourceId: recordId(result) };
     });
     if (validated.secret) {
-      const board2 = validated.secret, rules = { ...getConfig("chainBest"), spool: 22 }, generated = generateDeal(rules, BigInt(board2.seed));
+      const board2 = validated.secret, rules = { ...getConfig("chainBest"), spool: board2.spool }, generated = generateDeal(rules, BigInt(board2.seed));
       let state = createState(rules, generated.deal), bestHand = 0;
       for (const move of board2.moves) {
         bestHand = Math.max(bestHand, snapshot(state).handType);
@@ -1617,7 +1634,9 @@ function createLeaderboardVerifier(options = {}) {
         bestHand = Math.max(bestHand, snapshot(state).handType, ...result2.events.map((event) => handNames.indexOf(event.handName)));
       }
       const result = { id: record.id + ":hugo", date: record.date, seed: board2.seed, version: record.version, secret: "hugo", moves: clone([...board2.moves]), score: board2.score, ...scoringMetadata(scoringVersionOf(record)), ...board2.clearBonusDetails ? { clearBonusDetails: board2.clearBonusDetails } : {}, stars: starCount(starCoinScore(board2.clearBonusDetails ?? { score: board2.score }), scoringVersionOf(record)), cleared: board2.cleared, longestChain: state.longestChain, bestHand };
-      boards.splice(board2.level, 0, { record: result, level: board2.level, spool: 22, sourceId: recordId(result) });
+      const predecessor = boards.findIndex((item) => item.record.secret === void 0 && item.level === record.hugo.afterLevel);
+      if (predecessor < 0) throw new TypeError("Hugo has no preceding normal board");
+      boards.splice(predecessor + 1, 0, { record: result, level: board2.level, spool: rules.spool, sourceId: recordId(result) });
     }
     if (validated.windowSecret) {
       const board2 = validated.windowSecret, rules = { ...getConfig("chainBest"), spool: board2.spool }, generated = generateDeal(rules, BigInt(board2.seed));
@@ -2356,7 +2375,7 @@ function runMoves(record) {
   const boards = record.perLevel.map((b) => ({ seed: b.seed, moves: compressMoves(b.moves) }));
   const moves2 = record.hugoVersion || record.windowVersion ? {
     boards,
-    ...record.hugoVersion ? { hugoVersion: record.hugoVersion, ...record.hugoDisabled ? { hugoDisabled: true } : {}, ...record.hugoVersion === "hugo-2" ? { worldRoute: record.worldRoute, startWorld: record.startWorld, worldOrder: record.worldOrder } : {}, ...record.hugo ? { hugo: { ...record.hugo, ...record.hugo.result ? { result: { ...record.hugo.result, moves: compressMoves(record.hugo.result.moves) } } : {} } } : {} } : {},
+    ...record.hugoVersion ? { hugoVersion: record.hugoVersion, ...record.hugoDisabled ? { hugoDisabled: true } : {}, ...hasGroveHugoFeature(record) ? { worldRoute: record.worldRoute, startWorld: record.startWorld, worldOrder: record.worldOrder } : {}, ...record.hugo ? { hugo: { ...record.hugo, ...record.hugo.result ? { result: { ...record.hugo.result, moves: compressMoves(record.hugo.result.moves) } } : {} } } : {} } : {},
     ...record.windowVersion ? { windowVersion: record.windowVersion, ...record.windowDisabled ? { windowDisabled: true } : {}, worldRoute: record.worldRoute, startWorld: record.startWorld, worldOrder: record.worldOrder, ...record.window ? { window: { ...record.window, ...record.window.result ? { result: { ...record.window.result, moves: compressMoves(record.window.result.moves) } } : {} } } : {} } : {}
   } : boards;
   return scoringVersionOf(record) === CLASSIC_SCORING_VERSION ? Array.isArray(moves2) ? { boards: moves2, scoringVersion: CLASSIC_SCORING_VERSION } : { ...moves2, scoringVersion: CLASSIC_SCORING_VERSION } : moves2;
@@ -2385,7 +2404,7 @@ function verifySubmission(wire) {
 function verifyCurrentSubmission(wire) {
   if (!wire || typeof wire !== "object" || !isCurrentScoring(wire.record)) throw new TypeError("This score belongs to an archived scoring season");
   const input = wire;
-  if (input.type === "run" && (input.record.windowVersion === "window-2" || input.record.windowVersion === "window-3") && input.record.windowDisabled === true) throw new TypeError("Assisted Window runs stay on this device");
+  if (input.type === "run" && (input.record.windowVersion === "window-2" || input.record.windowVersion === "window-3" || input.record.windowVersion === "window-4") && input.record.windowDisabled === true) throw new TypeError("Assisted Window runs stay on this device");
   const unchanged = input.type === "warp-run" || input.type === "board" && input.record.dailyDate !== void 0;
   if (input.record.scoringVersion !== (unchanged ? CURRENT_SCORING_VERSION : CLASSIC_SCORING_VERSION)) {
     const error = new TypeError("Please update Weft to post scores");

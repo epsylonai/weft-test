@@ -1,0 +1,46 @@
+{
+  "status": "independent-readback-passed",
+  "version": "6.24.11",
+  "rows": 35,
+  "errors": [],
+  "canonical": {
+    "file": "server/weft-leaderboard/canonical-replay.mjs",
+    "bytes": 146434,
+    "sha256": "156cfcd328460fa799d72c43ccf2577eead891192e0a86f9485958c5107b3006"
+  },
+  "package": {
+    "file": "server/weft-leaderboard/B049-PACKAGE.json",
+    "bytes": 4180,
+    "sha256": "440c345681396e39d90cf8000b3894577738de8ac0e041082470999b79d6eab8"
+  },
+  "ledger": {
+    "file": "server/weft-leaderboard/B049-FILES.sha256",
+    "bytes": 4347,
+    "sha256": "4068a66c0525e0a237af50207a8c520e0bd18d0ac080d09ce03d1fe4d6528ec6"
+  },
+  "acceptance": {
+    "file": "test-output/b049-secret4-server/acceptance.json",
+    "bytes": 17313,
+    "sha256": "85aee09c6ecc56b2468c66372b0c0697fa8615e723d0f69a463864cea02b8e92"
+  },
+  "histories": 8,
+  "canonicalInputs": 34,
+  "tests": {
+    "cases": 159,
+    "passed": 159,
+    "typescriptExitCode": 0
+  },
+  "lineage": {
+    "unchangedInputs": 28,
+    "changedInputs": [
+      "src/hugo-trigger.ts",
+      "src/leaderboard-validation.ts",
+      "src/run.ts",
+      "src/score-config.ts",
+      "src/window-trigger.ts",
+      "supabase/replay-entry.ts"
+    ]
+  },
+  "sqlAction": "NONE",
+  "deploymentOrDatabaseAccess": false
+}
