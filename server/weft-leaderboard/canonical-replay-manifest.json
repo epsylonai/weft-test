@@ -1,25 +1,24 @@
 {
-  "version": "6.24.11",
-  "hugoFeature": "hugo-4",
+  "version": "6.24.13",
+  "brief": "B-051 Note8 secret replacement positions",
+  "hugoFeature": "hugo-5",
   "legacyHugoFeatures": [
     "hugo-1",
     "hugo-2",
-    "hugo-3"
+    "hugo-3",
+    "hugo-4"
   ],
-  "undeployedContinueMechanics": [
-    "hugo-3"
-  ],
-  "windowFeature": "window-4",
-  "legacyWindowFeature": "window-1",
+  "windowFeature": "window-5",
   "legacyWindowFeatures": [
     "window-1",
     "window-2",
-    "window-3"
+    "window-3",
+    "window-4"
   ],
   "scoringVersion": "level-v3",
   "unchangedScoringVersion": "clear-v2",
   "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
-  "sha256": "156cfcd328460fa799d72c43ccf2577eead891192e0a86f9485958c5107b3006",
+  "sha256": "e730d478b39b66c126f6ef6b843852d964bfda14d4f4a9af9d5a81a32b2f6d2d",
   "inputs": [
     {
       "file": "../../B-002/engine/configs.ts",
@@ -63,11 +62,11 @@
     },
     {
       "file": "src/hugo-trigger.ts",
-      "sha256": "dcb341acd8f62fc3753821f9535c5eb9149c1bde851c4957df63745ab64f0117"
+      "sha256": "7fa10bd25c2cdadda05b6659a50e456d52ad7c427c9f70f2caca95795a7ace72"
     },
     {
       "file": "src/leaderboard-validation.ts",
-      "sha256": "6c89cfd7d52bf1a72dae3241a1383de9999d3cc0b08a78adb918eb73d8ec32bc"
+      "sha256": "3fb139e1005140ea9c22025a7ab50730971387c7a86f5c009456669f8685be3a"
     },
     {
       "file": "src/leaderboard-wire.ts",
@@ -99,7 +98,7 @@
     },
     {
       "file": "src/run.ts",
-      "sha256": "dfa6f5ef4887ac94ccec49bfa87a4c0a011188d7421204a99e5d08a10b5c02d0"
+      "sha256": "546dc4838c849a096b86437411ba6105d9a38b64c9c265dc1b34bb20e7825a08"
     },
     {
       "file": "src/score-codec.ts",
@@ -107,7 +106,7 @@
     },
     {
       "file": "src/score-config.ts",
-      "sha256": "ddfb0f9a34c23246cfb1c80d14169d52b642b98983573199c818d248b36fc405"
+      "sha256": "d025ec227d769b5cec3508e4f91ee888275b4ab4ce0959695e218574a958d08a"
     },
     {
       "file": "src/test-mode-gate.ts",
@@ -115,7 +114,7 @@
     },
     {
       "file": "src/window-trigger.ts",
-      "sha256": "358327c79146213c1a9eb557c5530cff5b5acd70154fe7604dbcd658a324228c"
+      "sha256": "ef88e012a4090ca8e587a1934a0e102c98f4c95665104bc323ca4255037e0377"
     },
     {
       "file": "src/world-config.ts",
@@ -123,7 +122,7 @@
     },
     {
       "file": "supabase/replay-entry.ts",
-      "sha256": "6b2ca42fe07c0ab5cff15725cedc616fc23fc6924846ea1ad9d1891c4920c42f"
+      "sha256": "ddca46fe4299220d1ac7b02391c4c861944d1b5ebb82e4a7ac1b9230ec598ac3"
     },
     {
       "file": "supabase/warp-replay.ts",
@@ -198,13 +197,18 @@
       "file": "server/weft-leaderboard/historical/canonical-replay-21d5e8ee.mjs",
       "sha256": "21d5e8ee337e97b0d7ff5574d96d085596023bb373c856f48e6dc0fa6ef36f30",
       "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-156cfcd3.mjs",
+      "sha256": "156cfcd328460fa799d72c43ccf2577eead891192e0a86f9485958c5107b3006",
+      "accepted": true
     }
   ],
   "previousCurrent": {
-    "file": "../v6.24.10/server/weft-leaderboard/canonical-replay.mjs",
-    "sha256": "21d5e8ee337e97b0d7ff5574d96d085596023bb373c856f48e6dc0fa6ef36f30",
+    "file": "../../B-048/v6.24.12/server/weft-leaderboard/canonical-replay.mjs",
+    "sha256": "156cfcd328460fa799d72c43ccf2577eead891192e0a86f9485958c5107b3006",
     "accepted": true
   },
   "deploymentRequired": true,
-  "currentWritePolicy": "B049 AddendumF server-first: Hugo4 and Window4 both use the next ordinary Classic position (clamped at ten), including its stock, level descriptor, coin factor, unused-stock bonus and normal level-clear reward. The run then plays that same ordinary next position; no board is skipped or renumbered. Fresh seed domains distinguish new mechanics. Historical Hugo1/2, local prepared-never-deployed Hugo3, and Window1/2/3 retain exact seeds, stock and scoring. Eight deployed historical authorities remain byte-exact;0a87 Hugo3 is archived only as superseded-never-deployed, not authority9. Current Classic remains level-v3; old Classic clear-v2 writes reject UPDATE_GAME_REQUIRED; Daily/Warp clear-v2 unchanged. Row version remains6.23. NO migration or SQL reapply; confirmed livev10 read-kind whitelist retained; no database execution."
+  "currentWritePolicy": "Hugo5 and Window5 replace the next ordinary position, use its stock/factor/spool and clear reward, credit the complete board once, and advance to the following position. There are exactly ten positions. A trigger on position ten records its witness but starts no eleventh board. Hugo1/2/3/4 and Window1/2/3/4 retain exact published interlude seeds, progression and scores; prepared Hugo3 continues unchanged. No schema, SQL, row shape, ranking, season or badge-trigger change."
 }

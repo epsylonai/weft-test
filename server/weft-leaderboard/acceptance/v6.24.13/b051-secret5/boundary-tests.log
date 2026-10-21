@@ -1,0 +1,11 @@
+✔ Hugo replacing position10 ends the ten-position run and restores exactly (4699.305959ms)
+✔ two secret results are included in a run-level average and their local row offsets exactly once (33.003959ms)
+✔ local best score and furthest run both show final secretL10 and include its score (38.478334ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5003.519542

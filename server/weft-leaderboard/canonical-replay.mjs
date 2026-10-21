@@ -436,22 +436,23 @@ function snapshot(state) {
 }
 
 // src/hugo-trigger.ts
-var HUGO_VERSION = "hugo-4";
+var HUGO_VERSION = "hugo-5";
+var REWARD_HUGO_VERSION = "hugo-4";
 var NEXT_SPOOL_HUGO_VERSION = "hugo-3";
 var GROVE_HUGO_VERSION = "hugo-2";
 var LEGACY_HUGO_VERSION = "hugo-1";
 var HUGO_SPOOL = 22;
 function hugoVersionOf(value) {
   const feature = value && typeof value === "object" ? value.hugoVersion : void 0;
-  if (feature !== void 0 && feature !== HUGO_VERSION && feature !== NEXT_SPOOL_HUGO_VERSION && feature !== GROVE_HUGO_VERSION && feature !== LEGACY_HUGO_VERSION) throw new TypeError("Unsupported Hugo feature version");
+  if (feature !== void 0 && feature !== HUGO_VERSION && feature !== REWARD_HUGO_VERSION && feature !== NEXT_SPOOL_HUGO_VERSION && feature !== GROVE_HUGO_VERSION && feature !== LEGACY_HUGO_VERSION) throw new TypeError("Unsupported Hugo feature version");
   const disabled = value && typeof value === "object" ? value.hugoDisabled : void 0;
-  if (disabled !== void 0 && (disabled !== true || feature !== HUGO_VERSION && feature !== NEXT_SPOOL_HUGO_VERSION && feature !== GROVE_HUGO_VERSION)) throw new TypeError("Invalid disabled Hugo feature");
+  if (disabled !== void 0 && (disabled !== true || feature !== HUGO_VERSION && feature !== REWARD_HUGO_VERSION && feature !== NEXT_SPOOL_HUGO_VERSION && feature !== GROVE_HUGO_VERSION)) throw new TypeError("Invalid disabled Hugo feature");
   return feature;
 }
 var hasHugoFeature = (value) => hugoVersionOf(value) !== void 0;
 var hasGroveHugoFeature = (value) => {
   const version = hugoVersionOf(value);
-  return version === HUGO_VERSION || version === NEXT_SPOOL_HUGO_VERSION || version === GROVE_HUGO_VERSION;
+  return version === HUGO_VERSION || version === REWARD_HUGO_VERSION || version === NEXT_SPOOL_HUGO_VERSION || version === GROVE_HUGO_VERSION;
 };
 var hugoTriggerEligible = (value, world3) => hugoVersionOf(value) === LEGACY_HUGO_VERSION || hasGroveHugoFeature(value) && value.hugoDisabled !== true && world3 === 3;
 function isHugoSacrifice(state, move) {
@@ -461,7 +462,7 @@ function isHugoSacrifice(state, move) {
 }
 function hugoSeed(root2, afterLevel, version = HUGO_VERSION) {
   if (!Number.isSafeInteger(afterLevel) || afterLevel < 1 || afterLevel > 10 || typeof root2 === "number" && !Number.isSafeInteger(root2) || !/^-?\d{1,30}$/.test(String(root2))) throw new TypeError("Invalid Hugo seed domain");
-  if (version !== HUGO_VERSION && version !== NEXT_SPOOL_HUGO_VERSION && version !== GROVE_HUGO_VERSION && version !== LEGACY_HUGO_VERSION) throw new TypeError("Unsupported Hugo seed version");
+  if (version !== HUGO_VERSION && version !== REWARD_HUGO_VERSION && version !== NEXT_SPOOL_HUGO_VERSION && version !== GROVE_HUGO_VERSION && version !== LEGACY_HUGO_VERSION) throw new TypeError("Unsupported Hugo seed version");
   let hash = 14695981039346656037n;
   for (const c of `weft-hugo:${version}:${BigInt(root2)}:${afterLevel}`) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
   return hash;
@@ -469,21 +470,22 @@ function hugoSeed(root2, afterLevel, version = HUGO_VERSION) {
 var sameHugoWitness = (a, b) => a === void 0 ? b === void 0 : b !== void 0 && a.seed === b.seed && a.moveIndex === b.moveIndex;
 
 // src/window-trigger.ts
-var WINDOW_VERSION = "window-4";
+var WINDOW_VERSION = "window-5";
+var REWARD_WINDOW_VERSION = "window-4";
 var AUTO_BANK_WINDOW_VERSION = "window-3";
 var BOARD_WINDOW_VERSION = "window-2";
 var LEGACY_WINDOW_VERSION = "window-1";
 var WINDOW_VIOLIN_ACE = 13;
 function windowVersionOf(value) {
   const version = value && typeof value === "object" ? value.windowVersion : void 0;
-  if (version !== void 0 && version !== WINDOW_VERSION && version !== AUTO_BANK_WINDOW_VERSION && version !== BOARD_WINDOW_VERSION && version !== LEGACY_WINDOW_VERSION) throw new TypeError("Unsupported Window feature version");
+  if (version !== void 0 && version !== WINDOW_VERSION && version !== REWARD_WINDOW_VERSION && version !== AUTO_BANK_WINDOW_VERSION && version !== BOARD_WINDOW_VERSION && version !== LEGACY_WINDOW_VERSION) throw new TypeError("Unsupported Window feature version");
   const disabled = value && typeof value === "object" ? value.windowDisabled : void 0;
-  if (disabled !== void 0 && (disabled !== true || version !== WINDOW_VERSION && version !== AUTO_BANK_WINDOW_VERSION && version !== BOARD_WINDOW_VERSION)) throw new TypeError("Invalid disabled Window feature");
+  if (disabled !== void 0 && (disabled !== true || version !== WINDOW_VERSION && version !== REWARD_WINDOW_VERSION && version !== AUTO_BANK_WINDOW_VERSION && version !== BOARD_WINDOW_VERSION)) throw new TypeError("Invalid disabled Window feature");
   return version;
 }
 var hasFixedWindowAce = (value) => {
   const version = windowVersionOf(value);
-  return version === WINDOW_VERSION || version === AUTO_BANK_WINDOW_VERSION;
+  return version === WINDOW_VERSION || version === REWARD_WINDOW_VERSION || version === AUTO_BANK_WINDOW_VERSION;
 };
 var hasWindowAutoBank = hasFixedWindowAce;
 var hasWindowFeature = (value) => windowVersionOf(value) !== void 0;
@@ -581,7 +583,7 @@ function boardScoreDetails(cleared, left, rawChainCoins, start, context) {
   if (!integer(rawChainCoins) || !integer(left) || !integer(start) || start < 1 || left > start) throw new RangeError("Invalid clear-bonus inputs");
   const levelFactor = levelCoinFactor(context.level, context.version), chainCoins = context.chainCoins, unmultipliedChainCoins = context.unmultipliedChainCoins ?? rawChainCoins;
   if (!integer(chainCoins ?? NaN) || !integer(unmultipliedChainCoins)) throw new RangeError("Missing derived level chain coins");
-  const normalReward = !context.secret || context.secret === "hugo" && hugoVersionOf(context) === HUGO_VERSION || context.secret === "window" && windowVersionOf(context) === WINDOW_VERSION;
+  const normalReward = !context.secret || context.secret === "hugo" && [HUGO_VERSION, REWARD_HUGO_VERSION].includes(hugoVersionOf(context)) || context.secret === "window" && [WINDOW_VERSION, REWARD_WINDOW_VERSION].includes(windowVersionOf(context));
   const factor10 = LEVEL_FACTORS_TENTHS[context.level - 1], spoolBonus = cleared ? 5 * left * factor10 : 0, levelBonus = cleared && normalReward ? 250 * factor10 : 0, clearBonus2 = spoolBonus + levelBonus, score = chainCoins + clearBonus2;
   const starCoins = unmultipliedChainCoins + (cleared ? 50 * left : 0) + (cleared && normalReward ? 2500 : 0);
   if (!integer(score) || !integer(starCoins)) throw new RangeError("Board score exceeds safe integer range");
@@ -1453,11 +1455,11 @@ function replayBoard(input, level, version = RUN_VERSION, presentationWorld, sco
 var completion = ({ chainScore: _chain, clearBonus: _bonus, _hugoTrigger: _trigger, _windowTrigger: _window, ...result }) => result;
 function hugoSpoolForLevel(feature, afterLevel, version = RUN_VERSION) {
   if (!Number.isSafeInteger(afterLevel) || afterLevel < 1 || afterLevel > 10) throw new RangeError("Invalid Hugo insertion position");
-  return [HUGO_VERSION, NEXT_SPOOL_HUGO_VERSION].includes(hugoVersionOf(feature)) ? levelConfig(Math.min(afterLevel + 1, 10), version).spool : HUGO_SPOOL;
+  return [HUGO_VERSION, REWARD_HUGO_VERSION, NEXT_SPOOL_HUGO_VERSION].includes(hugoVersionOf(feature)) ? levelConfig(Math.min(afterLevel + 1, 10), version).spool : HUGO_SPOOL;
 }
 function secretRunBoard(run, afterLevel) {
   const normal = board(run.rootSeed, afterLevel, run.rulesVersion, runPlan(run)?.[afterLevel - 1]);
-  return { ...normal, ...hugoVersionOf(run) === HUGO_VERSION ? { level: Math.min(afterLevel + 1, 10) } : {}, spool: hugoSpoolForLevel(run, afterLevel, run.rulesVersion), seed: String(hugoSeed(run.rootSeed, afterLevel, hugoVersionOf(run) ?? LEGACY_HUGO_VERSION)), secret: "hugo" };
+  return { ...normal, ...[HUGO_VERSION, REWARD_HUGO_VERSION].includes(hugoVersionOf(run)) ? { level: Math.min(afterLevel + 1, 10) } : {}, spool: hugoSpoolForLevel(run, afterLevel, run.rulesVersion), seed: String(hugoSeed(run.rootSeed, afterLevel, hugoVersionOf(run) ?? LEGACY_HUGO_VERSION)), secret: "hugo" };
 }
 function checkedHugo(value, feature, root2, order) {
   if (value === void 0) return;
@@ -1467,7 +1469,7 @@ function checkedHugo(value, feature, root2, order) {
 }
 function expectedHugo(replayed) {
   const index = replayed.findIndex((result) => result._hugoTrigger !== void 0);
-  return index < 0 ? void 0 : { afterLevel: index + 1, trigger: replayed[index]._hugoTrigger };
+  return index < 0 ? void 0 : { afterLevel: replayed[index].level, trigger: replayed[index]._hugoTrigger };
 }
 function verifyHugoWitness(expected, hugo, allowPendingLevel) {
   if (expected) {
@@ -1490,12 +1492,60 @@ function checkedWindow(value, feature, root2, order) {
 }
 function expectedWindow(replayed) {
   const index = replayed.findIndex((result) => result._windowTrigger !== void 0);
-  return index < 0 ? void 0 : { afterLevel: index + 1, trigger: replayed[index]._windowTrigger };
+  return index < 0 ? void 0 : { afterLevel: replayed[index].level, trigger: replayed[index]._windowTrigger };
 }
 function verifyWindowWitness(expected, window2, allowPendingLevel) {
   if (expected) {
     if (!window2 || window2.afterLevel !== expected.afterLevel || !sameWindowWitness(window2.trigger, expected.trigger)) throw new Error("Window trigger disagrees with canonical history");
   } else if (window2 && window2.afterLevel !== allowPendingLevel) throw new Error("Window trigger has no canonical witness");
+}
+var runUsesReplacementSecrets = (value) => hugoVersionOf(value) === HUGO_VERSION || windowVersionOf(value) === WINDOW_VERSION;
+function replacementHistory(input, checkpoint) {
+  const rules = "rulesVersion" in input ? input.rulesVersion : input.version;
+  if (rules !== CLASSIC_RULES_VERSION || scoringVersionOf(input) !== CLASSIC_SCORING_VERSION) throw new Error("Replacement secrets require finite level-v3 Classic");
+  if (hugoVersionOf(input) !== void 0 && hugoVersionOf(input) !== HUGO_VERSION || windowVersionOf(input) !== void 0 && windowVersionOf(input) !== WINDOW_VERSION) throw new Error("Replacement feature versions cannot mix with historical interludes");
+  if (!Array.isArray(input.perLevel) || input.perLevel.length > 10 || !count(input.runScore) || input.rootSeed === void 0) throw new Error("Invalid replacement history");
+  const root2 = seed(input.rootSeed), route = routeMetadata(input), feature = { ...featureMetadata(input), ...windowMetadata(input) }, routeInput = { rootSeed: root2, rulesVersion: rules, ...route, ...feature }, order = runPlan(routeInput), hugo = checkedHugo(input.hugo, input, root2, order), window2 = checkedWindow(input.window, input, root2, order), normal = [], ordered = [];
+  let index = 0;
+  for (let level = 1; level <= 10; level++) {
+    const key = hugo?.afterLevel === level - 1 ? "hugo" : window2?.afterLevel === level - 1 ? "window" : void 0, progress = key === "hugo" ? hugo : key === "window" ? window2 : void 0;
+    if (key && progress) {
+      if (!ordered.at(-1)?.cleared) throw new Error("Secret replacement has no preceding Clear");
+      if (!progress.result) break;
+      const descriptor = key === "hugo" ? secretRunBoard(routeInput, progress.afterLevel) : windowRunBoard(routeInput, progress.afterLevel), result = normalizeSecretResult(progress.result, descriptor), replayed = replayBoard(result, level, rules, descriptor.world, input, key, progress.afterLevel);
+      ordered.push(replayed);
+    } else {
+      const result = input.perLevel[index];
+      if (!result) break;
+      const descriptor = board(root2, level, rules, order?.[level - 1], input);
+      if (result.secret !== void 0 || result.level !== void 0 && result.level !== level || result.world !== void 0 && result.world !== descriptor.world || result.spool !== void 0 && result.spool !== descriptor.spool || result.admission !== descriptor.admission || seed(result.seed) !== descriptor.seed) throw new Error("Ordinary board does not occupy its canonical replacement position");
+      const replayed = replayBoard(result, level, rules, descriptor.world, input);
+      normal.push(replayed);
+      ordered.push(replayed);
+      index++;
+    }
+    if (!ordered.at(-1).cleared) break;
+  }
+  if (index !== input.perLevel.length) throw new Error("Extra ordinary board after a replacement or lost board");
+  for (const [key, progress] of [["hugo", hugo], ["window", window2]]) if (progress?.result && !ordered.some((result) => result.secret === key)) throw new Error("Secret result is outside the ten-board run");
+  if (ordered.reduce((sum, result) => sum + result.score, 0) !== input.runScore) throw new Error("Run total does not equal all canonical boards exactly once");
+  const pending = checkpoint && input.current.secret === void 0 ? input.current.level : void 0;
+  if (hasHugoFeature(input)) verifyHugoWitness(expectedHugo(normal), hugo, pending);
+  if (hasWindowFeature(input)) verifyWindowWitness(expectedWindow(normal), window2, pending);
+  const normalize = (progress, key) => progress ? { ...progress, ...progress.result ? { result: completion(ordered.find((result) => result.secret === key)) } : {} } : void 0;
+  return { normal, ordered, hugo: normalize(hugo, "hugo"), window: normalize(window2, "window"), root: root2, route, feature, rules, order };
+}
+function normalizeReplacementRecord(input) {
+  if (!date(input.date) || !count(input.levelsCleared) || !input.perLevel.length) throw new Error("Invalid replacement run record");
+  const h = replacementHistory(input, false), cleared = h.ordered.filter((result) => result.cleared).length, last = h.ordered.at(-1), complete = h.ordered.length === 10 && cleared === 10;
+  if (!last || last.cleared && !complete || input.levelsCleared !== cleared || input.totalLevels !== void 0 && input.totalLevels !== 10 || input.classicComplete !== void 0 && input.classicComplete !== complete) throw new Error("Invalid replacement completion progression");
+  const metadata = { ...h.route, ...scoringMetadata(CLASSIC_SCORING_VERSION), ...h.feature, ...h.hugo ? { hugo: h.hugo } : {}, ...h.window ? { window: h.window } : {} }, perLevel = h.normal.map(completion), id = runRecordId({ version: h.rules, perLevel, ...metadata });
+  if (input.id !== void 0 && input.id !== id) throw new Error("Run completion id disagrees with its proof");
+  return { id, date: input.date, version: h.rules, rootSeed: h.root, levelsCleared: cleared, runScore: input.runScore, perLevel, totalLevels: 10, ...complete ? { classicComplete: true } : {}, ...metadata };
+}
+function validateReplacementRecord(record) {
+  const h = replacementHistory(record, false), secret = h.ordered.find((result) => result.secret === "hugo"), windowSecret = h.ordered.find((result) => result.secret === "window");
+  return { valid: true, record, boards: h.normal, ...secret ? { secret } : {}, ...windowSecret ? { windowSecret } : {} };
 }
 function runRecordId(record) {
   if (!record.perLevel.every((result) => moves(result.moves))) throw new TypeError("Invalid run moves");
@@ -1512,6 +1562,7 @@ function normalizeSecretResult(input, descriptor) {
 function normalizeRunRecord(value) {
   if (!value || typeof value !== "object") throw new TypeError("Invalid run record");
   const input = value;
+  if (runUsesReplacementSecrets(input)) return normalizeReplacementRecord(input);
   if (!date(input.date) || !isRunVersion(input.version) || !count(input.levelsCleared) || !count(input.runScore) || !Array.isArray(input.perLevel) || !input.perLevel.length || input.perLevel.length > 1e4) throw new TypeError("Invalid completed run record");
   if (scoringVersionOf(input) === CLASSIC_SCORING_VERSION && input.version !== CLASSIC_RULES_VERSION) throw new Error("Level scoring requires finite ten-board Classic mechanics");
   const rootSeed = input.rootSeed === void 0 ? void 0 : seed(input.rootSeed), root2 = rootSeed ?? seed(input.perLevel[0].seed), feature = hasHugoFeature(input), windowFeature = hasWindowFeature(input), scoring = scoringMetadata(scoringVersionOf(input));
@@ -1542,7 +1593,9 @@ function normalizeRunRecord(value) {
 }
 function validateRunRecord(value) {
   try {
-    const record = normalizeRunRecord(value), routeInput = { rootSeed: record.rootSeed ?? record.perLevel[0].seed, rulesVersion: record.version, ...routeMetadata(record), ...featureMetadata(record), ...windowMetadata(record) }, order = runPlan(routeInput), boards = record.perLevel.map((result, index) => replayBoard(result, index + 1, record.version, order?.[index], record));
+    const record = normalizeRunRecord(value);
+    if (runUsesReplacementSecrets(record)) return validateReplacementRecord(record);
+    const routeInput = { rootSeed: record.rootSeed ?? record.perLevel[0].seed, rulesVersion: record.version, ...routeMetadata(record), ...featureMetadata(record), ...windowMetadata(record) }, order = runPlan(routeInput), boards = record.perLevel.map((result, index) => replayBoard(result, index + 1, record.version, order?.[index], record));
     if (boards.some((result, index) => result.cleared !== index < record.levelsCleared)) throw new Error("Run terminal sequence disagrees with replay");
     if (hasHugoFeature(record)) verifyHugoWitness(expectedHugo(boards), record.hugo);
     if (hasWindowFeature(record)) verifyWindowWitness(expectedWindow(boards), record.window);
@@ -1608,9 +1661,9 @@ function createLeaderboardVerifier(options = {}) {
     const record = validated.record;
     if (!isRunVersion(record.version)) throw new TypeError("Unsupported run version");
     const root2 = record.rootSeed ?? record.perLevel[0].seed;
-    if (record.perLevel.some((board2, index) => BigInt(board2.seed) !== runLevelSeed(root2, index + 1, record.version))) throw new TypeError("Run boards do not follow one root seed");
+    if (record.perLevel.some((board2, index) => BigInt(board2.seed) !== runLevelSeed(root2, runUsesReplacementSecrets(record) ? board2.level : index + 1, record.version))) throw new TypeError("Run boards do not follow one root seed");
     const boards = validated.boards.map((board2, index) => {
-      const rules = ruleResolver(record.version, index + 1);
+      const level = runUsesReplacementSecrets(record) ? board2.level : index + 1, rules = ruleResolver(record.version, level);
       if (!rules) throw new TypeError("No canonical rules for this run version");
       const generated = generateRunBoard(rules, board2);
       let state = createState(rules, generated.deal), bestHand = 0;
@@ -1622,7 +1675,7 @@ function createLeaderboardVerifier(options = {}) {
         bestHand = Math.max(bestHand, snapshot(state).handType, ...result2.events.map((event) => handNames.indexOf(event.handName)));
       }
       const result = { id: record.id + ":" + (index + 1), date: record.date, seed: board2.seed, version: record.version, ...board2.admission ? { admission: board2.admission } : {}, moves: clone([...board2.moves]), score: board2.score, ...scoringMetadata(scoringVersionOf(record)), ...board2.clearBonusDetails ? { clearBonusDetails: board2.clearBonusDetails } : {}, stars: starCount(starCoinScore(board2.clearBonusDetails ?? { score: board2.score }), scoringVersionOf(record)), cleared: board2.cleared, longestChain: state.longestChain, bestHand };
-      return { record: result, level: index + 1, spool: rules.spool, sourceId: recordId(result) };
+      return { record: result, level, spool: rules.spool, sourceId: recordId(result) };
     });
     if (validated.secret) {
       const board2 = validated.secret, rules = { ...getConfig("chainBest"), spool: board2.spool }, generated = generateDeal(rules, BigInt(board2.seed));
@@ -2404,7 +2457,7 @@ function verifySubmission(wire) {
 function verifyCurrentSubmission(wire) {
   if (!wire || typeof wire !== "object" || !isCurrentScoring(wire.record)) throw new TypeError("This score belongs to an archived scoring season");
   const input = wire;
-  if (input.type === "run" && (input.record.windowVersion === "window-2" || input.record.windowVersion === "window-3" || input.record.windowVersion === "window-4") && input.record.windowDisabled === true) throw new TypeError("Assisted Window runs stay on this device");
+  if (input.type === "run" && (input.record.windowVersion === "window-2" || input.record.windowVersion === "window-3" || input.record.windowVersion === "window-4" || input.record.windowVersion === "window-5") && input.record.windowDisabled === true) throw new TypeError("Assisted Window runs stay on this device");
   const unchanged = input.type === "warp-run" || input.type === "board" && input.record.dailyDate !== void 0;
   if (input.record.scoringVersion !== (unchanged ? CURRENT_SCORING_VERSION : CLASSIC_SCORING_VERSION)) {
     const error = new TypeError("Please update Weft to post scores");
