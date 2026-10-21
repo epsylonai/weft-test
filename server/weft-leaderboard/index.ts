@@ -15,6 +15,7 @@
 // B048 v6.24.8 (deployed by Claude 2026-10-20 15:2x Lisbon): bundle import pinned to epsylonai/weft-test cfc9ae9 (sha256 05bd763a…bdd05, checked after push): Late Night Violin unlock + room verification; handler body still b654a7b0 unchanged.
 // B048 v6.24.9 (deployed by Claude 2026-10-20 evening Lisbon): bundle import pinned to epsylonai/weft-test 0241335 (sha256 9a0cdaea…eee679, checked after push): violin ace always on the board, unlock = any chain ending on the ace then a spool draw (window-2); window-1 proofs unchanged; handler body still b654a7b0 unchanged; no SQL.
 // B048 v6.24.10 (deployed by Claude 2026-10-20 21:1x Lisbon): bundle import pinned to epsylonai/weft-test 882fb35 (sha256 21d5e8ee…6f30, checked after push): window-3 — violin ace = ace of hearts, auto-bank on the ace then a draw unlocks; window-1/2 history unchanged; handler body still b654a7b0 unchanged; no SQL.
+// B050 (deployed by Claude 2026-10-21 09:4x Lisbon): GET kinds also accept 'run-score' and 'warp-run-score' (run totals ranked by points; SQL 202610210001_run_score_kind.sql applied 09:40); bundle import unchanged (21d5e8ee at 882fb35). Handler body now differs from b654a7b0 only in this whitelist.
 import {verifyCurrentSubmission,validateNickname} from 'https://raw.githubusercontent.com/epsylonai/weft-test/882fb35a815406bcf68d9b7fe47419bda4a2888e/server/weft-leaderboard/canonical-replay.mjs';
 const cors={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'apikey,authorization,x-client-info,content-type,x-region','Access-Control-Allow-Methods':'GET,POST,OPTIONS'};
 const response=(body:unknown,status=200)=>Response.json(body,{status,headers:cors});
@@ -39,7 +40,7 @@ export async function handler(request:Request):Promise<Response>{
   try{
     if(request.method==='GET'){
       const query=new URL(request.url).searchParams,kind=query.get('kind'),date=query.get('date'),device=query.get('deviceId');
-      if(!['daily','run','board','chain','warp-run','warp-board'].includes(kind??'')||!validDevice(device)||!/^\d{4}-\d{2}-\d{2}$/.test(date??''))return response({error:'Invalid query'},400);
+      if(!['daily','run','run-score','board','chain','warp-run','warp-run-score','warp-board'].includes(kind??'')||!validDevice(device)||!/^\d{4}-\d{2}-\d{2}$/.test(date??''))return response({error:'Invalid query'},400);
       return response(await rpc('weft_leaderboard_page',{p_kind:kind,p_day:date,p_device:device}));
     }
     if(request.method!=='POST')return response({error:'Method unavailable'},405);
