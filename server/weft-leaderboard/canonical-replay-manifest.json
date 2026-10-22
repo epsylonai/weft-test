@@ -1,6 +1,6 @@
 {
-  "version": "6.24.20",
-  "brief": "B-058 exact no-way-out voluntary End game",
+  "version": "6.24.21",
+  "brief": "B-059 two-rank Hugo confirmation and zero-score season",
   "rulesVersion": "6.24.14",
   "anabelleFeature": "anabelle-2",
   "secretProgression": "inserted-world-cursor-v1",
@@ -13,7 +13,7 @@
   "jokerCap": 1,
   "jokerThreshold": 10,
   "actionEncoding": "0–29 play;30 draw;31 historical bank;32–61 earned joker position;62 scenery pet (no card/scoring mutation);63 verified End game",
-  "hugoFeature": "hugo-7",
+  "hugoFeature": "hugo-8",
   "windowFeature": "window-7",
   "legacyHugoFeatures": [
     "hugo-1",
@@ -21,7 +21,8 @@
     "hugo-3",
     "hugo-4",
     "hugo-5",
-    "hugo-6"
+    "hugo-6",
+    "hugo-7"
   ],
   "legacyWindowFeatures": [
     "window-1",
@@ -42,7 +43,7 @@
     "level-v4"
   ],
   "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
-  "sha256": "5213bd9e416c63e7b26b816ac839aaa0fe817e871c099647eca7dd65624c6047",
+  "sha256": "a74732bb90e0da78cfe4c5b74131a488b9c1dc870f41d021dadfc40ef9c10608",
   "inputs": [
     {
       "file": "../../B-002/engine/configs.ts",
@@ -105,12 +106,16 @@
       "sha256": "1d3076c3a9cd1721d3f5e9a01727672cd1603810bea5af2547a9fb050d839f44"
     },
     {
+      "file": "src/grove-pair-admission.ts",
+      "sha256": "d5b2a386243e903ea1bb0d5105bef0fd32bf32e7a010e208e062fe1edfa439b3"
+    },
+    {
       "file": "src/hugo-trigger.ts",
-      "sha256": "a9877fb6bfe59eb1baedc3fdab2b708829fa24ac1aa2b1f7a73b9726a3cc6092"
+      "sha256": "7ad54b9ac14fa6569c2bb3adcbc3c98878b9eefb5f0bb94f3be54bfefaa8459b"
     },
     {
       "file": "src/leaderboard-validation.ts",
-      "sha256": "5175a7e6b7bf60b300c4b1722e315326d14003e589cf88a90288cb758a60c98a"
+      "sha256": "86cd6f1efc5983a73a06b58df86e1085072cfa2e86d6df5b0421af03e1882bdf"
     },
     {
       "file": "src/leaderboard-wire.ts",
@@ -138,7 +143,7 @@
     },
     {
       "file": "src/records.ts",
-      "sha256": "65304f28a0f30cc87ef8346899da9feab4c1830ee92ab7a4063c9a35f222089d"
+      "sha256": "ce273a6729e10bc5176f4852b1de608811e22081b5e5833cf88e9dd95d3547f9"
     },
     {
       "file": "src/replay-practice.ts",
@@ -150,7 +155,7 @@
     },
     {
       "file": "src/run.ts",
-      "sha256": "da6f77f4a231f56c8a7dbf4fe28ec397ae83dd987e160b4e27f635be320d62fc"
+      "sha256": "a694349d3ee68a952266d08eda1d2728393882b37399988f94126dd58384d667"
     },
     {
       "file": "src/score-codec.ts",
@@ -158,7 +163,7 @@
     },
     {
       "file": "src/score-config.ts",
-      "sha256": "aef31369960f56268b6d2a2f8d29de5fca7222230cf544606850754b159e1351"
+      "sha256": "62731d93c886631e7a34f0cbf2a262770d9823bea629a548ce14f2e7c2a0bb13"
     },
     {
       "file": "src/test-mode-gate.ts",
@@ -174,7 +179,7 @@
     },
     {
       "file": "supabase/replay-entry.ts",
-      "sha256": "77774cc2f9be6d70e6981965dacd40414268aa542ec7d9a9bf516fd05be22083"
+      "sha256": "9abee9d8f0f4bef1a5d4cc34bc587491bf8ff965f11b424610129e138f800bbb"
     },
     {
       "file": "supabase/warp-replay.ts",
@@ -289,14 +294,19 @@
       "file": "server/weft-leaderboard/historical/canonical-replay-948f4b3d.mjs",
       "sha256": "948f4b3d1bc32b61cd46e69ba2e8f43854e97c23080e771b5a22dac29ff382e8",
       "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-5213bd9e.mjs",
+      "sha256": "5213bd9e416c63e7b26b816ac839aaa0fe817e871c099647eca7dd65624c6047",
+      "accepted": true
     }
   ],
   "previousCurrent": {
-    "file": "../../B-057/v6.24.19/server/weft-leaderboard/canonical-replay.mjs",
-    "sha256": "948f4b3d1bc32b61cd46e69ba2e8f43854e97c23080e771b5a22dac29ff382e8",
+    "file": "../../B-058/v6.24.20/server/weft-leaderboard/canonical-replay.mjs",
+    "sha256": "5213bd9e416c63e7b26b816ac839aaa0fe817e871c099647eca7dd65624c6047",
     "accepted": true
   },
   "deploymentRequired": true,
   "newMigrationRequired": true,
-  "currentWritePolicy": "Earned4 preserves earned3 gameplay and adds explicit End game (byte63) only after exhaustive no-way-out proof within deterministic1000000-node bound. End banks the live chain once and marks loss without consuming stock/cards or paying clear rewards. Trusted local worker authorization is opaque/nonserialized; server independently proves. Live earned2/3 writes remain accepted as6.24.18/19. Active earned3 Continue is replay-upgraded to4 with exact card/stock/action/score/history identity; ended historical records unchanged. Only additive migration006 admits public20 using live scores_current_clear_v2; never reapply002/004/005 or reset."
+  "currentWritePolicy": "Hugo8 only for fresh Classic writes, earned4 unchanged. Exact two-rank6/7 or7/6 with optional initialThread, followed by accepted Draw/Joker. Ordinary solver-verified Grove decks plus a both-buried pair; old6767 shaping remains historical only. All17 historical authorities verify row-exact; pre21 Classic current writes UPDATE_GAME_REQUIRED. Daily/Warp unchanged. New007 locks/archive-verifies/hides ALL score rows once, keeps badges, adds21 to actual scores_current_clear_v2; noDELETE or reapplication of old migrations."
 }
