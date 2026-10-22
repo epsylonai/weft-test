@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "approved": true,
+  "reason": "Owner-approved Kling3Pro take delivered by Claude; current stable bytes pinned explicitly. Supplied checksum ledger disagrees for derived MP4s/PNGs, documented separately.",
+  "sourceSize": [
+    934,
+    1684
+  ],
+  "movie": null,
+  "profiles": [
+    {
+      "id": "393x852",
+      "logicalSize": [
+        393,
+        852
+      ],
+      "finalFrames": {
+        "1": {
+          "src": "anabelle/ending/393x852-kiss-release-1x-db40556a016e2802.webp",
+          "sha256": "db40556a016e2802eca42a000a3c5bd91820aab46db7e069663f6b87a8f260b2",
+          "bytes": 548310
+        },
+        "2": {
+          "src": "anabelle/ending/393x852-kiss-release-2x-d12f6fb1f723f827.webp",
+          "sha256": "d12f6fb1f723f8275a27f58f4a1d5f5641ab6d328a21bbd8c3817e37072ed7a8",
+          "bytes": 1783756
+        }
+      },
+      "movie": {
+        "src": "anabelle/ending/393x852-poodle-ending-e8f92be06132896f.mp4",
+        "sha256": "e8f92be06132896fe9f5800a6c4a71e030261c8a3fca4d66a4694bf388f111a3",
+        "bytes": 1017953,
+        "format": "opaque",
+        "mime": "video/mp4",
+        "width": 786,
+        "height": 1704,
+        "durationMs": 5041.667,
+        "releaseAtMs": 3790,
+        "firstFrameVerified": true,
+        "contactVerified": true,
+        "fixedCameraVerified": true
+      }
+    },
+    {
+      "id": "375x600",
+      "logicalSize": [
+        375,
+        600
+      ],
+      "finalFrames": {
+        "1": {
+          "src": "anabelle/ending/375x600-kiss-release-1x-00d2b98a00b1bd25.webp",
+          "sha256": "00d2b98a00b1bd250f91c98f21d7d6efb05b97dd303168b3efada0e5c03499f9",
+          "bytes": 405336
+        },
+        "2": {
+          "src": "anabelle/ending/375x600-kiss-release-2x-b75b904dc2a57c22.webp",
+          "sha256": "b75b904dc2a57c2284ff590a9ebfad6989c1678f5a3ddb2cb9076c60660a909f",
+          "bytes": 1380248
+        }
+      },
+      "movie": {
+        "src": "anabelle/ending/375x600-poodle-ending-6ea4ccbcec604c18.mp4",
+        "sha256": "6ea4ccbcec604c1806645cabb869bf8d9eb804f06741a7118721f89d629a0af6",
+        "bytes": 799107,
+        "format": "opaque",
+        "mime": "video/mp4",
+        "width": 750,
+        "height": 1200,
+        "durationMs": 5041.667,
+        "releaseAtMs": 3790,
+        "firstFrameVerified": true,
+        "contactVerified": true,
+        "fixedCameraVerified": true
+      }
+    }
+  ],
+  "sourceApproval": {
+    "readmeSha256": "2a7b6eea14e71126efcd551e8d794f1906964d707bdef74863bff2a12b953ed2",
+    "generation": "pqfVD8R9kKaZB0TRX3A2",
+    "camera": "fixed",
+    "releaseFrame": 92,
+    "fps": 24,
+    "frames": 121,
+    "silent": true,
+    "referenceMovieSourceRegistration": "Profile movies already registered to exact design crops; no source9:16stretch."
+  }
+}
