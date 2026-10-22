@@ -1,0 +1,155 @@
+{
+  "status": "prepared-not-deployed",
+  "version": "6.24.18",
+  "brief": "B-056 final owner earned2 combined release",
+  "canonicalSha256": "27886779db3b363209e4d2888771420f56df54a51be201887cbe0695ec56b454",
+  "files": [
+    {
+      "file": "server/weft-leaderboard/canonical-replay.mjs",
+      "bytes": 186741,
+      "sha256": "27886779db3b363209e4d2888771420f56df54a51be201887cbe0695ec56b454"
+    },
+    {
+      "file": "server/weft-leaderboard/canonical-replay-manifest.json",
+      "bytes": 10994,
+      "sha256": "4f1aab13fd1132d5340a1edf3e064e090eaa37d050673dce9c49066e940783b8"
+    },
+    {
+      "file": "server/weft-leaderboard/index.ts",
+      "bytes": 5100,
+      "sha256": "fb4a0b99ba143974c002c02c725fcdd27af48f5e93cb6c9108ef17501808dc47"
+    },
+    {
+      "file": "server/weft-leaderboard/202610220002_earned_jokers_season.sql",
+      "bytes": 1681,
+      "sha256": "e43488d6476afe07d93c16142f16e2bd44bdaa284fb57112f17d33b5c663c085"
+    },
+    {
+      "file": "server/weft-leaderboard/202610220004_anabelle_earned2.sql",
+      "bytes": 5274,
+      "sha256": "ee89e521a384023a3dadf842c1babcda1326d9373b2ea5871f20b2c0466b06ad"
+    },
+    {
+      "file": "server/weft-leaderboard/B055-ROLLBACK.sql",
+      "bytes": 880,
+      "sha256": "116b454f24c55ff0ab503d42e9aad74bf73ccc570170b2e2411534a50507eb80"
+    },
+    {
+      "file": "server/weft-leaderboard/README-B056-EARNED2.md",
+      "bytes": 2851,
+      "sha256": "0e5cdba32ea2915c95bb147f68175dddf2e45aadb42619392acadfe4ad679813"
+    }
+  ],
+  "acceptance": {
+    "file": "test-output/b056-earned2/acceptance.json",
+    "bytes": 33576,
+    "sha256": "2e351b65afc51609931900aef72a8202108f41e7ad08872e9311a3fb369035a7"
+  },
+  "ledger": {
+    "file": "server/weft-leaderboard/B056-EARNED2-FILES.sha256",
+    "bytes": 5624,
+    "sha256": "88257a2509065146a96a73d5a98c74682ba266a9d746cd2cbd427a6478d31e02"
+  },
+  "historicalAuthorities": [
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-756acac0.mjs",
+      "bytes": 102782,
+      "sha256": "756acac049db13ce91dd965ff33da1fe939bcb6c56af8c1a013701032608b1ea"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-e32be620.mjs",
+      "bytes": 112120,
+      "sha256": "e32be62030f65a304446f82c5c419035e1efc7812af8ef85732d12931032573e"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-31c382ef.mjs",
+      "bytes": 120292,
+      "sha256": "31c382efb9d2f5b90807edacd2b0984c352b85507358e2c1fc1407af4c8ed6f7"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-1acc4654.mjs",
+      "bytes": 126629,
+      "sha256": "1acc4654f68958217a0ecfe6b8c06d3e6082ba0277ea949c6ab7a4db7ba4a897"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-02b96949.mjs",
+      "bytes": 131806,
+      "sha256": "02b9694947c1b4a475679c705fb939f75b59a020cd6a3e73aad38d34cf8ecfce"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-05bd763a.mjs",
+      "bytes": 139599,
+      "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-9a0cdaea.mjs",
+      "bytes": 142653,
+      "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-21d5e8ee.mjs",
+      "bytes": 144485,
+      "sha256": "21d5e8ee337e97b0d7ff5574d96d085596023bb373c856f48e6dc0fa6ef36f30"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-156cfcd3.mjs",
+      "bytes": 146434,
+      "sha256": "156cfcd328460fa799d72c43ccf2577eead891192e0a86f9485958c5107b3006"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-e730d478.mjs",
+      "bytes": 152594,
+      "sha256": "e730d478b39b66c126f6ef6b843852d964bfda14d4f4a9af9d5a81a32b2f6d2d"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-40ea4cf1.mjs",
+      "bytes": 164792,
+      "sha256": "40ea4cf12a529950311ea23d2ef8230c1082fffd61e35038b612089a3aa14128"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-838192bc.mjs",
+      "bytes": 172696,
+      "sha256": "838192bc4b81e69a6847ad4694c1e8142c0289dc5a93ca9650daa9a76c4597f5"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-ea302ca4.mjs",
+      "bytes": 180050,
+      "sha256": "ea302ca4356238b6d18583399a8683e0ed721070b330a283c66aa376bd4a0849"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-0379b03d.mjs",
+      "bytes": 181867,
+      "sha256": "0379b03d9ffa4eabc40f7f52f81ea1b7c8ed5f65eb209d4b588c9f9fef414488"
+    }
+  ],
+  "previousCurrent": {
+    "file": "../v6.24.17/server/weft-leaderboard/canonical-replay.mjs",
+    "sha256": "0379b03d9ffa4eabc40f7f52f81ea1b7c8ed5f65eb209d4b588c9f9fef414488",
+    "accepted": true
+  },
+  "reset": {
+    "file": "server/weft-leaderboard/202610220002_earned_jokers_season.sql",
+    "bytes": 1681,
+    "sha256": "e43488d6476afe07d93c16142f16e2bd44bdaa284fb57112f17d33b5c663c085"
+  },
+  "migration": {
+    "file": "server/weft-leaderboard/202610220004_anabelle_earned2.sql",
+    "bytes": 5274,
+    "sha256": "ee89e521a384023a3dadf842c1babcda1326d9373b2ea5871f20b2c0466b06ad"
+  },
+  "rollback": {
+    "file": "server/weft-leaderboard/B055-ROLLBACK.sql",
+    "bytes": 880,
+    "sha256": "116b454f24c55ff0ab503d42e9aad74bf73ccc570170b2e2411534a50507eb80"
+  },
+  "sqlAction": "PREPARED ONLY: unchanged B055 locked archive+hide reset once and unchanged all-kind rollback; then additive Anabelle badge/projection plus public6.24.18 version migration004. Prepared003/oldv17 is superseded before deployment. No extra reset, no deletion, no SQL executed.",
+  "ownerOrder": [
+    "Do not deploy old prepared0379/e784 orv17/build24",
+    "Apply locked B055 archive+hide reset once",
+    "Apply additive migration004 for Anabelle badge/projection and public18",
+    "Pin exact current canonical with unchanged hardened wrapper; check genuine/forged/history",
+    "Publish matching sealed combined client"
+  ],
+  "deploymentExecuted": false,
+  "databaseExecuted": false
+}

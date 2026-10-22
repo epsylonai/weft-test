@@ -1,31 +1,46 @@
 {
-  "version": "6.24.14",
-  "brief": "B-052 Note2 endless Classic",
+  "version": "6.24.18",
+  "brief": "B-056 Anabelle third secret, combined B054/B055/B056",
   "rulesVersion": "6.24.14",
-  "hugoFeature": "hugo-6",
+  "anabelleFeature": "anabelle-2",
+  "secretProgression": "inserted-world-cursor-v1",
+  "jokerVersion": "earned-2",
+  "legacyJokerVersions": [
+    "earned-1"
+  ],
+  "jokerCap": 1,
+  "jokerThreshold": 10,
+  "actionEncoding": "0–29 play;30 draw;31 historical bank;32–61 earned joker position;62 scenery pet (no card/scoring mutation)",
+  "hugoFeature": "hugo-7",
+  "windowFeature": "window-7",
   "legacyHugoFeatures": [
     "hugo-1",
     "hugo-2",
     "hugo-3",
     "hugo-4",
-    "hugo-5"
+    "hugo-5",
+    "hugo-6"
   ],
-  "windowFeature": "window-6",
   "legacyWindowFeatures": [
     "window-1",
     "window-2",
     "window-3",
     "window-4",
-    "window-5"
+    "window-5",
+    "window-6"
+  ],
+  "legacyAnabelleFeatures": [
+    "anabelle-1"
   ],
   "scoringVersion": "level-v4",
   "unchangedScoringVersions": [
     "legacy",
     "clear-v2",
-    "level-v3"
+    "level-v3",
+    "level-v4"
   ],
   "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
-  "sha256": "40ea4cf12a529950311ea23d2ef8230c1082fffd61e35038b612089a3aa14128",
+  "sha256": "27886779db3b363209e4d2888771420f56df54a51be201887cbe0695ec56b454",
   "inputs": [
     {
       "file": "../../B-002/engine/configs.ts",
@@ -60,8 +75,16 @@
       "sha256": "4151ff98caff4ada906bff06368a2e50ac225d52aa1917cd5d825b6e689b3c51"
     },
     {
+      "file": "src/anabelle-trigger.ts",
+      "sha256": "962caab65e701ae9e0e8f9832cc1123ac873e814ef2c8813c91a7ddd461660cf"
+    },
+    {
       "file": "src/daily.ts",
       "sha256": "871456d69b0d1f8e0e9767499266227ea6943ca231cc407437805554bf5ad304"
+    },
+    {
+      "file": "src/earned-jokers.ts",
+      "sha256": "2b76793156b466a06fb12d8bf42776e4b6ea56e1e1704a44e0e3b3914d930a44"
     },
     {
       "file": "src/endless-deal.ts",
@@ -73,15 +96,15 @@
     },
     {
       "file": "src/hugo-trigger.ts",
-      "sha256": "5078f6872959ad4a9cac9c536f40fbfafbf79347b8fdd74476e159d2de91bdfa"
+      "sha256": "a9877fb6bfe59eb1baedc3fdab2b708829fa24ac1aa2b1f7a73b9726a3cc6092"
     },
     {
       "file": "src/leaderboard-validation.ts",
-      "sha256": "7bad996fbfc5642a121a78f41f30af97a07d9553723cf757a45e38277912b4b8"
+      "sha256": "5175a7e6b7bf60b300c4b1722e315326d14003e589cf88a90288cb758a60c98a"
     },
     {
       "file": "src/leaderboard-wire.ts",
-      "sha256": "6506e31507bfaccf5b2f562616780d23f32177f6887c5d26f175acef96fd08ec"
+      "sha256": "9d440d17b579385dd7205fa96ae6ad5b2d8a5d14c3a20e68f84e7da63f050ac0"
     },
     {
       "file": "src/neon-window-admission.ts",
@@ -89,15 +112,23 @@
     },
     {
       "file": "src/nickname.ts",
-      "sha256": "ff927dfd8363f4e3f51075adff878ba0ae935413146b1d2d95827251b608cf3b"
+      "sha256": "8155afcdcf2c4650e1087c28e46874fdb0813af2987f454a573fede13828784f"
     },
     {
       "file": "src/play-mode.ts",
       "sha256": "9a23eddacdbd055fdf8c0cee7ed672c1a7d05502b0e6755cf359104cb935fccc"
     },
     {
+      "file": "src/player-code.ts",
+      "sha256": "621df771679840d655b3992dbfea86fb804d6f417639eaad6a9cbeba9d768035"
+    },
+    {
+      "file": "src/player-identity-backup.ts",
+      "sha256": "8e72a4552feb9397e6a24064522f619e5a81bf84e4de63ef6751c4a194dd3d00"
+    },
+    {
       "file": "src/records.ts",
-      "sha256": "933e74c6de2ebf1160eea9fb4dcc3904c922042ed8b0b73cbe38fba358c0fa2e"
+      "sha256": "65304f28a0f30cc87ef8346899da9feab4c1830ee92ab7a4063c9a35f222089d"
     },
     {
       "file": "src/replay-practice.ts",
@@ -109,15 +140,15 @@
     },
     {
       "file": "src/run.ts",
-      "sha256": "17d45f849acddb4b0ae813aa0f780681717bd4ace7113810d744b52cd9b36b65"
+      "sha256": "da6f77f4a231f56c8a7dbf4fe28ec397ae83dd987e160b4e27f635be320d62fc"
     },
     {
       "file": "src/score-codec.ts",
-      "sha256": "c0332ec839afda0cc327c1be2bd26b9252c2da3796eb1e43e7cc6bb4f8964718"
+      "sha256": "d4e1152e74d49712d933db19a3a59946f8d7dc62a0d3e5ce6ef3a5c40b522df2"
     },
     {
       "file": "src/score-config.ts",
-      "sha256": "c596d7b373c07423ab527202662b21033585cd927c2698b6385f0c4f32b59495"
+      "sha256": "aef31369960f56268b6d2a2f8d29de5fca7222230cf544606850754b159e1351"
     },
     {
       "file": "src/test-mode-gate.ts",
@@ -125,7 +156,7 @@
     },
     {
       "file": "src/window-trigger.ts",
-      "sha256": "52fde69b1226489b6d3e6c91f1a900d8252b1487951cb7ddb05a89f7df8d354a"
+      "sha256": "a39ee40e111df232732afefc817a4fca0e86b224c2422ad5ae2d2cd74f08e3c2"
     },
     {
       "file": "src/world-config.ts",
@@ -133,7 +164,7 @@
     },
     {
       "file": "supabase/replay-entry.ts",
-      "sha256": "4a64ee498d0e3164e0971f0d36ff384d656405220b379698ca2587c9be32852d"
+      "sha256": "f8ee5cbb60c7aafc118e1b100e73555e9b29814b29f1435d7923aff1565839da"
     },
     {
       "file": "supabase/warp-replay.ts",
@@ -218,13 +249,34 @@
       "file": "server/weft-leaderboard/historical/canonical-replay-e730d478.mjs",
       "sha256": "e730d478b39b66c126f6ef6b843852d964bfda14d4f4a9af9d5a81a32b2f6d2d",
       "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-40ea4cf1.mjs",
+      "sha256": "40ea4cf12a529950311ea23d2ef8230c1082fffd61e35038b612089a3aa14128",
+      "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-838192bc.mjs",
+      "sha256": "838192bc4b81e69a6847ad4694c1e8142c0289dc5a93ca9650daa9a76c4597f5",
+      "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-ea302ca4.mjs",
+      "sha256": "ea302ca4356238b6d18583399a8683e0ed721070b330a283c66aa376bd4a0849",
+      "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-0379b03d.mjs",
+      "sha256": "0379b03d9ffa4eabc40f7f52f81ea1b7c8ed5f65eb209d4b588c9f9fef414488",
+      "accepted": true
     }
   ],
   "previousCurrent": {
-    "file": "../../B-051/v6.24.13/server/weft-leaderboard/canonical-replay.mjs",
-    "sha256": "e730d478b39b66c126f6ef6b843852d964bfda14d4f4a9af9d5a81a32b2f6d2d",
+    "file": "../v6.24.17/server/weft-leaderboard/canonical-replay.mjs",
+    "sha256": "0379b03d9ffa4eabc40f7f52f81ea1b7c8ed5f65eb209d4b588c9f9fef414488",
     "accepted": true
   },
   "deploymentRequired": true,
-  "currentWritePolicy": "New Classic continues until a lost board. Ten-world route cycles; stock L11=14 down to L24=1 (Thread only), then stays1. Factor capped20 and clear bonus50000 from L10. Hugo6/Window6 replace the next position without a ten-position boundary; all historical versions remain exact. New rows use6.24.14; prepared SQL permits that marker alongside6.23, without a wipe."
+  "newMigrationRequired": true,
+  "currentWritePolicy": "Earned2 Classic holds one Joker. A Joker banks the prior combo and selects any free board card as the new Thread without counting as a play; the next ten clean ordinary plays award one Joker. No dead-end auto-bank or automatic loss; real draw banks, and an empty Spool Finish is deliberate and eligible only with no legal plays and no held Joker. Final card still banks and may award before Clear. Sealed earned1 behavior remains exact historically and is update-required for current Classic writes. New Hugo7/Window7/Anabelle2 Classic authority records three pet actions on an active ordinary actual Golden Palace (world2), witness seed+three action indices. The taps mutate no card, rank, hand, chain, stock, score or joker. All three new secret versions insert a next numbered difficulty position, receive its stock/factor/spool and Clear bonuses, and carry jokers; the ordinary world cursor is not consumed. After L1→secretL2, ordinaryL3 shows the world originally next at L2. No ordinary world is skipped; endless beyond10 supported. Dog badge only from a canonical cleared secret result. Every Hugo1–6/Window1–6/Anabelle1 and sealed B055 earned proof remains exact. Public earned2 rows6.24.18; historical Anabelle-earned1 rows6.24.17 and B055 earned1 rows6.24.16 remain exact; Daily/Warp6.23. Apply the unchanged B055 locked archive/hide migration once plus new three-badge projection/version migration; no second reset, no deletion."
 }
