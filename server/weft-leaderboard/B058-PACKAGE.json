@@ -1,0 +1,144 @@
+{
+  "status": "prepared-not-deployed",
+  "version": "6.24.20",
+  "brief": "B-058 exact no-way-out voluntary End game",
+  "canonicalSha256": "5213bd9e416c63e7b26b816ac839aaa0fe817e871c099647eca7dd65624c6047",
+  "files": [
+    {
+      "file": "server/weft-leaderboard/canonical-replay.mjs",
+      "bytes": 196650,
+      "sha256": "5213bd9e416c63e7b26b816ac839aaa0fe817e871c099647eca7dd65624c6047"
+    },
+    {
+      "file": "server/weft-leaderboard/canonical-replay-manifest.json",
+      "bytes": 10921,
+      "sha256": "831a44feb00aa7c7127af289cf29c5db4eb6ddb9a84fb51abd048f55021bf41f"
+    },
+    {
+      "file": "server/weft-leaderboard/index.ts",
+      "bytes": 5100,
+      "sha256": "fb4a0b99ba143974c002c02c725fcdd27af48f5e93cb6c9108ef17501808dc47"
+    },
+    {
+      "file": "server/weft-leaderboard/202610220006_verified_end_version.sql",
+      "bytes": 385,
+      "sha256": "1e49b429e8310802d1b8431d5e3c040e049a14c71f4201796b495d08a9ee4651"
+    },
+    {
+      "file": "server/weft-leaderboard/README-B058.md",
+      "bytes": 2143,
+      "sha256": "822ba3826fe4135419cd638cfbb564049ccb378a1a18aa449f26ddcc4093d4de"
+    }
+  ],
+  "acceptance": {
+    "file": "test-output/b058-server/acceptance.json",
+    "bytes": 43976,
+    "sha256": "48f88250e49ae00af2a9104060dc8247ddb7a3d346e6b8c4a46807fc3a7128c3"
+  },
+  "ledger": {
+    "file": "server/weft-leaderboard/B058-FILES.sha256",
+    "bytes": 7348,
+    "sha256": "a127707ea8101c532e18c673b9a2baff81857894da9e5fd4800814d95c79ae45"
+  },
+  "historicalAuthorities": [
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-756acac0.mjs",
+      "bytes": 102782,
+      "sha256": "756acac049db13ce91dd965ff33da1fe939bcb6c56af8c1a013701032608b1ea"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-e32be620.mjs",
+      "bytes": 112120,
+      "sha256": "e32be62030f65a304446f82c5c419035e1efc7812af8ef85732d12931032573e"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-31c382ef.mjs",
+      "bytes": 120292,
+      "sha256": "31c382efb9d2f5b90807edacd2b0984c352b85507358e2c1fc1407af4c8ed6f7"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-1acc4654.mjs",
+      "bytes": 126629,
+      "sha256": "1acc4654f68958217a0ecfe6b8c06d3e6082ba0277ea949c6ab7a4db7ba4a897"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-02b96949.mjs",
+      "bytes": 131806,
+      "sha256": "02b9694947c1b4a475679c705fb939f75b59a020cd6a3e73aad38d34cf8ecfce"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-05bd763a.mjs",
+      "bytes": 139599,
+      "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-9a0cdaea.mjs",
+      "bytes": 142653,
+      "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-21d5e8ee.mjs",
+      "bytes": 144485,
+      "sha256": "21d5e8ee337e97b0d7ff5574d96d085596023bb373c856f48e6dc0fa6ef36f30"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-156cfcd3.mjs",
+      "bytes": 146434,
+      "sha256": "156cfcd328460fa799d72c43ccf2577eead891192e0a86f9485958c5107b3006"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-e730d478.mjs",
+      "bytes": 152594,
+      "sha256": "e730d478b39b66c126f6ef6b843852d964bfda14d4f4a9af9d5a81a32b2f6d2d"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-40ea4cf1.mjs",
+      "bytes": 164792,
+      "sha256": "40ea4cf12a529950311ea23d2ef8230c1082fffd61e35038b612089a3aa14128"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-838192bc.mjs",
+      "bytes": 172696,
+      "sha256": "838192bc4b81e69a6847ad4694c1e8142c0289dc5a93ca9650daa9a76c4597f5"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-ea302ca4.mjs",
+      "bytes": 180050,
+      "sha256": "ea302ca4356238b6d18583399a8683e0ed721070b330a283c66aa376bd4a0849"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-0379b03d.mjs",
+      "bytes": 181867,
+      "sha256": "0379b03d9ffa4eabc40f7f52f81ea1b7c8ed5f65eb209d4b588c9f9fef414488"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-27886779.mjs",
+      "bytes": 186741,
+      "sha256": "27886779db3b363209e4d2888771420f56df54a51be201887cbe0695ec56b454"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-948f4b3d.mjs",
+      "bytes": 187443,
+      "sha256": "948f4b3d1bc32b61cd46e69ba2e8f43854e97c23080e771b5a22dac29ff382e8"
+    }
+  ],
+  "previousCurrent": {
+    "file": "../../B-057/v6.24.19/server/weft-leaderboard/canonical-replay.mjs",
+    "sha256": "948f4b3d1bc32b61cd46e69ba2e8f43854e97c23080e771b5a22dac29ff382e8",
+    "accepted": true
+  },
+  "migration": {
+    "file": "server/weft-leaderboard/202610220006_verified_end_version.sql",
+    "bytes": 385,
+    "sha256": "1e49b429e8310802d1b8431d5e3c040e049a14c71f4201796b495d08a9ee4651"
+  },
+  "sqlAction": "PREPARED ONLY: apply ONLY additive006 to real live scores_current_clear_v2, retaining6.23/14/16/17/18/19 and adding20.002/004/005 already live; DO NOT reapply or reset/archive/hide/delete. No database/network/deployment action performed.",
+  "ownerOrder": [
+    "Do not reapply002/004/005 or reset scores",
+    "Apply only additive006 version20 on actual live scores_current_clear_v2",
+    "Pin new canonical with unchanged hardened wrapper; genuine4/live3/live2/forged/historical checks",
+    "Publish matching sealed20 client"
+  ],
+  "deploymentExecuted": false,
+  "databaseExecuted": false
+}

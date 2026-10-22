@@ -1,17 +1,18 @@
 {
-  "version": "6.24.19",
-  "brief": "B-057 owner conditional dead-end collection; Paw Pavilion presentation",
+  "version": "6.24.20",
+  "brief": "B-058 exact no-way-out voluntary End game",
   "rulesVersion": "6.24.14",
   "anabelleFeature": "anabelle-2",
   "secretProgression": "inserted-world-cursor-v1",
-  "jokerVersion": "earned-3",
+  "jokerVersion": "earned-4",
   "legacyJokerVersions": [
     "earned-1",
-    "earned-2"
+    "earned-2",
+    "earned-3"
   ],
   "jokerCap": 1,
   "jokerThreshold": 10,
-  "actionEncoding": "0–29 play;30 draw;31 historical bank;32–61 earned joker position;62 scenery pet (no card/scoring mutation)",
+  "actionEncoding": "0–29 play;30 draw;31 historical bank;32–61 earned joker position;62 scenery pet (no card/scoring mutation);63 verified End game",
   "hugoFeature": "hugo-7",
   "windowFeature": "window-7",
   "legacyHugoFeatures": [
@@ -41,7 +42,7 @@
     "level-v4"
   ],
   "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
-  "sha256": "948f4b3d1bc32b61cd46e69ba2e8f43854e97c23080e771b5a22dac29ff382e8",
+  "sha256": "5213bd9e416c63e7b26b816ac839aaa0fe817e871c099647eca7dd65624c6047",
   "inputs": [
     {
       "file": "../../B-002/engine/configs.ts",
@@ -85,7 +86,15 @@
     },
     {
       "file": "src/earned-jokers.ts",
-      "sha256": "5124e96f4d52582a7245da1699b2dfda28df42ede6ff111882ca1ee91b8f78fc"
+      "sha256": "9d6ec2a4ec283f7b06a2f105b5f0339d44c3ef217bdf953f33a7c6276d739976"
+    },
+    {
+      "file": "src/endgame-authorization.ts",
+      "sha256": "56ca5c4b6df0cc6cd242336b9f4d7b0417178f4b690d10eb690ec1a549619021"
+    },
+    {
+      "file": "src/endgame-solver.ts",
+      "sha256": "6e7ef50c8ce87218ce19c80c3a52fa542c1ba1279a29c92fc566da281fed2f38"
     },
     {
       "file": "src/endless-deal.ts",
@@ -145,7 +154,7 @@
     },
     {
       "file": "src/score-codec.ts",
-      "sha256": "d4e1152e74d49712d933db19a3a59946f8d7dc62a0d3e5ce6ef3a5c40b522df2"
+      "sha256": "8d45a1ae31bdc9b0583a6e3e0a1c7935fa30db7f551e89fb99e8ee7c74c82c3d"
     },
     {
       "file": "src/score-config.ts",
@@ -165,7 +174,7 @@
     },
     {
       "file": "supabase/replay-entry.ts",
-      "sha256": "ca2dd19d015b189e7b3e682696ed52a1d87e82873c6b482dbecb33e7bda42112"
+      "sha256": "77774cc2f9be6d70e6981965dacd40414268aa542ec7d9a9bf516fd05be22083"
     },
     {
       "file": "supabase/warp-replay.ts",
@@ -275,14 +284,19 @@
       "file": "server/weft-leaderboard/historical/canonical-replay-27886779.mjs",
       "sha256": "27886779db3b363209e4d2888771420f56df54a51be201887cbe0695ec56b454",
       "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-948f4b3d.mjs",
+      "sha256": "948f4b3d1bc32b61cd46e69ba2e8f43854e97c23080e771b5a22dac29ff382e8",
+      "accepted": true
     }
   ],
   "previousCurrent": {
-    "file": "../../B-056/v6.24.18/server/weft-leaderboard/canonical-replay.mjs",
-    "sha256": "27886779db3b363209e4d2888771420f56df54a51be201887cbe0695ec56b454",
+    "file": "../../B-057/v6.24.19/server/weft-leaderboard/canonical-replay.mjs",
+    "sha256": "948f4b3d1bc32b61cd46e69ba2e8f43854e97c23080e771b5a22dac29ff382e8",
     "accepted": true
   },
   "deploymentRequired": true,
   "newMigrationRequired": true,
-  "currentWritePolicy": "Earned3 fixes dead ends: without a held Joker bank immediately, and if Spool is exhausted mark stuck. With a held Joker preserve the live combo and choice. Cap1, anytime free-card selection as new Thread, clean10 awards and final Clear carry unchanged. Live earned2 records/writes remain accepted as6.24.18; earned3 emits6.24.19, no season reset. Historical earned1 and all fifteen old authorities remain row/ID exact. Active earned2 Continue is explicitly validated and replay-upgraded to3 preserving cards/stock/actions/completedtotals and secret routes; ended2 records are unchanged. Apply only additive version19 constraint migration005;002/004 were already applied live and MUST NOT be reapplied. No SQL/deployment executed."
+  "currentWritePolicy": "Earned4 preserves earned3 gameplay and adds explicit End game (byte63) only after exhaustive no-way-out proof within deterministic1000000-node bound. End banks the live chain once and marks loss without consuming stock/cards or paying clear rewards. Trusted local worker authorization is opaque/nonserialized; server independently proves. Live earned2/3 writes remain accepted as6.24.18/19. Active earned3 Continue is replay-upgraded to4 with exact card/stock/action/score/history identity; ended historical records unchanged. Only additive migration006 admits public20 using live scores_current_clear_v2; never reapply002/004/005 or reset."
 }
