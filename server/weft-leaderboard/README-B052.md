@@ -1,0 +1,13 @@
+# B-052 · endless Classic · prepared server-first package
+
+Deploy only the files pinned in `B052-PACKAGE.json`. Nothing in this folder has been deployed by ChatGPT.
+
+1. Apply **only** `202610220001_endless_classic_rows.sql`. It broadens the existing `scores_current_clear_v2` version check to admit `6.24.14` alongside historical `6.23`. It deletes, resets and recalculates nothing. Do not reapply any inherited season/reset migration.
+2. Commit the exact `canonical-replay.mjs`, then pin the Edge import to that immutable URL. Retain the current handler's keys, CORS, rate limit, error handling and `run-score` / `warp-run-score` whitelist. The supplied handler remains byte-identical to B-051.
+3. Locally test the three accepted genuine proofs pinned by the packet (26 clears then loss27; Hugo6 at11; Window6 at11), their forgeries and historical parity. Publish the client only after server acceptance.
+
+New Classic uses curve `6.24.14`, scoring `level-v4` and secret versions `hugo-6` / `window-6`. World routes repeat every ten positions. The original first ten stock counts remain; L11=14, decreasing by one to L24=1, then staying1. One includes the starting Thread and leaves no draw cards. Every board is exact-solver verified. A bounded, deterministic new admission uses up to32 shuffled candidates and then a seeded constructive witness, with the existing engine/solver unchanged. Grove's voluntary-draw opportunity is impossible at stock1 and is omitted there; it is constructed and verified at stock2 or above. Neon still has the fixed heart ace among its30 board cards.
+
+From L10 onward the factor stays20, the level Clear reward stays50,000, and the scaled unused-Spool reward remains1,000 per draw card. Secret6 boards replace the next actual position even after10; they use that position's complete stock and rewards. The following ordinary board advances to the subsequent position. A run ends only when a board is lost. Daily and Warp are unchanged. Historical finite `6.14` Continue and completion remain finite, and all Hugo1–5 / Window1–5 proofs retain exact seeds, scores, rows and identities.
+
+New rows use public version `6.24.14` so the client can distinguish an endless level11 from the historical finite completion marker. No ranking, season, badges, row shape, table column or public query changes are needed. The checked-in SQL has no ten-level cap: `level_reached` is a positive PostgreSQL integer. Its integer ceiling is a storage bound, not a game-ending rule. The unchanged1MiB request limit and10,000-board compact-proof decoder limit are submission resource guards; a larger local game can continue, and an oversized proof is retained locally rather than ending the game.

@@ -1,0 +1,3182 @@
+{
+  "record": {
+    "id": "weft-run-cdeff77ea77d110a",
+    "date": "2026-10-22T09:00:00.000Z",
+    "version": "6.24.14",
+    "rootSeed": "104",
+    "levelsCleared": 12,
+    "runScore": 1545350,
+    "perLevel": [
+      {
+        "level": 1,
+        "world": 5,
+        "spool": 28,
+        "generation": "endless-1",
+        "seed": "104",
+        "moves": [
+          {
+            "type": "play",
+            "position": 27
+          },
+          {
+            "type": "play",
+            "position": 29
+          },
+          {
+            "type": "play",
+            "position": 28
+          },
+          {
+            "type": "play",
+            "position": 24
+          },
+          {
+            "type": "play",
+            "position": 8
+          },
+          {
+            "type": "play",
+            "position": 18
+          },
+          {
+            "type": "play",
+            "position": 26
+          },
+          {
+            "type": "play",
+            "position": 25
+          },
+          {
+            "type": "play",
+            "position": 9
+          },
+          {
+            "type": "play",
+            "position": 17
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 5
+          },
+          {
+            "type": "play",
+            "position": 19
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 16
+          },
+          {
+            "type": "play",
+            "position": 13
+          },
+          {
+            "type": "play",
+            "position": 23
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 7
+          },
+          {
+            "type": "play",
+            "position": 4
+          },
+          {
+            "type": "play",
+            "position": 14
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 11
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 15
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 12
+          },
+          {
+            "type": "play",
+            "position": 2
+          },
+          {
+            "type": "play",
+            "position": 21
+          },
+          {
+            "type": "play",
+            "position": 6
+          },
+          {
+            "type": "play",
+            "position": 10
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 3
+          },
+          {
+            "type": "play",
+            "position": 22
+          },
+          {
+            "type": "play",
+            "position": 1
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 20
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 0
+          }
+        ],
+        "score": 6505,
+        "cleared": true,
+        "subSeed": "104",
+        "clearBonusDetails": {
+          "rawChainCoins": 3355,
+          "unmultipliedChainCoins": 3355,
+          "chainCoins": 3355,
+          "spoolRemaining": 13,
+          "spoolStarted": 28,
+          "spoolBonus": 650,
+          "levelBonus": 2500,
+          "level": 1,
+          "levelFactor": 1,
+          "clearBonus": 3150,
+          "score": 6505,
+          "starCoins": 6505,
+          "percentage": 46
+        }
+      },
+      {
+        "level": 2,
+        "world": 6,
+        "spool": 27,
+        "generation": "endless-1",
+        "seed": "13168030043801345981",
+        "moves": [
+          {
+            "type": "play",
+            "position": 7
+          },
+          {
+            "type": "play",
+            "position": 6
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 9
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 8
+          },
+          {
+            "type": "play",
+            "position": 3
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 29
+          },
+          {
+            "type": "play",
+            "position": 28
+          },
+          {
+            "type": "play",
+            "position": 5
+          },
+          {
+            "type": "play",
+            "position": 19
+          },
+          {
+            "type": "play",
+            "position": 4
+          },
+          {
+            "type": "play",
+            "position": 18
+          },
+          {
+            "type": "play",
+            "position": 25
+          },
+          {
+            "type": "play",
+            "position": 1
+          },
+          {
+            "type": "play",
+            "position": 27
+          },
+          {
+            "type": "play",
+            "position": 24
+          },
+          {
+            "type": "play",
+            "position": 26
+          },
+          {
+            "type": "play",
+            "position": 22
+          },
+          {
+            "type": "play",
+            "position": 17
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 16
+          },
+          {
+            "type": "play",
+            "position": 14
+          },
+          {
+            "type": "play",
+            "position": 23
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 21
+          },
+          {
+            "type": "play",
+            "position": 13
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 2
+          },
+          {
+            "type": "play",
+            "position": 20
+          },
+          {
+            "type": "play",
+            "position": 11
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 0
+          },
+          {
+            "type": "play",
+            "position": 15
+          },
+          {
+            "type": "play",
+            "position": 12
+          },
+          {
+            "type": "play",
+            "position": 10
+          }
+        ],
+        "score": 14709,
+        "cleared": true,
+        "subSeed": "13168030043801345981",
+        "clearBonusDetails": {
+          "rawChainCoins": 6556,
+          "unmultipliedChainCoins": 6556,
+          "chainCoins": 9834,
+          "spoolRemaining": 15,
+          "spoolStarted": 27,
+          "spoolBonus": 1125,
+          "levelBonus": 3750,
+          "level": 2,
+          "levelFactor": 1.5,
+          "clearBonus": 4875,
+          "score": 14709,
+          "starCoins": 9806,
+          "percentage": 56
+        }
+      },
+      {
+        "level": 3,
+        "world": 4,
+        "spool": 26,
+        "generation": "endless-1",
+        "seed": "13168028944289717770",
+        "moves": [
+          {
+            "type": "play",
+            "position": 7
+          },
+          {
+            "type": "play",
+            "position": 27
+          },
+          {
+            "type": "play",
+            "position": 26
+          },
+          {
+            "type": "play",
+            "position": 28
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 6
+          },
+          {
+            "type": "play",
+            "position": 3
+          },
+          {
+            "type": "play",
+            "position": 8
+          },
+          {
+            "type": "play",
+            "position": 29
+          },
+          {
+            "type": "play",
+            "position": 9
+          },
+          {
+            "type": "play",
+            "position": 4
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 18
+          },
+          {
+            "type": "play",
+            "position": 1
+          },
+          {
+            "type": "play",
+            "position": 19
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 15
+          },
+          {
+            "type": "play",
+            "position": 5
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 25
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 2
+          },
+          {
+            "type": "play",
+            "position": 16
+          },
+          {
+            "type": "play",
+            "position": 23
+          },
+          {
+            "type": "play",
+            "position": 17
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 13
+          },
+          {
+            "type": "play",
+            "position": 14
+          },
+          {
+            "type": "play",
+            "position": 0
+          },
+          {
+            "type": "play",
+            "position": 24
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 22
+          },
+          {
+            "type": "play",
+            "position": 12
+          },
+          {
+            "type": "play",
+            "position": 11
+          },
+          {
+            "type": "play",
+            "position": 10
+          },
+          {
+            "type": "play",
+            "position": 21
+          },
+          {
+            "type": "play",
+            "position": 20
+          }
+        ],
+        "score": 11214,
+        "cleared": true,
+        "subSeed": "13168028944289717770",
+        "clearBonusDetails": {
+          "rawChainCoins": 2507,
+          "unmultipliedChainCoins": 2507,
+          "chainCoins": 5014,
+          "spoolRemaining": 12,
+          "spoolStarted": 26,
+          "spoolBonus": 1200,
+          "levelBonus": 5000,
+          "level": 3,
+          "levelFactor": 2,
+          "clearBonus": 6200,
+          "score": 11214,
+          "starCoins": 5607,
+          "percentage": 46
+        }
+      },
+      {
+        "level": 4,
+        "world": 7,
+        "spool": 25,
+        "generation": "endless-1",
+        "seed": "13168023446731576715",
+        "moves": [
+          {
+            "type": "play",
+            "position": 28
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 26
+          },
+          {
+            "type": "play",
+            "position": 29
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 27
+          },
+          {
+            "type": "play",
+            "position": 18
+          },
+          {
+            "type": "play",
+            "position": 16
+          },
+          {
+            "type": "play",
+            "position": 6
+          },
+          {
+            "type": "play",
+            "position": 23
+          },
+          {
+            "type": "play",
+            "position": 17
+          },
+          {
+            "type": "play",
+            "position": 13
+          },
+          {
+            "type": "play",
+            "position": 14
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 24
+          },
+          {
+            "type": "play",
+            "position": 11
+          },
+          {
+            "type": "play",
+            "position": 19
+          },
+          {
+            "type": "play",
+            "position": 9
+          },
+          {
+            "type": "play",
+            "position": 7
+          },
+          {
+            "type": "play",
+            "position": 21
+          },
+          {
+            "type": "play",
+            "position": 8
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 25
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 15
+          },
+          {
+            "type": "play",
+            "position": 4
+          },
+          {
+            "type": "play",
+            "position": 12
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 10
+          },
+          {
+            "type": "play",
+            "position": 5
+          },
+          {
+            "type": "play",
+            "position": 3
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 1
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 22
+          },
+          {
+            "type": "play",
+            "position": 2
+          },
+          {
+            "type": "play",
+            "position": 0
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 20
+          }
+        ],
+        "score": 18228,
+        "cleared": true,
+        "subSeed": "13168023446731576715",
+        "clearBonusDetails": {
+          "rawChainCoins": 2976,
+          "unmultipliedChainCoins": 2976,
+          "chainCoins": 8928,
+          "spoolRemaining": 12,
+          "spoolStarted": 25,
+          "spoolBonus": 1800,
+          "levelBonus": 7500,
+          "level": 4,
+          "levelFactor": 3,
+          "clearBonus": 9300,
+          "score": 18228,
+          "starCoins": 6076,
+          "percentage": 48
+        }
+      },
+      {
+        "level": 5,
+        "world": 8,
+        "spool": 24,
+        "generation": "endless-1",
+        "seed": "13168022347219948504",
+        "moves": [
+          {
+            "type": "play",
+            "position": 16
+          },
+          {
+            "type": "play",
+            "position": 17
+          },
+          {
+            "type": "play",
+            "position": 13
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 6
+          },
+          {
+            "type": "play",
+            "position": 7
+          },
+          {
+            "type": "play",
+            "position": 27
+          },
+          {
+            "type": "play",
+            "position": 3
+          },
+          {
+            "type": "play",
+            "position": 18
+          },
+          {
+            "type": "play",
+            "position": 28
+          },
+          {
+            "type": "play",
+            "position": 19
+          },
+          {
+            "type": "play",
+            "position": 29
+          },
+          {
+            "type": "play",
+            "position": 8
+          },
+          {
+            "type": "play",
+            "position": 4
+          },
+          {
+            "type": "play",
+            "position": 14
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 11
+          },
+          {
+            "type": "play",
+            "position": 24
+          },
+          {
+            "type": "play",
+            "position": 26
+          },
+          {
+            "type": "play",
+            "position": 25
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 15
+          },
+          {
+            "type": "play",
+            "position": 23
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 12
+          },
+          {
+            "type": "play",
+            "position": 9
+          },
+          {
+            "type": "play",
+            "position": 5
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 10
+          },
+          {
+            "type": "play",
+            "position": 21
+          },
+          {
+            "type": "play",
+            "position": 1
+          },
+          {
+            "type": "play",
+            "position": 2
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 22
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 0
+          },
+          {
+            "type": "play",
+            "position": 20
+          }
+        ],
+        "score": 29324,
+        "cleared": true,
+        "subSeed": "13168022347219948504",
+        "clearBonusDetails": {
+          "rawChainCoins": 4331,
+          "unmultipliedChainCoins": 4331,
+          "chainCoins": 17324,
+          "spoolRemaining": 10,
+          "spoolStarted": 24,
+          "spoolBonus": 2000,
+          "levelBonus": 10000,
+          "level": 5,
+          "levelFactor": 4,
+          "clearBonus": 12000,
+          "score": 29324,
+          "starCoins": 7331,
+          "percentage": 42
+        }
+      },
+      {
+        "level": 6,
+        "world": 9,
+        "spool": 23,
+        "generation": "endless-1",
+        "seed": "13168025645754833137",
+        "moves": [
+          {
+            "type": "play",
+            "position": 19
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 29
+          },
+          {
+            "type": "play",
+            "position": 28
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 9
+          },
+          {
+            "type": "play",
+            "position": 17
+          },
+          {
+            "type": "play",
+            "position": 25
+          },
+          {
+            "type": "play",
+            "position": 18
+          },
+          {
+            "type": "play",
+            "position": 6
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 16
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 8
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 27
+          },
+          {
+            "type": "play",
+            "position": 24
+          },
+          {
+            "type": "play",
+            "position": 7
+          },
+          {
+            "type": "play",
+            "position": 4
+          },
+          {
+            "type": "play",
+            "position": 3
+          },
+          {
+            "type": "play",
+            "position": 5
+          },
+          {
+            "type": "play",
+            "position": 14
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 1
+          },
+          {
+            "type": "play",
+            "position": 26
+          },
+          {
+            "type": "play",
+            "position": 15
+          },
+          {
+            "type": "play",
+            "position": 23
+          },
+          {
+            "type": "play",
+            "position": 12
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 2
+          },
+          {
+            "type": "play",
+            "position": 21
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 0
+          },
+          {
+            "type": "play",
+            "position": 22
+          },
+          {
+            "type": "play",
+            "position": 13
+          },
+          {
+            "type": "play",
+            "position": 20
+          },
+          {
+            "type": "play",
+            "position": 11
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 10
+          }
+        ],
+        "score": 38335,
+        "cleared": true,
+        "subSeed": "13168025645754833137",
+        "clearBonusDetails": {
+          "rawChainCoins": 4070,
+          "unmultipliedChainCoins": 4070,
+          "chainCoins": 22385,
+          "spoolRemaining": 8,
+          "spoolStarted": 23,
+          "spoolBonus": 2200,
+          "levelBonus": 13750,
+          "level": 6,
+          "levelFactor": 5.5,
+          "clearBonus": 15950,
+          "score": 38335,
+          "starCoins": 6970,
+          "percentage": 35
+        }
+      },
+      {
+        "level": 7,
+        "world": 10,
+        "spool": 22,
+        "generation": "endless-1",
+        "seed": "13168024546243204926",
+        "moves": [
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 8
+          },
+          {
+            "type": "play",
+            "position": 6
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 7
+          },
+          {
+            "type": "play",
+            "position": 29
+          },
+          {
+            "type": "play",
+            "position": 3
+          },
+          {
+            "type": "play",
+            "position": 17
+          },
+          {
+            "type": "play",
+            "position": 4
+          },
+          {
+            "type": "play",
+            "position": 28
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 9
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 5
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 1
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 27
+          },
+          {
+            "type": "play",
+            "position": 2
+          },
+          {
+            "type": "play",
+            "position": 26
+          },
+          {
+            "type": "play",
+            "position": 24
+          },
+          {
+            "type": "play",
+            "position": 16
+          },
+          {
+            "type": "play",
+            "position": 0
+          },
+          {
+            "type": "play",
+            "position": 18
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 14
+          },
+          {
+            "type": "play",
+            "position": 25
+          },
+          {
+            "type": "play",
+            "position": 23
+          },
+          {
+            "type": "play",
+            "position": 13
+          },
+          {
+            "type": "play",
+            "position": 21
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 11
+          },
+          {
+            "type": "play",
+            "position": 22
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 20
+          },
+          {
+            "type": "play",
+            "position": 19
+          },
+          {
+            "type": "play",
+            "position": 15
+          },
+          {
+            "type": "play",
+            "position": 12
+          },
+          {
+            "type": "play",
+            "position": 10
+          }
+        ],
+        "score": 43027,
+        "cleared": true,
+        "subSeed": "13168024546243204926",
+        "clearBonusDetails": {
+          "rawChainCoins": 2987,
+          "unmultipliedChainCoins": 2987,
+          "chainCoins": 22402,
+          "spoolRemaining": 5,
+          "spoolStarted": 22,
+          "spoolBonus": 1875,
+          "levelBonus": 18750,
+          "level": 7,
+          "levelFactor": 7.5,
+          "clearBonus": 20625,
+          "score": 43027,
+          "starCoins": 5737,
+          "percentage": 23
+        }
+      },
+      {
+        "level": 8,
+        "world": 1,
+        "spool": 21,
+        "generation": "endless-1",
+        "seed": "13168019048685063871",
+        "moves": [
+          {
+            "type": "play",
+            "position": 8
+          },
+          {
+            "type": "play",
+            "position": 17
+          },
+          {
+            "type": "play",
+            "position": 9
+          },
+          {
+            "type": "play",
+            "position": 29
+          },
+          {
+            "type": "play",
+            "position": 28
+          },
+          {
+            "type": "play",
+            "position": 7
+          },
+          {
+            "type": "play",
+            "position": 6
+          },
+          {
+            "type": "play",
+            "position": 19
+          },
+          {
+            "type": "play",
+            "position": 3
+          },
+          {
+            "type": "play",
+            "position": 18
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 14
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 4
+          },
+          {
+            "type": "play",
+            "position": 25
+          },
+          {
+            "type": "play",
+            "position": 5
+          },
+          {
+            "type": "play",
+            "position": 27
+          },
+          {
+            "type": "play",
+            "position": 1
+          },
+          {
+            "type": "play",
+            "position": 16
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 13
+          },
+          {
+            "type": "play",
+            "position": 11
+          },
+          {
+            "type": "play",
+            "position": 26
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 2
+          },
+          {
+            "type": "play",
+            "position": 24
+          },
+          {
+            "type": "play",
+            "position": 15
+          },
+          {
+            "type": "play",
+            "position": 23
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 21
+          },
+          {
+            "type": "play",
+            "position": 22
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 0
+          },
+          {
+            "type": "play",
+            "position": 20
+          },
+          {
+            "type": "play",
+            "position": 12
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 10
+          }
+        ],
+        "score": 50380,
+        "cleared": true,
+        "subSeed": "13168019048685063871",
+        "clearBonusDetails": {
+          "rawChainCoins": 2288,
+          "unmultipliedChainCoins": 2288,
+          "chainCoins": 22880,
+          "spoolRemaining": 5,
+          "spoolStarted": 21,
+          "spoolBonus": 2500,
+          "levelBonus": 25000,
+          "level": 8,
+          "levelFactor": 10,
+          "clearBonus": 27500,
+          "score": 50380,
+          "starCoins": 5038,
+          "percentage": 24
+        }
+      },
+      {
+        "level": 9,
+        "world": 2,
+        "spool": 20,
+        "generation": "endless-1",
+        "seed": "13168017949173435660",
+        "moves": [
+          {
+            "type": "play",
+            "position": 16
+          },
+          {
+            "type": "play",
+            "position": 29
+          },
+          {
+            "type": "play",
+            "position": 26
+          },
+          {
+            "type": "play",
+            "position": 28
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 6
+          },
+          {
+            "type": "play",
+            "position": 27
+          },
+          {
+            "type": "play",
+            "position": 24
+          },
+          {
+            "type": "play",
+            "position": 18
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 17
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 19
+          },
+          {
+            "type": "play",
+            "position": 7
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 25
+          },
+          {
+            "type": "play",
+            "position": 23
+          },
+          {
+            "type": "play",
+            "position": 15
+          },
+          {
+            "type": "play",
+            "position": 8
+          },
+          {
+            "type": "play",
+            "position": 9
+          },
+          {
+            "type": "play",
+            "position": 21
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 3
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 4
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 13
+          },
+          {
+            "type": "play",
+            "position": 14
+          },
+          {
+            "type": "play",
+            "position": 12
+          },
+          {
+            "type": "play",
+            "position": 1
+          },
+          {
+            "type": "play",
+            "position": 11
+          },
+          {
+            "type": "play",
+            "position": 22
+          },
+          {
+            "type": "play",
+            "position": 5
+          },
+          {
+            "type": "play",
+            "position": 20
+          },
+          {
+            "type": "play",
+            "position": 2
+          },
+          {
+            "type": "play",
+            "position": 0
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 10
+          }
+        ],
+        "score": 86128,
+        "cleared": true,
+        "subSeed": "13168017949173435660",
+        "clearBonusDetails": {
+          "rawChainCoins": 3152,
+          "unmultipliedChainCoins": 3152,
+          "chainCoins": 44128,
+          "spoolRemaining": 10,
+          "spoolStarted": 20,
+          "spoolBonus": 7000,
+          "levelBonus": 35000,
+          "level": 9,
+          "levelFactor": 14,
+          "clearBonus": 42000,
+          "score": 86128,
+          "starCoins": 6152,
+          "percentage": 50
+        }
+      },
+      {
+        "level": 10,
+        "world": 3,
+        "spool": 15,
+        "generation": "endless-1",
+        "seed": "17913090130936260988",
+        "admission": "grove-hugo-2",
+        "moves": [
+          {
+            "type": "play",
+            "position": 27
+          },
+          {
+            "type": "play",
+            "position": 28
+          },
+          {
+            "type": "play",
+            "position": 19
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 17
+          },
+          {
+            "type": "play",
+            "position": 18
+          },
+          {
+            "type": "play",
+            "position": 6
+          },
+          {
+            "type": "play",
+            "position": 16
+          },
+          {
+            "type": "play",
+            "position": 15
+          },
+          {
+            "type": "play",
+            "position": 9
+          },
+          {
+            "type": "play",
+            "position": 24
+          },
+          {
+            "type": "play",
+            "position": 29
+          },
+          {
+            "type": "play",
+            "position": 13
+          },
+          {
+            "type": "play",
+            "position": 26
+          },
+          {
+            "type": "play",
+            "position": 23
+          },
+          {
+            "type": "play",
+            "position": 7
+          },
+          {
+            "type": "play",
+            "position": 21
+          },
+          {
+            "type": "play",
+            "position": 3
+          },
+          {
+            "type": "play",
+            "position": 14
+          },
+          {
+            "type": "play",
+            "position": 12
+          },
+          {
+            "type": "play",
+            "position": 11
+          },
+          {
+            "type": "play",
+            "position": 10
+          },
+          {
+            "type": "play",
+            "position": 8
+          },
+          {
+            "type": "play",
+            "position": 5
+          },
+          {
+            "type": "play",
+            "position": 25
+          },
+          {
+            "type": "play",
+            "position": 4
+          },
+          {
+            "type": "play",
+            "position": 1
+          },
+          {
+            "type": "play",
+            "position": 22
+          },
+          {
+            "type": "play",
+            "position": 20
+          },
+          {
+            "type": "play",
+            "position": 2
+          },
+          {
+            "type": "play",
+            "position": 0
+          }
+        ],
+        "score": 1018000,
+        "cleared": true,
+        "subSeed": "17913090130936260988",
+        "clearBonusDetails": {
+          "rawChainCoins": 47750,
+          "unmultipliedChainCoins": 47750,
+          "chainCoins": 955000,
+          "spoolRemaining": 13,
+          "spoolStarted": 15,
+          "spoolBonus": 13000,
+          "levelBonus": 50000,
+          "level": 10,
+          "levelFactor": 20,
+          "clearBonus": 63000,
+          "score": 1018000,
+          "starCoins": 50900,
+          "percentage": 87
+        }
+      },
+      {
+        "level": 12,
+        "world": 6,
+        "spool": 13,
+        "generation": "endless-1",
+        "seed": "17913092329959517410",
+        "moves": [
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 26
+          },
+          {
+            "type": "play",
+            "position": 18
+          },
+          {
+            "type": "play",
+            "position": 17
+          },
+          {
+            "type": "play",
+            "position": 27
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 14
+          },
+          {
+            "type": "play",
+            "position": 29
+          },
+          {
+            "type": "play",
+            "position": 23
+          },
+          {
+            "type": "play",
+            "position": 28
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 6
+          },
+          {
+            "type": "play",
+            "position": 25
+          },
+          {
+            "type": "play",
+            "position": 24
+          },
+          {
+            "type": "play",
+            "position": 19
+          },
+          {
+            "type": "play",
+            "position": 15
+          },
+          {
+            "type": "play",
+            "position": 9
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 16
+          },
+          {
+            "type": "play",
+            "position": 8
+          },
+          {
+            "type": "play",
+            "position": 22
+          },
+          {
+            "type": "play",
+            "position": 7
+          },
+          {
+            "type": "play",
+            "position": 13
+          },
+          {
+            "type": "play",
+            "position": 12
+          },
+          {
+            "type": "play",
+            "position": 5
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 21
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 4
+          },
+          {
+            "type": "play",
+            "position": 2
+          },
+          {
+            "type": "play",
+            "position": 3
+          },
+          {
+            "type": "play",
+            "position": 11
+          },
+          {
+            "type": "play",
+            "position": 1
+          },
+          {
+            "type": "play",
+            "position": 0
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 20
+          },
+          {
+            "type": "play",
+            "position": 10
+          }
+        ],
+        "score": 113000,
+        "cleared": true,
+        "subSeed": "17913092329959517410",
+        "clearBonusDetails": {
+          "rawChainCoins": 2950,
+          "unmultipliedChainCoins": 2950,
+          "chainCoins": 59000,
+          "spoolRemaining": 4,
+          "spoolStarted": 13,
+          "spoolBonus": 4000,
+          "levelBonus": 50000,
+          "level": 12,
+          "levelFactor": 20,
+          "clearBonus": 54000,
+          "score": 113000,
+          "starCoins": 5650,
+          "percentage": 31
+        }
+      },
+      {
+        "level": 13,
+        "world": 4,
+        "spool": 12,
+        "generation": "endless-1",
+        "seed": "17913093429471145621",
+        "moves": [
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 9
+          },
+          {
+            "type": "play",
+            "position": 19
+          },
+          {
+            "type": "play",
+            "position": 16
+          }
+        ],
+        "score": 3600,
+        "cleared": false,
+        "subSeed": "17913093434780017159",
+        "clearBonusDetails": {
+          "rawChainCoins": 180,
+          "unmultipliedChainCoins": 180,
+          "chainCoins": 3600,
+          "spoolRemaining": 0,
+          "spoolStarted": 12,
+          "spoolBonus": 0,
+          "levelBonus": 0,
+          "level": 13,
+          "levelFactor": 20,
+          "clearBonus": 0,
+          "score": 3600,
+          "starCoins": 180,
+          "percentage": 0
+        }
+      }
+    ],
+    "worldRoute": "rotate-v1",
+    "startWorld": 5,
+    "worldOrder": [
+      5,
+      6,
+      4,
+      7,
+      8,
+      9,
+      10,
+      1,
+      2,
+      3
+    ],
+    "scoringVersion": "level-v4",
+    "hugoVersion": "hugo-6",
+    "hugo": {
+      "version": "hugo-6",
+      "afterLevel": 10,
+      "trigger": {
+        "seed": "17913090130936260988",
+        "moveIndex": 3
+      },
+      "result": {
+        "level": 11,
+        "world": 3,
+        "spool": 14,
+        "generation": "endless-1",
+        "seed": "691538781289346287",
+        "secret": "hugo",
+        "moves": [
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 18
+          },
+          {
+            "type": "play",
+            "position": 17
+          },
+          {
+            "type": "play",
+            "position": 8
+          },
+          {
+            "type": "play",
+            "position": 28
+          },
+          {
+            "type": "play",
+            "position": 16
+          },
+          {
+            "type": "play",
+            "position": 29
+          },
+          {
+            "type": "play",
+            "position": 13
+          },
+          {
+            "type": "play",
+            "position": 14
+          },
+          {
+            "type": "play",
+            "position": 19
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 11
+          },
+          {
+            "type": "play",
+            "position": 6
+          },
+          {
+            "type": "play",
+            "position": 15
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 26
+          },
+          {
+            "type": "play",
+            "position": 9
+          },
+          {
+            "type": "play",
+            "position": 12
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 27
+          },
+          {
+            "type": "play",
+            "position": 7
+          },
+          {
+            "type": "play",
+            "position": 4
+          },
+          {
+            "type": "play",
+            "position": 10
+          },
+          {
+            "type": "play",
+            "position": 3
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 23
+          },
+          {
+            "type": "play",
+            "position": 25
+          },
+          {
+            "type": "play",
+            "position": 24
+          },
+          {
+            "type": "play",
+            "position": 1
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 21
+          },
+          {
+            "type": "play",
+            "position": 5
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 22
+          },
+          {
+            "type": "play",
+            "position": 2
+          },
+          {
+            "type": "draw"
+          },
+          {
+            "type": "play",
+            "position": 20
+          },
+          {
+            "type": "play",
+            "position": 0
+          }
+        ],
+        "score": 112900,
+        "cleared": true,
+        "subSeed": "691538783943782056",
+        "clearBonusDetails": {
+          "rawChainCoins": 2995,
+          "unmultipliedChainCoins": 2995,
+          "chainCoins": 59900,
+          "spoolRemaining": 3,
+          "spoolStarted": 14,
+          "spoolBonus": 3000,
+          "levelBonus": 50000,
+          "level": 11,
+          "levelFactor": 20,
+          "clearBonus": 53000,
+          "score": 112900,
+          "starCoins": 5645,
+          "percentage": 21
+        }
+      }
+    }
+  },
+  "proof": {
+    "type": "run",
+    "record": {
+      "id": "weft-run-cdeff77ea77d110a",
+      "date": "2026-10-22T09:00:00.000Z",
+      "version": "6.24.14",
+      "rootSeed": "104",
+      "levelsCleared": 12,
+      "runScore": 1545350,
+      "perLevel": [
+        {
+          "level": 1,
+          "world": 5,
+          "spool": 28,
+          "generation": "endless-1",
+          "seed": "104",
+          "moves": [
+            27,
+            29,
+            28,
+            24,
+            8,
+            18,
+            26,
+            25,
+            9,
+            17,
+            30,
+            5,
+            19,
+            30,
+            16,
+            13,
+            23,
+            30,
+            7,
+            4,
+            14,
+            30,
+            30,
+            11,
+            30,
+            15,
+            30,
+            30,
+            30,
+            12,
+            2,
+            21,
+            6,
+            10,
+            30,
+            30,
+            30,
+            3,
+            22,
+            1,
+            30,
+            20,
+            30,
+            0
+          ],
+          "score": 6505,
+          "cleared": true,
+          "subSeed": "104",
+          "clearBonusDetails": {
+            "rawChainCoins": 3355,
+            "unmultipliedChainCoins": 3355,
+            "chainCoins": 3355,
+            "spoolRemaining": 13,
+            "spoolStarted": 28,
+            "spoolBonus": 650,
+            "levelBonus": 2500,
+            "level": 1,
+            "levelFactor": 1,
+            "clearBonus": 3150,
+            "score": 6505,
+            "starCoins": 6505,
+            "percentage": 46
+          }
+        },
+        {
+          "level": 2,
+          "world": 6,
+          "spool": 27,
+          "generation": "endless-1",
+          "seed": "13168030043801345981",
+          "moves": [
+            7,
+            6,
+            30,
+            30,
+            9,
+            30,
+            8,
+            3,
+            30,
+            30,
+            29,
+            28,
+            5,
+            19,
+            4,
+            18,
+            25,
+            1,
+            27,
+            24,
+            26,
+            22,
+            17,
+            30,
+            16,
+            14,
+            23,
+            30,
+            30,
+            21,
+            13,
+            30,
+            30,
+            2,
+            20,
+            11,
+            30,
+            0,
+            15,
+            12,
+            10
+          ],
+          "score": 14709,
+          "cleared": true,
+          "subSeed": "13168030043801345981",
+          "clearBonusDetails": {
+            "rawChainCoins": 6556,
+            "unmultipliedChainCoins": 6556,
+            "chainCoins": 9834,
+            "spoolRemaining": 15,
+            "spoolStarted": 27,
+            "spoolBonus": 1125,
+            "levelBonus": 3750,
+            "level": 2,
+            "levelFactor": 1.5,
+            "clearBonus": 4875,
+            "score": 14709,
+            "starCoins": 9806,
+            "percentage": 56
+          }
+        },
+        {
+          "level": 3,
+          "world": 4,
+          "spool": 26,
+          "generation": "endless-1",
+          "seed": "13168028944289717770",
+          "moves": [
+            7,
+            27,
+            26,
+            28,
+            30,
+            6,
+            3,
+            8,
+            29,
+            9,
+            4,
+            30,
+            18,
+            1,
+            19,
+            30,
+            15,
+            5,
+            30,
+            30,
+            30,
+            25,
+            30,
+            30,
+            2,
+            16,
+            23,
+            17,
+            30,
+            30,
+            13,
+            14,
+            0,
+            24,
+            30,
+            30,
+            30,
+            22,
+            12,
+            11,
+            10,
+            21,
+            20
+          ],
+          "score": 11214,
+          "cleared": true,
+          "subSeed": "13168028944289717770",
+          "clearBonusDetails": {
+            "rawChainCoins": 2507,
+            "unmultipliedChainCoins": 2507,
+            "chainCoins": 5014,
+            "spoolRemaining": 12,
+            "spoolStarted": 26,
+            "spoolBonus": 1200,
+            "levelBonus": 5000,
+            "level": 3,
+            "levelFactor": 2,
+            "clearBonus": 6200,
+            "score": 11214,
+            "starCoins": 5607,
+            "percentage": 46
+          }
+        },
+        {
+          "level": 4,
+          "world": 7,
+          "spool": 25,
+          "generation": "endless-1",
+          "seed": "13168023446731576715",
+          "moves": [
+            28,
+            30,
+            26,
+            29,
+            30,
+            27,
+            18,
+            16,
+            6,
+            23,
+            17,
+            13,
+            14,
+            30,
+            24,
+            11,
+            19,
+            9,
+            7,
+            21,
+            8,
+            30,
+            25,
+            30,
+            15,
+            4,
+            12,
+            30,
+            10,
+            5,
+            3,
+            30,
+            1,
+            30,
+            30,
+            30,
+            30,
+            22,
+            2,
+            0,
+            30,
+            20
+          ],
+          "score": 18228,
+          "cleared": true,
+          "subSeed": "13168023446731576715",
+          "clearBonusDetails": {
+            "rawChainCoins": 2976,
+            "unmultipliedChainCoins": 2976,
+            "chainCoins": 8928,
+            "spoolRemaining": 12,
+            "spoolStarted": 25,
+            "spoolBonus": 1800,
+            "levelBonus": 7500,
+            "level": 4,
+            "levelFactor": 3,
+            "clearBonus": 9300,
+            "score": 18228,
+            "starCoins": 6076,
+            "percentage": 48
+          }
+        },
+        {
+          "level": 5,
+          "world": 8,
+          "spool": 24,
+          "generation": "endless-1",
+          "seed": "13168022347219948504",
+          "moves": [
+            16,
+            17,
+            13,
+            30,
+            30,
+            6,
+            7,
+            27,
+            3,
+            18,
+            28,
+            19,
+            29,
+            8,
+            4,
+            14,
+            30,
+            11,
+            24,
+            26,
+            25,
+            30,
+            30,
+            15,
+            23,
+            30,
+            12,
+            9,
+            5,
+            30,
+            30,
+            10,
+            21,
+            1,
+            2,
+            30,
+            30,
+            22,
+            30,
+            30,
+            30,
+            0,
+            20
+          ],
+          "score": 29324,
+          "cleared": true,
+          "subSeed": "13168022347219948504",
+          "clearBonusDetails": {
+            "rawChainCoins": 4331,
+            "unmultipliedChainCoins": 4331,
+            "chainCoins": 17324,
+            "spoolRemaining": 10,
+            "spoolStarted": 24,
+            "spoolBonus": 2000,
+            "levelBonus": 10000,
+            "level": 5,
+            "levelFactor": 4,
+            "clearBonus": 12000,
+            "score": 29324,
+            "starCoins": 7331,
+            "percentage": 42
+          }
+        },
+        {
+          "level": 6,
+          "world": 9,
+          "spool": 23,
+          "generation": "endless-1",
+          "seed": "13168025645754833137",
+          "moves": [
+            19,
+            30,
+            29,
+            28,
+            30,
+            9,
+            17,
+            25,
+            18,
+            6,
+            30,
+            16,
+            30,
+            30,
+            8,
+            30,
+            27,
+            24,
+            7,
+            4,
+            3,
+            5,
+            14,
+            30,
+            1,
+            26,
+            15,
+            23,
+            12,
+            30,
+            2,
+            21,
+            30,
+            0,
+            22,
+            13,
+            20,
+            11,
+            30,
+            30,
+            30,
+            30,
+            30,
+            10
+          ],
+          "score": 38335,
+          "cleared": true,
+          "subSeed": "13168025645754833137",
+          "clearBonusDetails": {
+            "rawChainCoins": 4070,
+            "unmultipliedChainCoins": 4070,
+            "chainCoins": 22385,
+            "spoolRemaining": 8,
+            "spoolStarted": 23,
+            "spoolBonus": 2200,
+            "levelBonus": 13750,
+            "level": 6,
+            "levelFactor": 5.5,
+            "clearBonus": 15950,
+            "score": 38335,
+            "starCoins": 6970,
+            "percentage": 35
+          }
+        },
+        {
+          "level": 7,
+          "world": 10,
+          "spool": 22,
+          "generation": "endless-1",
+          "seed": "13168024546243204926",
+          "moves": [
+            30,
+            8,
+            6,
+            30,
+            30,
+            30,
+            7,
+            29,
+            3,
+            17,
+            4,
+            28,
+            30,
+            9,
+            30,
+            30,
+            5,
+            30,
+            1,
+            30,
+            30,
+            27,
+            2,
+            26,
+            24,
+            16,
+            0,
+            18,
+            30,
+            30,
+            14,
+            25,
+            23,
+            13,
+            21,
+            30,
+            30,
+            11,
+            22,
+            30,
+            30,
+            20,
+            19,
+            15,
+            12,
+            10
+          ],
+          "score": 43027,
+          "cleared": true,
+          "subSeed": "13168024546243204926",
+          "clearBonusDetails": {
+            "rawChainCoins": 2987,
+            "unmultipliedChainCoins": 2987,
+            "chainCoins": 22402,
+            "spoolRemaining": 5,
+            "spoolStarted": 22,
+            "spoolBonus": 1875,
+            "levelBonus": 18750,
+            "level": 7,
+            "levelFactor": 7.5,
+            "clearBonus": 20625,
+            "score": 43027,
+            "starCoins": 5737,
+            "percentage": 23
+          }
+        },
+        {
+          "level": 8,
+          "world": 1,
+          "spool": 21,
+          "generation": "endless-1",
+          "seed": "13168019048685063871",
+          "moves": [
+            8,
+            17,
+            9,
+            29,
+            28,
+            7,
+            6,
+            19,
+            3,
+            18,
+            30,
+            14,
+            30,
+            30,
+            30,
+            4,
+            25,
+            5,
+            27,
+            1,
+            16,
+            30,
+            13,
+            11,
+            26,
+            30,
+            2,
+            24,
+            15,
+            23,
+            30,
+            30,
+            21,
+            22,
+            30,
+            30,
+            30,
+            30,
+            30,
+            0,
+            20,
+            12,
+            30,
+            30,
+            10
+          ],
+          "score": 50380,
+          "cleared": true,
+          "subSeed": "13168019048685063871",
+          "clearBonusDetails": {
+            "rawChainCoins": 2288,
+            "unmultipliedChainCoins": 2288,
+            "chainCoins": 22880,
+            "spoolRemaining": 5,
+            "spoolStarted": 21,
+            "spoolBonus": 2500,
+            "levelBonus": 25000,
+            "level": 8,
+            "levelFactor": 10,
+            "clearBonus": 27500,
+            "score": 50380,
+            "starCoins": 5038,
+            "percentage": 24
+          }
+        },
+        {
+          "level": 9,
+          "world": 2,
+          "spool": 20,
+          "generation": "endless-1",
+          "seed": "13168017949173435660",
+          "moves": [
+            16,
+            29,
+            26,
+            28,
+            30,
+            6,
+            27,
+            24,
+            18,
+            30,
+            30,
+            17,
+            30,
+            19,
+            7,
+            30,
+            25,
+            23,
+            15,
+            8,
+            9,
+            21,
+            30,
+            3,
+            30,
+            4,
+            30,
+            13,
+            14,
+            12,
+            1,
+            11,
+            22,
+            5,
+            20,
+            2,
+            0,
+            30,
+            10
+          ],
+          "score": 86128,
+          "cleared": true,
+          "subSeed": "13168017949173435660",
+          "clearBonusDetails": {
+            "rawChainCoins": 3152,
+            "unmultipliedChainCoins": 3152,
+            "chainCoins": 44128,
+            "spoolRemaining": 10,
+            "spoolStarted": 20,
+            "spoolBonus": 7000,
+            "levelBonus": 35000,
+            "level": 9,
+            "levelFactor": 14,
+            "clearBonus": 42000,
+            "score": 86128,
+            "starCoins": 6152,
+            "percentage": 50
+          }
+        },
+        {
+          "level": 10,
+          "world": 3,
+          "spool": 15,
+          "generation": "endless-1",
+          "seed": "17913090130936260988",
+          "admission": "grove-hugo-2",
+          "moves": [
+            27,
+            28,
+            19,
+            30,
+            17,
+            18,
+            6,
+            16,
+            15,
+            9,
+            24,
+            29,
+            13,
+            26,
+            23,
+            7,
+            21,
+            3,
+            14,
+            12,
+            11,
+            10,
+            8,
+            5,
+            25,
+            4,
+            1,
+            22,
+            20,
+            2,
+            0
+          ],
+          "score": 1018000,
+          "cleared": true,
+          "subSeed": "17913090130936260988",
+          "clearBonusDetails": {
+            "rawChainCoins": 47750,
+            "unmultipliedChainCoins": 47750,
+            "chainCoins": 955000,
+            "spoolRemaining": 13,
+            "spoolStarted": 15,
+            "spoolBonus": 13000,
+            "levelBonus": 50000,
+            "level": 10,
+            "levelFactor": 20,
+            "clearBonus": 63000,
+            "score": 1018000,
+            "starCoins": 50900,
+            "percentage": 87
+          }
+        },
+        {
+          "level": 12,
+          "world": 6,
+          "spool": 13,
+          "generation": "endless-1",
+          "seed": "17913092329959517410",
+          "moves": [
+            30,
+            26,
+            18,
+            17,
+            27,
+            30,
+            14,
+            29,
+            23,
+            28,
+            30,
+            6,
+            25,
+            24,
+            19,
+            15,
+            9,
+            30,
+            16,
+            8,
+            22,
+            7,
+            13,
+            12,
+            5,
+            30,
+            21,
+            30,
+            4,
+            2,
+            3,
+            11,
+            1,
+            0,
+            30,
+            30,
+            20,
+            10
+          ],
+          "score": 113000,
+          "cleared": true,
+          "subSeed": "17913092329959517410",
+          "clearBonusDetails": {
+            "rawChainCoins": 2950,
+            "unmultipliedChainCoins": 2950,
+            "chainCoins": 59000,
+            "spoolRemaining": 4,
+            "spoolStarted": 13,
+            "spoolBonus": 4000,
+            "levelBonus": 50000,
+            "level": 12,
+            "levelFactor": 20,
+            "clearBonus": 54000,
+            "score": 113000,
+            "starCoins": 5650,
+            "percentage": 31
+          }
+        },
+        {
+          "level": 13,
+          "world": 4,
+          "spool": 12,
+          "generation": "endless-1",
+          "seed": "17913093429471145621",
+          "moves": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            9,
+            19,
+            16
+          ],
+          "score": 3600,
+          "cleared": false,
+          "subSeed": "17913093434780017159",
+          "clearBonusDetails": {
+            "rawChainCoins": 180,
+            "unmultipliedChainCoins": 180,
+            "chainCoins": 3600,
+            "spoolRemaining": 0,
+            "spoolStarted": 12,
+            "spoolBonus": 0,
+            "levelBonus": 0,
+            "level": 13,
+            "levelFactor": 20,
+            "clearBonus": 0,
+            "score": 3600,
+            "starCoins": 180,
+            "percentage": 0
+          }
+        }
+      ],
+      "worldRoute": "rotate-v1",
+      "startWorld": 5,
+      "worldOrder": [
+        5,
+        6,
+        4,
+        7,
+        8,
+        9,
+        10,
+        1,
+        2,
+        3
+      ],
+      "scoringVersion": "level-v4",
+      "hugoVersion": "hugo-6",
+      "hugo": {
+        "version": "hugo-6",
+        "afterLevel": 10,
+        "trigger": {
+          "seed": "17913090130936260988",
+          "moveIndex": 3
+        },
+        "result": {
+          "level": 11,
+          "world": 3,
+          "spool": 14,
+          "generation": "endless-1",
+          "seed": "691538781289346287",
+          "secret": "hugo",
+          "moves": [
+            30,
+            18,
+            17,
+            8,
+            28,
+            16,
+            29,
+            13,
+            14,
+            19,
+            30,
+            11,
+            6,
+            15,
+            30,
+            26,
+            9,
+            12,
+            30,
+            27,
+            7,
+            4,
+            10,
+            3,
+            30,
+            23,
+            25,
+            24,
+            1,
+            30,
+            21,
+            5,
+            30,
+            30,
+            30,
+            22,
+            2,
+            30,
+            20,
+            0
+          ],
+          "score": 112900,
+          "cleared": true,
+          "subSeed": "691538783943782056",
+          "clearBonusDetails": {
+            "rawChainCoins": 2995,
+            "unmultipliedChainCoins": 2995,
+            "chainCoins": 59900,
+            "spoolRemaining": 3,
+            "spoolStarted": 14,
+            "spoolBonus": 3000,
+            "levelBonus": 50000,
+            "level": 11,
+            "levelFactor": 20,
+            "clearBonus": 53000,
+            "score": 112900,
+            "starCoins": 5645,
+            "percentage": 21
+          }
+        }
+      }
+    }
+  }
+}

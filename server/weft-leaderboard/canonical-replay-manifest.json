@@ -1,24 +1,31 @@
 {
-  "version": "6.24.13",
-  "brief": "B-051 Note8 secret replacement positions",
-  "hugoFeature": "hugo-5",
+  "version": "6.24.14",
+  "brief": "B-052 Note2 endless Classic",
+  "rulesVersion": "6.24.14",
+  "hugoFeature": "hugo-6",
   "legacyHugoFeatures": [
     "hugo-1",
     "hugo-2",
     "hugo-3",
-    "hugo-4"
+    "hugo-4",
+    "hugo-5"
   ],
-  "windowFeature": "window-5",
+  "windowFeature": "window-6",
   "legacyWindowFeatures": [
     "window-1",
     "window-2",
     "window-3",
-    "window-4"
+    "window-4",
+    "window-5"
   ],
-  "scoringVersion": "level-v3",
-  "unchangedScoringVersion": "clear-v2",
+  "scoringVersion": "level-v4",
+  "unchangedScoringVersions": [
+    "legacy",
+    "clear-v2",
+    "level-v3"
+  ],
   "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
-  "sha256": "e730d478b39b66c126f6ef6b843852d964bfda14d4f4a9af9d5a81a32b2f6d2d",
+  "sha256": "40ea4cf12a529950311ea23d2ef8230c1082fffd61e35038b612089a3aa14128",
   "inputs": [
     {
       "file": "../../B-002/engine/configs.ts",
@@ -57,16 +64,20 @@
       "sha256": "871456d69b0d1f8e0e9767499266227ea6943ca231cc407437805554bf5ad304"
     },
     {
+      "file": "src/endless-deal.ts",
+      "sha256": "31345bf5b566ea77b31164441ec02275af049a7312461a571a5261f8f21f6165"
+    },
+    {
       "file": "src/grove-opportunity.ts",
       "sha256": "1d3076c3a9cd1721d3f5e9a01727672cd1603810bea5af2547a9fb050d839f44"
     },
     {
       "file": "src/hugo-trigger.ts",
-      "sha256": "7fa10bd25c2cdadda05b6659a50e456d52ad7c427c9f70f2caca95795a7ace72"
+      "sha256": "5078f6872959ad4a9cac9c536f40fbfafbf79347b8fdd74476e159d2de91bdfa"
     },
     {
       "file": "src/leaderboard-validation.ts",
-      "sha256": "3fb139e1005140ea9c22025a7ab50730971387c7a86f5c009456669f8685be3a"
+      "sha256": "7bad996fbfc5642a121a78f41f30af97a07d9553723cf757a45e38277912b4b8"
     },
     {
       "file": "src/leaderboard-wire.ts",
@@ -86,7 +97,7 @@
     },
     {
       "file": "src/records.ts",
-      "sha256": "cb7589f36f4005cae312dc460d652e6fdc2c139956e5016b3ff3f37a9d5727ff"
+      "sha256": "933e74c6de2ebf1160eea9fb4dcc3904c922042ed8b0b73cbe38fba358c0fa2e"
     },
     {
       "file": "src/replay-practice.ts",
@@ -98,7 +109,7 @@
     },
     {
       "file": "src/run.ts",
-      "sha256": "546dc4838c849a096b86437411ba6105d9a38b64c9c265dc1b34bb20e7825a08"
+      "sha256": "17d45f849acddb4b0ae813aa0f780681717bd4ace7113810d744b52cd9b36b65"
     },
     {
       "file": "src/score-codec.ts",
@@ -106,7 +117,7 @@
     },
     {
       "file": "src/score-config.ts",
-      "sha256": "d025ec227d769b5cec3508e4f91ee888275b4ab4ce0959695e218574a958d08a"
+      "sha256": "c596d7b373c07423ab527202662b21033585cd927c2698b6385f0c4f32b59495"
     },
     {
       "file": "src/test-mode-gate.ts",
@@ -114,15 +125,15 @@
     },
     {
       "file": "src/window-trigger.ts",
-      "sha256": "ef88e012a4090ca8e587a1934a0e102c98f4c95665104bc323ca4255037e0377"
+      "sha256": "52fde69b1226489b6d3e6c91f1a900d8252b1487951cb7ddb05a89f7df8d354a"
     },
     {
       "file": "src/world-config.ts",
-      "sha256": "4ab81a5b2267c618802b10c27c8d98d734e026206543b7aab74fb270c806e06d"
+      "sha256": "ea5564b569b62f840578d5dc7abd3f255d2422f489d6141a226e65f55581d630"
     },
     {
       "file": "supabase/replay-entry.ts",
-      "sha256": "ddca46fe4299220d1ac7b02391c4c861944d1b5ebb82e4a7ac1b9230ec598ac3"
+      "sha256": "4a64ee498d0e3164e0971f0d36ff384d656405220b379698ca2587c9be32852d"
     },
     {
       "file": "supabase/warp-replay.ts",
@@ -202,13 +213,18 @@
       "file": "server/weft-leaderboard/historical/canonical-replay-156cfcd3.mjs",
       "sha256": "156cfcd328460fa799d72c43ccf2577eead891192e0a86f9485958c5107b3006",
       "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-e730d478.mjs",
+      "sha256": "e730d478b39b66c126f6ef6b843852d964bfda14d4f4a9af9d5a81a32b2f6d2d",
+      "accepted": true
     }
   ],
   "previousCurrent": {
-    "file": "../../B-048/v6.24.12/server/weft-leaderboard/canonical-replay.mjs",
-    "sha256": "156cfcd328460fa799d72c43ccf2577eead891192e0a86f9485958c5107b3006",
+    "file": "../../B-051/v6.24.13/server/weft-leaderboard/canonical-replay.mjs",
+    "sha256": "e730d478b39b66c126f6ef6b843852d964bfda14d4f4a9af9d5a81a32b2f6d2d",
     "accepted": true
   },
   "deploymentRequired": true,
-  "currentWritePolicy": "Hugo5 and Window5 replace the next ordinary position, use its stock/factor/spool and clear reward, credit the complete board once, and advance to the following position. There are exactly ten positions. A trigger on position ten records its witness but starts no eleventh board. Hugo1/2/3/4 and Window1/2/3/4 retain exact published interlude seeds, progression and scores; prepared Hugo3 continues unchanged. No schema, SQL, row shape, ranking, season or badge-trigger change."
+  "currentWritePolicy": "New Classic continues until a lost board. Ten-world route cycles; stock L11=14 down to L24=1 (Thread only), then stays1. Factor capped20 and clear bonus50000 from L10. Hugo6/Window6 replace the next position without a ten-position boundary; all historical versions remain exact. New rows use6.24.14; prepared SQL permits that marker alongside6.23, without a wipe."
 }

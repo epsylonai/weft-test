@@ -1,0 +1,109 @@
+{
+  "status": "prepared-not-deployed",
+  "version": "6.24.14",
+  "brief": "B-052 endless Classic",
+  "canonicalSha256": "40ea4cf12a529950311ea23d2ef8230c1082fffd61e35038b612089a3aa14128",
+  "files": [
+    {
+      "file": "server/weft-leaderboard/canonical-replay.mjs",
+      "bytes": 164792,
+      "sha256": "40ea4cf12a529950311ea23d2ef8230c1082fffd61e35038b612089a3aa14128"
+    },
+    {
+      "file": "server/weft-leaderboard/canonical-replay-manifest.json",
+      "bytes": 8074,
+      "sha256": "95930d4d712929f348d8de557879a61519b202fd37f1e2a50701adeacb61b1fc"
+    },
+    {
+      "file": "server/weft-leaderboard/index.ts",
+      "bytes": 5100,
+      "sha256": "fb4a0b99ba143974c002c02c725fcdd27af48f5e93cb6c9108ef17501808dc47"
+    },
+    {
+      "file": "server/weft-leaderboard/202610220001_endless_classic_rows.sql",
+      "bytes": 340,
+      "sha256": "9a46976425bb3825431cd3897d88270dc12355cdb7c33bc3d19f062b6f8f99e3"
+    },
+    {
+      "file": "server/weft-leaderboard/README-B052.md",
+      "bytes": 2713,
+      "sha256": "8df100b0e2a5e00dda3e20eb848900c35776986072c4fe44e52a90c6c7961f9c"
+    }
+  ],
+  "acceptance": {
+    "file": "test-output/b052-server/acceptance.json",
+    "bytes": 26084,
+    "sha256": "83e41741c52ecfac3146a2213e2a62f76814c48ec6e96c3908c4d21c6323aef2"
+  },
+  "ledger": {
+    "file": "server/weft-leaderboard/B052-FILES.sha256",
+    "bytes": 3302,
+    "sha256": "4633d81753e3fdc1cdb05bf13961f06a4c686895cda198d40ca417d5705e7585"
+  },
+  "historicalAuthorities": [
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-756acac0.mjs",
+      "bytes": 102782,
+      "sha256": "756acac049db13ce91dd965ff33da1fe939bcb6c56af8c1a013701032608b1ea"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-e32be620.mjs",
+      "bytes": 112120,
+      "sha256": "e32be62030f65a304446f82c5c419035e1efc7812af8ef85732d12931032573e"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-31c382ef.mjs",
+      "bytes": 120292,
+      "sha256": "31c382efb9d2f5b90807edacd2b0984c352b85507358e2c1fc1407af4c8ed6f7"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-1acc4654.mjs",
+      "bytes": 126629,
+      "sha256": "1acc4654f68958217a0ecfe6b8c06d3e6082ba0277ea949c6ab7a4db7ba4a897"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-02b96949.mjs",
+      "bytes": 131806,
+      "sha256": "02b9694947c1b4a475679c705fb939f75b59a020cd6a3e73aad38d34cf8ecfce"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-05bd763a.mjs",
+      "bytes": 139599,
+      "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-9a0cdaea.mjs",
+      "bytes": 142653,
+      "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-21d5e8ee.mjs",
+      "bytes": 144485,
+      "sha256": "21d5e8ee337e97b0d7ff5574d96d085596023bb373c856f48e6dc0fa6ef36f30"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-156cfcd3.mjs",
+      "bytes": 146434,
+      "sha256": "156cfcd328460fa799d72c43ccf2577eead891192e0a86f9485958c5107b3006"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-e730d478.mjs",
+      "bytes": 152594,
+      "sha256": "e730d478b39b66c126f6ef6b843852d964bfda14d4f4a9af9d5a81a32b2f6d2d"
+    }
+  ],
+  "migration": {
+    "file": "server/weft-leaderboard/202610220001_endless_classic_rows.sql",
+    "bytes": 340,
+    "sha256": "9a46976425bb3825431cd3897d88270dc12355cdb7c33bc3d19f062b6f8f99e3"
+  },
+  "sqlAction": "PREPARED ONLY: broaden scores_current_clear_v2 version check from6.23 to(6.23,6.24.14). No data reset, deletion, recalculation, rank/badge/row-shape change. Existing level_reached is positive PostgreSQL integer, with no ten-level cap.",
+  "ownerOrder": [
+    "Apply only new version-marker constraint migration (no wipe)",
+    "Pin exact canonical bundle and retain live handler hardening/run-score kinds",
+    "Verify long-floor, Hugo6, Window6 genuine proofs and forgeries",
+    "Publish client only after server acceptance"
+  ],
+  "deploymentExecuted": false,
+  "databaseExecuted": false
+}

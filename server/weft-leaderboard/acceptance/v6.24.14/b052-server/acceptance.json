@@ -1,0 +1,915 @@
+{
+  "status": "passed-prepared-not-deployed",
+  "version": "6.24.14",
+  "brief": "B-052 Note2 endless Classic",
+  "startedAt": "2026-10-22T08:12:49.766Z",
+  "finishedAt": "2026-10-22T08:13:39.498Z",
+  "canonical": {
+    "file": "server/weft-leaderboard/canonical-replay.mjs",
+    "bytes": 164792,
+    "sha256": "40ea4cf12a529950311ea23d2ef8230c1082fffd61e35038b612089a3aa14128"
+  },
+  "manifest": {
+    "file": "server/weft-leaderboard/canonical-replay-manifest.json",
+    "bytes": 8074,
+    "sha256": "95930d4d712929f348d8de557879a61519b202fd37f1e2a50701adeacb61b1fc"
+  },
+  "inputs": [
+    {
+      "file": "../../B-002/engine/configs.ts",
+      "sha256": "8621b35d7f0fe80f5601ca8654704b9b34793096197e60dc41ddb4aa45bc7907"
+    },
+    {
+      "file": "../../B-002/engine/deck.ts",
+      "sha256": "0979809455663e60b7e2027866eb2f4cec095233efd43cd71b1660eda577026f"
+    },
+    {
+      "file": "../../B-002/engine/hands.ts",
+      "sha256": "ca19f65afae92a32f3f6f5b85ce64e145860d4f9ad9fbe7806696c39f4ae94d0"
+    },
+    {
+      "file": "../../B-002/engine/layout.ts",
+      "sha256": "df22ac84f7a7fbc6e0703ccd7dcab980f2c2edd5b43ad5eb7fd47e306f8178d2"
+    },
+    {
+      "file": "../../B-002/engine/rules.ts",
+      "sha256": "16168b9c3dafb772629f1b0301f6b1bcb2f392d32e3b7b6029d5857215b4c341"
+    },
+    {
+      "file": "../../B-002/engine/scoring.ts",
+      "sha256": "07558c6eb071ed05bc8b54a5afd137e72ff75d923a7d42861c6af26e2c6e8dd9"
+    },
+    {
+      "file": "../../B-004/engine/generator.ts",
+      "sha256": "b00f0a8cd185088aa5d169857041783aa006432c8daa1487298ec0f7fb022c94"
+    },
+    {
+      "file": "../../B-004/engine/solver.ts",
+      "sha256": "4151ff98caff4ada906bff06368a2e50ac225d52aa1917cd5d825b6e689b3c51"
+    },
+    {
+      "file": "src/daily.ts",
+      "sha256": "871456d69b0d1f8e0e9767499266227ea6943ca231cc407437805554bf5ad304"
+    },
+    {
+      "file": "src/endless-deal.ts",
+      "sha256": "31345bf5b566ea77b31164441ec02275af049a7312461a571a5261f8f21f6165"
+    },
+    {
+      "file": "src/grove-opportunity.ts",
+      "sha256": "1d3076c3a9cd1721d3f5e9a01727672cd1603810bea5af2547a9fb050d839f44"
+    },
+    {
+      "file": "src/hugo-trigger.ts",
+      "sha256": "5078f6872959ad4a9cac9c536f40fbfafbf79347b8fdd74476e159d2de91bdfa"
+    },
+    {
+      "file": "src/leaderboard-validation.ts",
+      "sha256": "7bad996fbfc5642a121a78f41f30af97a07d9553723cf757a45e38277912b4b8"
+    },
+    {
+      "file": "src/leaderboard-wire.ts",
+      "sha256": "6506e31507bfaccf5b2f562616780d23f32177f6887c5d26f175acef96fd08ec"
+    },
+    {
+      "file": "src/neon-window-admission.ts",
+      "sha256": "c468f1c5ae3f28df197151864addee5074c62c6c647d54c2410c60660541a010"
+    },
+    {
+      "file": "src/nickname.ts",
+      "sha256": "ff927dfd8363f4e3f51075adff878ba0ae935413146b1d2d95827251b608cf3b"
+    },
+    {
+      "file": "src/play-mode.ts",
+      "sha256": "9a23eddacdbd055fdf8c0cee7ed672c1a7d05502b0e6755cf359104cb935fccc"
+    },
+    {
+      "file": "src/records.ts",
+      "sha256": "933e74c6de2ebf1160eea9fb4dcc3904c922042ed8b0b73cbe38fba358c0fa2e"
+    },
+    {
+      "file": "src/replay-practice.ts",
+      "sha256": "ecac3c0382236619510065b45c5752f6844e9caac18a465af3510d5ee146b9b0"
+    },
+    {
+      "file": "src/run-plan.ts",
+      "sha256": "899cb55db481615799c06b3b5ce56de0c822e08b490b829642dda8f58ffa39a7"
+    },
+    {
+      "file": "src/run.ts",
+      "sha256": "17d45f849acddb4b0ae813aa0f780681717bd4ace7113810d744b52cd9b36b65"
+    },
+    {
+      "file": "src/score-codec.ts",
+      "sha256": "c0332ec839afda0cc327c1be2bd26b9252c2da3796eb1e43e7cc6bb4f8964718"
+    },
+    {
+      "file": "src/score-config.ts",
+      "sha256": "c596d7b373c07423ab527202662b21033585cd927c2698b6385f0c4f32b59495"
+    },
+    {
+      "file": "src/test-mode-gate.ts",
+      "sha256": "060845e59f42f39215caf01ec969f033af47b9bcae73d3574dfdc19e510571c0"
+    },
+    {
+      "file": "src/window-trigger.ts",
+      "sha256": "52fde69b1226489b6d3e6c91f1a900d8252b1487951cb7ddb05a89f7df8d354a"
+    },
+    {
+      "file": "src/world-config.ts",
+      "sha256": "ea5564b569b62f840578d5dc7abd3f255d2422f489d6141a226e65f55581d630"
+    },
+    {
+      "file": "supabase/replay-entry.ts",
+      "sha256": "4a64ee498d0e3164e0971f0d36ff384d656405220b379698ca2587c9be32852d"
+    },
+    {
+      "file": "supabase/warp-replay.ts",
+      "sha256": "634f0191982db2b6ba284b0d15924262cb38828d5254eb79619e778b18e4333b"
+    },
+    {
+      "file": "warp-core/config.ts",
+      "sha256": "9287a54693c4de169f7c795d2791735692edb9422087730e218cc97809d98ea7"
+    },
+    {
+      "file": "warp-core/generator.ts",
+      "sha256": "39e566d3b8b7381d408c3178747958bff6334f25f94b1fd48b86fd9ecd70ae1c"
+    },
+    {
+      "file": "warp-core/hands.ts",
+      "sha256": "6d0be2f5da992ef725eda55670091725b8a3b54cc3b701611342046b16520e24"
+    },
+    {
+      "file": "warp-core/rewards.ts",
+      "sha256": "2da5a01fdf85bcfefb28ebb665d43d5a2db12804db19fcdc96abfcdb6ea9fb59"
+    },
+    {
+      "file": "warp-core/rules.ts",
+      "sha256": "a83c41a3046de141bc691e8f068b4b98d4e18aec073cfc14cfb4055a74f67f91"
+    },
+    {
+      "file": "warp-core/run.ts",
+      "sha256": "7c7538f74c1201985a48838d1d18c0db77aaee469851fc6fcd04e889d434d597"
+    },
+    {
+      "file": "warp-core/solver.ts",
+      "sha256": "06c49515f899e00cd1e02556f191b6bd05b78b09628c111fa70aab662d1680a5"
+    }
+  ],
+  "stableSource": [
+    {
+      "file": "../../B-002/engine/configs.ts",
+      "bytes": 1173,
+      "sha256": "8621b35d7f0fe80f5601ca8654704b9b34793096197e60dc41ddb4aa45bc7907"
+    },
+    {
+      "file": "../../B-002/engine/deck.ts",
+      "bytes": 3858,
+      "sha256": "0979809455663e60b7e2027866eb2f4cec095233efd43cd71b1660eda577026f"
+    },
+    {
+      "file": "../../B-002/engine/hands.ts",
+      "bytes": 8544,
+      "sha256": "ca19f65afae92a32f3f6f5b85ce64e145860d4f9ad9fbe7806696c39f4ae94d0"
+    },
+    {
+      "file": "../../B-002/engine/layout.ts",
+      "bytes": 2161,
+      "sha256": "df22ac84f7a7fbc6e0703ccd7dcab980f2c2edd5b43ad5eb7fd47e306f8178d2"
+    },
+    {
+      "file": "../../B-002/engine/rules.ts",
+      "bytes": 8155,
+      "sha256": "16168b9c3dafb772629f1b0301f6b1bcb2f392d32e3b7b6029d5857215b4c341"
+    },
+    {
+      "file": "../../B-002/engine/scoring.ts",
+      "bytes": 148,
+      "sha256": "07558c6eb071ed05bc8b54a5afd137e72ff75d923a7d42861c6af26e2c6e8dd9"
+    },
+    {
+      "file": "../../B-004/engine/generator.ts",
+      "bytes": 3480,
+      "sha256": "b00f0a8cd185088aa5d169857041783aa006432c8daa1487298ec0f7fb022c94"
+    },
+    {
+      "file": "../../B-004/engine/solver.ts",
+      "bytes": 18049,
+      "sha256": "4151ff98caff4ada906bff06368a2e50ac225d52aa1917cd5d825b6e689b3c51"
+    },
+    {
+      "file": "src/daily.ts",
+      "bytes": 1023,
+      "sha256": "871456d69b0d1f8e0e9767499266227ea6943ca231cc407437805554bf5ad304"
+    },
+    {
+      "file": "src/endless-deal.ts",
+      "bytes": 9276,
+      "sha256": "31345bf5b566ea77b31164441ec02275af049a7312461a571a5261f8f21f6165"
+    },
+    {
+      "file": "src/grove-opportunity.ts",
+      "bytes": 4742,
+      "sha256": "1d3076c3a9cd1721d3f5e9a01727672cd1603810bea5af2547a9fb050d839f44"
+    },
+    {
+      "file": "src/hugo-trigger.ts",
+      "bytes": 3933,
+      "sha256": "5078f6872959ad4a9cac9c536f40fbfafbf79347b8fdd74476e159d2de91bdfa"
+    },
+    {
+      "file": "src/leaderboard-validation.ts",
+      "bytes": 10609,
+      "sha256": "7bad996fbfc5642a121a78f41f30af97a07d9553723cf757a45e38277912b4b8"
+    },
+    {
+      "file": "src/leaderboard-wire.ts",
+      "bytes": 2045,
+      "sha256": "6506e31507bfaccf5b2f562616780d23f32177f6887c5d26f175acef96fd08ec"
+    },
+    {
+      "file": "src/neon-window-admission.ts",
+      "bytes": 2467,
+      "sha256": "c468f1c5ae3f28df197151864addee5074c62c6c647d54c2410c60660541a010"
+    },
+    {
+      "file": "src/nickname.ts",
+      "bytes": 3666,
+      "sha256": "ff927dfd8363f4e3f51075adff878ba0ae935413146b1d2d95827251b608cf3b"
+    },
+    {
+      "file": "src/play-mode.ts",
+      "bytes": 3999,
+      "sha256": "9a23eddacdbd055fdf8c0cee7ed672c1a7d05502b0e6755cf359104cb935fccc"
+    },
+    {
+      "file": "src/records.ts",
+      "bytes": 12586,
+      "sha256": "933e74c6de2ebf1160eea9fb4dcc3904c922042ed8b0b73cbe38fba358c0fa2e"
+    },
+    {
+      "file": "src/replay-practice.ts",
+      "bytes": 1663,
+      "sha256": "ecac3c0382236619510065b45c5752f6844e9caac18a465af3510d5ee146b9b0"
+    },
+    {
+      "file": "src/run-plan.ts",
+      "bytes": 3384,
+      "sha256": "899cb55db481615799c06b3b5ce56de0c822e08b490b829642dda8f58ffa39a7"
+    },
+    {
+      "file": "src/run.ts",
+      "bytes": 51650,
+      "sha256": "17d45f849acddb4b0ae813aa0f780681717bd4ace7113810d744b52cd9b36b65"
+    },
+    {
+      "file": "src/score-codec.ts",
+      "bytes": 1048,
+      "sha256": "c0332ec839afda0cc327c1be2bd26b9252c2da3796eb1e43e7cc6bb4f8964718"
+    },
+    {
+      "file": "src/score-config.ts",
+      "bytes": 9077,
+      "sha256": "c596d7b373c07423ab527202662b21033585cd927c2698b6385f0c4f32b59495"
+    },
+    {
+      "file": "src/test-mode-gate.ts",
+      "bytes": 805,
+      "sha256": "060845e59f42f39215caf01ec969f033af47b9bcae73d3574dfdc19e510571c0"
+    },
+    {
+      "file": "src/window-trigger.ts",
+      "bytes": 6175,
+      "sha256": "52fde69b1226489b6d3e6c91f1a900d8252b1487951cb7ddb05a89f7df8d354a"
+    },
+    {
+      "file": "src/world-config.ts",
+      "bytes": 5098,
+      "sha256": "ea5564b569b62f840578d5dc7abd3f255d2422f489d6141a226e65f55581d630"
+    },
+    {
+      "file": "supabase/replay-entry.ts",
+      "bytes": 6561,
+      "sha256": "4a64ee498d0e3164e0971f0d36ff384d656405220b379698ca2587c9be32852d"
+    },
+    {
+      "file": "supabase/warp-replay.ts",
+      "bytes": 6342,
+      "sha256": "634f0191982db2b6ba284b0d15924262cb38828d5254eb79619e778b18e4333b"
+    },
+    {
+      "file": "warp-core/config.ts",
+      "bytes": 3504,
+      "sha256": "9287a54693c4de169f7c795d2791735692edb9422087730e218cc97809d98ea7"
+    },
+    {
+      "file": "warp-core/generator.ts",
+      "bytes": 7136,
+      "sha256": "39e566d3b8b7381d408c3178747958bff6334f25f94b1fd48b86fd9ecd70ae1c"
+    },
+    {
+      "file": "warp-core/hands.ts",
+      "bytes": 3454,
+      "sha256": "6d0be2f5da992ef725eda55670091725b8a3b54cc3b701611342046b16520e24"
+    },
+    {
+      "file": "warp-core/rewards.ts",
+      "bytes": 3685,
+      "sha256": "2da5a01fdf85bcfefb28ebb665d43d5a2db12804db19fcdc96abfcdb6ea9fb59"
+    },
+    {
+      "file": "warp-core/rules.ts",
+      "bytes": 21622,
+      "sha256": "a83c41a3046de141bc691e8f068b4b98d4e18aec073cfc14cfb4055a74f67f91"
+    },
+    {
+      "file": "warp-core/run.ts",
+      "bytes": 13719,
+      "sha256": "7c7538f74c1201985a48838d1d18c0db77aaee469851fc6fcd04e889d434d597"
+    },
+    {
+      "file": "warp-core/solver.ts",
+      "bytes": 4807,
+      "sha256": "06c49515f899e00cd1e02556f191b6bd05b78b09628c111fa70aab662d1680a5"
+    },
+    {
+      "file": "src/run-controller.ts",
+      "bytes": 40151,
+      "sha256": "5ee56489a04d953fc5929f894d70bd39fd06d7daafe44b48016a1bf91ef574ec"
+    },
+    {
+      "file": "tests/b052-endless.test.cjs",
+      "bytes": 7561,
+      "sha256": "92bcd1acf7a2e5a242d45059f7df2ad0d4da4f6fe7dc49f3fb2b12b2a8a28f35"
+    },
+    {
+      "file": "tests/b052-history.test.cjs",
+      "bytes": 7934,
+      "sha256": "40e20d029eb2eb82926282d363f9cfa5a94618e9a879492a02c606b0fca85df9"
+    },
+    {
+      "file": "tests/b052-floor.test.cjs",
+      "bytes": 5574,
+      "sha256": "eb55eb93a9fa52ef3c3e1c0ecdb476cc5e6e98235de209c8251ca5980dcd42f1"
+    },
+    {
+      "file": "tests/b052-support.cjs",
+      "bytes": 1695,
+      "sha256": "72b5fc1a67601be98785a20c2e719a9748e40eb77844d07db4d199a4913e6aaf"
+    },
+    {
+      "file": "tools/bundle-b052-replay.cjs",
+      "bytes": 3054,
+      "sha256": "39d37bec3b0ce3f12bf4c98c48fb48e508675c08a5a65eca0ab688e1034ca77a"
+    },
+    {
+      "file": "tools/verify-b052-server-package.cjs",
+      "bytes": 7424,
+      "sha256": "773853a2408e5d8e1e739f8f9b159134adf8537f7728bdea5b1bb3b4fa975b8d"
+    },
+    {
+      "file": "server/weft-leaderboard/canonical-replay-manifest.json",
+      "bytes": 8074,
+      "sha256": "95930d4d712929f348d8de557879a61519b202fd37f1e2a50701adeacb61b1fc"
+    },
+    {
+      "file": "server/weft-leaderboard/canonical-replay.mjs",
+      "bytes": 164792,
+      "sha256": "40ea4cf12a529950311ea23d2ef8230c1082fffd61e35038b612089a3aa14128"
+    },
+    {
+      "file": "server/weft-leaderboard/index.ts",
+      "bytes": 5100,
+      "sha256": "fb4a0b99ba143974c002c02c725fcdd27af48f5e93cb6c9108ef17501808dc47"
+    },
+    {
+      "file": "server/weft-leaderboard/202610220001_endless_classic_rows.sql",
+      "bytes": 340,
+      "sha256": "9a46976425bb3825431cd3897d88270dc12355cdb7c33bc3d19f062b6f8f99e3"
+    },
+    {
+      "file": "supabase/migrations/202610220001_endless_classic_rows.sql",
+      "bytes": 340,
+      "sha256": "9a46976425bb3825431cd3897d88270dc12355cdb7c33bc3d19f062b6f8f99e3"
+    },
+    {
+      "file": "server/weft-leaderboard/README-B052.md",
+      "bytes": 2713,
+      "sha256": "8df100b0e2a5e00dda3e20eb848900c35776986072c4fe44e52a90c6c7961f9c"
+    },
+    {
+      "file": "NOTES-server-B052.md",
+      "bytes": 3641,
+      "sha256": "b21a7e0dc529ee1c1f38736fbf0bbeb3bcd5baa8bca34f7fa57e6a6b625b815b"
+    }
+  ],
+  "sourceStable": true,
+  "tests": {
+    "tests": 86,
+    "pass": 86,
+    "fail": 0,
+    "files": [
+      {
+        "file": "tests/b052-endless.test.cjs",
+        "bytes": 7561,
+        "sha256": "92bcd1acf7a2e5a242d45059f7df2ad0d4da4f6fe7dc49f3fb2b12b2a8a28f35"
+      },
+      {
+        "file": "tests/b052-history.test.cjs",
+        "bytes": 7934,
+        "sha256": "40e20d029eb2eb82926282d363f9cfa5a94618e9a879492a02c606b0fca85df9"
+      },
+      {
+        "file": "tests/b052-floor.test.cjs",
+        "bytes": 5574,
+        "sha256": "eb55eb93a9fa52ef3c3e1c0ecdb476cc5e6e98235de209c8251ca5980dcd42f1"
+      }
+    ],
+    "log": {
+      "file": "test-output/b052-server/tests.log",
+      "bytes": 7279,
+      "sha256": "fe6f955e6b35caf4154a016d3f14a0bbfde774e931f68cfa4416510c519f5b2d"
+    },
+    "typecheck": {
+      "exitCode": 0,
+      "log": {
+        "file": "test-output/b052-server/typecheck.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  },
+  "accepted": [
+    {
+      "fixture": {
+        "file": "test-output/b052-endless/long-floor-run.json",
+        "bytes": 1964395,
+        "sha256": "c6d68ea1ec5e5845fbc036b7b67f708930a5236af99e02fa08b0474a4a365e4d"
+      },
+      "proofBytes": 14316,
+      "rows": {
+        "file": "test-output/b052-server/long-floor-run-rows.json",
+        "bytes": 63866,
+        "sha256": "c0c177f32e082151924d2b223e4668efd69bf85b8eee4564539aaa5e47fe1e62"
+      },
+      "positions": [
+        {
+          "level": 1,
+          "secret": null,
+          "spool": 28,
+          "score": 6505
+        },
+        {
+          "level": 2,
+          "secret": null,
+          "spool": 27,
+          "score": 14709
+        },
+        {
+          "level": 3,
+          "secret": null,
+          "spool": 26,
+          "score": 11214
+        },
+        {
+          "level": 4,
+          "secret": null,
+          "spool": 25,
+          "score": 18228
+        },
+        {
+          "level": 5,
+          "secret": null,
+          "spool": 24,
+          "score": 29324
+        },
+        {
+          "level": 6,
+          "secret": null,
+          "spool": 23,
+          "score": 38335
+        },
+        {
+          "level": 7,
+          "secret": null,
+          "spool": 22,
+          "score": 43027
+        },
+        {
+          "level": 8,
+          "secret": null,
+          "spool": 21,
+          "score": 50380
+        },
+        {
+          "level": 9,
+          "secret": null,
+          "spool": 20,
+          "score": 86128
+        },
+        {
+          "level": 10,
+          "secret": null,
+          "spool": 15,
+          "score": 132540
+        },
+        {
+          "level": 11,
+          "secret": null,
+          "spool": 14,
+          "score": 110400
+        },
+        {
+          "level": 12,
+          "secret": null,
+          "spool": 13,
+          "score": 113000
+        },
+        {
+          "level": 13,
+          "secret": null,
+          "spool": 12,
+          "score": 149200
+        },
+        {
+          "level": 14,
+          "secret": null,
+          "spool": 11,
+          "score": 146000
+        },
+        {
+          "level": 15,
+          "secret": null,
+          "spool": 10,
+          "score": 104700
+        },
+        {
+          "level": 16,
+          "secret": null,
+          "spool": 9,
+          "score": 80200
+        },
+        {
+          "level": 17,
+          "secret": null,
+          "spool": 8,
+          "score": 106740
+        },
+        {
+          "level": 18,
+          "secret": null,
+          "spool": 7,
+          "score": 544600
+        },
+        {
+          "level": 19,
+          "secret": null,
+          "spool": 6,
+          "score": 156800
+        },
+        {
+          "level": 20,
+          "secret": null,
+          "spool": 5,
+          "score": 2430000
+        },
+        {
+          "level": 21,
+          "secret": null,
+          "spool": 4,
+          "score": 1651400
+        },
+        {
+          "level": 22,
+          "secret": null,
+          "spool": 3,
+          "score": 1830400
+        },
+        {
+          "level": 23,
+          "secret": null,
+          "spool": 2,
+          "score": 1363000
+        },
+        {
+          "level": 24,
+          "secret": null,
+          "spool": 1,
+          "score": 1235600
+        },
+        {
+          "level": 25,
+          "secret": null,
+          "spool": 1,
+          "score": 1298000
+        },
+        {
+          "level": 26,
+          "secret": null,
+          "spool": 1,
+          "score": 1002000
+        },
+        {
+          "level": 27,
+          "secret": null,
+          "spool": 1,
+          "score": 96000
+        }
+      ],
+      "total": 12848430
+    },
+    {
+      "fixture": {
+        "file": "test-output/b052-endless/hugo6-run.json",
+        "bytes": 65087,
+        "sha256": "1229d1c6629c2bfbf1d7c12c8cbe0231fd57353f0bf4817898d176d7b56bab6e"
+      },
+      "proofBytes": 7350,
+      "rows": {
+        "file": "test-output/b052-server/hugo6-run-rows.json",
+        "bytes": 33410,
+        "sha256": "740d508b4793b3a4d820a112fd7b80a802176c51de4200b167eed6dcab4347ee"
+      },
+      "positions": [
+        {
+          "level": 1,
+          "secret": null,
+          "spool": 28,
+          "score": 6505
+        },
+        {
+          "level": 2,
+          "secret": null,
+          "spool": 27,
+          "score": 14709
+        },
+        {
+          "level": 3,
+          "secret": null,
+          "spool": 26,
+          "score": 11214
+        },
+        {
+          "level": 4,
+          "secret": null,
+          "spool": 25,
+          "score": 18228
+        },
+        {
+          "level": 5,
+          "secret": null,
+          "spool": 24,
+          "score": 29324
+        },
+        {
+          "level": 6,
+          "secret": null,
+          "spool": 23,
+          "score": 38335
+        },
+        {
+          "level": 7,
+          "secret": null,
+          "spool": 22,
+          "score": 43027
+        },
+        {
+          "level": 8,
+          "secret": null,
+          "spool": 21,
+          "score": 50380
+        },
+        {
+          "level": 9,
+          "secret": null,
+          "spool": 20,
+          "score": 86128
+        },
+        {
+          "level": 10,
+          "secret": null,
+          "spool": 15,
+          "score": 1018000
+        },
+        {
+          "level": 11,
+          "secret": "hugo",
+          "spool": 14,
+          "score": 112900
+        },
+        {
+          "level": 12,
+          "secret": null,
+          "spool": 13,
+          "score": 113000
+        },
+        {
+          "level": 13,
+          "secret": null,
+          "spool": 12,
+          "score": 3600
+        }
+      ],
+      "total": 1545350
+    },
+    {
+      "fixture": {
+        "file": "test-output/b052-endless/window6-run.json",
+        "bytes": 543186,
+        "sha256": "656fff96e50c413af094a3b30e84293b20bd2d402d6bb6ae3c56d791c899a226"
+      },
+      "proofBytes": 7327,
+      "rows": {
+        "file": "test-output/b052-server/window6-run-rows.json",
+        "bytes": 33040,
+        "sha256": "1b473ab9911d6fc7580cc5eeacfe75a5d4eed808fa9a2a0a00b7e7fc8a508444"
+      },
+      "positions": [
+        {
+          "level": 1,
+          "secret": null,
+          "spool": 28,
+          "score": 5223
+        },
+        {
+          "level": 2,
+          "secret": null,
+          "spool": 27,
+          "score": 10509
+        },
+        {
+          "level": 3,
+          "secret": null,
+          "spool": 26,
+          "score": 32222
+        },
+        {
+          "level": 4,
+          "secret": null,
+          "spool": 25,
+          "score": 18753
+        },
+        {
+          "level": 5,
+          "secret": null,
+          "spool": 24,
+          "score": 22588
+        },
+        {
+          "level": 6,
+          "secret": null,
+          "spool": 23,
+          "score": 31828
+        },
+        {
+          "level": 7,
+          "secret": null,
+          "spool": 22,
+          "score": 138525
+        },
+        {
+          "level": 8,
+          "secret": null,
+          "spool": 21,
+          "score": 48600
+        },
+        {
+          "level": 9,
+          "secret": null,
+          "spool": 20,
+          "score": 115738
+        },
+        {
+          "level": 10,
+          "secret": null,
+          "spool": 15,
+          "score": 162400
+        },
+        {
+          "level": 11,
+          "secret": "window",
+          "spool": 14,
+          "score": 131940
+        },
+        {
+          "level": 12,
+          "secret": null,
+          "spool": 13,
+          "score": 156200
+        },
+        {
+          "level": 13,
+          "secret": null,
+          "spool": 12,
+          "score": 600
+        }
+      ],
+      "total": 875126
+    }
+  ],
+  "historicalAuthorities": [
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-756acac0.mjs",
+      "bytes": 102782,
+      "sha256": "756acac049db13ce91dd965ff33da1fe939bcb6c56af8c1a013701032608b1ea"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-e32be620.mjs",
+      "bytes": 112120,
+      "sha256": "e32be62030f65a304446f82c5c419035e1efc7812af8ef85732d12931032573e"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-31c382ef.mjs",
+      "bytes": 120292,
+      "sha256": "31c382efb9d2f5b90807edacd2b0984c352b85507358e2c1fc1407af4c8ed6f7"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-1acc4654.mjs",
+      "bytes": 126629,
+      "sha256": "1acc4654f68958217a0ecfe6b8c06d3e6082ba0277ea949c6ab7a4db7ba4a897"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-02b96949.mjs",
+      "bytes": 131806,
+      "sha256": "02b9694947c1b4a475679c705fb939f75b59a020cd6a3e73aad38d34cf8ecfce"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-05bd763a.mjs",
+      "bytes": 139599,
+      "sha256": "05bd763a2dea3f24ab4e5dc9d324302c06275172a7b975c7b24f1b0688cbdd05"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-9a0cdaea.mjs",
+      "bytes": 142653,
+      "sha256": "9a0cdaead9e066949379085d41c7e14fd76196da00513937bd921b8ef1eee679"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-21d5e8ee.mjs",
+      "bytes": 144485,
+      "sha256": "21d5e8ee337e97b0d7ff5574d96d085596023bb373c856f48e6dc0fa6ef36f30"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-156cfcd3.mjs",
+      "bytes": 146434,
+      "sha256": "156cfcd328460fa799d72c43ccf2577eead891192e0a86f9485958c5107b3006"
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-e730d478.mjs",
+      "bytes": 152594,
+      "sha256": "e730d478b39b66c126f6ef6b843852d964bfda14d4f4a9af9d5a81a32b2f6d2d"
+    }
+  ],
+  "historicalParity": "Ten immutable authorities, including e730d478. Hugo1–5 / Window1–5, finite6.14 completion, historical unbounded6.7/6.9, Daily and Warp rows deep-equal. Genuine appended-secret-loss history retained.",
+  "forgeries": [
+    "wrong stock",
+    "wrong factor",
+    "wrong clear reward",
+    "skipped position",
+    "wrong total",
+    "old scoring marker with endless curve",
+    "finite curve with new features",
+    "false Classic-complete",
+    "wrong secret stock/factor/bonus/position",
+    "extra ordinary replay in replaced slot"
+  ],
+  "checks": {
+    "endlessUntilLoss": true,
+    "clears26ThenFails27": true,
+    "clearsBeyondMinimum": true,
+    "minimumStockIncludesThread": 1,
+    "stockAtLevel11": 14,
+    "stockAtLevel24": 1,
+    "level10AndLaterFactor": 20,
+    "level10AndLaterClearReward": 50000,
+    "worldRoutesCycleTen": true,
+    "secretsAt11ReplacePosition": true,
+    "nextOrdinaryPosition12": true,
+    "allCreditsOnce": true,
+    "exactContinueNoRedeal": true,
+    "historicalFiniteStillFinite": true,
+    "dailyWarpUnchanged": true,
+    "sharedEngineAndSolverUnchanged": true,
+    "handlerUnchanged": true
+  },
+  "handler": {
+    "file": "server/weft-leaderboard/index.ts",
+    "bytes": 5100,
+    "sha256": "fb4a0b99ba143974c002c02c725fcdd27af48f5e93cb6c9108ef17501808dc47"
+  },
+  "migration": {
+    "file": "server/weft-leaderboard/202610220001_endless_classic_rows.sql",
+    "bytes": 340,
+    "sha256": "9a46976425bb3825431cd3897d88270dc12355cdb7c33bc3d19f062b6f8f99e3"
+  },
+  "sqlAction": "PREPARED ONLY: broaden scores_current_clear_v2 version check from6.23 to(6.23,6.24.14). No data reset, deletion, recalculation, rank/badge/row-shape change. Existing level_reached is positive PostgreSQL integer, with no ten-level cap.",
+  "resourceLimits": {
+    "httpBytes": 1048576,
+    "compactProofBoards": 10000,
+    "postgresIntegerLevel": 2147483647,
+    "gameplayCap": false,
+    "oversizedProofs": "retained locally"
+  },
+  "deploymentExecuted": false,
+  "databaseExecuted": false,
+  "networkAccess": false
+}
