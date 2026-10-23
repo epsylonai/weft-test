@@ -127,7 +127,7 @@
     },
     {
       "file": "src/nickname.ts",
-      "sha256": "8155afcdcf2c4650e1087c28e46874fdb0813af2987f454a573fede13828784f"
+      "sha256": "b0f895b4f2cba3c53c0a0ee4b9d6c022bf813e08672f69081a51b80f984eab8a"
     },
     {
       "file": "src/play-mode.ts",
@@ -306,7 +306,20 @@
     "sha256": "5213bd9e416c63e7b26b816ac839aaa0fe817e871c099647eca7dd65624c6047",
     "accepted": true
   },
-  "deploymentRequired": true,
+  "deploymentRequired": false,
   "newMigrationRequired": true,
-  "currentWritePolicy": "Hugo8 only for fresh Classic writes, earned4 unchanged. Exact two-rank6/7 or7/6 with optional initialThread, followed by accepted Draw/Joker. Ordinary solver-verified Grove decks plus a both-buried pair; old6767 shaping remains historical only. All17 historical authorities verify row-exact; pre21 Classic current writes UPDATE_GAME_REQUIRED. Daily/Warp unchanged. New007 locks/archive-verifies/hides ALL score rows once, keeps badges, adds21 to actual scores_current_clear_v2; noDELETE or reapplication of old migrations."
+  "currentWritePolicy": "Unchanged H8/earned4 canonical a747; row version remains6.24.21 and all historical verification unchanged. B060 adds private player-read/player-write only. Apply ONLY202610230001_player_transfer.sql; no season/ranking reset, no007 reapplication, no score/badge mutation.",
+  "sourceStage": "6.24.22",
+  "sourceRebind": {
+    "reason": "Client-only player importCode restore; nickname validation unchanged and tree-shaken authority byte-exact.",
+    "commentNamespace": "ChatGPT/B-059/v6.24.21/",
+    "changedInputs": [
+      {
+        "file": "src/nickname.ts",
+        "sha256": "b0f895b4f2cba3c53c0a0ee4b9d6c022bf813e08672f69081a51b80f984eab8a"
+      }
+    ],
+    "normalizedRebuildSha256": "a74732bb90e0da78cfe4c5b74131a488b9c1dc870f41d021dadfc40ef9c10608",
+    "previousManifestSha256": "a2ff0fea99c0b64e2e66c4de3c29d264198a98e2507649d674f5b3b0950e15e7"
+  }
 }

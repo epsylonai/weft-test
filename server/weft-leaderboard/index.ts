@@ -23,7 +23,9 @@
 // B057 v6.24.19 (deployed by Claude 2026-10-22 18:1x Lisbon): bundle import pinned to epsylonai/weft-test a42a202 (sha256 948f4b3d…82e8, checked after push): earned-3 dead ends (no Joker: bank at once, empty stock ends the board; held Joker keeps the choice); live 6.24.18 earned-2 rows unchanged; SQL 202610220005 applied first (version check admits 6.24.19, no reset); handler unchanged.
 // B058 v6.24.20 (deployed by Claude 2026-10-22 19:5x Lisbon): bundle import pinned to epsylonai/weft-test b6bbd7e (sha256 5213bd9e…6047, checked after push): earned-4 verified End game (exhaustive no-way-out proof required); live 6.24.19/6.24.18 rows unchanged; SQL 202610220006 applied first (version check admits 6.24.20, no reset); handler unchanged.
 // B059 v6.24.21 (deployed by Claude 2026-10-22 21:5x Lisbon): bundle import pinned to epsylonai/weft-test 0209a1c (sha256 a74732bb…0608, checked after push): hugo-8 two-card unlock, normal Green Grove deals; older Classic versions update-required; edge deployed BEFORE SQL 202610220007 (archive+hide season reset, badges kept); handler unchanged.
+// B060/B062 v6.24.24 (deployed by Claude 2026-10-23 15:1x Lisbon): Main MOTE's B060 index.ts 82082f86 + sibling player-transfer.ts de4bdb25 (private player-code backup: POST player-read/player-write, SQL 202610230001 applied first); bundle import still pinned to epsylonai/weft-test 0209a1c (canonical a74732bb unchanged).
 import {verifyCurrentSubmission,validateNickname} from 'https://raw.githubusercontent.com/epsylonai/weft-test/0209a1cf7879007dc4285d8addb180d27a50620c/server/weft-leaderboard/canonical-replay.mjs';
+import {boundedRequestText,handlePlayerTransfer} from './player-transfer.ts';
 const cors={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'apikey,authorization,x-client-info,content-type,x-region','Access-Control-Allow-Methods':'GET,POST,OPTIONS'};
 const response=(body:unknown,status=200)=>Response.json(body,{status,headers:cors});
 const validDevice=(value:unknown):value is string=>typeof value==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
@@ -47,12 +49,15 @@ export async function handler(request:Request):Promise<Response>{
   try{
     if(request.method==='GET'){
       const query=new URL(request.url).searchParams,kind=query.get('kind'),date=query.get('date'),device=query.get('deviceId');
-      if(!['daily','run','run-score','board','chain','warp-run','warp-run-score','warp-board'].includes(kind??'')||!validDevice(device)||!/^\d{4}-\d{2}-\d{2}$/.test(date??''))return response({error:'Invalid query'},400);
+      if(!['daily','run-score','run','board','chain','warp-run-score','warp-run','warp-board'].includes(kind??'')||!validDevice(device)||!/^\d{4}-\d{2}-\d{2}$/.test(date??''))return response({error:'Invalid query'},400);
       return response(await rpc('weft_leaderboard_page',{p_kind:kind,p_day:date,p_device:device}));
     }
     if(request.method!=='POST')return response({error:'Method unavailable'},405);
-    const raw=await request.text();if(new TextEncoder().encode(raw).length>1048576)return response({error:'Proof too large; retained locally'},413);
-    const body=JSON.parse(raw),name=validateNickname(body.name);if(!validDevice(body.deviceId)||!name.valid)return response({error:'Invalid name or device'},400);
+    const read=await boundedRequestText(request);if(!read)return response({error:'Request too large; retained locally'},413);
+    let body;try{body=JSON.parse(read.raw);}catch(error){if(read.bytes>1048576)return response({error:'Proof too large; retained locally'},413);throw error;}
+    const transfer=await handlePlayerTransfer(body,rpc,(value,status=200)=>Response.json(value,{status,headers:{...cors,'Cache-Control':'no-store','Pragma':'no-cache'}}));if(transfer)return transfer;
+    if(read.bytes>1048576)return response({error:'Proof too large; retained locally'},413);
+    const name=validateNickname(body.name);if(!validDevice(body.deviceId)||!name.valid)return response({error:'Invalid name or device'},400);
     if(await rpc('weft_take_score_token',{p_device:body.deviceId})!==true)return response({error:'Please wait before submitting again'},429);
     const rows=verifyCurrentSubmission(body.proof); // Throws for illegal moves or any mismatching result.
     await rpc('weft_insert_verified_scores',{p_device:body.deviceId,p_name:name.value,p_rows:rows});
