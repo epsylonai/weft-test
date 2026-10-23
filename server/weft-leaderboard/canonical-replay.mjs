@@ -1,4 +1,4 @@
-// ChatGPT/B-059/v6.24.21/src/anabelle-trigger.ts
+// ChatGPT/B-063/v6.24.25/server/weft-leaderboard/historical/canonical-replay-a74732bb.mjs
 var LEGACY_ANABELLE_VERSION = "anabelle-1";
 var ANABELLE_VERSION = "anabelle-2";
 function anabelleVersionOf(value) {
@@ -16,8 +16,6 @@ function anabelleSeed(root2, afterLevel, version = ANABELLE_VERSION) {
   return hash;
 }
 var sameAnabelleWitness = (a, b) => a === void 0 ? b === void 0 : b !== void 0 && a.seed === b.seed && a.moveIndices.length === 3 && b.moveIndices.length === 3 && a.moveIndices.every((n, i) => n === b.moveIndices[i]);
-
-// ChatGPT/B-002/engine/layout.ts
 function makeLayout(name, graph) {
   const coveredBy = graph.map((covers) => [...covers]);
   const children = coveredBy.map(() => []);
@@ -71,13 +69,9 @@ function layoutFor(name) {
       throw new Error(`Unknown layout: ${String(name)}`);
   }
 }
-
-// ChatGPT/B-002/engine/scoring.ts
 function baseScore(n) {
   return 5 * n * (n + 1);
 }
-
-// ChatGPT/B-002/engine/hands.ts
 var HIGH = 0;
 var PAIR = 1;
 var TWO_PAIR = 2;
@@ -262,8 +256,6 @@ function handType(chain, window2, loop, flush4 = false) {
   choose(0);
   return best;
 }
-
-// ChatGPT/B-002/engine/rules.ts
 function resolveRules(input = {}) {
   const deltas = [...new Set(input.deltas ?? (input.wide ? [1, 2] : [1]))].sort((a, b) => a - b);
   if (!deltas.length || deltas.some((d) => !Number.isInteger(d) || d <= 0))
@@ -298,14 +290,14 @@ function terminalStatus(state) {
   if (state.remaining === 0) return "cleared";
   return legalMoves(state).length === 0 && state.spoolIndex === state.spool.length ? "stuck" : "active";
 }
-function createState(input, deal2) {
+function createState(input, deal22) {
   const rules = resolveRules(input);
-  const layout = deal2.coveredBy ? makeLayout(rules.layout, deal2.coveredBy) : layoutFor(rules.layout);
-  if (deal2.weave.length !== layout.size) throw new Error("Weave size must match its cover graph");
-  if (!deal2.spoolOrder.length) throw new Error("Deal needs a starting Thread");
-  for (const card of [...deal2.weave, ...deal2.spoolOrder, ...deal2.burned])
+  const layout = deal22.coveredBy ? makeLayout(rules.layout, deal22.coveredBy) : layoutFor(rules.layout);
+  if (deal22.weave.length !== layout.size) throw new Error("Weave size must match its cover graph");
+  if (!deal22.spoolOrder.length) throw new Error("Deal needs a starting Thread");
+  for (const card of [...deal22.weave, ...deal22.spoolOrder, ...deal22.burned])
     if (!Number.isInteger(card) || card < 0 || card >= 52) throw new Error("Card must be an integer 0\u201351");
-  const weave = [...deal2.weave], spool = [...deal2.spoolOrder], burned = [...deal2.burned];
+  const weave = [...deal22.weave], spool = [...deal22.spoolOrder], burned = [...deal22.burned];
   const cover = layout.coveredBy.map((c) => c.length);
   const free = cover.flatMap((n, p) => n === 0 ? [p] : []);
   const unseen = Array(13).fill(0);
@@ -453,8 +445,6 @@ function snapshot(state) {
     terminal: state.terminal
   };
 }
-
-// ChatGPT/B-059/v6.24.21/src/endgame-solver.ts
 var unknownEndgame = (reason, error) => ({ status: "unknown", clearable: "unknown", exhaustive: false, reason, nodes: 0, memoStates: 0, ms: 0, ...error ? { error } : {} });
 var pop = (mask) => {
   mask -= mask >>> 1 & 1431655765;
@@ -470,17 +460,17 @@ function analyzeEndgame(state, options = {}) {
     const budget = options.timeBudgetMs ?? 40, maxNodes = options.maxNodes ?? 25e4;
     if (budget !== Infinity && (!Number.isFinite(budget) || budget < 0) || maxNodes !== Infinity && (!Number.isSafeInteger(maxNodes) || maxNodes < 0)) throw Error("Invalid exact-search budget");
     if (!Number.isInteger(held) || held < 0 || held > (current ? 1 : 3) || typeof awarded !== "boolean") throw Error("Invalid held-joker metadata");
-    const count4 = state.weave.length;
-    if (count4 > 30 || count4 !== state.layout.size || state.weave.some((c) => !Number.isInteger(c) || c < 0 || c > 51) || !Number.isInteger(state.top) || state.top < 0 || state.top > 51 || state.spool.some((c) => !Number.isInteger(c) || c < 0 || c > 51) || !Number.isInteger(state.spoolIndex) || state.spoolIndex < 1 || state.spoolIndex > state.spool.length) throw Error("Invalid current board");
-    const layout = makeLayout(state.layout.name, state.layout.coveredBy), all = 2 ** count4 - 1, covers = layout.coveredBy.map((row) => row.reduce((m, p) => m | 1 << p, 0)), ranks = state.weave.map((c) => c % 13), stock = state.spool.map((c) => c % 13);
+    const count42 = state.weave.length;
+    if (count42 > 30 || count42 !== state.layout.size || state.weave.some((c) => !Number.isInteger(c) || c < 0 || c > 51) || !Number.isInteger(state.top) || state.top < 0 || state.top > 51 || state.spool.some((c) => !Number.isInteger(c) || c < 0 || c > 51) || !Number.isInteger(state.spoolIndex) || state.spoolIndex < 1 || state.spoolIndex > state.spool.length) throw Error("Invalid current board");
+    const layout = makeLayout(state.layout.name, state.layout.coveredBy), all = 2 ** count42 - 1, covers = layout.coveredBy.map((row) => row.reduce((m, p) => m | 1 << p, 0)), ranks = state.weave.map((c) => c % 13), stock = state.spool.map((c) => c % 13);
     let played = 0;
     for (const p of state.played) {
-      if (!Number.isInteger(p) || p < 0 || p >= count4 || played & 1 << p) throw Error("Invalid played set");
+      if (!Number.isInteger(p) || p < 0 || p >= count42 || played & 1 << p) throw Error("Invalid played set");
       played |= 1 << p;
     }
     let initialFree = 0;
-    for (let p = 0; p < count4; p++) if (!(played & 1 << p) && !(covers[p] & ~played)) initialFree |= 1 << p;
-    if (state.remaining !== count4 - pop(played) || state.free.length !== pop(initialFree) || state.free.some((p) => !(initialFree & 1 << p))) throw Error("Current cover/remaining state disagrees");
+    for (let p = 0; p < count42; p++) if (!(played & 1 << p) && !(covers[p] & ~played)) initialFree |= 1 << p;
+    if (state.remaining !== count42 - pop(played) || state.free.length !== pop(initialFree) || state.free.some((p) => !(initialFree & 1 << p))) throw Error("Current cover/remaining state disagrees");
     const adjacency = Array.from({ length: 13 }, (_, top) => ranks.reduce((m, rank2, p) => isAdjacent(state.rules, top, rank2) ? m | 1 << p : m, 0));
     resolveRules(state.rules);
     const deadline = budget === Infinity ? Infinity : started + budget, failed = /* @__PURE__ */ new Set(), line = [];
@@ -542,11 +532,11 @@ function analyzeEndgame(state, options = {}) {
       let witness, complete = true;
       for (let rank2 = 0; rank2 < 13; rank2++) {
         line.length = 0;
-        const rescue2 = search(played, initialFree, rank2, state.spoolIndex, held, 0, false);
-        if (rescue2 === 1) {
+        const rescue22 = search(played, initialFree, rank2, state.spoolIndex, held, 0, false);
+        if (rescue22 === 1) {
           needed.push(rank2);
           witness ?? (witness = [...line]);
-        } else if (rescue2 === 0) {
+        } else if (rescue22 === 0) {
           complete = false;
           break;
         }
@@ -561,16 +551,12 @@ function analyzeEndgame(state, options = {}) {
     return { ...unknownEndgame("invalid-state", String(error)), ms: performance.now() - started };
   }
 }
-
-// ChatGPT/B-059/v6.24.21/src/endgame-authorization.ts
 var receipts = /* @__PURE__ */ new WeakMap();
 var canonical = (value) => Array.isArray(value) ? "[" + value.map(canonical).join(",") + "]" : value && typeof value === "object" ? "{" + Object.keys(value).sort().map((key) => JSON.stringify(key) + ":" + canonical(value[key])).join(",") + "}" : JSON.stringify(value);
 var endgameStateKey = (state) => canonical(state);
 function matchesEndgameAuthorization(state, value) {
   return !!value && typeof value === "object" && receipts.get(value) === endgameStateKey(state);
 }
-
-// ChatGPT/B-059/v6.24.21/src/earned-jokers.ts
 var LEGACY_EARNED_JOKER_VERSION = "earned-1";
 var PREVIOUS_EARNED_JOKER_VERSION = "earned-2";
 var CONDITIONAL_EARNED_JOKER_VERSION = "earned-3";
@@ -606,8 +592,8 @@ function count(value, metadata) {
 function rescue(state, jokers) {
   return state.terminal === "stuck" && jokers > 0 && state.free.length ? { ...state, terminal: "active" } : state;
 }
-function createRunState(rules, deal2, options = {}) {
-  const state = createState(rules, deal2);
+function createRunState(rules, deal22, options = {}) {
+  const state = createState(rules, deal22);
   jokerMetadata(options);
   if (!hasEarnedJokers(options)) return state;
   const jokers = count(options.jokers ?? 0, options);
@@ -727,8 +713,6 @@ function applyCurrentJokerMove(before, move) {
 function runSnapshot(state) {
   return { ...snapshot(state), jokers: jokerCount(state), jokerMoves: hasEarnedJokers(state) && jokerCount(state) > 0 && state.terminal === "active" ? [...state.free] : [] };
 }
-
-// ChatGPT/B-059/v6.24.21/src/hugo-trigger.ts
 var PAIR_HUGO_VERSION = "hugo-8";
 var INSERTED_HUGO_VERSION = "hugo-7";
 var ENDLESS_HUGO_VERSION = "hugo-6";
@@ -784,8 +768,6 @@ function hugoSeed(root2, afterLevel, version = HUGO_VERSION) {
   return hash;
 }
 var sameHugoWitness = (a, b) => a === void 0 ? b === void 0 : b !== void 0 && a.seed === b.seed && a.moveIndex === b.moveIndex;
-
-// ChatGPT/B-059/v6.24.21/src/window-trigger.ts
 var INSERTED_WINDOW_VERSION = "window-7";
 var ENDLESS_WINDOW_VERSION = "window-6";
 var WINDOW_VERSION = "window-5";
@@ -808,9 +790,9 @@ var hasFixedWindowAce = (value) => {
 var hasWindowAutoBank = hasFixedWindowAce;
 var hasWindowFeature = (value) => windowVersionOf(value) !== void 0;
 var windowTriggerEligible = (value, world3) => hasWindowFeature(value) && !value.windowDisabled && world3 === 4;
-function chosenWindowAce(deal2, version = WINDOW_VERSION) {
+function chosenWindowAce(deal22, version = WINDOW_VERSION) {
   windowVersionOf({ windowVersion: version });
-  const cards = Array.isArray(deal2) ? version === LEGACY_WINDOW_VERSION ? deal2 : deal2.slice(0, 30) : version === LEGACY_WINDOW_VERSION ? [...deal2.weave, ...deal2.spoolOrder, ...deal2.burned] : deal2.weave;
+  const cards = Array.isArray(deal22) ? version === LEGACY_WINDOW_VERSION ? deal22 : deal22.slice(0, 30) : version === LEGACY_WINDOW_VERSION ? [...deal22.weave, ...deal22.spoolOrder, ...deal22.burned] : deal22.weave;
   const ace = hasFixedWindowAce({ windowVersion: version }) ? cards.find((card) => card === WINDOW_VIOLIN_ACE) : cards.find((card) => card % 13 === 0);
   if (ace === void 0) throw new Error("Generated Neon board has no ace required by its Window version");
   return ace;
@@ -831,8 +813,6 @@ function windowSeed(root2, afterLevel, version = WINDOW_VERSION) {
   return hash;
 }
 var sameWindowWitness = (a, b) => a === void 0 ? b === void 0 : b !== void 0 && a.seed === b.seed && a.moveIndex === b.moveIndex && a.ace === b.ace;
-
-// ChatGPT/B-059/v6.24.21/src/score-config.ts
 var CURRENT_SCORING_VERSION = "clear-v2";
 var CLASSIC_SCORING_VERSION = "level-v3";
 var ENDLESS_SCORING_VERSION = "level-v4";
@@ -905,27 +885,21 @@ function boardScoreDetails(cleared, left, rawChainCoins, start, context) {
   const levelFactor = levelCoinFactor(context.level, context.version), chainCoins = context.chainCoins, unmultipliedChainCoins = context.unmultipliedChainCoins ?? rawChainCoins;
   if (!integer(chainCoins ?? NaN) || !integer(unmultipliedChainCoins)) throw new RangeError("Missing derived level chain coins");
   const normalReward = context.version === ENDLESS_SCORING_VERSION || !context.secret || context.secret === "hugo" && [HUGO_VERSION, REWARD_HUGO_VERSION].includes(hugoVersionOf(context)) || context.secret === "window" && [WINDOW_VERSION, REWARD_WINDOW_VERSION].includes(windowVersionOf(context));
-  const factor10 = LEVEL_FACTORS_TENTHS[Math.min(context.level, 10) - 1], spoolBonus = cleared ? 5 * left * factor10 : 0, levelBonus = cleared && normalReward ? 250 * factor10 : 0, clearBonus2 = spoolBonus + levelBonus, score = chainCoins + clearBonus2;
+  const factor10 = LEVEL_FACTORS_TENTHS[Math.min(context.level, 10) - 1], spoolBonus = cleared ? 5 * left * factor10 : 0, levelBonus = cleared && normalReward ? 250 * factor10 : 0, clearBonus22 = spoolBonus + levelBonus, score = chainCoins + clearBonus22;
   const starCoins = unmultipliedChainCoins + (cleared ? 50 * left : 0) + (cleared && normalReward ? 2500 : 0);
   if (!integer(score) || !integer(starCoins)) throw new RangeError("Board score exceeds safe integer range");
-  return { rawChainCoins, unmultipliedChainCoins, chainCoins, spoolRemaining: left, spoolStarted: start, spoolBonus, levelBonus, level: context.level, levelFactor, clearBonus: clearBonus2, score, starCoins, percentage: Math.round(100 * left / start) };
+  return { rawChainCoins, unmultipliedChainCoins, chainCoins, spoolRemaining: left, spoolStarted: start, spoolBonus, levelBonus, level: context.level, levelFactor, clearBonus: clearBonus22, score, starCoins, percentage: Math.round(100 * left / start) };
 }
 var starCoinScore = (facts) => facts.starCoins ?? facts.score;
-
-// ChatGPT/B-059/v6.24.21/src/replay-practice.ts
 var ownsPractice = (value) => !!value && typeof value === "object" && Object.prototype.hasOwnProperty.call(value, "practice");
 function canRankReplayRecord(value) {
   return !!value && typeof value === "object" && !Array.isArray(value) && !ownsPractice(value);
 }
-
-// ChatGPT/B-059/v6.24.21/src/play-mode.ts
 function canSubmitOnlineScore(record) {
   if (!record || typeof record !== "object" || !canRankReplayRecord(record)) return false;
   const mode = record.playMode;
   return mode === void 0 || mode === "classic";
 }
-
-// ChatGPT/B-059/v6.24.21/src/score-codec.ts
 var MAX_SCORE_MOVES = 256;
 function compressMoves(moves2) {
   if (!Array.isArray(moves2) || moves2.length > MAX_SCORE_MOVES) throw new TypeError("Invalid move count");
@@ -946,8 +920,6 @@ function decompressMoves(bytes) {
     return value < 30 ? { type: "play", position: value } : value === 30 ? { type: "draw" } : value === 31 ? { type: "bank" } : value === 63 ? { type: "end" } : value === 62 ? { type: "pet" } : { type: "joker", position: value - 32 };
   });
 }
-
-// ChatGPT/B-059/v6.24.21/src/leaderboard-wire.ts
 function decodeLeaderboardProof(value) {
   if (!value || typeof value !== "object") throw new TypeError("Invalid leaderboard proof");
   const input = value;
@@ -955,8 +927,6 @@ function decodeLeaderboardProof(value) {
   if (input.type === "run" && input.record && Array.isArray(input.record.perLevel) && input.record.perLevel.length <= 1e4) return { ...input, record: { ...input.record, ...input.record.anabelle?.result ? { anabelle: { ...input.record.anabelle, result: { ...input.record.anabelle.result, moves: decompressMoves(input.record.anabelle.result.moves) } } } : {}, ...input.record.hugo?.result ? { hugo: { ...input.record.hugo, result: { ...input.record.hugo.result, moves: decompressMoves(input.record.hugo.result.moves) } } } : {}, ...input.record.window?.result ? { window: { ...input.record.window, result: { ...input.record.window.result, moves: decompressMoves(input.record.window.result.moves) } } } : {}, perLevel: input.record.perLevel.map((board2) => ({ ...board2, moves: decompressMoves(board2.moves) })) } };
   throw new TypeError("Invalid leaderboard proof");
 }
-
-// ChatGPT/B-002/engine/configs.ts
 var peaksLoop = { layout: "peaks", loop: true };
 var anchor = { ...peaksLoop, anchor: true };
 var CONFIGS = {
@@ -989,8 +959,6 @@ function getConfig(name) {
   if (!Object.hasOwnProperty.call(CONFIGS, name)) throw new Error(`Unknown config: ${name}`);
   return resolveRules(CONFIGS[name]);
 }
-
-// ChatGPT/B-002/engine/deck.ts
 var PythonRandom = class {
   constructor(seed3) {
     this.mt = new Uint32Array(624);
@@ -1012,7 +980,7 @@ var PythonRandom = class {
     }
     let i = 1;
     let j = 0;
-    for (let count4 = Math.max(624, words.length); count4 > 0; count4--) {
+    for (let count42 = Math.max(624, words.length); count42 > 0; count42--) {
       const previous = this.mt[i - 1];
       this.mt[i] = (this.mt[i] ^ Math.imul(previous ^ previous >>> 30, 1664525)) + words[j] + j >>> 0;
       if (++i >= 624) {
@@ -1021,7 +989,7 @@ var PythonRandom = class {
       }
       if (++j >= words.length) j = 0;
     }
-    for (let count4 = 623; count4 > 0; count4--) {
+    for (let count42 = 623; count42 > 0; count42--) {
       const previous = this.mt[i - 1];
       this.mt[i] = (this.mt[i] ^ Math.imul(previous ^ previous >>> 30, 1566083941)) - i >>> 0;
       if (++i >= 624) {
@@ -1093,16 +1061,14 @@ function deal(rules, seed3) {
   rng.shuffle(extra);
   return { weave, spoolOrder: [...rest, ...extra.slice(0, rules.spool - rest.length)], burned: [] };
 }
-
-// ChatGPT/B-004/engine/solver.ts
 function population(mask) {
   mask -= mask >>> 1 & 1431655765;
   mask = (mask & 858993459) + (mask >>> 2 & 858993459);
   return (mask + (mask >>> 4) & 252645135) * 16843009 >>> 24;
 }
-function limit(value, name, integer2 = false) {
-  if (value !== Infinity && (!Number.isFinite(value) || value < 0 || integer2 && !Number.isInteger(value)))
-    throw new RangeError(`${name} must be nonnegative${integer2 ? " integer" : ""} or Infinity`);
+function limit(value, name, integer22 = false) {
+  if (value !== Infinity && (!Number.isFinite(value) || value < 0 || integer22 && !Number.isInteger(value)))
+    throw new RangeError(`${name} must be nonnegative${integer22 ? " integer" : ""} or Infinity`);
 }
 var peaksCovers = layoutPeaks().coveredBy.map((c) => c.reduce((mask, p) => mask | 1 << p, 0));
 var idealIndex = new Int16Array(1 << 10).fill(-1);
@@ -1219,13 +1185,13 @@ function solvePeaks(initial, started, deadline, maxNodes) {
   if (performance.now() >= deadline) return result("unknown", "time-budget");
   return result(false, "exhaustive");
 }
-function solve(input, deal2, options = {}) {
+function solve(input, deal22, options = {}) {
   const started = performance.now();
   const timeBudgetMs = options.timeBudgetMs ?? 50, maxNodes = options.maxNodes ?? Infinity;
   limit(timeBudgetMs, "timeBudgetMs");
   limit(maxNodes, "maxNodes", true);
-  if (deal2.weave.length > 30) throw new RangeError("Solver supports at most 30 Weave cards");
-  const initial = createState(input, deal2), count4 = initial.weave.length;
+  if (deal22.weave.length > 30) throw new RangeError("Solver supports at most 30 Weave cards");
+  const initial = createState(input, deal22), count42 = initial.weave.length;
   const pruned = { memo: 0, rankCapacity: 0, rankPairCapacity: 0, rankHallCapacity: 0, rankReachability: 0, coverReachability: 0 };
   let nodes = 0;
   const failed = /* @__PURE__ */ new Map();
@@ -1240,14 +1206,14 @@ function solve(input, deal2, options = {}) {
   });
   const deadline = timeBudgetMs === Infinity ? Infinity : started + timeBudgetMs;
   if (performance.now() >= deadline) return result("unknown", "time-budget");
-  if (count4 === 0) return result(true, "exhaustive", { line: [], witnessScore: initial.score });
+  if (count42 === 0) return result(true, "exhaustive", { line: [], witnessScore: initial.score });
   if (maxNodes === 0) return result("unknown", "node-budget");
-  const allPlayed = 2 ** count4 - 1;
+  const allPlayed = 2 ** count42 - 1;
   if (!Number.isSafeInteger(allPlayed * 13 + 12)) throw new RangeError("Memo key exceeds safe integer range");
   const ranks = initial.weave.map((card) => card % 13);
   const stockRanks = initial.spool.map((card) => card % 13);
   const covers = initial.layout.coveredBy.map((positions) => positions.reduce((mask, p) => mask | 1 << p, 0));
-  if (count4 === 30 && initial.spool.length <= 255 && covers.every((mask, p) => mask === peaksCovers[p]))
+  if (count42 === 30 && initial.spool.length <= 255 && covers.every((mask, p) => mask === peaksCovers[p]))
     return solvePeaks(initial, started, deadline, maxNodes);
   const children = initial.layout.children;
   const byRank = new Int32Array(13), remainingCounts = new Uint8Array(13);
@@ -1429,8 +1395,6 @@ function solve(input, deal2, options = {}) {
   if (performance.now() >= deadline) return result("unknown", "time-budget");
   return result(true, "exhaustive", { line: [...line], witnessScore: replay2.score });
 }
-
-// ChatGPT/B-004/engine/generator.ts
 var GENERATOR_SALT = 0x9e3779b9n;
 var GenerationBudgetError = class extends Error {
   constructor(seed3, subSeed, attempts, verification) {
@@ -1487,8 +1451,6 @@ function generateDeal(input, seed3, options = {}) {
   }
   throw new GenerationAttemptsError(original, maxAttempts);
 }
-
-// ChatGPT/B-059/v6.24.21/src/records.ts
 function recordId(record) {
   const actions = record.moves.map((move) => move.type === "play" || move.type === "joker" ? [move.type, move.position] : [move.type]);
   const text = JSON.stringify([record.version, ...record.hugoVersion === "hugo-8" ? ["hugo", record.hugoVersion] : [], ...hasAnabelleFeature(record) ? ["anabelle", record.anabelleVersion] : [], ...hasEarnedJokers(record) ? ["joker", record.jokerVersion] : [], record.seed, actions, record.dailyDate ?? null, ...scoringVersionOf(record) === "legacy" ? [] : ["scoring", scoringVersionOf(record)], ...isLevelScoring(scoringVersionOf(record)) ? ["level", record.clearBonusDetails?.level ?? null] : [], ...record.secret === void 0 ? [] : ["secret", record.secret], ...record.admission === void 0 ? [] : ["admission", record.admission]]);
@@ -1496,8 +1458,6 @@ function recordId(record) {
   for (let index = 0; index < text.length; index++) hash = BigInt.asUintN(64, (hash ^ BigInt(text.charCodeAt(index))) * 1099511628211n);
   return "weft-" + hash.toString(16).padStart(16, "0");
 }
-
-// ChatGPT/B-059/v6.24.21/src/endless-deal.ts
 var ENDLESS_MAX_CANDIDATES = 32;
 var ENDLESS_CANDIDATE_NODES = 1e6;
 var DOMAIN = 0x656e646c65737331n;
@@ -1512,7 +1472,7 @@ function classicRules(input) {
   return rules;
 }
 function topologicalOrder(rng, forcedFree = 0) {
-  const layout = layoutFor("peaks"), cover = layout.coveredBy.map((row) => row.length), free = cover.flatMap((count4, p) => count4 === 0 ? [p] : []), order = [];
+  const layout = layoutFor("peaks"), cover = layout.coveredBy.map((row) => row.length), free = cover.flatMap((count42, p) => count42 === 0 ? [p] : []), order = [];
   const first = [...free];
   rng.shuffle(first);
   const prefix = first.slice(0, forcedFree);
@@ -1565,8 +1525,8 @@ function finishDeck(weave, initialStock, rules, rng) {
   rng.shuffle(extra);
   return { weave, spoolOrder: [...initialStock, ...unused.slice(0, need), ...extra.slice(0, Math.max(0, need - unused.length))], burned: unused.slice(Math.max(0, need)) };
 }
-function replay(rules, deal2, line) {
-  let state = createState(rules, deal2);
+function replay(rules, deal22, line) {
+  let state = createState(rules, deal22);
   for (const move of line) state = applyMove(state, move).state;
   if (state.terminal !== "cleared" || state.remaining !== 0) throw new Error("Constructive witness failed unchanged engine replay");
 }
@@ -1603,17 +1563,17 @@ function constructEndlessDeal(input, seed3, options = {}) {
       line.push({ type: "play", position: order[i] });
     }
   }
-  const deal2 = finishDeck(weave, stock, rules, rng);
-  replay(rules, deal2, line);
+  const deal22 = finishDeck(weave, stock, rules, rng);
+  replay(rules, deal22, line);
   if (grove) {
-    let state = createState(rules, deal2);
+    let state = createState(rules, deal22);
     for (const move of opportunity.slice(0, 3)) state = applyMove(state, move).state;
     if (state.chain.length !== 3 || !legalMoves(state).length || state.spoolIndex >= state.spool.length) throw new Error("Constructive Grove sacrifice is not voluntary");
   }
-  if (options.neon && !deal2.weave.includes(13)) throw new Error("Constructive Neon omitted the violin ace");
-  const started = performance.now(), verification = solve(rules, deal2, { timeBudgetMs: Infinity, maxNodes: Infinity });
+  if (options.neon && !deal22.weave.includes(13)) throw new Error("Constructive Neon omitted the violin ace");
+  const started = performance.now(), verification = solve(rules, deal22, { timeBudgetMs: Infinity, maxNodes: Infinity });
   if (verification.clearable !== true || !verification.line) throw new Error("Constructive deal failed fresh exact solver");
-  return { deal: deal2, line, attempts: 1, seed: original, subSeed: original, salt: GENERATOR_SALT, verification, checks: [{ subSeed: original, verification, wallMs: performance.now() - started }], method: "constructive", ...opportunity ? { opportunity } : {}, ...options.neon ? { violinAce: 13 } : {} };
+  return { deal: deal22, line, attempts: 1, seed: original, subSeed: original, salt: GENERATOR_SALT, verification, checks: [{ subSeed: original, verification, wallMs: performance.now() - started }], method: "constructive", ...opportunity ? { opportunity } : {}, ...options.neon ? { violinAce: 13 } : {} };
 }
 function generateEndlessDeal(input, seed3, options = {}) {
   const rules = classicRules(input), original = seedValue(seed3);
@@ -1621,15 +1581,13 @@ function generateEndlessDeal(input, seed3, options = {}) {
   if (options.grove && rules.spool >= 2) return constructEndlessDeal(rules, original, options);
   const checks = [];
   for (let index = 0; index < ENDLESS_MAX_CANDIDATES; index++) {
-    const subSeed2 = original + BigInt(index) * GENERATOR_SALT, deal2 = deal(rules, subSeed2), started = performance.now(), verification = solve(rules, deal2, { timeBudgetMs: Infinity, maxNodes: ENDLESS_CANDIDATE_NODES });
+    const subSeed2 = original + BigInt(index) * GENERATOR_SALT, deal22 = deal(rules, subSeed2), started = performance.now(), verification = solve(rules, deal22, { timeBudgetMs: Infinity, maxNodes: ENDLESS_CANDIDATE_NODES });
     checks.push({ subSeed: subSeed2, verification, wallMs: performance.now() - started });
-    if (verification.clearable === true && verification.line && (!options.neon || deal2.weave.includes(13))) return { deal: deal2, line: verification.line, attempts: index + 1, seed: original, subSeed: subSeed2, salt: GENERATOR_SALT, verification, checks, method: "rejection", ...options.neon ? { violinAce: 13 } : {} };
+    if (verification.clearable === true && verification.line && (!options.neon || deal22.weave.includes(13))) return { deal: deal22, line: verification.line, attempts: index + 1, seed: original, subSeed: subSeed2, salt: GENERATOR_SALT, verification, checks, method: "rejection", ...options.neon ? { violinAce: 13 } : {} };
   }
   const subSeed = original + BigInt(ENDLESS_MAX_CANDIDATES) * GENERATOR_SALT, fallback = constructEndlessDeal(rules, subSeed, options);
   return { ...fallback, seed: original, subSeed, attempts: ENDLESS_MAX_CANDIDATES + 1, checks: [...checks, ...fallback.checks] };
 }
-
-// ChatGPT/B-059/v6.24.21/src/neon-window-admission.ts
 var NEON_WINDOW_ADMISSION = "neon-window-3";
 var LEGACY_NEON_WINDOW_ADMISSION = "neon-window-2";
 function generateNeonOpportunity(input, seed3, options = {}, admission = NEON_WINDOW_ADMISSION) {
@@ -1650,8 +1608,6 @@ function generateNeonOpportunity(input, seed3, options = {}, admission = NEON_WI
   }
   throw new GenerationAttemptsError(original, maxAttempts);
 }
-
-// ChatGPT/B-059/v6.24.21/src/grove-opportunity.ts
 var GROVE_ADMISSION = "grove-hugo-2";
 var SALT = 0x9e3779b9n;
 var STOCKS = [15, 20, 21, 22, 23, 24, 25, 26, 27, 28];
@@ -1676,9 +1632,9 @@ function candidate(input, seed3) {
     [slots[target.index], slots[from]] = [slots[from], slots[target.index]];
     reserved.add(target.index);
   }
-  const deal2 = { weave: slots.slice(0, base.weave.length), spoolOrder: slots.slice(base.weave.length, base.weave.length + base.spoolOrder.length), burned: slots.slice(base.weave.length + base.spoolOrder.length) };
+  const deal22 = { weave: slots.slice(0, base.weave.length), spoolOrder: slots.slice(base.weave.length, base.weave.length + base.spoolOrder.length), burned: slots.slice(base.weave.length + base.spoolOrder.length) };
   const prefix = free.slice(0, 3).map((position) => ({ type: "play", position }));
-  let state = createState(rules, deal2);
+  let state = createState(rules, deal22);
   for (const move of prefix) state = applyMove(state, move).state;
   if (!isHugoSacrifice(state, { type: "draw" })) return;
   prefix.push({ type: "draw" });
@@ -1686,10 +1642,10 @@ function candidate(input, seed3) {
   const rest = continuation(state);
   if (!rest) return;
   const line = [...prefix, ...rest.line];
-  let end = createState(rules, deal2);
+  let end = createState(rules, deal22);
   for (const move of line) end = applyMove(end, move).state;
   if (end.terminal !== "cleared") throw Error("Grove admission witness failed canonical replay");
-  return { deal: deal2, prefix, line, nodes: rest.nodes };
+  return { deal: deal22, prefix, line, nodes: rest.nodes };
 }
 function generateGroveOpportunity(input, seed3) {
   if (typeof seed3 === "number" && !Number.isSafeInteger(seed3)) throw Error("Invalid Grove admission seed");
@@ -1702,16 +1658,14 @@ function generateGroveOpportunity(input, seed3) {
   }
   throw Error("Verified Grove fallback invariant failed");
 }
-
-// ChatGPT/B-059/v6.24.21/src/grove-pair-admission.ts
 var GROVE_PAIR_ADMISSION = "grove-pair-8";
 var GROVE_PAIR_CANDIDATES = 32;
 var GROVE_PAIR_FALLBACK_CANDIDATES = 64;
-function buriedGrovePairs(deal2) {
+function buriedGrovePairs(deal22) {
   const layout = layoutFor("peaks");
   return layout.coveredBy.flatMap((covers, covered) => covers.flatMap((cover) => {
     if (!layout.coveredBy[cover].length) return [];
-    const a = deal2.weave[covered] % 13, b = deal2.weave[cover] % 13;
+    const a = deal22.weave[covered] % 13, b = deal22.weave[cover] % 13;
     return a === 5 && b === 6 || a === 6 && b === 5 ? [[covered, cover]] : [];
   }));
 }
@@ -1719,11 +1673,11 @@ function generateGrovePairDeal(input, seed3) {
   if (typeof seed3 === "number" && !Number.isSafeInteger(seed3)) throw new RangeError("Invalid Grove pair seed");
   const original = BigInt(seed3), rules = resolveRules(input), checks = [];
   for (let index = 0; index < GROVE_PAIR_CANDIDATES; index++) {
-    const subSeed = original + BigInt(index) * GENERATOR_SALT, deal2 = deal(rules, subSeed);
-    if (!buriedGrovePairs(deal2).length) continue;
-    const started = performance.now(), verification = solve(rules, deal2, { timeBudgetMs: Infinity, maxNodes: ENDLESS_CANDIDATE_NODES });
+    const subSeed = original + BigInt(index) * GENERATOR_SALT, deal22 = deal(rules, subSeed);
+    if (!buriedGrovePairs(deal22).length) continue;
+    const started = performance.now(), verification = solve(rules, deal22, { timeBudgetMs: Infinity, maxNodes: ENDLESS_CANDIDATE_NODES });
     checks.push({ subSeed, verification, wallMs: performance.now() - started });
-    if (verification.clearable === true && verification.line) return { deal: deal2, line: verification.line, seed: original, subSeed, salt: GENERATOR_SALT, attempts: index + 1, checks, verification, method: "rejection" };
+    if (verification.clearable === true && verification.line) return { deal: deal22, line: verification.line, seed: original, subSeed, salt: GENERATOR_SALT, attempts: index + 1, checks, verification, method: "rejection" };
   }
   for (let index = 0; index <= GROVE_PAIR_FALLBACK_CANDIDATES; index++) {
     const subSeed = index === GROVE_PAIR_FALLBACK_CANDIDATES ? 1n : original + BigInt(GROVE_PAIR_CANDIDATES + index) * GENERATOR_SALT;
@@ -1733,8 +1687,6 @@ function generateGrovePairDeal(input, seed3) {
   }
   throw new Error("Verified buried Grove pair fallback invariant failed");
 }
-
-// ChatGPT/B-059/v6.24.21/src/world-config.ts
 var world = (id, name, scene, background, paper, ink, inner, outer) => {
   const rgb = (hex) => Object.freeze([
     parseInt(hex.slice(1, 3), 16),
@@ -1809,8 +1761,6 @@ function levelConfig(level, version = CLASSIC_RULES_VERSION) {
   const legacy = version === "6.7", table = legacy ? LEGACY_LEVEL_CONFIG : SIX_WORLD_LEVEL_CONFIG;
   return table[level - 1] ?? Object.freeze({ level, world: (level - 1) % (legacy ? 4 : 6) + 1, spool: legacy ? 20 : 23 });
 }
-
-// ChatGPT/B-059/v6.24.21/src/run-plan.ts
 var canonical2 = Object.freeze(LEVEL_CONFIG.map((level) => level.world));
 function world2(value) {
   if (!Number.isSafeInteger(value) || !canonical2.includes(value)) throw new TypeError("Invalid starting world");
@@ -1851,8 +1801,6 @@ function resolveClassicRoute(value, metadata = {}) {
   if (first !== expected[0] || !Array.isArray(metadata.worldOrder) || metadata.worldOrder.length !== 10 || metadata.worldOrder.some((id, index) => id !== expected[index])) throw new TypeError("World order disagrees with its canonical route");
   return expected;
 }
-
-// ChatGPT/B-059/v6.24.21/src/run.ts
 var RUN_VERSION = ENDLESS_RULES_VERSION;
 var isRunVersion = (value) => value === "6.7" || value === "6.9" || value === CLASSIC_RULES_VERSION || value === ENDLESS_RULES_VERSION;
 var copy = (value) => JSON.parse(JSON.stringify(value));
@@ -2156,8 +2104,6 @@ function validateRunRecord(value) {
     return { valid: false, error: error instanceof Error ? error.message : String(error) };
   }
 }
-
-// ChatGPT/B-059/v6.24.21/src/leaderboard-validation.ts
 var clone = (value) => JSON.parse(JSON.stringify(value));
 var handNames = NAMES;
 var day = (value) => /^\d{4}-\d{2}-\d{2}$/.test(value) && (/* @__PURE__ */ new Date(value + "T00:00:00.000Z")).toISOString().slice(0, 10) === value;
@@ -2266,8 +2212,6 @@ function createLeaderboardVerifier(options = {}) {
   }
   return { verifyBoard, verifyRun };
 }
-
-// ChatGPT/B-059/v6.24.21/warp-core/config.ts
 var WARP_VERSION = "warp-1";
 var HELPFUL_IDS = Object.freeze(["joker", "needle", "reel", "spare", "mirror", "leap", "unpick", "lantern"]);
 var CHARM_IDS = Object.freeze(["needle-thread", "joker-weave", "double-stitch", "deep-pocket", "mirror-light", "long-stride", "lantern-eye", "unpick-thread"]);
@@ -2300,8 +2244,6 @@ function warpSeed(root2, level) {
 var CONFIG_ID = "warp-1-v6.15";
 var WARP_PROOF_NODE_LIMIT = 1e5;
 var WARP_MAX_CANDIDATES = 1e3;
-
-// ChatGPT/B-059/v6.24.21/warp-core/hands.ts
 var ROYAL2 = [0, 9, 10, 11, 12];
 function warpPhysicalHand(cards, loop) {
   if (cards.length <= 7 || new Set(cards).size === cards.length) {
@@ -2337,8 +2279,8 @@ function warpPhysicalHand(cards, loop) {
   };
   for (const indexed of suitRanks) pattern(indexed, ROYAL2);
   if (best) return result();
-  const runs2 = loop ? Array.from({ length: 13 }, (_, start) => Array.from({ length: 5 }, (_2, offset) => (start + offset) % 13)) : [...Array.from({ length: 9 }, (_, start) => Array.from({ length: 5 }, (_2, offset) => start + offset)), ROYAL2];
-  for (const indexed of suitRanks) for (const values of runs2) pattern(indexed, values);
+  const runs22 = loop ? Array.from({ length: 13 }, (_, start) => Array.from({ length: 5 }, (_2, offset) => (start + offset) % 13)) : [...Array.from({ length: 9 }, (_, start) => Array.from({ length: 5 }, (_2, offset) => start + offset)), ROYAL2];
+  for (const indexed of suitRanks) for (const values of runs22) pattern(indexed, values);
   if (best) return result();
   for (let rank2 = 0; rank2 < 13; rank2++) if (ranks[rank2].length >= 4) {
     const outside = cards.findIndex((card) => card % 13 !== rank2);
@@ -2351,7 +2293,7 @@ function warpPhysicalHand(cards, loop) {
   if (best) return result();
   for (const indices of suits) if (indices.length >= 5) consider(indices.slice(0, 5));
   if (best) return result();
-  for (const values of runs2) pattern(ranks, values);
+  for (const values of runs22) pattern(ranks, values);
   if (best) return result();
   for (let rank2 = 0; rank2 < 13; rank2++) if (ranks[rank2].length >= 3) {
     const outside = cards.flatMap((card, index) => card % 13 !== rank2 ? [index] : []);
@@ -2373,8 +2315,6 @@ function warpPhysicalHand(cards, loop) {
   consider([0, 1, 2, 3, 4]);
   return result();
 }
-
-// ChatGPT/B-059/v6.24.21/warp-core/rules.ts
 var WARP_LAYOUT = layoutPeaks();
 var BASE_RULES = getConfig("chainBest");
 var ALL_PLAYED = 2 ** 30 - 1;
@@ -2385,7 +2325,7 @@ var suit = (card) => Math.floor(card / 13);
 var mod = (n) => (n % 13 + 13) % 13;
 var hasCharm = (state, name) => state.deal.charms.includes(name);
 var WARP_NEIGHBOURS = Object.freeze(Array.from({ length: 30 }, (_, position) => {
-  const group = Math.floor(position / 10), local = position % 10, rows2 = [[0], [1, 2], [3, 4, 5], [6, 7, 8, 9]], row = rows2.findIndex((r2) => r2.includes(local)), r = rows2[row], i = r.indexOf(local), near = /* @__PURE__ */ new Set();
+  const group = Math.floor(position / 10), local = position % 10, rows22 = [[0], [1, 2], [3, 4, 5], [6, 7, 8, 9]], row = rows22.findIndex((r2) => r2.includes(local)), r = rows22[row], i = r.indexOf(local), near = /* @__PURE__ */ new Set();
   for (const value of [r[i - 1], r[i + 1]]) if (value !== void 0) near.add(group * 10 + value);
   for (const p of [...WARP_LAYOUT.coveredBy[position], ...WARP_LAYOUT.children[position]]) near.add(p);
   return Object.freeze([...near].sort((a, b) => a - b));
@@ -2468,12 +2408,12 @@ function settle2(state, events = [], scoring = true) {
   }
   return { state: { ...next, terminal: remainingCount(next) === 0 ? "cleared" : canProgress(next) ? "active" : "stuck" }, events: all };
 }
-function createWarpState(deal2) {
-  if (deal2.version !== WARP_VERSION || deal2.weave.length !== 30 || deal2.spool.length !== 24 || deal2.spool[0]?.kind !== "card") throw new TypeError("Invalid Warp deal");
-  if (deal2.weave.some((c) => !Number.isInteger(c) || c < 0 || c >= 52) || new Set(deal2.spool.map((t) => t.id)).size !== deal2.spool.length) throw new TypeError("Invalid Warp cards");
-  const start = deal2.spool[0].card;
-  let state = { version: WARP_VERSION, deal: copy2(deal2), played: 0, spool: copy2(deal2.spool.slice(1)), reel: [], spare: [], top: start, topRank: rank(start), topSuit: suit(start), topSpecial: null, anchor: start, anchorEligible: true, anchorJoker: false, chain: [], links: 0, score: 0, longestChain: 0, suitedPlays: 0, draws: 0, drawPending: false, mirror: deal2.charms.includes("mirror-light"), leap: deal2.charms.includes("long-stride"), unpick: deal2.charms.includes("unpick-thread") ? 1 : 0, needleReady: deal2.charms.includes("needle-thread"), unlocked: 0, vineCleared: 0, burn: false, fog: false, revealed: [], pending: null, lastPlay: null, terminal: "active" };
-  if (deal2.charms.includes("lantern-eye")) state = { ...state, revealed: state.spool.slice(0, 3).map((t) => t.id) };
+function createWarpState(deal22) {
+  if (deal22.version !== WARP_VERSION || deal22.weave.length !== 30 || deal22.spool.length !== 24 || deal22.spool[0]?.kind !== "card") throw new TypeError("Invalid Warp deal");
+  if (deal22.weave.some((c) => !Number.isInteger(c) || c < 0 || c >= 52) || new Set(deal22.spool.map((t) => t.id)).size !== deal22.spool.length) throw new TypeError("Invalid Warp cards");
+  const start = deal22.spool[0].card;
+  let state = { version: WARP_VERSION, deal: copy2(deal22), played: 0, spool: copy2(deal22.spool.slice(1)), reel: [], spare: [], top: start, topRank: rank(start), topSuit: suit(start), topSpecial: null, anchor: start, anchorEligible: true, anchorJoker: false, chain: [], links: 0, score: 0, longestChain: 0, suitedPlays: 0, draws: 0, drawPending: false, mirror: deal22.charms.includes("mirror-light"), leap: deal22.charms.includes("long-stride"), unpick: deal22.charms.includes("unpick-thread") ? 1 : 0, needleReady: deal22.charms.includes("needle-thread"), unlocked: 0, vineCleared: 0, burn: false, fog: false, revealed: [], pending: null, lastPlay: null, terminal: "active" };
+  if (deal22.charms.includes("lantern-eye")) state = { ...state, revealed: state.spool.slice(0, 3).map((t) => t.id) };
   return settle2(state).state;
 }
 function takeToken(state, token, events) {
@@ -2611,8 +2551,6 @@ function warpReachabilityKey(state) {
   const last = state.unpick && state.lastPlay ? [state.lastPlay.played, state.lastPlay.topRank, suitRelevant ? state.lastPlay.topSuit : 0, state.lastPlay.unlocked, state.lastPlay.mirror, state.lastPlay.leap] : null;
   return JSON.stringify([state.played, state.topRank, suitRelevant ? state.topSuit : 0, state.spool.map((t) => t.id), state.reel.map((t) => t.id), state.spare.map((t) => t.id), phase, state.drawPending, state.mirror, state.leap, state.unpick, state.needleReady, state.unlocked, state.burn, state.pending, last]);
 }
-
-// ChatGPT/B-059/v6.24.21/warp-core/solver.ts
 function solveWarp(input, options = {}) {
   const started = performance.now(), budget = options.timeBudgetMs ?? Infinity, maxNodes = options.maxNodes ?? Infinity;
   if (budget !== Infinity && (!Number.isFinite(budget) || budget < 0) || maxNodes !== Infinity && (!Number.isSafeInteger(maxNodes) || maxNodes < 0)) throw new RangeError("Invalid solver budget");
@@ -2713,8 +2651,6 @@ function solveWarp(input, options = {}) {
   }
   return result;
 }
-
-// ChatGPT/B-059/v6.24.21/warp-core/generator.ts
 var WARP_GENERATOR_SALT = 0x9e3779b9n;
 var one = (values, rng) => values[rng.randrange(values.length)];
 function marksFor(level, weave, rng) {
@@ -2770,7 +2706,7 @@ function warpCandidate(level, seed3, options = {}) {
   const config = warpLevel(level), charms = options.charms ?? [], oneShots = options.oneShots ?? [];
   if (typeof seed3 === "number" && !Number.isSafeInteger(seed3) || !/^-?\d{1,40}$/.test(String(seed3))) throw new TypeError("Invalid Warp seed");
   if (charms.length > 3 || new Set(charms).size !== charms.length || charms.some((c) => !CHARM_IDS.includes(c)) || oneShots.some((c) => !HELPFUL_IDS.includes(c)) || oneShots.length > 9) throw new TypeError("Invalid Warp rewards");
-  const original = BigInt(seed3), deal2 = deal({ ...getConfig("chainBest"), spool: 24 }, original), rng = new PythonRandom(original ^ 0x57415250n), spool = deal2.spoolOrder.map((card, id) => ({ id, kind: "card", card }));
+  const original = BigInt(seed3), deal22 = deal({ ...getConfig("chainBest"), spool: 24 }, original), rng = new PythonRandom(original ^ 0x57415250n), spool = deal22.spoolOrder.map((card, id) => ({ id, kind: "card", card }));
   const slots = Array.from({ length: 23 }, (_, i) => i + 1).filter((i) => i !== config.burnAt && i !== config.fogAt);
   rng.shuffle(slots);
   let cursor = 0;
@@ -2788,10 +2724,8 @@ function warpCandidate(level, seed3, options = {}) {
     const index = config.fogAt;
     if (spool[index]?.kind === "card") spool[index] = { id: index, kind: "fog" };
   }
-  return { version: WARP_VERSION, level, world: config.world, seed: String(original), weave: [...deal2.weave], spool, burned: [...deal2.burned], marks: marksFor(level, deal2.weave, rng), snag: config.snag, boss: config.boss, charms: [...charms], oneShots: [...oneShots], configId: CONFIG_ID };
+  return { version: WARP_VERSION, level, world: config.world, seed: String(original), weave: [...deal22.weave], spool, burned: [...deal22.burned], marks: marksFor(level, deal22.weave, rng), snag: config.snag, boss: config.boss, charms: [...charms], oneShots: [...oneShots], configId: CONFIG_ID };
 }
-
-// ChatGPT/B-059/v6.24.21/warp-core/rewards.ts
 function warpRewardChoices(root2, afterLevel, charms = []) {
   warpLevel(afterLevel);
   if (charms.length > 3 || new Set(charms).size !== charms.length || charms.some((c) => !CHARM_IDS.includes(c))) throw new TypeError("Invalid held Charms");
@@ -2831,8 +2765,6 @@ var CHARM_TEXT = Object.freeze({
   "unpick-thread": { name: "Unpick Thread", text: "One free Unpick is available each board." }
 });
 var HELPFUL_TEXT = Object.freeze({ joker: { name: "Joker", text: "Choose any rank for the Thread." }, needle: { name: "Needle", text: "Choose one of the next three Spool cards." }, reel: { name: "Reel", text: "Open a second face-up stack of three cards." }, spare: { name: "Spare", text: "Keep one card aside to bring into the Thread later." }, mirror: { name: "Mirror", text: "Your next play may also match the same rank." }, leap: { name: "Leap", text: "Your next play may also move two ranks." }, unpick: { name: "Unpick", text: "Return the last played card to its place." }, lantern: { name: "Lantern", text: "Keep the next three Spool cards face-up." } });
-
-// ChatGPT/B-059/v6.24.21/warp-core/run.ts
 var copy3 = (value) => JSON.parse(JSON.stringify(value));
 var seed2 = (value) => {
   if (typeof value === "number" && !Number.isSafeInteger(value) || !/^-?\d{1,30}$/.test(String(value))) throw new TypeError("Invalid Warp root seed");
@@ -2892,8 +2824,6 @@ function actionTuple(action) {
       return ["skip"];
   }
 }
-
-// ChatGPT/B-059/v6.24.21/supabase/warp-replay.ts
 var WARP_SERVER_VERIFICATION_MS = 5e3;
 var WarpVerificationBudgetError = class extends Error {
   constructor() {
@@ -2905,10 +2835,10 @@ var canonical3 = (value) => Array.isArray(value) ? "[" + value.map(canonical3).j
 function admitted(level, seed3, charms, oneShots, attempts, remaining) {
   if (!Number.isSafeInteger(attempts) || attempts < 1 || attempts > WARP_MAX_CANDIDATES) throw new TypeError("Invalid Warp admission count");
   let rejectedUnknown = 0, rejectedFalse = 0;
-  const solve2 = (deal2) => {
+  const solve2 = (deal22) => {
     const timeBudgetMs = remaining();
     if (timeBudgetMs <= 0) throw new WarpVerificationBudgetError();
-    const proof = solveWarp(deal2, { maxNodes: WARP_PROOF_NODE_LIMIT, timeBudgetMs });
+    const proof = solveWarp(deal22, { maxNodes: WARP_PROOF_NODE_LIMIT, timeBudgetMs });
     if (proof.clearable === "unknown" && proof.reason === "time-budget") throw new WarpVerificationBudgetError();
     return proof;
   };
@@ -2922,7 +2852,7 @@ function admitted(level, seed3, charms, oneShots, attempts, remaining) {
       rejectedFalse++;
       continue;
     }
-    const deal2 = { ...bare, charms: [...charms] }, actual = charms.length ? solve2(deal2) : verification;
+    const deal22 = { ...bare, charms: [...charms] }, actual = charms.length ? solve2(deal22) : verification;
     if (actual.clearable === "unknown") {
       rejectedUnknown++;
       continue;
@@ -2932,7 +2862,7 @@ function admitted(level, seed3, charms, oneShots, attempts, remaining) {
       continue;
     }
     if (!verification.line || !actual.line) throw new Error("Missing canonical Warp witness");
-    return { version: "warp-1", seed: seed3, subSeed: String(subSeed), attempts: index + 1, deal: deal2, verification: actual, line: actual.line, withoutCharms: true, withoutCharmsVerification: verification, withoutCharmsLine: verification.line, rejectedUnknown, rejectedFalse };
+    return { version: "warp-1", seed: seed3, subSeed: String(subSeed), attempts: index + 1, deal: deal22, verification: actual, line: actual.line, withoutCharms: true, withoutCharmsVerification: verification, withoutCharmsLine: verification.line, rejectedUnknown, rejectedFalse };
   }
   throw new TypeError("Warp admission disagrees with its claimed attempt count");
 }
@@ -2960,15 +2890,13 @@ function verifyWarpSubmission(wire, options = {}) {
   const expected = { ...scoringMetadata(scoringVersionOf(record)), id: record.id, mode: "warp", version: "warp-1", rootSeed: record.rootSeed, date: record.date, levelsCleared, totalLevels: 10, ...completed ? { warpComplete: true } : {}, runScore: total, picks: record.picks, perLevel: boards };
   if (canonical3(expected) !== canonical3(record)) throw new TypeError("Warp completion disagrees with canonical replay");
   if (remaining() <= 0) throw new WarpVerificationBudgetError();
-  const rows2 = boards.map((board2) => ({ proof_id: warpBoardProofId(record, board2.level), kind: "warp-board", score: board2.score, level_reached: board2.level, longest_chain: board2.longestChain, seed: board2.seed, moves: { mode: "warp", runProofId: record.id, rootSeed: record.rootSeed, level: board2.level, subSeed: board2.subSeed, attempts: board2.attempts, actions: board2.actions, ...scoringMetadata(scoringVersionOf(record)) }, version: isCurrentScoring(record) ? "6.23" : record.version, daily_date: null }));
-  rows2.push({ proof_id: record.id, kind: "warp-run", score: total, level_reached: record.levelsCleared + 1, longest_chain: Math.max(0, ...boards.map((board2) => board2.longestChain)), seed: record.rootSeed, moves: { mode: "warp", record }, version: isCurrentScoring(record) ? "6.23" : record.version, daily_date: null });
-  return rows2;
+  const rows22 = boards.map((board2) => ({ proof_id: warpBoardProofId(record, board2.level), kind: "warp-board", score: board2.score, level_reached: board2.level, longest_chain: board2.longestChain, seed: board2.seed, moves: { mode: "warp", runProofId: record.id, rootSeed: record.rootSeed, level: board2.level, subSeed: board2.subSeed, attempts: board2.attempts, actions: board2.actions, ...scoringMetadata(scoringVersionOf(record)) }, version: isCurrentScoring(record) ? "6.23" : record.version, daily_date: null }));
+  rows22.push({ proof_id: record.id, kind: "warp-run", score: total, level_reached: record.levelsCleared + 1, longest_chain: Math.max(0, ...boards.map((board2) => board2.longestChain)), seed: record.rootSeed, moves: { mode: "warp", record }, version: isCurrentScoring(record) ? "6.23" : record.version, daily_date: null });
+  return rows22;
 }
 function warpBoardProofId(record, level) {
   return warpRecordId({ rootSeed: record.rootSeed, picks: record.picks.slice(0, level - 1), perLevel: record.perLevel.slice(0, level), ...scoringMetadata(scoringVersionOf(record)) }) + ":board:" + level;
 }
-
-// ChatGPT/B-059/v6.24.21/src/nickname.ts
 var NICKNAME_BLOCKLIST = Object.freeze(["fuck", "shit", "cunt", "nigger", "nazi", "asshole", "bitch", "bastard", "motherfucker", "dickhead", "rapist", "faggot", "whore"]);
 function validateNickname(input) {
   if (typeof input !== "string") return { valid: false, error: "Use 1\u201316 letters, numbers, spaces, - or _." };
@@ -2978,8 +2906,6 @@ function validateNickname(input) {
   if (NICKNAME_BLOCKLIST.some((word) => plain.includes(word))) return { valid: false, error: "Please choose another name." };
   return { valid: true, value };
 }
-
-// ChatGPT/B-059/v6.24.21/supabase/replay-entry.ts
 var verifier = createLeaderboardVerifier();
 function runMoves(record) {
   const boards = record.perLevel.map((b) => ({ seed: b.seed, moves: compressMoves(b.moves) }));
@@ -2996,7 +2922,7 @@ function verifySubmission(wire) {
   if (wire && typeof wire === "object" && wire.type === "warp-run") return verifyWarpSubmission(wire);
   const submission = decodeLeaderboardProof(wire), run = submission.type === "run" ? verifier.verifyRun(submission.record) : void 0, boards = submission.type === "board" ? [verifier.verifyBoard(submission)] : run.boards;
   const runVersion = submission.type === "board" ? submission.level === void 0 ? null : submission.runVersion ?? submission.record.version : run.record.version;
-  const rows2 = boards.flatMap((board2) => ["board", "chain", ...board2.record.dailyDate ? ["daily"] : []].map((kind) => ({
+  const rows22 = boards.flatMap((board2) => ["board", "chain", ...board2.record.dailyDate ? ["daily"] : []].map((kind) => ({
     proof_id: board2.sourceId,
     kind,
     score: board2.record.score,
@@ -3009,9 +2935,9 @@ function verifySubmission(wire) {
   })));
   if (run) {
     const record = run.record;
-    rows2.push({ proof_id: record.id, kind: "run", score: record.runScore, level_reached: record.levelsCleared + 1, longest_chain: Math.max(0, ...boards.map((b) => b.record.longestChain)), seed: record.rootSeed ?? record.perLevel[0].seed, moves: runMoves(record), version: record.hugoVersion === PAIR_HUGO_VERSION ? "6.24.21" : record.jokerVersion === "earned-4" ? "6.24.20" : record.jokerVersion === "earned-3" ? "6.24.19" : isCurrentEarnedJokers(record) ? "6.24.18" : hasAnabelleFeature(record) ? "6.24.17" : hasEarnedJokers(record) ? "6.24.16" : scoringVersionOf(record) === ENDLESS_SCORING_VERSION ? "6.24.14" : isCurrentScoring(record) ? "6.23" : record.version, daily_date: null });
+    rows22.push({ proof_id: record.id, kind: "run", score: record.runScore, level_reached: record.levelsCleared + 1, longest_chain: Math.max(0, ...boards.map((b) => b.record.longestChain)), seed: record.rootSeed ?? record.perLevel[0].seed, moves: runMoves(record), version: record.hugoVersion === PAIR_HUGO_VERSION ? "6.24.21" : record.jokerVersion === "earned-4" ? "6.24.20" : record.jokerVersion === "earned-3" ? "6.24.19" : isCurrentEarnedJokers(record) ? "6.24.18" : hasAnabelleFeature(record) ? "6.24.17" : hasEarnedJokers(record) ? "6.24.16" : scoringVersionOf(record) === ENDLESS_SCORING_VERSION ? "6.24.14" : isCurrentScoring(record) ? "6.23" : record.version, daily_date: null });
   }
-  return rows2;
+  return rows22;
 }
 function verifyCurrentSubmission(wire) {
   if (!wire || typeof wire !== "object" || !isCurrentScoring(wire.record)) throw new TypeError("This score belongs to an archived scoring season");
@@ -3026,13 +2952,1182 @@ function verifyCurrentSubmission(wire) {
   if (input.type === "run" && input.record.version !== (input.record.scoringVersion === ENDLESS_SCORING_VERSION ? "6.24.14" : "6.14") || input.type === "warp-run" && input.record.version !== "warp-1") throw new TypeError("Historical mechanics cannot enter the current scoring season");
   if (input.type === "board" && (hasEarnedJokers(input.record) || input.record.secret !== void 0 || input.record.admission !== void 0)) throw new TypeError("Secret boards require a complete run proof");
   if (input.type === "board" && (!["6.7", "6.14", "6.24.14"].includes(String(input.record.version)) || input.runVersion !== void 0 && input.runVersion !== (input.record.scoringVersion === ENDLESS_SCORING_VERSION ? "6.24.14" : "6.14") || input.level !== void 0 && (!Number.isSafeInteger(input.level) || Number(input.level) < 1 || input.record.scoringVersion !== ENDLESS_SCORING_VERSION && Number(input.level) > 10))) throw new TypeError("Historical board context cannot enter the current scoring season");
-  const rows2 = verifySubmission(wire);
-  if (rows2.some((row) => !Number.isSafeInteger(row.level_reached) || row.level_reached < 1 || row.level_reached > 2147483647)) throw new RangeError("Score proof exceeds database level range; retained locally");
-  if (rows2.some((row) => row.version !== "6.23" && row.version !== "6.24.21")) throw new TypeError("Mixed scoring seasons");
-  return rows2;
+  const rows22 = verifySubmission(wire);
+  if (rows22.some((row) => !Number.isSafeInteger(row.level_reached) || row.level_reached < 1 || row.level_reached > 2147483647)) throw new RangeError("Score proof exceeds database level range; retained locally");
+  if (rows22.some((row) => row.version !== "6.23" && row.version !== "6.24.21")) throw new TypeError("Mixed scoring seasons");
+  return rows22;
+}
+
+// ChatGPT/B-002/engine/layout.ts
+function makeLayout2(name, graph) {
+  const coveredBy = graph.map((covers) => [...covers]);
+  const children = coveredBy.map(() => []);
+  coveredBy.forEach((covers, p) => {
+    if (new Set(covers).size !== covers.length) throw new Error("Duplicate cover edge");
+    for (const q of covers) {
+      if (!Number.isInteger(q) || q < 0 || q >= graph.length || q === p)
+        throw new Error("Invalid cover position");
+      children[q].push(p);
+    }
+  });
+  const counts = coveredBy.map((c) => c.length);
+  const queue = counts.flatMap((n, p) => n === 0 ? [p] : []);
+  for (let i = 0; i < queue.length; i++)
+    for (const p of children[queue[i]]) if (--counts[p] === 0) queue.push(p);
+  if (queue.length !== graph.length) throw new Error("Cover graph must be acyclic");
+  return {
+    name,
+    coveredBy,
+    children,
+    size: graph.length,
+    initialFree: coveredBy.filter((c) => c.length === 0).length
+  };
+}
+function rows2(name, groups) {
+  const positions = [];
+  groups.forEach((widths, g) => widths.forEach((width, r) => {
+    for (let i = 0; i < width; i++) positions.push([g, r, i]);
+  }));
+  const indices = new Map(positions.map((p, i) => [p.join(","), i]));
+  return makeLayout2(name, positions.map(([g, r, i]) => {
+    const covers = [
+      indices.get([g, r + 1, i].join(",")),
+      indices.get([g, r + 1, i + 1].join(","))
+    ];
+    return covers.filter((p) => p !== void 0);
+  }));
+}
+var layoutPeaks2 = () => rows2("peaks", [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]);
+var layoutWeave2 = () => rows2("weave", [[4, 5, 6, 7, 8]]);
+var layoutFlat2 = () => makeLayout2("flat", Array.from({ length: 30 }, () => []));
+function layoutFor2(name) {
+  switch (name) {
+    case "peaks":
+      return layoutPeaks2();
+    case "weave":
+      return layoutWeave2();
+    case "flat":
+      return layoutFlat2();
+    default:
+      throw new Error(`Unknown layout: ${String(name)}`);
+  }
+}
+
+// ChatGPT/B-002/engine/scoring.ts
+function baseScore2(n) {
+  return 5 * n * (n + 1);
+}
+
+// ChatGPT/B-002/engine/hands.ts
+var HIGH2 = 0;
+var PAIR2 = 1;
+var TWO_PAIR2 = 2;
+var TRIPS2 = 3;
+var STRAIGHT2 = 4;
+var FLUSH2 = 5;
+var FULL_HOUSE2 = 6;
+var QUADS2 = 7;
+var STRAIGHT_FLUSH2 = 8;
+var ROYAL3 = 9;
+var NAMES2 = [
+  "high",
+  "pair",
+  "two_pair",
+  "trips",
+  "straight",
+  "flush",
+  "full_house",
+  "quads",
+  "straight_flush",
+  "royal"
+];
+var MULT2 = [1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 8, 12];
+var ROYAL_SET2 = [0, 9, 10, 11, 12];
+function evalRanks2(ranks, flush, loop) {
+  const counts = /* @__PURE__ */ new Map();
+  for (const rank2 of ranks) counts.set(rank2, (counts.get(rank2) ?? 0) + 1);
+  const repeated = [...counts.values()].sort((a, b) => b - a);
+  const royal = ranks.length === 5 && ranks.every((rank2, i) => rank2 === ROYAL_SET2[i]);
+  let straight = false;
+  if (ranks.length === 5 && counts.size === 5) {
+    if (ranks[4] - ranks[0] === 4 || royal) {
+      straight = true;
+    } else if (loop) {
+      const gaps = ranks.slice(1).map((rank2, i) => rank2 - ranks[i]);
+      gaps.push(ranks[0] + 13 - ranks[4]);
+      straight = Math.max(...gaps) === 9;
+    }
+  }
+  flush = flush && ranks.length === 5;
+  if (straight && flush) return royal ? ROYAL3 : STRAIGHT_FLUSH2;
+  if (repeated[0] === 4) return QUADS2;
+  if (ranks.length === 5 && repeated[0] === 3 && repeated[1] === 2) return FULL_HOUSE2;
+  if (flush) return FLUSH2;
+  if (straight) return STRAIGHT2;
+  if (repeated[0] === 3) return TRIPS2;
+  if (repeated[0] === 2 && repeated[1] === 2) return TWO_PAIR2;
+  if (repeated[0] === 2) return PAIR2;
+  return HIGH2;
+}
+function evalCards2(cards, loop, flush4) {
+  const ranks = cards.map((card) => card % 13).sort((a, b) => a - b);
+  if (flush4 && cards.length >= 4) {
+    const suits = [0, 0, 0, 0];
+    for (const card of cards) {
+      const suit3 = Math.floor(card / 13);
+      suits[suit3] = suits[suit3] + 1;
+    }
+    const mostSuited = Math.max(...suits);
+    const type = evalRanks2(ranks, mostSuited === 5, loop);
+    return mostSuited >= 4 && type < FLUSH2 ? FLUSH2 : type;
+  }
+  const suit2 = Math.floor(cards[0] / 13);
+  const flush = cards.length === 5 && cards.every((card) => Math.floor(card / 13) === suit2);
+  return evalRanks2(ranks, flush, loop);
+}
+var runs2 = (loop) => loop ? Array.from({ length: 13 }, (_, start) => Array.from({ length: 5 }, (_2, i) => (start + i) % 13)) : [...Array.from({ length: 9 }, (_, start) => Array.from({ length: 5 }, (_2, i) => start + i)), ROYAL_SET2];
+var STRAIGHTS2 = [runs2(false), runs2(true)];
+var maskOf2 = (ranks) => ranks.reduce((mask, rank2) => mask | 1 << rank2, 0);
+var STRAIGHT_MASKS2 = STRAIGHTS2.map((patterns) => patterns.map(maskOf2));
+var fastCards2 = (cards) => cards.length > 7 && cards.every((card) => Number.isInteger(card) && card >= 0 && card < 52) && new Set(cards).size === cards.length;
+function bestFromMany2(cards, loop, flush4) {
+  const ranks = Array.from({ length: 13 }, () => []);
+  const suits = Array.from({ length: 4 }, () => []);
+  const suitRank = Array.from({ length: 4 }, () => Array(13).fill(-1));
+  const suitMasks = [0, 0, 0, 0];
+  let allRanks = 0;
+  cards.forEach((card, index) => {
+    const rank2 = card % 13, suit2 = Math.floor(card / 13);
+    ranks[rank2].push(index);
+    suits[suit2].push(index);
+    suitRank[suit2][rank2] = index;
+    allRanks |= 1 << rank2;
+    suitMasks[suit2] = suitMasks[suit2] | 1 << rank2;
+  });
+  let best;
+  const consider = (indices) => {
+    const candidate2 = [...indices].sort((a, b) => a - b);
+    if (!best) {
+      best = candidate2;
+      return;
+    }
+    for (let i = 0; i < 5; i++) {
+      if (candidate2[i] === best[i]) continue;
+      if (candidate2[i] < best[i]) best = candidate2;
+      return;
+    }
+  };
+  const fill = (indices) => {
+    const result2 = [...indices];
+    for (let i = 0; result2.length < 5 && i < cards.length; i++) if (!result2.includes(i)) result2.push(i);
+    return result2;
+  };
+  const result = () => best.map((index) => cards[index]);
+  const royalMask = maskOf2(ROYAL_SET2);
+  for (let suit2 = 0; suit2 < 4; suit2++) if ((suitMasks[suit2] & royalMask) === royalMask)
+    consider(ROYAL_SET2.map((rank2) => suitRank[suit2][rank2]));
+  if (best) return result();
+  const patterns = STRAIGHTS2[Number(loop)], masks = STRAIGHT_MASKS2[Number(loop)];
+  for (let suit2 = 0; suit2 < 4; suit2++) for (let i = 0; i < patterns.length; i++)
+    if ((suitMasks[suit2] & masks[i]) === masks[i]) consider(patterns[i].map((rank2) => suitRank[suit2][rank2]));
+  if (best) return result();
+  for (const group of ranks) if (group.length === 4) consider(fill(group));
+  if (best) return result();
+  for (let three = 0; three < 13; three++) if (ranks[three].length >= 3) {
+    for (let two = 0; two < 13; two++) if (two !== three && ranks[two].length >= 2)
+      consider([...ranks[three].slice(0, 3), ...ranks[two].slice(0, 2)]);
+  }
+  if (best) return result();
+  for (const group of suits) {
+    if (group.length >= 5) consider(group.slice(0, 5));
+    if (flush4 && group.length >= 4) consider(fill(group.slice(0, 4)));
+  }
+  if (best) return result();
+  for (let i = 0; i < patterns.length; i++) if ((allRanks & masks[i]) === masks[i])
+    consider(patterns[i].map((rank2) => ranks[rank2][0]));
+  if (best) return result();
+  for (const group of ranks) if (group.length === 3) consider(fill(group));
+  if (best) return result();
+  for (let a = 0; a < 13; a++) if (ranks[a].length >= 2) {
+    for (let b = a + 1; b < 13; b++) if (ranks[b].length >= 2)
+      consider(fill([...ranks[a].slice(0, 2), ...ranks[b].slice(0, 2)]));
+  }
+  if (best) return result();
+  for (const group of ranks) if (group.length === 2) consider(fill(group));
+  return best ? result() : cards.slice(0, 5);
+}
+function handType2(chain, window, loop, flush4 = false) {
+  if (chain.length === 0) return HIGH2;
+  if (window === 5 || chain.length <= 5) return evalCards2(chain.slice(-5), loop, flush4);
+  const cards = chain.slice(-window);
+  if (fastCards2(cards)) return evalCards2(bestFromMany2(cards, loop, flush4), loop, flush4);
+  let best = HIGH2;
+  const combo = [];
+  function choose(start) {
+    if (combo.length === 5) {
+      best = Math.max(best, evalCards2(combo, loop, flush4));
+      return;
+    }
+    const needed = 5 - combo.length;
+    for (let i = start; i <= cards.length - needed; i += 1) {
+      combo.push(cards[i]);
+      choose(i + 1);
+      combo.pop();
+    }
+  }
+  choose(0);
+  return best;
+}
+
+// ChatGPT/B-002/engine/rules.ts
+function resolveRules2(input = {}) {
+  const deltas = [...new Set(input.deltas ?? (input.wide ? [1, 2] : [1]))].sort((a, b) => a - b);
+  if (!deltas.length || deltas.some((d) => !Number.isInteger(d) || d <= 0))
+    throw new Error("Rank deltas must be positive integers");
+  const rules = {
+    layout: input.layout ?? "weave",
+    spool: input.spool ?? 22,
+    deltas,
+    twins: input.twins ?? false,
+    wide: deltas.includes(2),
+    loop: input.loop ?? false,
+    window: input.window ?? 5,
+    openWeave: input.openWeave ?? false,
+    anchor: input.anchor ?? false,
+    flush4: input.flush4 ?? false,
+    links: input.links ?? false,
+    spark: input.spark ?? false
+  };
+  if (!Number.isInteger(rules.spool) || rules.spool < 1) throw new Error("Spool must include a starting Thread");
+  if (!Number.isInteger(rules.window) || rules.window < 1) throw new Error("Hand window must be positive");
+  layoutFor2(rules.layout);
+  return rules;
+}
+function isAdjacent2(rules, top, next) {
+  const diff = next % 13 - top % 13;
+  if (rules.twins && diff === 0) return true;
+  const equivalent = (a, b) => rules.loop ? ((a - b) % 13 + 13) % 13 === 0 : a === b;
+  return rules.deltas.some((d) => equivalent(diff, d) || equivalent(diff, -d));
+}
+var legalMoves2 = (state) => state.free.filter((p) => isAdjacent2(state.rules, state.top, state.weave[p]));
+function terminalStatus2(state) {
+  if (state.remaining === 0) return "cleared";
+  return legalMoves2(state).length === 0 && state.spoolIndex === state.spool.length ? "stuck" : "active";
+}
+function createState2(input, deal3) {
+  const rules = resolveRules2(input);
+  const layout = deal3.coveredBy ? makeLayout2(rules.layout, deal3.coveredBy) : layoutFor2(rules.layout);
+  if (deal3.weave.length !== layout.size) throw new Error("Weave size must match its cover graph");
+  if (!deal3.spoolOrder.length) throw new Error("Deal needs a starting Thread");
+  for (const card of [...deal3.weave, ...deal3.spoolOrder, ...deal3.burned])
+    if (!Number.isInteger(card) || card < 0 || card >= 52) throw new Error("Card must be an integer 0\u201351");
+  const weave = [...deal3.weave], spool = [...deal3.spoolOrder], burned = [...deal3.burned];
+  const cover = layout.coveredBy.map((c) => c.length);
+  const free = cover.flatMap((n, p) => n === 0 ? [p] : []);
+  const unseen = Array(13).fill(0);
+  for (let p = 0; p < weave.length; p++) if (cover[p] && !rules.openWeave) unseen[weave[p] % 13]++;
+  for (const c of [...spool.slice(1), ...burned]) unseen[c % 13]++;
+  const state = {
+    rules,
+    layout,
+    weave,
+    spool,
+    burned,
+    free,
+    cover,
+    played: [],
+    top: spool[0],
+    anchor: spool[0],
+    spoolIndex: 1,
+    remaining: weave.length,
+    chain: [],
+    links: 0,
+    score: 0,
+    suitedPlays: 0,
+    unseen,
+    unseenTotal: unseen.reduce((a, b) => a + b, 0),
+    longestChain: 0,
+    voluntaryBanks: 0,
+    draws: 0,
+    terminal: "active"
+  };
+  return { ...state, terminal: terminalStatus2(state) };
+}
+function handInput2(state) {
+  return state.rules.anchor ? [state.anchor, ...state.chain] : state.chain;
+}
+function bankInternal2(state, reason) {
+  if (state.chain.length === 0) return { state, events: [] };
+  const kind = handType2(handInput2(state), state.rules.window, state.rules.loop, state.rules.flush4);
+  const n = state.chain.length, scoringLength = n + (state.rules.links ? state.links : 0);
+  const points = baseScore2(scoringLength) * MULT2[kind];
+  const next = {
+    ...state,
+    score: state.score + points,
+    chain: [],
+    links: 0,
+    longestChain: Math.max(state.longestChain, n),
+    anchor: reason === "manual" ? state.top : state.anchor,
+    voluntaryBanks: state.voluntaryBanks + (reason === "manual" ? 1 : 0)
+  };
+  return { state: next, events: [{
+    type: "banked",
+    reason,
+    chainLength: n,
+    scoringLength,
+    handName: NAMES2[kind],
+    points
+  }] };
+}
+function settle3(state) {
+  const result = state.remaining === 0 || legalMoves2(state).length === 0 ? bankInternal2(state, "automatic") : { state, events: [] };
+  return { state: { ...result.state, terminal: terminalStatus2(result.state) }, events: result.events };
+}
+function bank3(state) {
+  if (state.terminal !== "active") throw new Error("Cannot bank a terminal board");
+  const result = bankInternal2(state, "manual");
+  return { state: { ...result.state, terminal: terminalStatus2(result.state) }, events: result.events };
+}
+function draw2(state) {
+  if (state.terminal !== "active") throw new Error("Cannot draw on a terminal board");
+  if (state.spoolIndex >= state.spool.length) throw new Error("Spool is empty");
+  const result = bankInternal2(state, "automatic");
+  const top = state.spool[state.spoolIndex], unseen = [...state.unseen];
+  unseen[top % 13]--;
+  const next = {
+    ...result.state,
+    top,
+    anchor: top,
+    spoolIndex: state.spoolIndex + 1,
+    unseen,
+    unseenTotal: state.unseenTotal - 1,
+    draws: state.draws + 1
+  };
+  const settled = settle3(next);
+  return { state: settled.state, events: [...result.events, ...settled.events] };
+}
+function applyMove2(state, move) {
+  if (move.type === "bank") return bank3(state);
+  if (move.type === "draw") return draw2(state);
+  if (move.type !== "play") throw new Error("Unknown move");
+  if (state.terminal !== "active") throw new Error("Cannot play on a terminal board");
+  if (!legalMoves2(state).includes(move.position)) throw new Error("Card is covered, removed or not adjacent");
+  const position = move.position, c = state.weave[position], matched = Math.floor(c / 13) === Math.floor(state.top / 13);
+  const free = state.free.filter((p) => p !== position), cover = [...state.cover], unseen = [...state.unseen];
+  let unseenTotal = state.unseenTotal;
+  for (const child of state.layout.children[position]) {
+    if (--cover[child] === 0) {
+      free.push(child);
+      if (!state.rules.openWeave) {
+        unseen[state.weave[child] % 13]--;
+        unseenTotal--;
+      }
+    }
+  }
+  return settle3({
+    ...state,
+    top: c,
+    free,
+    cover,
+    unseen,
+    unseenTotal,
+    played: [...state.played, position].sort((a, b) => a - b),
+    remaining: state.remaining - 1,
+    chain: [...state.chain, c],
+    links: state.links + (state.rules.links && matched ? 1 : 0),
+    suitedPlays: state.suitedPlays + (matched ? 1 : 0)
+  });
+}
+function snapshot2(state) {
+  const input = handInput2(state);
+  const kind = handType2(input, state.rules.window, state.rules.loop, state.rules.flush4);
+  const scoringLength = state.chain.length + (state.rules.links ? state.links : 0);
+  return {
+    legalMoves: legalMoves2(state),
+    free: [...state.free],
+    cover: [...state.cover],
+    played: [...state.played],
+    top: state.top,
+    anchor: state.anchor,
+    spoolIndex: state.spoolIndex,
+    spoolRemaining: state.spool.length - state.spoolIndex,
+    remaining: state.remaining,
+    chain: [...state.chain],
+    chainLength: state.chain.length,
+    links: state.links,
+    scoringLength,
+    handCards: input.slice(-state.rules.window),
+    handType: kind,
+    handName: NAMES2[kind],
+    multiplier: MULT2[kind],
+    score: state.score,
+    bankValue: state.chain.length ? baseScore2(scoringLength) * MULT2[kind] : 0,
+    suitedPlays: state.suitedPlays,
+    sparksEarned: state.rules.spark ? state.suitedPlays : 0,
+    unseen: [...state.unseen],
+    unseenTotal: state.unseenTotal,
+    terminal: state.terminal
+  };
+}
+
+// ChatGPT/B-063/v6.24.25/src/endgame-solver.ts
+var unknownEndgame2 = (reason, error) => ({ status: "unknown", clearable: "unknown", exhaustive: false, reason, nodes: 0, memoStates: 0, ms: 0, ...error ? { error } : {} });
+var pop2 = (mask) => {
+  mask -= mask >>> 1 & 1431655765;
+  mask = (mask & 858993459) + (mask >>> 2 & 858993459);
+  return (mask + (mask >>> 4) & 252645135) * 16843009 >>> 24;
+};
+function analyzeEndgame2(state, options = {}) {
+  const started = performance.now();
+  try {
+    const version = options.jokerVersion ?? state.jokerVersion;
+    if (version !== void 0 && version !== "earned-1" && version !== "earned-2" && version !== "earned-3" && version !== "earned-4") throw Error("Unknown joker analysis version");
+    const conditionalAutoBank = version === "earned-3" || version === "earned-4", current = version === "earned-2" || conditionalAutoBank, feature = options.feature ?? version !== void 0, held = feature ? options.jokers ?? state.jokers ?? 0 : 0, awarded = feature ? options.chainAwarded ?? state.jokerChainAwarded ?? false : false;
+    const budget = options.timeBudgetMs ?? 40, maxNodes = options.maxNodes ?? 25e4;
+    if (budget !== Infinity && (!Number.isFinite(budget) || budget < 0) || maxNodes !== Infinity && (!Number.isSafeInteger(maxNodes) || maxNodes < 0)) throw Error("Invalid exact-search budget");
+    if (!Number.isInteger(held) || held < 0 || held > (current ? 1 : 3) || typeof awarded !== "boolean") throw Error("Invalid held-joker metadata");
+    const count5 = state.weave.length;
+    if (count5 > 30 || count5 !== state.layout.size || state.weave.some((c) => !Number.isInteger(c) || c < 0 || c > 51) || !Number.isInteger(state.top) || state.top < 0 || state.top > 51 || state.spool.some((c) => !Number.isInteger(c) || c < 0 || c > 51) || !Number.isInteger(state.spoolIndex) || state.spoolIndex < 1 || state.spoolIndex > state.spool.length) throw Error("Invalid current board");
+    const layout = makeLayout2(state.layout.name, state.layout.coveredBy), all = 2 ** count5 - 1, covers = layout.coveredBy.map((row) => row.reduce((m, p) => m | 1 << p, 0)), ranks = state.weave.map((c) => c % 13), stock = state.spool.map((c) => c % 13);
+    let played = 0;
+    for (const p of state.played) {
+      if (!Number.isInteger(p) || p < 0 || p >= count5 || played & 1 << p) throw Error("Invalid played set");
+      played |= 1 << p;
+    }
+    let initialFree = 0;
+    for (let p = 0; p < count5; p++) if (!(played & 1 << p) && !(covers[p] & ~played)) initialFree |= 1 << p;
+    if (state.remaining !== count5 - pop2(played) || state.free.length !== pop2(initialFree) || state.free.some((p) => !(initialFree & 1 << p))) throw Error("Current cover/remaining state disagrees");
+    const adjacency = Array.from({ length: 13 }, (_, top) => ranks.reduce((m, rank2, p) => isAdjacent2(state.rules, top, rank2) ? m | 1 << p : m, 0));
+    resolveRules2(state.rules);
+    const deadline = budget === Infinity ? Infinity : started + budget, failed = /* @__PURE__ */ new Set(), line = [];
+    let nodes = 0, stop;
+    const search = (mask, free, top, sp, j, chain, got) => {
+      if (mask === all) return 1;
+      if (nodes >= maxNodes) {
+        stop = "node-budget";
+        return 0;
+      }
+      if (deadline !== Infinity && (nodes & 63) === 0 && performance.now() >= deadline) {
+        stop = "time-budget";
+        return 0;
+      }
+      nodes++;
+      const key = [mask, top, sp, j, Math.min(10, chain), got ? 1 : 0].join("/");
+      if (failed.has(key)) return -1;
+      const ordinary = free & adjacency[top], wild = feature && j ? current ? free : free & ~ordinary : 0;
+      for (const joker of [false, true]) {
+        let candidates = joker ? wild : ordinary;
+        while (candidates) {
+          const bit2 = candidates & -candidates, p = 31 - Math.clz32(bit2);
+          candidates ^= bit2;
+          const nextMask = mask | bit2;
+          let nextFree = free ^ bit2;
+          for (const child of layout.children[p]) if (!(covers[child] & ~nextMask)) nextFree |= 1 << child;
+          let nj = j - (joker ? 1 : 0), nc = current && joker ? 0 : chain + 1, na = current && joker ? false : got;
+          if (feature && !(current && joker) && !na && nc >= 10) {
+            nj = Math.min(current ? 1 : 3, nj + 1);
+            na = true;
+          }
+          if ((!current || conditionalAutoBank && nj === 0) && !(nextFree & adjacency[ranks[p]])) {
+            nc = 0;
+            na = false;
+          }
+          line.push(joker ? { type: "joker", position: p } : { type: "play", position: p });
+          const result2 = search(nextMask, nextFree, ranks[p], sp, nj, nc, na);
+          if (result2 === 1) return 1;
+          line.pop();
+          if (result2 === 0) return 0;
+        }
+      }
+      if (sp < stock.length) {
+        line.push({ type: "draw" });
+        const result2 = search(mask, free, stock[sp], sp + 1, j, 0, false);
+        if (result2 === 1) return 1;
+        line.pop();
+        if (result2 === 0) return 0;
+      }
+      failed.add(key);
+      return -1;
+    };
+    const value = search(played, initialFree, state.top % 13, state.spoolIndex, held, state.chain.length, awarded), base = { nodes, memoStates: failed.size, ms: performance.now() - started };
+    if (value === 0) return { status: "unknown", clearable: "unknown", exhaustive: false, reason: stop ?? "time-budget", ...base };
+    if (value === 1) return { status: "clearable", clearable: true, exhaustive: true, reason: "exhaustive", ...base, line: [...line] };
+    const result = { status: "unwinnable", clearable: false, exhaustive: true, reason: "exhaustive", ...base };
+    if (options.explain !== false) {
+      const needed = [], counterfactual = "One additional Spool card now, banking the current chain, followed by the actual remaining Spool";
+      let witness, complete = true;
+      for (let rank2 = 0; rank2 < 13; rank2++) {
+        line.length = 0;
+        const rescue3 = search(played, initialFree, rank2, state.spoolIndex, held, 0, false);
+        if (rescue3 === 1) {
+          needed.push(rank2);
+          witness ?? (witness = [...line]);
+        } else if (rescue3 === 0) {
+          complete = false;
+          break;
+        }
+      }
+      result.explanation = { kind: needed.length ? "missing-thread-rank" : complete ? "no-single-rank-rescue" : "not-computed", neededRanks: needed, complete, counterfactual, ...witness ? { line: witness } : {} };
+      result.nodes = nodes;
+      result.memoStates = failed.size;
+      result.ms = performance.now() - started;
+    }
+    return result;
+  } catch (error) {
+    return { ...unknownEndgame2("invalid-state", String(error)), ms: performance.now() - started };
+  }
+}
+
+// ChatGPT/B-063/v6.24.25/src/endgame-authorization.ts
+var receipts2 = /* @__PURE__ */ new WeakMap();
+var canonical4 = (value) => Array.isArray(value) ? "[" + value.map(canonical4).join(",") + "]" : value && typeof value === "object" ? "{" + Object.keys(value).sort().map((key) => JSON.stringify(key) + ":" + canonical4(value[key])).join(",") + "}" : JSON.stringify(value);
+var endgameStateKey2 = (state) => canonical4(state);
+function matchesEndgameAuthorization2(state, value) {
+  return !!value && typeof value === "object" && receipts2.get(value) === endgameStateKey2(state);
+}
+
+// ChatGPT/B-063/v6.24.25/src/earned-jokers.ts
+var LEGACY_EARNED_JOKER_VERSION2 = "earned-1";
+var PREVIOUS_EARNED_JOKER_VERSION2 = "earned-2";
+var CONDITIONAL_EARNED_JOKER_VERSION2 = "earned-3";
+var EARNED_JOKER_VERSION2 = "earned-4";
+var MAX_EARNED_JOKERS2 = 1;
+var JOKER_CHAIN_THRESHOLD2 = 10;
+var ENDGAME_END_MAX_NODES2 = 1e6;
+var provenNegatives2 = /* @__PURE__ */ new Map();
+function rememberNegative2(key) {
+  provenNegatives2.delete(key);
+  provenNegatives2.set(key, true);
+  while (provenNegatives2.size > 16) provenNegatives2.delete(provenNegatives2.keys().next().value);
+}
+var supportsEndGame2 = (value) => !!value && typeof value === "object" && value.jokerVersion === EARNED_JOKER_VERSION2;
+var hasEarnedJokers2 = (value) => !!value && typeof value === "object" && (value.jokerVersion === LEGACY_EARNED_JOKER_VERSION2 || value.jokerVersion === PREVIOUS_EARNED_JOKER_VERSION2 || value.jokerVersion === CONDITIONAL_EARNED_JOKER_VERSION2 || value.jokerVersion === EARNED_JOKER_VERSION2);
+function jokerMetadata2(value) {
+  if (value.jokerVersion === void 0) return {};
+  if (!hasEarnedJokers2(value)) throw new TypeError("Unknown earned-joker version");
+  return { jokerVersion: value.jokerVersion };
+}
+var jokerCount2 = (state) => hasEarnedJokers2(state) ? state.jokers : 0;
+var validRunMove2 = (move, manual = false) => !!move && typeof move === "object" && (move.type === "draw" || move.type === "pet" || move.type === "end" || manual && move.type === "bank" || ["play", "joker"].includes(move.type) && Number.isInteger(move.position) && Number(move.position) >= 0 && Number(move.position) < 30);
+var isCurrentEarnedJokers2 = (value) => !!value && typeof value === "object" && (value.jokerVersion === PREVIOUS_EARNED_JOKER_VERSION2 || value.jokerVersion === CONDITIONAL_EARNED_JOKER_VERSION2 || value.jokerVersion === EARNED_JOKER_VERSION2);
+var isConditionalAutoBankJokers2 = (value) => !!value && typeof value === "object" && (value.jokerVersion === CONDITIONAL_EARNED_JOKER_VERSION2 || value.jokerVersion === EARNED_JOKER_VERSION2);
+var maxEarnedJokers2 = (value) => hasEarnedJokers2(value) && value.jokerVersion === LEGACY_EARNED_JOKER_VERSION2 ? 3 : MAX_EARNED_JOKERS2;
+var canFinishWithoutDraw2 = (state) => state.jokerVersion === PREVIOUS_EARNED_JOKER_VERSION2 && state.terminal === "active" && state.remaining > 0 && state.spoolIndex === state.spool.length && jokerCount2(state) === 0 && legalMoves2(state).length === 0;
+function count4(value, metadata) {
+  const cap = maxEarnedJokers2(metadata);
+  if (!Number.isInteger(value) || value < 0 || value > cap) throw new RangeError("Earned-joker inventory must be 0\u2013" + cap);
+  return value;
+}
+function rescue2(state, jokers) {
+  return state.terminal === "stuck" && jokers > 0 && state.free.length ? { ...state, terminal: "active" } : state;
+}
+function createRunState2(rules, deal3, options = {}) {
+  const state = createState2(rules, deal3);
+  jokerMetadata2(options);
+  if (!hasEarnedJokers2(options)) return state;
+  const jokers = count4(options.jokers ?? 0, options);
+  return { ...options.jokerVersion === PREVIOUS_EARNED_JOKER_VERSION2 ? { ...state, terminal: state.remaining === 0 ? "cleared" : "active" } : rescue2(state, jokers), jokerVersion: options.jokerVersion, jokers, jokerChainAwarded: false, jokerEarned: 0, jokerSpent: 0 };
+}
+function jokerPlay2(state, position) {
+  if (!Number.isInteger(position) || !state.free.includes(position)) throw new Error("Joker requires a free, present card");
+  const c = state.weave[position], matched = Math.floor(c / 13) === Math.floor(state.top / 13), free = state.free.filter((p) => p !== position), cover = [...state.cover], unseen = [...state.unseen];
+  let unseenTotal = state.unseenTotal;
+  for (const child of state.layout.children[position]) if (--cover[child] === 0) {
+    free.push(child);
+    if (!state.rules.openWeave) {
+      unseen[state.weave[child] % 13]--;
+      unseenTotal--;
+    }
+  }
+  let next = { ...state, anchor: state.chain.length === 0 ? state.top : state.anchor, top: c, free, cover, unseen, unseenTotal, played: [...state.played, position].sort((a, b) => a - b), remaining: state.remaining - 1, chain: [...state.chain, c], links: state.links + (state.rules.links && matched ? 1 : 0), suitedPlays: state.suitedPlays + (matched ? 1 : 0) };
+  const events = [];
+  if (next.remaining === 0 || legalMoves2(next).length === 0) {
+    const n = next.chain.length, scoringLength = n + (next.rules.links ? next.links : 0), kind = handType2(next.rules.anchor ? [next.anchor, ...next.chain] : next.chain, next.rules.window, next.rules.loop, next.rules.flush4), points = baseScore2(scoringLength) * MULT2[kind];
+    next = { ...next, score: next.score + points, chain: [], links: 0, longestChain: Math.max(next.longestChain, n) };
+    events.push({ type: "banked", reason: "automatic", chainLength: n, scoringLength, handName: NAMES2[kind], points });
+  }
+  return { state: { ...next, terminal: next.remaining === 0 ? "cleared" : legalMoves2(next).length === 0 && next.spoolIndex === next.spool.length ? "stuck" : "active" }, events };
+}
+function applyRunMove2(state, move, context = {}) {
+  if (!hasEarnedJokers2(state)) {
+    if (move.type === "joker") throw new Error("This historical board has no earned jokers");
+    if (move.type === "pet") throw new Error("This historical board has no scenery actions");
+    if (move.type === "end") throw new Error("This historical board has no verified End action");
+    return applyMove2(state, move);
+  }
+  const before = state;
+  count4(before.jokers, before);
+  if (state.terminal !== "active") throw new Error("Cannot move on a terminal board");
+  if (!validRunMove2(move, true)) throw new Error("Invalid run move");
+  if (move.type === "pet") return { state, events: [] };
+  if (move.type === "end") {
+    if (!supportsEndGame2(before)) throw new Error("This historical board has no verified End action");
+    if (context.endgameAuthorization !== void 0 && !matchesEndgameAuthorization2(before, context.endgameAuthorization)) throw new Error("Stale or invalid End game authorization");
+    const key = endgameStateKey2(before);
+    if (!provenNegatives2.has(key)) {
+      if (!matchesEndgameAuthorization2(before, context.endgameAuthorization)) {
+        const proof = analyzeEndgame2(before, { timeBudgetMs: Infinity, maxNodes: ENDGAME_END_MAX_NODES2, explain: false });
+        if (proof.status !== "unwinnable" || !proof.exhaustive || proof.clearable !== false) throw new Error("End game requires an exhaustive no-way-out proof");
+      }
+      rememberNegative2(key);
+    }
+    const banked = bankCurrent2(before);
+    return { state: { ...banked.state, terminal: "stuck", jokers: 0, jokerChainAwarded: false }, events: banked.events };
+  }
+  if (isCurrentEarnedJokers2(state)) return applyCurrentJokerMove2(before, move);
+  if (move.type === "joker" && before.jokers === 0) throw new Error("No earned joker available");
+  const result = move.type === "joker" ? jokerPlay2(state, move.position) : applyMove2(state, move);
+  const played = move.type === "play" || move.type === "joker", earned = played && !before.jokerChainAwarded && state.chain.length + 1 >= JOKER_CHAIN_THRESHOLD2;
+  const jokers = Math.min(3, before.jokers - Number(move.type === "joker") + Number(earned));
+  return { ...result, state: { ...rescue2(result.state, jokers), jokerVersion: LEGACY_EARNED_JOKER_VERSION2, jokers, jokerChainAwarded: result.state.chain.length > 0 && (before.jokerChainAwarded || earned), jokerEarned: before.jokerEarned + Number(earned), jokerSpent: before.jokerSpent + Number(move.type === "joker") } };
+}
+function bankCurrent2(state) {
+  if (!state.chain.length) return { state, events: [] };
+  const n = state.chain.length, scoringLength = n + (state.rules.links ? state.links : 0), kind = handType2(state.rules.anchor ? [state.anchor, ...state.chain] : state.chain, state.rules.window, state.rules.loop, state.rules.flush4), points = baseScore2(scoringLength) * MULT2[kind];
+  return { state: { ...state, score: state.score + points, chain: [], links: 0, longestChain: Math.max(state.longestChain, n) }, events: [{ type: "banked", reason: "automatic", chainLength: n, scoringLength, handName: NAMES2[kind], points }] };
+}
+function removeCurrentCard2(state, position, asThread) {
+  if (!Number.isInteger(position) || !state.free.includes(position)) throw new Error("Card must be uncovered and present");
+  const c = state.weave[position], matched = Math.floor(c / 13) === Math.floor(state.top / 13), free = state.free.filter((p) => p !== position), cover = [...state.cover], unseen = [...state.unseen];
+  let unseenTotal = state.unseenTotal;
+  for (const child of state.layout.children[position]) if (--cover[child] === 0) {
+    free.push(child);
+    if (!state.rules.openWeave) {
+      unseen[state.weave[child] % 13]--;
+      unseenTotal--;
+    }
+  }
+  return { ...state, anchor: asThread ? c : state.anchor, top: c, free, cover, unseen, unseenTotal, played: [...state.played, position].sort((a, b) => a - b), remaining: state.remaining - 1, chain: asThread ? [] : [...state.chain, c], links: asThread ? 0 : state.links + (state.rules.links && matched ? 1 : 0), suitedPlays: state.suitedPlays + (asThread ? 0 : matched ? 1 : 0) };
+}
+function applyCurrentJokerMove2(before, move) {
+  if (move.type === "bank") throw new Error("Manual Bank is unavailable");
+  let state = before, events = [], jokers = before.jokers, earned = false, awarded = before.jokerChainAwarded, spent = 0;
+  if (move.type === "joker") {
+    if (jokers === 0) throw new Error("No earned joker available");
+    if (!before.free.includes(move.position)) throw new Error("Joker requires an uncovered card");
+    const banked = bankCurrent2(before);
+    events = [...banked.events];
+    state = removeCurrentCard2(banked.state, move.position, true);
+    jokers--;
+    spent = 1;
+    awarded = false;
+  } else if (move.type === "draw") {
+    if (before.spoolIndex >= before.spool.length) {
+      if (!canFinishWithoutDraw2(before)) throw new Error("Spool is empty");
+      const banked2 = bankCurrent2(before);
+      return { state: { ...banked2.state, terminal: "stuck", jokerVersion: before.jokerVersion, jokers, jokerChainAwarded: false, jokerEarned: before.jokerEarned, jokerSpent: before.jokerSpent }, events: banked2.events };
+    }
+    const banked = bankCurrent2(before), top = before.spool[before.spoolIndex], unseen = [...before.unseen];
+    unseen[top % 13]--;
+    events = [...banked.events];
+    state = { ...banked.state, top, anchor: top, spoolIndex: before.spoolIndex + 1, unseen, unseenTotal: before.unseenTotal - 1, draws: before.draws + 1 };
+    awarded = false;
+  } else {
+    if (!legalMoves2(before).includes(move.position)) throw new Error("Card is covered, removed or not adjacent");
+    state = removeCurrentCard2(before, move.position, false);
+    earned = !before.jokerChainAwarded && state.chain.length >= JOKER_CHAIN_THRESHOLD2;
+    if (earned) {
+      jokers = Math.min(MAX_EARNED_JOKERS2, jokers + 1);
+      awarded = true;
+    }
+  }
+  if (state.remaining === 0 || isConditionalAutoBankJokers2(before) && jokers === 0 && legalMoves2(state).length === 0) {
+    const banked = bankCurrent2(state);
+    state = banked.state;
+    events.push(...banked.events);
+    awarded = false;
+  }
+  return { state: { ...state, terminal: state.remaining === 0 ? "cleared" : isConditionalAutoBankJokers2(before) && jokers === 0 && legalMoves2(state).length === 0 && state.spoolIndex === state.spool.length ? "stuck" : "active", jokerVersion: before.jokerVersion, jokers, jokerChainAwarded: awarded, jokerEarned: before.jokerEarned + Number(earned), jokerSpent: before.jokerSpent + spent }, events };
+}
+
+// ChatGPT/B-063/v6.24.25/src/hugo-trigger.ts
+var PAIR_HUGO_VERSION2 = "hugo-8";
+var INSERTED_HUGO_VERSION2 = "hugo-7";
+var ENDLESS_HUGO_VERSION2 = "hugo-6";
+var HUGO_VERSION2 = "hugo-5";
+var REWARD_HUGO_VERSION2 = "hugo-4";
+var NEXT_SPOOL_HUGO_VERSION2 = "hugo-3";
+var GROVE_HUGO_VERSION2 = "hugo-2";
+var LEGACY_HUGO_VERSION2 = "hugo-1";
+function hugoVersionOf2(value) {
+  const feature = value && typeof value === "object" ? value.hugoVersion : void 0;
+  if (feature !== void 0 && feature !== PAIR_HUGO_VERSION2 && feature !== INSERTED_HUGO_VERSION2 && feature !== ENDLESS_HUGO_VERSION2 && feature !== HUGO_VERSION2 && feature !== REWARD_HUGO_VERSION2 && feature !== NEXT_SPOOL_HUGO_VERSION2 && feature !== GROVE_HUGO_VERSION2 && feature !== LEGACY_HUGO_VERSION2) throw new TypeError("Unsupported Hugo feature version");
+  const disabled = value && typeof value === "object" ? value.hugoDisabled : void 0;
+  if (disabled !== void 0 && (disabled !== true || feature !== PAIR_HUGO_VERSION2 && feature !== INSERTED_HUGO_VERSION2 && feature !== ENDLESS_HUGO_VERSION2 && feature !== HUGO_VERSION2 && feature !== REWARD_HUGO_VERSION2 && feature !== NEXT_SPOOL_HUGO_VERSION2 && feature !== GROVE_HUGO_VERSION2)) throw new TypeError("Invalid disabled Hugo feature");
+  return feature;
+}
+
+// ChatGPT/B-063/v6.24.25/src/window-trigger.ts
+var INSERTED_WINDOW_VERSION2 = "window-7";
+var ENDLESS_WINDOW_VERSION2 = "window-6";
+var WINDOW_VERSION2 = "window-5";
+var REWARD_WINDOW_VERSION2 = "window-4";
+var AUTO_BANK_WINDOW_VERSION2 = "window-3";
+var BOARD_WINDOW_VERSION2 = "window-2";
+var LEGACY_WINDOW_VERSION2 = "window-1";
+function windowVersionOf2(value) {
+  const version = value && typeof value === "object" ? value.windowVersion : void 0;
+  if (version !== void 0 && version !== INSERTED_WINDOW_VERSION2 && version !== ENDLESS_WINDOW_VERSION2 && version !== WINDOW_VERSION2 && version !== REWARD_WINDOW_VERSION2 && version !== AUTO_BANK_WINDOW_VERSION2 && version !== BOARD_WINDOW_VERSION2 && version !== LEGACY_WINDOW_VERSION2) throw new TypeError("Unsupported Window feature version");
+  const disabled = value && typeof value === "object" ? value.windowDisabled : void 0;
+  if (disabled !== void 0 && (disabled !== true || version !== INSERTED_WINDOW_VERSION2 && version !== ENDLESS_WINDOW_VERSION2 && version !== WINDOW_VERSION2 && version !== REWARD_WINDOW_VERSION2 && version !== AUTO_BANK_WINDOW_VERSION2 && version !== BOARD_WINDOW_VERSION2)) throw new TypeError("Invalid disabled Window feature");
+  return version;
+}
+
+// ChatGPT/B-063/v6.24.25/src/score-config.ts
+var CURRENT_SCORING_VERSION2 = "clear-v2";
+var CLASSIC_SCORING_VERSION2 = "level-v3";
+var ENDLESS_SCORING_VERSION2 = "level-v4";
+var isLevelScoring2 = (version) => version === CLASSIC_SCORING_VERSION2 || version === ENDLESS_SCORING_VERSION2;
+var SCORE_CONFIG2 = Object.freeze({
+  version: "6.7",
+  scoringVersion: CURRENT_SCORING_VERSION2,
+  clearBonusPerSpoolCard: 50,
+  starThresholds: Object.freeze([2600, 4200, 8300]),
+  legacyStarThresholds: Object.freeze([2500, 4e3, 7400])
+});
+var integer2 = (value) => Number.isSafeInteger(value) && value >= 0;
+function clearBonus2(cleared, spoolRemaining, chainCoins, spoolStarted, version = CURRENT_SCORING_VERSION2) {
+  if (!cleared || !integer2(spoolRemaining)) return 0;
+  if (chainCoins === void 0 || version === "legacy") {
+    const bonus = spoolRemaining * SCORE_CONFIG2.clearBonusPerSpoolCard;
+    return integer2(bonus) ? bonus : 0;
+  }
+  if (!integer2(chainCoins) || !integer2(spoolStarted ?? NaN) || !spoolStarted || spoolRemaining > spoolStarted) return 0;
+  const numerator = BigInt(chainCoins) * BigInt(spoolRemaining), denominator = BigInt(spoolStarted);
+  const result = (2n * numerator + denominator) / (2n * denominator);
+  if (result > BigInt(Number.MAX_SAFE_INTEGER) || BigInt(chainCoins) + result > BigInt(Number.MAX_SAFE_INTEGER)) throw new RangeError("Board score exceeds safe integer range");
+  return Number(result);
+}
+function clearBonusDetails2(cleared, spoolRemaining, chainCoins, spoolStarted, version = CURRENT_SCORING_VERSION2) {
+  if (!integer2(chainCoins) || !integer2(spoolRemaining) || !integer2(spoolStarted) || spoolStarted < 1 || spoolRemaining > spoolStarted) throw new RangeError("Invalid clear-bonus inputs");
+  const bonus = clearBonus2(cleared, spoolRemaining, chainCoins, spoolStarted, version), score = chainCoins + bonus;
+  if (!integer2(score)) throw new RangeError("Board score exceeds safe integer range");
+  return { chainCoins, spoolRemaining, spoolStarted, clearBonus: bonus, score, percentage: Math.round(100 * spoolRemaining / spoolStarted) };
+}
+var LEVEL_FACTORS_TENTHS2 = Object.freeze([10, 15, 20, 30, 40, 55, 75, 100, 140, 200]);
+var HAND_NAMES2 = ["high", "pair", "two_pair", "trips", "straight", "flush", "full_house", "quads", "straight_flush", "royal"];
+var HAND_MULTIPLIERS_TENTHS2 = [10, 12, 15, 20, 25, 30, 40, 50, 80, 120];
+function levelCoinFactor2(level, version = CLASSIC_SCORING_VERSION2) {
+  if (!Number.isSafeInteger(level) || level < 1 || version === CLASSIC_SCORING_VERSION2 && level > 10) throw new RangeError("Invalid scoring level");
+  return isLevelScoring2(version) ? LEVEL_FACTORS_TENTHS2[Math.min(level, 10) - 1] / 10 : 1;
+}
+function levelChainCoins2(event, level, version = CLASSIC_SCORING_VERSION2) {
+  levelCoinFactor2(level, version);
+  if (!isLevelScoring2(version)) {
+    const points = typeof event === "number" ? event : event.points;
+    if (!integer2(points)) throw new RangeError("Invalid chain coins");
+    return points;
+  }
+  if (typeof event !== "object" || !event || !integer2(event.scoringLength)) throw new TypeError("Level scoring requires the original Bank event");
+  const hand = HAND_NAMES2.indexOf(event.handName), base = baseScore2(event.scoringLength);
+  if (hand < 0 || !integer2(base)) throw new RangeError("Invalid scoring hand/base");
+  const result = BigInt(base) * BigInt(HAND_MULTIPLIERS_TENTHS2[hand]) * BigInt(LEVEL_FACTORS_TENTHS2[Math.min(level, 10) - 1]) / 100n;
+  if (result > BigInt(Number.MAX_SAFE_INTEGER)) throw new RangeError("Chain coins exceed safe integer range");
+  return Number(result);
+}
+function boardScoreDetails2(cleared, left, rawChainCoins, start, context) {
+  if (!isLevelScoring2(context.version)) return clearBonusDetails2(cleared, left, rawChainCoins, start, context.version);
+  if (!integer2(rawChainCoins) || !integer2(left) || !integer2(start) || start < 1 || left > start) throw new RangeError("Invalid clear-bonus inputs");
+  const levelFactor = levelCoinFactor2(context.level, context.version), chainCoins = context.chainCoins, unmultipliedChainCoins = context.unmultipliedChainCoins ?? rawChainCoins;
+  if (!integer2(chainCoins ?? NaN) || !integer2(unmultipliedChainCoins)) throw new RangeError("Missing derived level chain coins");
+  const normalReward = context.version === ENDLESS_SCORING_VERSION2 || !context.secret || context.secret === "hugo" && [HUGO_VERSION2, REWARD_HUGO_VERSION2].includes(hugoVersionOf2(context)) || context.secret === "window" && [WINDOW_VERSION2, REWARD_WINDOW_VERSION2].includes(windowVersionOf2(context));
+  const factor10 = LEVEL_FACTORS_TENTHS2[Math.min(context.level, 10) - 1], spoolBonus = cleared ? 5 * left * factor10 : 0, levelBonus = cleared && normalReward ? 250 * factor10 : 0, clearBonus3 = spoolBonus + levelBonus, score = chainCoins + clearBonus3;
+  const starCoins = unmultipliedChainCoins + (cleared ? 50 * left : 0) + (cleared && normalReward ? 2500 : 0);
+  if (!integer2(score) || !integer2(starCoins)) throw new RangeError("Board score exceeds safe integer range");
+  return { rawChainCoins, unmultipliedChainCoins, chainCoins, spoolRemaining: left, spoolStarted: start, spoolBonus, levelBonus, level: context.level, levelFactor, clearBonus: clearBonus3, score, starCoins, percentage: Math.round(100 * left / start) };
+}
+
+// ChatGPT/B-002/engine/deck.ts
+var PythonRandom2 = class {
+  constructor(seed3) {
+    this.mt = new Uint32Array(624);
+    this.index = 624;
+    if (typeof seed3 === "number" && !Number.isSafeInteger(seed3)) {
+      throw new RangeError("Seed must be a safe integer or bigint");
+    }
+    let value = BigInt(seed3);
+    if (value < 0n) value = -value;
+    const words = [];
+    do {
+      words.push(Number(value & 0xffffffffn));
+      value >>= 32n;
+    } while (value > 0n);
+    this.mt[0] = 19650218;
+    for (let i2 = 1; i2 < 624; i2++) {
+      const previous = this.mt[i2 - 1];
+      this.mt[i2] = Math.imul(previous ^ previous >>> 30, 1812433253) + i2 >>> 0;
+    }
+    let i = 1;
+    let j = 0;
+    for (let count5 = Math.max(624, words.length); count5 > 0; count5--) {
+      const previous = this.mt[i - 1];
+      this.mt[i] = (this.mt[i] ^ Math.imul(previous ^ previous >>> 30, 1664525)) + words[j] + j >>> 0;
+      if (++i >= 624) {
+        this.mt[0] = this.mt[623];
+        i = 1;
+      }
+      if (++j >= words.length) j = 0;
+    }
+    for (let count5 = 623; count5 > 0; count5--) {
+      const previous = this.mt[i - 1];
+      this.mt[i] = (this.mt[i] ^ Math.imul(previous ^ previous >>> 30, 1566083941)) - i >>> 0;
+      if (++i >= 624) {
+        this.mt[0] = this.mt[623];
+        i = 1;
+      }
+    }
+    this.mt[0] = 2147483648;
+  }
+  uint32() {
+    if (this.index >= 624) {
+      for (let i = 0; i < 624; i++) {
+        const y2 = this.mt[i] & 2147483648 | this.mt[(i + 1) % 624] & 2147483647;
+        this.mt[i] = (this.mt[(i + 397) % 624] ^ y2 >>> 1 ^ (y2 & 1 ? 2567483615 : 0)) >>> 0;
+      }
+      this.index = 0;
+    }
+    let y = this.mt[this.index++];
+    y ^= y >>> 11;
+    y ^= y << 7 & 2636928640;
+    y ^= y << 15 & 4022730752;
+    y ^= y >>> 18;
+    return y >>> 0;
+  }
+  random() {
+    const high = this.uint32() >>> 5;
+    const low = this.uint32() >>> 6;
+    return (high * 67108864 + low) / 9007199254740992;
+  }
+  /** Python packs generated 32-bit words least-significant first. */
+  getrandbits(bits) {
+    if (!Number.isSafeInteger(bits) || bits < 0) throw new RangeError("Invalid bit count");
+    let value = 0n;
+    for (let offset = 0; offset < bits; offset += 32) {
+      const width = Math.min(32, bits - offset);
+      const word = width === 32 ? this.uint32() : this.uint32() >>> 32 - width;
+      value |= BigInt(word) << BigInt(offset);
+    }
+    return value;
+  }
+  randrange(stop) {
+    if (!Number.isSafeInteger(stop) || stop <= 0) throw new RangeError("Empty or invalid range");
+    const limit2 = BigInt(stop);
+    const bits = limit2.toString(2).length;
+    let value;
+    do {
+      value = this.getrandbits(bits);
+    } while (value >= limit2);
+    return Number(value);
+  }
+  shuffle(values) {
+    for (let i = values.length - 1; i > 0; i--) {
+      const j = this.randrange(i + 1);
+      [values[i], values[j]] = [values[j], values[i]];
+    }
+  }
+};
+function deal2(rules, seed3) {
+  const rng = new PythonRandom2(seed3);
+  const deck = Array.from({ length: 52 }, (_, card) => card);
+  rng.shuffle(deck);
+  const size = layoutFor2(rules.layout).size;
+  const weave = deck.slice(0, size);
+  const rest = deck.slice(size);
+  if (rules.spool <= rest.length) {
+    return { weave, spoolOrder: rest.slice(0, rules.spool), burned: rest.slice(rules.spool) };
+  }
+  const extra = Array.from({ length: 52 }, (_, card) => card);
+  rng.shuffle(extra);
+  return { weave, spoolOrder: [...rest, ...extra.slice(0, rules.spool - rest.length)], burned: [] };
+}
+
+// ChatGPT/B-002/engine/configs.ts
+var peaksLoop2 = { layout: "peaks", loop: true };
+var anchor2 = { ...peaksLoop2, anchor: true };
+var CONFIGS2 = {
+  base: {},
+  peaks: { layout: "peaks" },
+  flat: { layout: "flat" },
+  best7: { window: 7 },
+  loop: { loop: true },
+  wide: { deltas: [1, 2] },
+  twins: { twins: true },
+  spool18: { spool: 18 },
+  spool26: { spool: 26 },
+  open: { openWeave: true },
+  tp: peaksLoop2,
+  tp7: { ...peaksLoop2, window: 7 },
+  tp18: { ...peaksLoop2, spool: 18 },
+  tp26: { ...peaksLoop2, spool: 26 },
+  tpopen: { ...peaksLoop2, openWeave: true },
+  tpA: anchor2,
+  tpA7: { ...anchor2, window: 7 },
+  W1: { ...anchor2, window: 6 },
+  O1: { ...anchor2, openWeave: true },
+  S1: { ...anchor2, flush4: true },
+  S2: { ...anchor2, links: true },
+  S3: { ...anchor2, spark: true },
+  S4: { ...anchor2, flush4: true, links: true },
+  chainBest: { ...anchor2, links: true, window: 99 }
+};
+function getConfig2(name) {
+  if (!Object.hasOwnProperty.call(CONFIGS2, name)) throw new Error(`Unknown config: ${name}`);
+  return resolveRules2(CONFIGS2[name]);
+}
+
+// ChatGPT/B-063/v6.24.25/src/speed-config.ts
+var SPEED_VERSION = "speed-1";
+var SPEED_BOARD_COUNT = 5;
+var SPEED_CANDIDATE_LIMIT = 300;
+var SPEED_SPARE_TARGET = 4;
+var SPEED_CLOCKS_MS = Object.freeze([5e3, 4500, 4e3, 3500, 3e3]);
+var SPEED_WORLD_IDS = Object.freeze([1, 2, 3, 5, 6]);
+var SPEED_SPOOLS = Object.freeze([28, 27, 26, 25, 24]);
+var SPEED_MIN_TEMPO = 10;
+var SPEED_MAX_TEMPO = 20;
+var SPEED_TIMING_TOLERANCE_MS = 250;
+var SPEED_MAX_PAUSES = 128;
+var SPEED_MAX_MOVES = 256;
+function normalizeSpeedSeed(value) {
+  if (typeof value === "number" && !Number.isSafeInteger(value)) throw new RangeError("Speed seed must be a safe integer");
+  if (!["string", "number", "bigint"].includes(typeof value) || !/^\-?\d{1,30}$/.test(String(value))) throw new TypeError("Invalid Speed root seed");
+  return String(BigInt(value));
+}
+function speedLevel(level) {
+  if (!Number.isInteger(level) || level < 1 || level > SPEED_BOARD_COUNT) throw new RangeError("Speed has five boards");
+  return level;
+}
+function speedBoardSeed(root2, level) {
+  const seed3 = normalizeSpeedSeed(root2);
+  speedLevel(level);
+  if (level === 1) return BigInt(seed3);
+  let hash = 14695981039346656037n;
+  for (const char of `weft-run:6.24.14:${seed3}:${level}`) hash = BigInt.asUintN(64, (hash ^ BigInt(char.charCodeAt(0))) * 1099511628211n);
+  return hash;
+}
+function speedWorld(level) {
+  return SPEED_WORLD_IDS[speedLevel(level) - 1];
+}
+function speedClockMs(level) {
+  return SPEED_CLOCKS_MS[speedLevel(level) - 1];
+}
+function speedRules(level) {
+  return resolveRules2({ ...getConfig2("chainBest"), spool: SPEED_SPOOLS[speedLevel(level) - 1] });
+}
+
+// ChatGPT/B-063/v6.24.25/src/speed-deal.ts
+var SPEED_CANDIDATE_SALT = 0x9e3779b9n;
+function runSpeedAdmissionBot(rules, deal3) {
+  let state = createState2(rules, deal3);
+  const line = [];
+  while (state.terminal === "active") {
+    const legal = legalMoves2(state).sort((a, b) => a - b), move = legal.length ? { type: "play", position: legal[0] } : { type: "draw" };
+    line.push(move);
+    state = applyMove2(state, move).state;
+    if (line.length > 256) throw new Error("Speed admission bot exceeded finite deck bound");
+  }
+  return { cleared: state.terminal === "cleared", spare: state.spool.length - state.spoolIndex, cardsCleared: state.played.length, line };
+}
+var cache = /* @__PURE__ */ new Map();
+function clone2(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+function generateSpeedDeal(root2, level) {
+  const rootSeed = normalizeSpeedSeed(root2), position = speedLevel(level), key = rootSeed + ":" + position, cached = cache.get(key);
+  if (cached) return clone2(cached);
+  const rules = speedRules(position), seed3 = speedBoardSeed(rootSeed, position);
+  let fallback;
+  for (let index = 0; index < SPEED_CANDIDATE_LIMIT; index++) {
+    const subSeed = seed3 + BigInt(index) * SPEED_CANDIDATE_SALT, deal3 = deal2(rules, subSeed), bot = runSpeedAdmissionBot(rules, deal3);
+    if (!bot.cleared) continue;
+    const candidate2 = { generation: SPEED_VERSION, rootSeed, level: position, seed: String(seed3), subSeed: String(subSeed), candidateIndex: index, attempts: index + 1, fallback: bot.spare < SPEED_SPARE_TARGET, rules, deal: deal3, bot };
+    if (bot.spare >= SPEED_SPARE_TARGET) {
+      cache.set(key, candidate2);
+      while (cache.size > 32) cache.delete(cache.keys().next().value);
+      return clone2(candidate2);
+    }
+    if (!fallback || bot.spare > fallback.bot.spare) fallback = candidate2;
+  }
+  if (!fallback) throw new Error("No bot-clearing Speed board within 300 deterministic candidates");
+  const selected = { ...fallback, attempts: SPEED_CANDIDATE_LIMIT };
+  cache.set(key, selected);
+  while (cache.size > 32) cache.delete(cache.keys().next().value);
+  return clone2(selected);
+}
+
+// ChatGPT/B-063/v6.24.25/src/speed-core.ts
+var integer3 = (v) => typeof v === "number" && Number.isSafeInteger(v) && v >= 0;
+var clone3 = (v) => JSON.parse(JSON.stringify(v));
+function exactKeys(value, keys) {
+  if (Object.keys(value).some((key) => !keys.includes(key))) throw new TypeError("Unexpected Speed proof field");
+}
+function stable(value) {
+  if (Array.isArray(value)) return "[" + value.map(stable).join(",") + "]";
+  if (value && typeof value === "object") return "{" + Object.keys(value).sort().map((key) => JSON.stringify(key) + ":" + stable(value[key])).join(",") + "}";
+  return JSON.stringify(value);
+}
+function tempo(value) {
+  if (!Number.isInteger(value) || value < 10 || value > 20) throw new RangeError("Speed tempo must be 10\u201320 tenths");
+  return value;
+}
+function validateSpeedTiming(level, value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) throw new TypeError("Invalid Speed action");
+  const v = value;
+  exactKeys(v, ["type", "position", "ms", "pauses"]);
+  if (!["play", "joker", "draw", "timeout"].includes(v.type) || !integer3(v.ms) || v.ms > 864e5) throw new TypeError("Invalid Speed action/time");
+  const played = v.type === "play" || v.type === "joker";
+  if (played) {
+    if (!Number.isInteger(v.position) || v.position < 0 || v.position >= 30 || v.ms < 100) throw new RangeError("Speed plays require a board slot and at least 100 ms");
+  } else if (Object.prototype.hasOwnProperty.call(v, "position")) throw new TypeError("A draw/timeout has no board slot");
+  if (v.pauses !== void 0 && (!Array.isArray(v.pauses) || v.pauses.length === 0 || v.pauses.length > SPEED_MAX_PAUSES)) throw new RangeError("Invalid Speed pause history");
+  let available = speedClockMs(level), consumed = 0;
+  for (const segment of v.pauses ?? []) {
+    if (!integer3(segment) || segment > available + SPEED_TIMING_TOLERANCE_MS) throw new RangeError("Speed pause occurred after its deadline");
+    consumed += segment;
+    if (consumed > v.ms) throw new RangeError("Pause segments exceed cumulative active time");
+    available = Math.max(1e3, available - segment);
+  }
+  const finalSegment = v.ms - consumed;
+  if (v.type === "timeout") {
+    if (finalSegment < available) throw new RangeError("Speed timeout before the deadline");
+  } else if (finalSegment > available + SPEED_TIMING_TOLERANCE_MS) throw new RangeError("Speed action after the deadline");
+  const paused = !!v.pauses?.length, move = played ? { type: v.type, position: v.position, ms: v.ms, ...paused ? { pauses: [...v.pauses] } : {} } : { type: v.type, ms: v.ms, ...paused ? { pauses: [...v.pauses] } : {} }, timing = { elapsedMs: v.ms, finalSegmentMs: finalSegment, availableMs: available, paused, fast: played && !paused && v.ms <= speedClockMs(level) / 2 };
+  return { move, timing };
+}
+function speedBankCoins(event, level, tempoTenths) {
+  const base = levelChainCoins2(event, level, ENDLESS_SCORING_VERSION2);
+  return Number(BigInt(base) * BigInt(tempo(tempoTenths)) / 10n);
+}
+function speedEvents(events, level, t) {
+  return events.map((event) => ({ ...event, classicPoints: levelChainCoins2(event, level, ENDLESS_SCORING_VERSION2), points: speedBankCoins(event, level, t), tempoTenths: t, levelFactor: [1, 1.5, 2, 3, 4][level - 1] }));
+}
+function bankAndFail(state) {
+  let next = state;
+  const events = [];
+  if (state.chain.length) {
+    const n = state.chain.length, scoringLength = n + (state.rules.links ? state.links : 0), kind = handType2(state.rules.anchor ? [state.anchor, ...state.chain] : state.chain, state.rules.window, state.rules.loop, state.rules.flush4), points = baseScore2(scoringLength) * MULT2[kind];
+    events.push({ type: "banked", reason: "automatic", chainLength: n, scoringLength, handName: NAMES2[kind], points });
+    next = { ...next, score: next.score + points, chain: [], links: 0, longestChain: Math.max(state.longestChain, n) };
+  }
+  return { state: { ...next, terminal: "stuck", jokers: 0, jokerChainAwarded: false }, events };
+}
+function settleForced(state) {
+  const events = [], derivedMoves = [];
+  while (state.terminal === "active" && state.remaining > 0 && jokerCount2(state) === 0 && legalMoves2(state).length === 0) {
+    if (state.spoolIndex === state.spool.length) {
+      const failed = bankAndFail(state);
+      state = failed.state;
+      events.push(...failed.events);
+      break;
+    }
+    const next = applyRunMove2(state, { type: "draw" });
+    state = next.state;
+    events.push(...next.events);
+    derivedMoves.push({ type: "draw", reason: "dead-end" });
+  }
+  return { state, events, derivedMoves };
+}
+function finishFacts(board2, state, chainCoins, rawChainCoins, events) {
+  const facts = boardScoreDetails2(state.terminal === "cleared", state.spool.length - state.spoolIndex, rawChainCoins, state.rules.spool, { version: ENDLESS_SCORING_VERSION2, level: board2.level, chainCoins, unmultipliedChainCoins: rawChainCoins });
+  const bestHand = Math.max(board2.bestHand, snapshot2(state).handType, ...events.map((e) => NAMES2.indexOf(e.handName))), longestChain = Math.max(board2.longestChain, state.longestChain, state.chain.length, ...events.map((e) => e.chainLength));
+  return { ...board2, state: { ...state, score: facts.score }, chainCoins, rawChainCoins, score: facts.score, clearBonus: facts.clearBonus, spoolBonus: facts.spoolBonus ?? 0, levelBonus: facts.levelBonus ?? 0, bestHand, longestChain };
+}
+function createSpeedBoard(rootSeed, level = 1, tempoTenths = 10, jokers = 0) {
+  tempo(tempoTenths);
+  const generation = generateSpeedDeal(rootSeed, level), settled = settleForced(createRunState2(generation.rules, generation.deal, { jokerVersion: EARNED_JOKER_VERSION2, jokers }));
+  const base = { version: SPEED_VERSION, rootSeed: generation.rootSeed, level, world: speedWorld(level), clockMs: speedClockMs(level), generation, state: settled.state, moves: [], tempoTenths, chainCoins: 0, rawChainCoins: 0, score: 0, clearBonus: 0, spoolBonus: 0, levelBonus: 0, longestChain: 0, bestHand: 0, playCount: 0, rapidPlayCount: 0, derivedDrawCount: settled.derivedMoves.length };
+  return finishFacts(base, settled.state, 0, 0, []);
+}
+function applySpeedMove(board2, input) {
+  if (board2.version !== SPEED_VERSION || board2.state.terminal !== "active") throw new Error("Speed board is not active");
+  if (board2.moves.length >= SPEED_MAX_MOVES) throw new RangeError("Too many Speed moves");
+  const { move, timing } = validateSpeedTiming(board2.level, input), played = move.type === "play" || move.type === "joker", oldTempo = tempo(board2.tempoTenths), nextTempo = played ? Math.max(SPEED_MIN_TEMPO, Math.min(SPEED_MAX_TEMPO, oldTempo + (timing.fast ? 1 : -1))) : move.type === "timeout" ? 10 : oldTempo;
+  if (move.type === "draw" && board2.state.spoolIndex >= board2.state.spool.length) throw new Error("Spool is empty; the clock or Joker decides this board");
+  const before = board2.state, raw = move.type === "timeout" && before.spoolIndex >= before.spool.length ? bankAndFail(before) : applyRunMove2(before, move.type === "timeout" || move.type === "draw" ? { type: "draw" } : { type: move.type, position: move.position });
+  const first = speedEvents(raw.events, board2.level, move.type === "joker" || move.type === "timeout" ? oldTempo : nextTempo), forced = settleForced(raw.state), extra = speedEvents(forced.events, board2.level, nextTempo), events = [...first, ...extra];
+  const chainCoins = board2.chainCoins + events.reduce((n, e) => n + e.points, 0), rawChainCoins = board2.rawChainCoins + [...raw.events, ...forced.events].reduce((n, e) => n + e.points, 0);
+  let next = { ...board2, moves: [...board2.moves, move], tempoTenths: nextTempo, playCount: board2.playCount + Number(played), rapidPlayCount: board2.rapidPlayCount + Number(played && move.ms < 250), derivedDrawCount: board2.derivedDrawCount + forced.derivedMoves.length };
+  next = finishFacts(next, forced.state, chainCoins, rawChainCoins, events);
+  return { board: next, events, derivedMoves: forced.derivedMoves, timeout: move.type === "timeout", jokerAwarded: next.state.jokerEarned > before.jokerEarned };
+}
+function replaySpeedBoard(rootSeed, level, moves2, tempoTenths = 10, jokers = 0) {
+  if (!Array.isArray(moves2) || moves2.length > SPEED_MAX_MOVES) throw new TypeError("Invalid Speed move list");
+  let board2 = createSpeedBoard(rootSeed, level, tempoTenths, jokers);
+  for (const move of moves2) board2 = applySpeedMove(board2, move).board;
+  return board2;
+}
+function speedBoardResult(board2) {
+  if (board2.state.terminal === "active") throw new Error("Only a finished Speed board can be recorded");
+  return { level: board2.level, moves: clone3(board2.moves), score: board2.score, cleared: board2.state.terminal === "cleared", longestChain: board2.longestChain, spoolRemaining: board2.state.spool.length - board2.state.spoolIndex, tempoTenths: board2.tempoTenths, jokers: board2.state.terminal === "cleared" ? jokerCount2(board2.state) : 0 };
+}
+function speedRecordId(rootSeed, boards) {
+  const text = stable([SPEED_VERSION, EARNED_JOKER_VERSION2, normalizeSpeedSeed(rootSeed), boards.map((b) => b.moves)]);
+  let hash = 14695981039346656037n;
+  for (const c of text) hash = BigInt.asUintN(64, (hash ^ BigInt(c.charCodeAt(0))) * 1099511628211n);
+  return "weft-speed-" + hash.toString(16).padStart(16, "0");
+}
+function exactDate(value) {
+  if (typeof value !== "string" || value.length > 32 || !Number.isFinite(Date.parse(value)) || new Date(value).toISOString() !== value) throw new TypeError("Speed date must be an exact ISO timestamp");
+  return value;
+}
+function replayRecordBoards(rootSeed, inputs) {
+  if (!Array.isArray(inputs) || inputs.length < 1 || inputs.length > SPEED_BOARD_COUNT) throw new RangeError("Speed records contain one to five boards");
+  const boards = [];
+  let t = 10, j = 0;
+  for (let i = 0; i < inputs.length; i++) {
+    const input = inputs[i];
+    if (!input || typeof input !== "object" || Array.isArray(input)) throw new TypeError("Invalid Speed board result");
+    exactKeys(input, ["level", "moves", "score", "cleared", "longestChain", "spoolRemaining", "tempoTenths", "jokers"]);
+    if (input.level !== i + 1) throw new Error("Speed boards must be consecutive");
+    const board2 = replaySpeedBoard(rootSeed, i + 1, input.moves, t, j), result = speedBoardResult(board2);
+    if (stable(result) !== stable(input)) throw new Error("Speed board result disagrees with replay");
+    boards.push(board2);
+    if (!result.cleared && i !== inputs.length - 1) throw new Error("Speed run continued after failure");
+    t = result.tempoTenths;
+    j = result.jokers;
+  }
+  if (boards[boards.length - 1].state.terminal === "cleared" && boards.length !== SPEED_BOARD_COUNT) throw new Error("An unfinished Speed run cannot be submitted");
+  const plays = boards.reduce((n, b) => n + b.playCount, 0), rapid = boards.reduce((n, b) => n + b.rapidPlayCount, 0);
+  if (plays > 0 && rapid * 10 > plays * 7) throw new Error("Speed timing is implausible: over 70% of plays below 250 ms");
+  return boards;
+}
+function makeSpeedRecord(rootSeed, finished, date3 = (/* @__PURE__ */ new Date()).toISOString()) {
+  const root2 = normalizeSpeedSeed(rootSeed), results = finished.map((item) => "state" in item ? speedBoardResult(item) : clone3(item)), boards = replayRecordBoards(root2, results), perBoard = boards.map(speedBoardResult);
+  return { id: speedRecordId(root2, perBoard), date: exactDate(date3), version: SPEED_VERSION, jokerVersion: EARNED_JOKER_VERSION2, rootSeed: root2, perBoard, runScore: perBoard.reduce((n, b) => n + b.score, 0), levelsCleared: perBoard.filter((b) => b.cleared).length };
+}
+function validateSpeedRecord(value) {
+  try {
+    if (!value || typeof value !== "object" || Array.isArray(value)) throw new TypeError("Invalid Speed record");
+    const input = value;
+    exactKeys(input, ["id", "date", "version", "jokerVersion", "rootSeed", "perBoard", "runScore", "levelsCleared"]);
+    if (input.version !== SPEED_VERSION || input.jokerVersion !== EARNED_JOKER_VERSION2 || typeof input.rootSeed !== "string" || normalizeSpeedSeed(input.rootSeed) !== input.rootSeed) throw new Error("Invalid Speed version/seed");
+    const record = makeSpeedRecord(input.rootSeed, input.perBoard, exactDate(input.date));
+    if (stable(record) !== stable(input)) throw new Error("Speed run result disagrees with replay");
+    const boards = replayRecordBoards(record.rootSeed, record.perBoard);
+    return { valid: true, record, boards };
+  } catch (error) {
+    return { valid: false, error: error instanceof Error ? error.message : String(error) };
+  }
+}
+
+// ChatGPT/B-063/v6.24.25/supabase/speed-replay-entry.ts
+function verifySpeedSubmission(wire) {
+  if (!wire || typeof wire !== "object" || Array.isArray(wire) || wire.type !== "speed-run" || Object.keys(wire).some((key) => key !== "type" && key !== "record")) throw new TypeError("Invalid Speed proof envelope");
+  const verified = validateSpeedRecord(wire.record);
+  if (!verified.valid) throw new TypeError("Speed proof rejected: " + verified.error);
+  const record = verified.record;
+  return [{ proof_id: record.id, kind: "speed", score: record.runScore, level_reached: Math.min(5, record.levelsCleared + 1), longest_chain: Math.max(0, ...record.perBoard.map((board2) => board2.longestChain)), seed: record.rootSeed, moves: { mode: "speed", ruleset: "speed-1", timing: "device-reported-plausibility-checked", record }, version: "6.24.25", daily_date: null }];
+}
+var speed = (wire) => !!wire && typeof wire === "object" && wire.type === "speed-run";
+function verifySubmission2(wire) {
+  return speed(wire) ? verifySpeedSubmission(wire) : verifySubmission(wire);
+}
+function verifyCurrentSubmission2(wire) {
+  return speed(wire) ? verifySpeedSubmission(wire) : verifyCurrentSubmission(wire);
 }
 export {
   validateNickname,
-  verifyCurrentSubmission,
-  verifySubmission
+  verifyCurrentSubmission2 as verifyCurrentSubmission,
+  verifySpeedSubmission,
+  verifySubmission2 as verifySubmission
 };

@@ -1,6 +1,6 @@
 {
-  "version": "6.24.21",
-  "brief": "B-059 two-rank Hugo confirmation and zero-score season",
+  "version": "6.24.25",
+  "brief": "B-063 Speed: five easier timed boards; additive replay authority",
   "rulesVersion": "6.24.14",
   "anabelleFeature": "anabelle-2",
   "secretProgression": "inserted-world-cursor-v1",
@@ -43,7 +43,7 @@
     "level-v4"
   ],
   "file": "supabase/functions/weft-leaderboard/canonical-replay.mjs",
-  "sha256": "a74732bb90e0da78cfe4c5b74131a488b9c1dc870f41d021dadfc40ef9c10608",
+  "sha256": "1a7cef892284c4ac7e4e7773ca4cbec6b5e88d93a1bcc97bb16c30d42d0e27c1",
   "inputs": [
     {
       "file": "../../B-002/engine/configs.ts",
@@ -70,20 +70,8 @@
       "sha256": "07558c6eb071ed05bc8b54a5afd137e72ff75d923a7d42861c6af26e2c6e8dd9"
     },
     {
-      "file": "../../B-004/engine/generator.ts",
-      "sha256": "b00f0a8cd185088aa5d169857041783aa006432c8daa1487298ec0f7fb022c94"
-    },
-    {
-      "file": "../../B-004/engine/solver.ts",
-      "sha256": "4151ff98caff4ada906bff06368a2e50ac225d52aa1917cd5d825b6e689b3c51"
-    },
-    {
-      "file": "src/anabelle-trigger.ts",
-      "sha256": "962caab65e701ae9e0e8f9832cc1123ac873e814ef2c8813c91a7ddd461660cf"
-    },
-    {
-      "file": "src/daily.ts",
-      "sha256": "871456d69b0d1f8e0e9767499266227ea6943ca231cc407437805554bf5ad304"
+      "file": "server/weft-leaderboard/historical/canonical-replay-a74732bb.mjs",
+      "sha256": "a74732bb90e0da78cfe4c5b74131a488b9c1dc870f41d021dadfc40ef9c10608"
     },
     {
       "file": "src/earned-jokers.ts",
@@ -98,120 +86,32 @@
       "sha256": "6e7ef50c8ce87218ce19c80c3a52fa542c1ba1279a29c92fc566da281fed2f38"
     },
     {
-      "file": "src/endless-deal.ts",
-      "sha256": "31345bf5b566ea77b31164441ec02275af049a7312461a571a5261f8f21f6165"
-    },
-    {
-      "file": "src/grove-opportunity.ts",
-      "sha256": "1d3076c3a9cd1721d3f5e9a01727672cd1603810bea5af2547a9fb050d839f44"
-    },
-    {
-      "file": "src/grove-pair-admission.ts",
-      "sha256": "d5b2a386243e903ea1bb0d5105bef0fd32bf32e7a010e208e062fe1edfa439b3"
-    },
-    {
       "file": "src/hugo-trigger.ts",
       "sha256": "7ad54b9ac14fa6569c2bb3adcbc3c98878b9eefb5f0bb94f3be54bfefaa8459b"
-    },
-    {
-      "file": "src/leaderboard-validation.ts",
-      "sha256": "86cd6f1efc5983a73a06b58df86e1085072cfa2e86d6df5b0421af03e1882bdf"
-    },
-    {
-      "file": "src/leaderboard-wire.ts",
-      "sha256": "9d440d17b579385dd7205fa96ae6ad5b2d8a5d14c3a20e68f84e7da63f050ac0"
-    },
-    {
-      "file": "src/neon-window-admission.ts",
-      "sha256": "c468f1c5ae3f28df197151864addee5074c62c6c647d54c2410c60660541a010"
-    },
-    {
-      "file": "src/nickname.ts",
-      "sha256": "b0f895b4f2cba3c53c0a0ee4b9d6c022bf813e08672f69081a51b80f984eab8a"
-    },
-    {
-      "file": "src/play-mode.ts",
-      "sha256": "9a23eddacdbd055fdf8c0cee7ed672c1a7d05502b0e6755cf359104cb935fccc"
-    },
-    {
-      "file": "src/player-code.ts",
-      "sha256": "621df771679840d655b3992dbfea86fb804d6f417639eaad6a9cbeba9d768035"
-    },
-    {
-      "file": "src/player-identity-backup.ts",
-      "sha256": "8e72a4552feb9397e6a24064522f619e5a81bf84e4de63ef6751c4a194dd3d00"
-    },
-    {
-      "file": "src/records.ts",
-      "sha256": "ce273a6729e10bc5176f4852b1de608811e22081b5e5833cf88e9dd95d3547f9"
-    },
-    {
-      "file": "src/replay-practice.ts",
-      "sha256": "ecac3c0382236619510065b45c5752f6844e9caac18a465af3510d5ee146b9b0"
-    },
-    {
-      "file": "src/run-plan.ts",
-      "sha256": "899cb55db481615799c06b3b5ce56de0c822e08b490b829642dda8f58ffa39a7"
-    },
-    {
-      "file": "src/run.ts",
-      "sha256": "a694349d3ee68a952266d08eda1d2728393882b37399988f94126dd58384d667"
-    },
-    {
-      "file": "src/score-codec.ts",
-      "sha256": "8d45a1ae31bdc9b0583a6e3e0a1c7935fa30db7f551e89fb99e8ee7c74c82c3d"
     },
     {
       "file": "src/score-config.ts",
       "sha256": "62731d93c886631e7a34f0cbf2a262770d9823bea629a548ce14f2e7c2a0bb13"
     },
     {
-      "file": "src/test-mode-gate.ts",
-      "sha256": "060845e59f42f39215caf01ec969f033af47b9bcae73d3574dfdc19e510571c0"
+      "file": "src/speed-config.ts",
+      "sha256": "3f058935a6657aabae8e8b125c32d75429e0bc0ff02ca61fdd7c4835ff81daed"
+    },
+    {
+      "file": "src/speed-core.ts",
+      "sha256": "b99ecacd70f740ad0e52a90c0336d8dd4b4f6652997d297ba205e87735a2b38b"
+    },
+    {
+      "file": "src/speed-deal.ts",
+      "sha256": "a134b4817d02ec1c0ddc4919b6ac38b93ef62a9297f929c621eb204dbd5dc0c3"
     },
     {
       "file": "src/window-trigger.ts",
       "sha256": "a39ee40e111df232732afefc817a4fca0e86b224c2422ad5ae2d2cd74f08e3c2"
     },
     {
-      "file": "src/world-config.ts",
-      "sha256": "ea5564b569b62f840578d5dc7abd3f255d2422f489d6141a226e65f55581d630"
-    },
-    {
-      "file": "supabase/replay-entry.ts",
-      "sha256": "9abee9d8f0f4bef1a5d4cc34bc587491bf8ff965f11b424610129e138f800bbb"
-    },
-    {
-      "file": "supabase/warp-replay.ts",
-      "sha256": "634f0191982db2b6ba284b0d15924262cb38828d5254eb79619e778b18e4333b"
-    },
-    {
-      "file": "warp-core/config.ts",
-      "sha256": "9287a54693c4de169f7c795d2791735692edb9422087730e218cc97809d98ea7"
-    },
-    {
-      "file": "warp-core/generator.ts",
-      "sha256": "39e566d3b8b7381d408c3178747958bff6334f25f94b1fd48b86fd9ecd70ae1c"
-    },
-    {
-      "file": "warp-core/hands.ts",
-      "sha256": "6d0be2f5da992ef725eda55670091725b8a3b54cc3b701611342046b16520e24"
-    },
-    {
-      "file": "warp-core/rewards.ts",
-      "sha256": "2da5a01fdf85bcfefb28ebb665d43d5a2db12804db19fcdc96abfcdb6ea9fb59"
-    },
-    {
-      "file": "warp-core/rules.ts",
-      "sha256": "a83c41a3046de141bc691e8f068b4b98d4e18aec073cfc14cfb4055a74f67f91"
-    },
-    {
-      "file": "warp-core/run.ts",
-      "sha256": "7c7538f74c1201985a48838d1d18c0db77aaee469851fc6fcd04e889d434d597"
-    },
-    {
-      "file": "warp-core/solver.ts",
-      "sha256": "06c49515f899e00cd1e02556f191b6bd05b78b09628c111fa70aab662d1680a5"
+      "file": "supabase/speed-replay-entry.ts",
+      "sha256": "ec5f4100c01a4107548cadbd157e0a680a05c4f82e6ef319b3a92c5ceb36c629"
     }
   ],
   "historicalAuthorities": [
@@ -299,27 +199,33 @@
       "file": "server/weft-leaderboard/historical/canonical-replay-5213bd9e.mjs",
       "sha256": "5213bd9e416c63e7b26b816ac839aaa0fe817e871c099647eca7dd65624c6047",
       "accepted": true
+    },
+    {
+      "file": "server/weft-leaderboard/historical/canonical-replay-a74732bb.mjs",
+      "sha256": "a74732bb90e0da78cfe4c5b74131a488b9c1dc870f41d021dadfc40ef9c10608",
+      "accepted": true
     }
   ],
   "previousCurrent": {
-    "file": "../../B-058/v6.24.20/server/weft-leaderboard/canonical-replay.mjs",
-    "sha256": "5213bd9e416c63e7b26b816ac839aaa0fe817e871c099647eca7dd65624c6047",
+    "file": "server/weft-leaderboard/historical/canonical-replay-a74732bb.mjs",
+    "sha256": "a74732bb90e0da78cfe4c5b74131a488b9c1dc870f41d021dadfc40ef9c10608",
     "accepted": true
   },
-  "deploymentRequired": false,
+  "deploymentRequired": true,
   "newMigrationRequired": true,
-  "currentWritePolicy": "Unchanged H8/earned4 canonical a747; row version remains6.24.21 and all historical verification unchanged. B060 adds private player-read/player-write only. Apply ONLY202610230001_player_transfer.sql; no season/ranking reset, no007 reapplication, no score/badge mutation.",
+  "currentWritePolicy": "All non-Speed current and historical behavior delegates byte-exact to LIVE a747; only type speed-run gains isolated verification and score kind speed. No score wipe, rank change, secret/badge mutation or player-transfer change. Apply ONLY202610230002_speed_mode.sql before new Edge and client.",
   "sourceStage": "6.24.22",
-  "sourceRebind": {
-    "reason": "Client-only player importCode restore; nickname validation unchanged and tree-shaken authority byte-exact.",
-    "commentNamespace": "ChatGPT/B-059/v6.24.21/",
-    "changedInputs": [
-      {
-        "file": "src/nickname.ts",
-        "sha256": "b0f895b4f2cba3c53c0a0ee4b9d6c022bf813e08672f69081a51b80f984eab8a"
-      }
-    ],
-    "normalizedRebuildSha256": "a74732bb90e0da78cfe4c5b74131a488b9c1dc870f41d021dadfc40ef9c10608",
-    "previousManifestSha256": "a2ff0fea99c0b64e2e66c4de3c29d264198a98e2507649d674f5b3b0950e15e7"
-  }
+  "nonSpeedAuthority": {
+    "file": "server/weft-leaderboard/historical/canonical-replay-a74732bb.mjs",
+    "sha256": "a74732bb90e0da78cfe4c5b74131a488b9c1dc870f41d021dadfc40ef9c10608",
+    "delegation": "Every non-Speed verifySubmission and verifyCurrentSubmission call delegates to these exact deployed bytes."
+  },
+  "previousManifest": {
+    "file": "../../B-062/v6.24.24/server/weft-leaderboard/canonical-replay-manifest.json",
+    "sha256": "1f048c5d2a4810f2d2503663f4f5526d3f02da6877d97973e925a6c7938bc3e8"
+  },
+  "speedFeature": "speed-1",
+  "speedKind": "speed",
+  "speedRowVersion": "6.24.25",
+  "speedWritePolicy": "Strict terminal speed-run record; deterministic first passing no-look-ahead board regenerated from candidate zero; earned-4 Jokers; legal actions, explicit active-time pauses, timing plausibility and integer-tempo score recomputed. Timing remains device-reported. No Speed secrets, live Continue, generic Classic rows or badge award."
 }
