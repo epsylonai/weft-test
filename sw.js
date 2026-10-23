@@ -1,5 +1,5 @@
-const CACHE='weft-v6.24.26-run-0cc91c288fcd',pending=new Map();
-const BUILD_VERSION='6.24.26',BUILD_ID='2acf1aef4891a1920768ca2761cf61e2ef5ff85279733e0b34ec4d88edc6fee5';
+const CACHE='weft-v6.24.27-run-ae3b32028fd5',pending=new Map();
+const BUILD_VERSION='6.24.27',BUILD_ID='bbe8aa8d9b653fc55967e6c129b0bd44ca1c4b5bac2a488732403dbb68e44d9f';
 const buildInfo=(activated=false)=>({type:'weft-build-info',version:BUILD_VERSION,buildId:BUILD_ID,activated});
 self.addEventListener('install',event=>{
   // A frozen older page cannot approve an update. Promote this worker without

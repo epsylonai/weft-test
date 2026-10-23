@@ -24,7 +24,8 @@
 // B058 v6.24.20 (deployed by Claude 2026-10-22 19:5x Lisbon): bundle import pinned to epsylonai/weft-test b6bbd7e (sha256 5213bd9e…6047, checked after push): earned-4 verified End game (exhaustive no-way-out proof required); live 6.24.19/6.24.18 rows unchanged; SQL 202610220006 applied first (version check admits 6.24.20, no reset); handler unchanged.
 // B059 v6.24.21 (deployed by Claude 2026-10-22 21:5x Lisbon): bundle import pinned to epsylonai/weft-test 0209a1c (sha256 a74732bb…0608, checked after push): hugo-8 two-card unlock, normal Green Grove deals; older Classic versions update-required; edge deployed BEFORE SQL 202610220007 (archive+hide season reset, badges kept); handler unchanged.
 // B060/B062 v6.24.24 (deployed by Claude 2026-10-23 15:1x Lisbon): Main MOTE's B060 index.ts 82082f86 + sibling player-transfer.ts de4bdb25 (private player-code backup: POST player-read/player-write, SQL 202610230001 applied first); bundle import still pinned to epsylonai/weft-test 0209a1c (canonical a74732bb unchanged).
-import {verifyCurrentSubmission,validateNickname} from 'https://raw.githubusercontent.com/epsylonai/weft-test/0209a1cf7879007dc4285d8addb180d27a50620c/server/weft-leaderboard/canonical-replay.mjs';
+// B063/B064 v6.24.27 (deployed by Claude 2026-10-23 18:2x Lisbon): Main MOTE's B063 index.ts 2d565d88 (GET kind 'speed' added) + unchanged player-transfer.ts de4bdb25; bundle import pinned to epsylonai/weft-test 4ded19d (canonical 1a7cef89: speed-run proofs, all other proofs delegate to archived live a74732bb; checked after push); SQL 202610230002 applied first.
+import {verifyCurrentSubmission,validateNickname} from 'https://raw.githubusercontent.com/epsylonai/weft-test/4ded19da9ea258bb7f4d0d93bf1250d8c5d64a91/server/weft-leaderboard/canonical-replay.mjs';
 import {boundedRequestText,handlePlayerTransfer} from './player-transfer.ts';
 const cors={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'apikey,authorization,x-client-info,content-type,x-region','Access-Control-Allow-Methods':'GET,POST,OPTIONS'};
 const response=(body:unknown,status=200)=>Response.json(body,{status,headers:cors});
@@ -49,7 +50,7 @@ export async function handler(request:Request):Promise<Response>{
   try{
     if(request.method==='GET'){
       const query=new URL(request.url).searchParams,kind=query.get('kind'),date=query.get('date'),device=query.get('deviceId');
-      if(!['daily','run-score','run','board','chain','warp-run-score','warp-run','warp-board'].includes(kind??'')||!validDevice(device)||!/^\d{4}-\d{2}-\d{2}$/.test(date??''))return response({error:'Invalid query'},400);
+      if(!['daily','run-score','run','board','chain','warp-run-score','warp-run','warp-board','speed'].includes(kind??'')||!validDevice(device)||!/^\d{4}-\d{2}-\d{2}$/.test(date??''))return response({error:'Invalid query'},400);
       return response(await rpc('weft_leaderboard_page',{p_kind:kind,p_day:date,p_device:device}));
     }
     if(request.method!=='POST')return response({error:'Method unavailable'},405);
