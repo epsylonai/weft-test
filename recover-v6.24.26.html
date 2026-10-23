@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1923"><meta name="robots" content="noindex"><title>Update Weft</title><style>html,body{min-height:100%;margin:0;background:#0b1923;color:#f4e2b2}body{box-sizing:border-box;min-height:100svh;display:grid;place-items:center;padding:28px;font:18px/1.55 Georgia,serif}main{max-width:30em;text-align:center}h1{font-size:32px;font-weight:normal;letter-spacing:.12em}p{color:#d9caa9}button,a{display:inline-block;box-sizing:border-box;min-height:48px;padding:12px 24px;border:1px solid #b79757;border-radius:8px;background:#192c37;color:#f4e2b2;font:inherit;text-decoration:none}small{display:block;margin-top:24px;color:#9c927e}button:disabled{opacity:.65}#direct[hidden],#retry[hidden]{display:none}</style></head><body><main><h1>WEFT</h1><p id="status" role="status" aria-live="polite">Opening the latest version…</p><p>Your saved game and player code stay on this device.</p><button id="retry" hidden type="button">Try again</button> <a id="direct" hidden>Open Weft</a><small>v<span id="version"></span></small></main><script>
+(()=>{
+ 'use strict';
+ const version='6.24.26',status=document.getElementById('status'),retry=document.getElementById('retry'),direct=document.getElementById('direct'),scope=new URL('./',location.href),target=new URL('index-v'+version+'.html',scope);
+ document.getElementById('version').textContent=version;target.search=location.search;target.searchParams.set('weft-recovery',Date.now().toString(36));target.hash=location.hash;direct.href=target.href;
+ let busy=false;
+ const bounded=(work,ms)=>new Promise((resolve,reject)=>{let done=false;const finish=(ok,value)=>{if(done)return;done=true;clearTimeout(timer);ok?resolve(value):reject(value);},timer=setTimeout(()=>finish(false,Error('Update timed out')),ms);Promise.resolve(work).then(value=>finish(true,value),error=>finish(false,error));});
+ async function update(){if(busy)return;busy=true;retry.disabled=true;retry.hidden=true;direct.hidden=true;status.textContent='Opening the latest version…';
+  try{
+   let workers;try{workers=navigator.serviceWorker;}catch{}
+   if(workers?.getRegistration){
+    const reg=await bounded(workers.getRegistration(scope.href),4000);
+    if(reg){const worker=reg.active??reg.waiting??reg.installing,script=worker?.scriptURL?new URL(worker.scriptURL):null;
+     // This page is deliberately not named index*.html: an old navigation
+     // worker cannot substitute its cached index for this fresh entry.
+     // Only the exact Weft registration is released. Never erase any storage.
+     if(reg.scope===scope.href&&script?.origin===scope.origin&&script.pathname===new URL('sw.js',scope).pathname){
+      if(!await bounded(reg.unregister(),4000))throw Error('Old worker is still active');
+     }else if(reg.scope===scope.href)throw Error('The update could not safely identify the old version');
+    }
+   }
+   status.textContent='Ready. Opening Weft…';location.replace(target.href);
+  }catch{status.textContent='Please reconnect, then try again. Your saved game is safe.';retry.hidden=false;direct.hidden=false;}
+  finally{busy=false;retry.disabled=false;}
+ }
+ retry.addEventListener('click',()=>{void update();});void update();
+})();
+</script></body></html>

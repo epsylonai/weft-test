@@ -1,16 +1,24 @@
-const CACHE='weft-v6.24.24-run-4cb75227ccea',pending=new Map();
-const BUILD_VERSION='6.24.24',BUILD_ID='c44ead95c993fbc6da98d0f250df0b51ac0474b64183864d27805bfffef5afcc';
+const CACHE='weft-v6.24.26-run-0cc91c288fcd',pending=new Map();
+const BUILD_VERSION='6.24.26',BUILD_ID='2acf1aef4891a1920768ca2761cf61e2ef5ff85279733e0b34ec4d88edc6fee5';
 const buildInfo=(activated=false)=>({type:'weft-build-info',version:BUILD_VERSION,buildId:BUILD_ID,activated});
-self.addEventListener('install',event=>event.waitUntil((async()=>{
-  try{const cache=await caches.open(CACHE);await cache.addAll(['./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png',"./game-c872fc5c810916ad.css","./game-chunks/window-room-main-2H7TLYIR.js","./game-chunks/main-entry-boundary-24K7QZSW.js","./game-chunks/app-XLV6EDUZ.js","./game-chunks/chunk-FJCEU7NU.js","./game-chunks/warp-app-IB4XQMOX.js","./game-chunks/chunk-HD5YILXD.js","./game-chunks/chunk-LDQEG44L.js","./game-chunks/b056-dog-tap-T3XBVXQ6.js","./game-chunks/b056-anabelle-scene-75OVBUPF.js","./game-chunks/chunk-6RQQ2AF3.js","./game-chunks/chunk-LGE2KQ24.js","./game-chunks/chunk-5A4Z2QQM.js","./game-chunks/anabelle-ending-XPSFZUHG.js","./game-chunks/chunk-OOCIN75S.js","./game-chunks/chunk-LZOKPFLC.js","./game-chunks/anabelle-audio-UAFZ6GOU.js","./game-chunks/window-room-audio-GO6TKU3A.js","./game-chunks/chunk-ZLAOWGLG.js","./game-bootstrap-N3KXGK56.js","./game-chunks/chunk-6TCFQVWV.js","./game-chunks/chunk-TKL6E2KM.js","./game-chunks/chunk-4SDPNRM2.js","./game-chunks/records-NPNBJ5OG.js","./game-chunks/chunk-IQY6LD7S.js","./game-chunks/chunk-WEXFRBZE.js","./game-chunks/worker-client-U4TPOGV6.js","./game-chunks/chunk-QZYM33R5.js","./game-chunks/anabelle-deck-GODJFUZC.js","./game-chunks/chunk-YHDS4FWX.js","./game-chunks/window-room-deck-loader-MZLLI6IN.js","./game-chunks/chunk-IC3GWNR7.js","./game-chunks/chain-light-frost-5YAXYKGC.js","./game-chunks/chain-light-worlds-2ZG4OCPB.js","./game-chunks/chunk-2Q26E4YD.js","./game-chunks/world-event-audio-3SOEPEGZ.js","./game-chunks/chunk-WB3U6SAD.js","./game-chunks/chunk-UDLGGBLG.js","./woven-folio/materials/panel-frame/default@2x.webp","./woven-folio/materials/panel-frame/pressed@2x.webp","./woven-folio/materials/panel-frame/selected@2x.webp","./woven-folio/materials/panel-frame/disabled@2x.webp","./woven-folio/materials/panel-frame/focus@2x.webp","./woven-folio/materials/primary-plate/default@2x.webp","./woven-folio/materials/primary-plate/pressed@2x.webp","./woven-folio/materials/primary-plate/selected@2x.webp","./woven-folio/materials/primary-plate/disabled@2x.webp","./woven-folio/materials/primary-plate/focus@2x.webp","./woven-folio/materials/secondary-plate/default@2x.webp","./woven-folio/materials/secondary-plate/pressed@2x.webp","./woven-folio/materials/secondary-plate/selected@2x.webp","./woven-folio/materials/secondary-plate/disabled@2x.webp","./woven-folio/materials/secondary-plate/focus@2x.webp","./woven-folio/materials/mode-card-frame/default@2x.webp","./woven-folio/materials/mode-card-frame/pressed@2x.webp","./woven-folio/materials/mode-card-frame/selected@2x.webp","./woven-folio/materials/mode-card-frame/disabled@2x.webp","./woven-folio/materials/mode-card-frame/focus@2x.webp","./woven-folio/materials/icon-tile/default@2x.webp","./woven-folio/materials/icon-tile/pressed@2x.webp","./woven-folio/materials/icon-tile/selected@2x.webp","./woven-folio/materials/icon-tile/disabled@2x.webp","./woven-folio/materials/icon-tile/focus@2x.webp","./woven-folio/materials/control-well/default@2x.webp","./woven-folio/materials/control-well/pressed@2x.webp","./woven-folio/materials/control-well/selected@2x.webp","./woven-folio/materials/control-well/disabled@2x.webp","./woven-folio/materials/control-well/focus@2x.webp","./woven-folio/materials/segmented-plate/default@2x.webp","./woven-folio/materials/segmented-plate/pressed@2x.webp","./woven-folio/materials/segmented-plate/selected@2x.webp","./woven-folio/materials/segmented-plate/disabled@2x.webp","./woven-folio/materials/segmented-plate/focus@2x.webp","./woven-folio/icons/back@2x.webp","./woven-folio/icons/check@2x.webp","./woven-folio/icons/chevron@2x.webp","./woven-folio/icons/close@2x.webp","./woven-folio/icons/continue@2x.webp","./woven-folio/icons/daily@2x.webp","./woven-folio/icons/help@2x.webp","./woven-folio/icons/lock@2x.webp","./woven-folio/icons/music@2x.webp","./woven-folio/icons/new-game@2x.webp","./woven-folio/icons/play@2x.webp","./woven-folio/icons/relaxed@2x.webp","./woven-folio/icons/scores@2x.webp","./woven-folio/icons/settings@2x.webp","./woven-folio/icons/warp@2x.webp","./woven-folio/icons/world@2x.webp","./woven-folio/player-icons/muted@2x.webp","./woven-folio/player-icons/track-next@2x.webp","./woven-folio/player-icons/track-previous@2x.webp","./woven-folio/paintings/hall-composite.webp","./icon-32-d.png","./icon-180-d.png","./icon-192-d.png","./icon-512-d.png","./icon-d.svg","./icon-LICENSE.txt",'./fonts/cinzel-roman-latin.woff2','./fonts/eb-garamond-roman-latin.woff2','./fonts/eb-garamond-italic-latin.woff2','./frame/gold-atlas-v1.webp','./frame/emblem-1-v1.svg','./frame/emblem-2-v1.svg','./frame/emblem-3-v1.svg','./frame/emblem-4-v1.svg','./frame/emblem-5-v1.svg','./frame/emblem-6-v1.svg','./frame/emblem-7-v1.svg','./frame/emblem-8-v1.svg','./frame/emblem-9-v1.svg','./frame/emblem-10-v1.svg']);}catch{/* Offline storage is optional. */}
-  // An open run keeps its worker. The page requests activation only at a safe
-  // opening screen or after the player explicitly saves and taps the plaque.
-})()));
+self.addEventListener('install',event=>{
+  // A frozen older page cannot approve an update. Promote this worker without
+  // waiting for game code or a large precache download; do not navigate a run.
+  event.waitUntil(self.skipWaiting());
+});
 self.addEventListener('activate',event=>event.waitUntil((async()=>{
-  // Never discard another open build's chunks, and never claim an uncontrolled
-  // in-app browser view. Exact hashed URLs may still be requested by older tabs.
+  // Keep old hashed resources for open builds. No claim, forced navigation,
+  // cache deletion, checkpoint mutation or game-state storage access occurs.
   try{for(const client of await self.clients.matchAll({type:'window',includeUncontrolled:true}))client.postMessage(buildInfo(true));}catch{/* Update notices are best effort. */}
 })()));
+async function currentCache(key){
+  try{const hit=await(await caches.open(CACHE)).match(key);return hit?.ok?hit:undefined;}catch{return undefined;}
+}
+function immutableAsset(url){
+  // Esbuild names and media digests identify content, unlike index.html,
+  // manifests, tutorial.html and other mutable same-name resources.
+  return /(?:[-.][a-f0-9]{8,64}|[-.][A-Z0-9]{8})\.[^/]+$/.test(url.pathname)||/^[a-f0-9]{16,64}$/i.test(url.searchParams.get('v')||'');
+}
 async function matchingCache(key){
   try{const cache=await caches.open(CACHE),hit=await cache.match(key);if(hit)return hit;}catch{/* Try an older complete copy before the network. */}
   let keys=[];try{keys=await caches.keys();}catch{return undefined;}
@@ -20,32 +28,42 @@ async function matchingCache(key){
   }
   return undefined;
 }
-async function cachedPage(key){
-  try{const direct=await matchingCache(key);if(direct)return direct;
-    const url=new URL(key.url);url.search='';const clean=await matchingCache(new Request(url.href));
-    const scopePath=new URL('.',self.registration.scope).pathname;
-    const entry=url.pathname.startsWith(scopePath)&&/^(?:index(?:-v[\d.]+)?\.html)?$/.test(url.pathname.slice(scopePath.length));
-    return clean||(entry?await matchingCache(new Request(new URL('index.html',self.registration.scope).href)):undefined);
-  }catch{return undefined;}
+function pageKey(request){
+  const url=new URL(request.url);if(url.pathname.endsWith('/'))url.pathname+='index.html';url.search='';url.hash='';return new Request(url.href);
+}
+async function cachedPage(request){
+  // Only this build's exact page is an offline answer. In particular, a new
+  // explicit version URL must never receive an older cached index.html.
+  return currentCache(pageKey(request));
+}
+function unavailablePage(){
+  const latest=new URL('index-v'+BUILD_VERSION+'.html',self.registration.scope).href;
+  return new Response('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111b25"><title>Weft · Reconnect</title><style>body{margin:0;min-height:100vh;display:grid;place-content:center;box-sizing:border-box;padding:28px;background:#111b25;color:#f6e9c5;font:18px/1.6 Georgia,serif;text-align:center}h1{font-size:32px;font-weight:normal}a{display:inline-block;padding:12px 24px;color:inherit;border:1px solid #bc9758;border-radius:8px;text-decoration:none}small{display:block;margin-top:18px;color:#cbbd9f}</style><main><h1>Weft</h1><p>This version is not available offline yet.<br>Reconnect, then try again.</p><a href="'+latest+'?fresh=1">Try again</a><small>Your saved game is kept. · v'+BUILD_VERSION+'</small></main></html>',{status:503,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Weft-Recovery':'offline'}});
 }
 async function networkFirstPage(request,event){
-  const url=new URL(request.url);if(url.pathname.endsWith('/'))url.pathname+='index.html';url.hash='';
-  const key=new Request(url.href);let timeout;
-  const network=fetch(key,{cache:'no-store'}).then(async response=>{
+  const key=pageKey(request);
+  // A slow online request is still online. Never substitute an old page after
+  // a timeout, or disguise an HTTP error as a successful cached navigation.
+  try{
+    const response=await fetch(new Request(request.url),{cache:'no-store'});
     if(response.ok&&response.status===200)try{const cache=await caches.open(CACHE);await cache.put(key,response.clone());}catch{/* A full cache must not lose the online page. */}
     return response;
-  });
-  event?.waitUntil(network.then(()=>undefined,()=>undefined));
-  try{
-    const response=await Promise.race([network,new Promise((_,reject)=>{timeout=setTimeout(()=>reject(new Error('Page network timeout')),3000);})]);
-    return response.ok?response:(await cachedPage(key))||response;
-  }catch(error){const cached=await cachedPage(key);if(cached)return cached;throw error;}
-  finally{clearTimeout(timeout);}
+  }catch{return(await cachedPage(key))||unavailablePage();}
 }
 async function cachedAsset(request){
-  const url=new URL(request.url);if(url.pathname.endsWith('/'))url.pathname+='index.html';const key=new Request(url.href);
-  let response=await matchingCache(key);
-  if(!response){if(!pending.has(url.href)){const work=fetch(key).then(async value=>{if(value.ok&&value.status===200)try{const cache=await caches.open(CACHE);await cache.put(key,value.clone());}catch{/* A full cache must not lose a successful response. */}return value;}).finally(()=>pending.delete(url.href));pending.set(url.href,work);}response=(await pending.get(url.href)).clone();}
+  const url=new URL(request.url);if(url.pathname.endsWith('/'))url.pathname+='index.html';const key=new Request(url.href),immutable=immutableAsset(url);
+  let response=immutable?await matchingCache(key):undefined;
+  if(!response){
+    if(!pending.has(url.href)){
+      const work=(async()=>{
+        try{const value=await fetch(key,{cache:immutable?'default':'no-store'});
+          if(value.ok&&value.status===200)try{const cache=await caches.open(CACHE);await cache.put(key,value.clone());}catch{/* A full cache must not lose a successful response. */}
+          return value;
+        }catch(error){const offline=await currentCache(key);if(offline)return offline;throw error;}
+      })().finally(()=>pending.delete(url.href));pending.set(url.href,work);
+    }
+    response=(await pending.get(url.href)).clone();
+  }
   const range=request.headers.get('range');
   if(!range||!response.ok)return response;
   const match=/^bytes=(\d+)-(\d*)$/.exec(range);if(!match)return response;
@@ -60,5 +78,5 @@ self.addEventListener('message',event=>{
   try{const url=new URL(event.source?.url);if(url.origin!==self.location.origin||!url.href.startsWith(self.registration.scope))return;}catch{return;}
   event.waitUntil(self.skipWaiting());return;
  }
- if(event.data?.type==='cache-visited'&&Array.isArray(event.data.urls))event.waitUntil(Promise.all(event.data.urls.filter(value=>typeof value==='string').map(value=>{try{const url=new URL(value,self.registration.scope);return url.href.startsWith(self.registration.scope)?cachedAsset(new Request(url.href)):undefined;}catch{return undefined;}})));
+ if(event.data?.type==='cache-visited'&&Array.isArray(event.data.urls))event.waitUntil(Promise.allSettled(event.data.urls.filter(value=>typeof value==='string').map(value=>{try{const url=new URL(value,self.registration.scope);return url.href.startsWith(self.registration.scope)?(/\/index(?:-v[\d.]+)?\.html$/.test(url.pathname)||url.pathname.endsWith('/')?networkFirstPage(new Request(url.href)):cachedAsset(new Request(url.href))):undefined;}catch{return undefined;}})));
 });
