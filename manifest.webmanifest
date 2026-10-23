@@ -3,7 +3,7 @@
   "name": "Weft — A quiet kind of solitaire",
   "short_name": "Weft",
   "description": "A quiet kind of solitaire — ten living worlds",
-  "start_url": "./",
+  "start_url": "./recover.html#mode=classic",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
